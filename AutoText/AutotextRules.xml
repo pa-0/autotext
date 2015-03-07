@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<autotextRules>
+	<rule>
+		<trigger><![CDATA[tt]]></trigger>
+		<phrase><![CDATA[test text]]></phrase>
+		<description><![CDATA[Some description]]></description>
+	</rule>
+
+	<rule>
+		<trigger><![CDATA[tt1]]></trigger>
+		<phrase><![CDATA[test text one]]></phrase>
+		<description><![CDATA[Some description of Test text one]]></description>
+	</rule>
+</autotextRules>

@@ -17,5 +17,11 @@ namespace AutoText
 		{
 			CapturedCharacter = capturedCharacter;
 		}
+
+		public KeyCapturedEventArgs(Keys capturedKey, string capturedCharacter)
+		{
+			CapturedCharacter = capturedCharacter;
+			CapturedKey = capturedKey;
+		}
 	}
 }
