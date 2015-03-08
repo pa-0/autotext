@@ -70,8 +70,10 @@
       <DependentUpon>FormMain.cs</DependentUpon>
     </Compile>
     <Compile Include="Helpers\Configuration\AutotextRule.cs" />
+    <Compile Include="Helpers\Configuration\AutotextRuleTrigger.cs" />
     <Compile Include="Helpers\Configuration\ConfigHelper.cs" />
     <Compile Include="Helpers\GUIHelper.cs" />
+    <Compile Include="Helpers\TextHelper.cs" />
     <Compile Include="Helpers\WinAPI.cs" />
     <Compile Include="KeyCapturedEventArgs.cs" />
     <Compile Include="KeyLogger.cs" />

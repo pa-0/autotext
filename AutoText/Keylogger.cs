@@ -28,26 +28,6 @@ namespace AutoText
 		public event EventHandler<EventArgs> CaptureStopped;
 		private bool _interruptCapture;
 
-		private string GetCharsFromKeys(int keyCode, bool shift, bool altGr, int keyboardLayout)
-		{
-			var buf = new StringBuilder(5);
-			var keyboardState = new byte[256];
-
-			if (shift)
-			{
-				keyboardState[(int)Keys.ShiftKey] = 0xff;
-			}
-
-			if (altGr)
-			{
-				keyboardState[(int)Keys.ControlKey] = 0xff;
-				keyboardState[(int)Keys.Menu] = 0xff;
-			}
-
-			WinAPI.ToUnicodeEx(keyCode, 0, keyboardState, buf, 5, 0, keyboardLayout);
-			return buf.ToString();
-		}
-
 		public void StartCapture()
 		{
 			_keyCaptureTask = Task.Factory.StartNew(() =>
@@ -62,7 +42,7 @@ namespace AutoText
 
 						if (keyState == 1 || keyState == -32767)
 						{
-							string keyChar = GetCharsFromKeys(keysValues[i], Control.ModifierKeys.HasFlag(Keys.Shift), false,
+							string keyChar = TextHelper.GetCharsFromKeys(keysValues[i], Control.ModifierKeys.HasFlag(Keys.Shift), false,
 								WinAPI.GetKeyboardLayout(WinAPI.GetWindowThreadProcessId(WinAPI.GetForegroundWindow(), IntPtr.Zero)));
 
 							OnKeyCaptured(new KeyCapturedEventArgs(keysValues[i], keyChar));

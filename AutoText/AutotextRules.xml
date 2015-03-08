@@ -4,6 +4,12 @@
 		<abbreviation><![CDATA[ttrr]]></abbreviation>
 		<phrase><![CDATA[test text]]></phrase>
 		<description><![CDATA[Some description]]></description>
+		<triggers>
+			<items>
+				<add caseSensitive="false"><![CDATA[j]]></add>
+				<add caseSensitive="false"><![CDATA[{ShiftKey}]]></add>
+			</items>
+		</triggers>
 	</rule>
 
 	<rule>
