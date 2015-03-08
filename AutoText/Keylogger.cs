@@ -28,7 +28,7 @@ namespace AutoText
 		public event EventHandler<EventArgs> CaptureStopped;
 		private bool _interruptCapture;
 
-		private string GetCharsFromKeys(uint keys, bool shift, bool altGr, int keyboardLayout)
+		private string GetCharsFromKeys(int keyCode, bool shift, bool altGr, int keyboardLayout)
 		{
 			var buf = new StringBuilder(5);
 			var keyboardState = new byte[256];
@@ -44,7 +44,7 @@ namespace AutoText
 				keyboardState[(int)Keys.Menu] = 0xff;
 			}
 
-			WinAPI.ToUnicodeEx(keys, 0, keyboardState, buf, 5, 0, keyboardLayout);
+			WinAPI.ToUnicodeEx(keyCode, 0, keyboardState, buf, 5, 0, keyboardLayout);
 			return buf.ToString();
 		}
 
@@ -52,28 +52,20 @@ namespace AutoText
 		{
 			_keyCaptureTask = Task.Factory.StartNew(() =>
 			{
-				string[] names = Enum.GetNames(typeof(Keys));
-				int valuesCount = names.Select(name => (int)Enum.Parse(typeof(Keys), name)).Count();
+				int[] keysValues = (int[])Enum.GetValues(typeof (Keys));
 
 				while (true)
 				{
-					for (uint i = 0; i < valuesCount; i++)
+					for (uint i = 0; i < keysValues.Length; i++)
 					{
-						short keyState = WinAPI.GetAsyncKeyState((int)i);
+						short keyState = WinAPI.GetAsyncKeyState(keysValues[i]);
 
 						if (keyState == 1 || keyState == -32767)
 						{
-							string keyChar = GetCharsFromKeys(i, Control.ModifierKeys.HasFlag(Keys.Shift), false,
+							string keyChar = GetCharsFromKeys(keysValues[i], Control.ModifierKeys.HasFlag(Keys.Shift), false,
 								WinAPI.GetKeyboardLayout(WinAPI.GetWindowThreadProcessId(WinAPI.GetForegroundWindow(), IntPtr.Zero)));
 
-							OnKeyCaptured(new KeyCapturedEventArgs((Keys)i, keyChar));
-
-							/*
-							if (((Keys)i) == Keys.F)
-							{
-								SendKeys.SendWait("Hello{LEFT}{LEFT}{LEFT}{LEFT}{LEFT}");
-							}
-							*/
+							OnKeyCaptured(new KeyCapturedEventArgs(keysValues[i], keyChar));
 							break;
 						}
 					}

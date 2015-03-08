@@ -16,8 +16,9 @@ namespace AutoText
 {
 	public partial class FormMain : Form
 	{
-		KeyLogger _keylogger = new KeyLogger(30);
-		List<string> _capturedString = new List<string>();
+		private List<AutotextRule> _rules;
+		private AutotextMatcher _matcher;
+		private string _textBoxText;
 
 		public FormMain()
 		{
@@ -26,49 +27,54 @@ namespace AutoText
 
 		private void FormMain_Load(object sender, EventArgs e)
 		{
-			_keylogger.KeyCaptured += _keylogger_KeyCaptured;
-			_keylogger.CaptureStopped += _keylogger_CaptureStopped;
-			_keylogger.StartCapture();
-		}
+			/*
+			int[] _keysValues = (int[])Enum.GetValues(typeof(Keys));
+			List<char> chars = new List<char>();
+			char character = ' ';
 
-		void _keylogger_CaptureStopped(object sender, EventArgs e)
-		{
-			this.SetPropertyThreadSafe(() => Text, "Capture stopped");
-		}
-
-		void _keylogger_KeyCaptured(object sender, KeyCapturedEventArgs e)
-		{
-			_capturedString.Add(e.CapturedCharacter);
-
-			textBox1.Invoke(new Action(() =>
+			for (int i = 0; i < _keysValues.Length; i++)
 			{
-				textBox1.Text += e.CapturedCharacter;
-			}));
+				int value = _keysValues[i];
+
+				try
+				{
+					character = Convert.ToChar((uint)value);
+
+					if (!Char.IsControl(character))
+					{
+						chars.Add(character);
+						textBox1.Text += "(pos: "+ (i + 1) +")\t(value: " + value + ")\t" + character.ToString() + "\r\n";
+					}
+				}
+				catch (Exception)
+				{
+				}
+
+				//textBox1.Text += value.ToString() + "\r\n";
+			}
+
+			List<int> notSeq = new List<int>(200);
+			for (int i = 0; i < _keysValues.Length; i++)
+			{
+				if (_keysValues[i] != i)
+				{
+					notSeq.Add(_keysValues[i]);
+				}
+			}
+			*/
+			_rules = ConfigHelper.GetAutotextRules("AutotextRules.xml");
+			_matcher = new AutotextMatcher(new KeyLogger(), _rules);
+			_matcher.MatchFound += _matcher_MatchFound;
+		}
+
+		void _matcher_MatchFound(object sender, AutotextMatchEventArgs e)
+		{
+			_textBoxText += "Match found\r\n";
+			textBox1.SetPropertyThreadSafe(() => textBox1.Text, _textBoxText);
 		}
 
 		private void button1_Click(object sender, EventArgs e)
 		{
-			//_keylogger.StopCapture();
-
-			ExeConfigurationFileMap configMap = new ExeConfigurationFileMap
-			{
-				ExeConfigFilename = Path.GetFullPath("AutotextRules.config")
-			};
-			Configuration cfg = ConfigurationManager.OpenMappedExeConfiguration(configMap,ConfigurationUserLevel.None);
-			AutotextRulesSection section = (AutotextRulesSection)cfg.GetSection("autotextRules");
-
-			if (section != null)
-			{
-				string str =  section.Rules[0].Trigger;
-
-				/*
-				System.Diagnostics.Debug.WriteLine(section.FolderItems[0].FolderType);
-				System.Diagnostics.Debug.WriteLine(section.FolderItems[0].Path);
-				section.FolderItems[0].Path = "C:\\Nanook";
-				cfg.Save(); //устанавливает перенос на новую строку и производит проверку <exename>.vshost.exe.config файла в вашей отладочной папке.
-				*/
-			}
-			
 		}
 	}
 }

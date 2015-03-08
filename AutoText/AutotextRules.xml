@@ -1,13 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <autotextRules>
 	<rule>
-		<trigger><![CDATA[tt]]></trigger>
+		<abbreviation><![CDATA[ttrr]]></abbreviation>
 		<phrase><![CDATA[test text]]></phrase>
 		<description><![CDATA[Some description]]></description>
 	</rule>
 
 	<rule>
-		<trigger><![CDATA[tt1]]></trigger>
+		<abbreviation><![CDATA[tt1sadasdasdwq124423423243]]></abbreviation>
 		<phrase><![CDATA[test text one]]></phrase>
 		<description><![CDATA[Some description of Test text one]]></description>
 	</rule>

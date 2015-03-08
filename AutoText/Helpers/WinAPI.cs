@@ -12,7 +12,7 @@ namespace AutoText.Helpers
 		public static extern short GetAsyncKeyState(int i);
 
 		[DllImport("user32.dll")]
-		public static extern int ToUnicodeEx(uint wVirtKey,
+		public static extern int ToUnicodeEx(int wVirtKey,
 			uint wScanCode,
 			byte[] lpKeyState,
 			[Out, MarshalAs(UnmanagedType.LPWStr)] StringBuilder pwszBuff,

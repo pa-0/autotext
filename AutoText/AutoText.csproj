@@ -62,6 +62,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AutotextMatcher.cs" />
+    <Compile Include="AutotextMatchEventArgs.cs" />
     <Compile Include="FormMain.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -69,10 +70,7 @@
       <DependentUpon>FormMain.cs</DependentUpon>
     </Compile>
     <Compile Include="Helpers\Configuration\AutotextRule.cs" />
-    <Compile Include="Helpers\Configuration\AutotextRulesCollection.cs" />
-    <Compile Include="Helpers\Configuration\AutotextRulesSection.cs" />
     <Compile Include="Helpers\Configuration\ConfigHelper.cs" />
-    <Compile Include="Helpers\Configuration\RuleElement.cs" />
     <Compile Include="Helpers\GUIHelper.cs" />
     <Compile Include="Helpers\WinAPI.cs" />
     <Compile Include="KeyCapturedEventArgs.cs" />

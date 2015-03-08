@@ -6,11 +6,17 @@ namespace AutoText
 	public class KeyCapturedEventArgs : EventArgs
 	{
 		public string CapturedCharacter { get; private set; }
-		public Keys CapturedKey { get; private set; }
 
-		public KeyCapturedEventArgs(Keys capturedKey)
+		public Keys CapturedKey
 		{
-			CapturedKey = capturedKey;
+			get { return (Keys)KeyCode; }
+		}
+
+		public int KeyCode { get; private set; }
+
+		public KeyCapturedEventArgs(int capturedKeyCode)
+		{
+			KeyCode = capturedKeyCode;
 		}
 
 		public KeyCapturedEventArgs(string capturedCharacter)
@@ -18,10 +24,10 @@ namespace AutoText
 			CapturedCharacter = capturedCharacter;
 		}
 
-		public KeyCapturedEventArgs(Keys capturedKey, string capturedCharacter)
+		public KeyCapturedEventArgs(int capturedKeyCode, string capturedCharacter)
 		{
 			CapturedCharacter = capturedCharacter;
-			CapturedKey = capturedKey;
+			KeyCode = capturedKeyCode;
 		}
 	}
 }
