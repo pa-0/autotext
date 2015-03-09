@@ -144,9 +144,14 @@ namespace AutoText
 		{
 			//SendKeys.SendWait(e.MatchedRule.Phrase);
 			//InputSimulator.SimulateTextEntry(e.MatchedRule.Phrase);
-			InputSimulator.SimulateModifiedKeyStroke(Keys.ControlKey,Keys.A);
+
+			InputSimulator.SimulateKeyDown(Keys.Menu);
+			InputSimulator.SimulateKeyPress(Keys.A);
+			//InputSimulator.SimulateKeyUp('A');
+			InputSimulator.SimulateKeyUp(Keys.Menu);
 
 
+														
 			/*
 			for (int i = 0; i < e.MatchedRule.Phrase.Length; i++)
 			{
