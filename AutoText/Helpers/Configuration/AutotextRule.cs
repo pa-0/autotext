@@ -4,14 +4,14 @@ namespace AutoText.Helpers.Configuration
 {
 	public class AutotextRule
 	{
-		public string Abbreviation { get; private set; }
+		public RuleAbbreviation Abbreviation { get; private set; }
 		public string Phrase { get; private set; }
 		public string Description { get; private set; }
 		public List<AutotextRuleTrigger> Triggers { get; private set; }
 
-		public AutotextRule(string trigger, string phrase, string description, List<AutotextRuleTrigger> triggers)
+		public AutotextRule(RuleAbbreviation abbreviation, string phrase, string description, List<AutotextRuleTrigger> triggers)
 		{
-			Abbreviation = trigger;
+			Abbreviation = abbreviation;
 			Phrase = phrase;
 			Description = description;
 			Triggers = triggers;

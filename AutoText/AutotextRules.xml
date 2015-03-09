@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <autotextRules>
 	<rule>
-		<abbreviation><![CDATA[ttrr]]></abbreviation>
-		<phrase><![CDATA[test text на русском и немецком]]></phrase>
+		<abbreviation caseSensitive="false" ><![CDATA[ttrr]]></abbreviation>
+		<phrase><![CDATA[test text на русском БОЛЬШИМИ БУКВАМИ]]></phrase>
 		<description><![CDATA[Some description]]></description>
 		<triggers>
 			<items>
@@ -13,7 +13,7 @@
 	</rule>
 
 	<rule>
-		<abbreviation><![CDATA[tt1sadasdasdwq124423423243]]></abbreviation>
+		<abbreviation caseSensitive="true"><![CDATA[tt1sadasdasdwq124423423243]]></abbreviation>
 		<phrase><![CDATA[test text one]]></phrase>
 		<description><![CDATA[Some description of Test text one]]></description>
 	</rule>

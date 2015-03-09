@@ -8,7 +8,7 @@ namespace AutoText.Helpers
 {
 	public class TextHelper
 	{
-		public static string GetCharsFromKeys(int keyCode, bool shift, bool altGr, int keyboardLayout)
+		public static string GetCharsFromKeys(int keyCode, bool shift, bool altGr, bool capsLocked, int keyboardLayout)
 		{
 			var buf = new StringBuilder(5);
 			var keyboardState = new byte[256];
@@ -22,6 +22,11 @@ namespace AutoText.Helpers
 			{
 				keyboardState[(int)Keys.ControlKey] = 0xff;
 				keyboardState[(int)Keys.Menu] = 0xff;
+			}
+
+			if (capsLocked)
+			{
+				keyboardState[(int)Keys.CapsLock] = 0xff;
 			}
 
 			WinAPI.ToUnicodeEx(keyCode, 0, keyboardState, buf, 5, 0, keyboardLayout);

@@ -46,7 +46,7 @@ namespace AutoText
 						{
 							capturedKeyCodes.Add(keysValues[i]);
 
-							keyChar = TextHelper.GetCharsFromKeys(keysValues[i], Control.ModifierKeys.HasFlag(Keys.Shift), Control.ModifierKeys.HasFlag(Keys.Alt),
+							keyChar = TextHelper.GetCharsFromKeys(keysValues[i], Control.ModifierKeys.HasFlag(Keys.Shift), Control.ModifierKeys.HasFlag(Keys.Alt),Control.IsKeyLocked(Keys.CapsLock),
 								WinAPI.GetKeyboardLayout(WinAPI.GetWindowThreadProcessId(WinAPI.GetForegroundWindow(), IntPtr.Zero)));
 						}
 					}

@@ -20,18 +20,27 @@ namespace AutoText
 	public partial class FormMain : Form
 	{
 		private List<AutotextRule> _rules;
+		private Dictionary<string, int> _macrosChars;
 		private AutotextMatcher _matcher;
 		private string _textBoxText;
-		KeyLogger _testKeylogger = new KeyLogger();
+		private KeyLogger _keylogger = new KeyLogger();
 
 		public FormMain()
 		{
 			InitializeComponent();
+
+			_macrosChars = ConfigHelper.GetMacrosCharacters(@"MacrosCharacters.xml");
+			_rules = ConfigHelper.GetAutotextRules("AutotextRules.xml");
+			_matcher = new AutotextMatcher(_keylogger, _rules);
+			_matcher.MatchFound += _matcher_MatchFound;
+
+			_keylogger.KeyCaptured += _testKeylogger_KeyCaptured;
+			_keylogger.StartCapture();
 		}
 
 		private void FormMain_Load(object sender, EventArgs e)
 		{
-
+			/*
 			Dictionary<string, int> keysEmbeddedValues = new Dictionary<string, int>();
 			Dictionary<string, int> keysOtherValues = new Dictionary<string, int>();
 
@@ -43,8 +52,8 @@ namespace AutoText
 				keysEmbeddedValues.Add(names[i], values[i]);
 			}
 
-			string[] names1 = Enum.GetNames(typeof(VirtualKeyCode));
-			ushort[] values1 = (ushort[])Enum.GetValues(typeof(VirtualKeyCode));
+			string[] names1 = Enum.GetNames(typeof(Keys));
+			ushort[] values1 = (ushort[])Enum.GetValues(typeof(Keys));
 
 			for (int i = 0; i < names1.Length; i++)
 			{
@@ -53,8 +62,7 @@ namespace AutoText
 
 			string otherStr = string.Join("\r\n", keysOtherValues.Select(p => p.Value + " " + p.Key));
 
-
-			{ }
+			*/
 
 			/*
 			try
@@ -67,10 +75,17 @@ namespace AutoText
 
 
 				string res = "\"Index\";\"Name\";\"Value\";\"Char\";\"Unicode str\";\"Is control\";\"Is digit\";\"Is letter\";\"Is number\";\"Is punct\";\"Is separator\";\"Is whitespace\";\"Is symbol\";\"Match Regex\"\r\n";
+				string nonPrintableKeys = "";
 
 				for (int i = 0; i < keysNames.Count; i++)
 				{
 					string unicodeStr = TextHelper.GetCharsFromKeys(keysValues[i], false, false, engKeybLayout);
+
+					if (!Regex.IsMatch(unicodeStr, @"[\p{L}\p{M}\p{N}\p{P}\p{S}]{1}"))
+					{
+						nonPrintableKeys += keysValues[i] + "\t" + keysNames[i] + "\r\n";
+					}
+
 					char charTOSave = 'E';
 
 					if (keysValues[i] <= short.MaxValue && keysValues[i] >= short.MinValue)
@@ -104,40 +119,22 @@ namespace AutoText
 						unicodeStr,
 						matchRegex);
 				}
+				//File.WriteAllText(@"d:\Downloads\all keys.csv", res,Encoding.UTF8);
 
-				File.WriteAllText(@"d:\Downloads\all keys.csv", res,Encoding.UTF8);
-
-				{ }
 			}
 			catch (Exception ex)
 			{
 				{ }
 			}
 			*/
-			/*
-			_testKeylogger.KeyCaptured += _testKeylogger_KeyCaptured;
-			_testKeylogger.StartCapture();
-			return;
-			 */
-			try
-			{
-				_rules = ConfigHelper.GetAutotextRules("AutotextRules.xml");
-				_matcher = new AutotextMatcher(new KeyLogger(), _rules);
-				_matcher.MatchFound += _matcher_MatchFound;
-			}
-			catch (Exception ex)
-			{
-				{ }
-				throw;
-			}
 		}
 
 		void _testKeylogger_KeyCaptured(object sender, KeyCapturedEventArgs e)
 		{
 			textBox1.Invoke(new Action(() =>
 			{
-				textBox1.Text += (string.IsNullOrEmpty(e.CapturedCharacter) ? "\"\"" : e.CapturedCharacter) + "\r\n" + string.Join(" | ",e.CapturedKeys) + "\r\n\r\n";
-				textBox1.Select(textBox1.Text.Length,0);
+				textBox1.Text += (string.IsNullOrEmpty(e.CapturedCharacter) ? "\"\"" : e.CapturedCharacter) + "\r\n" + string.Join(" | ", e.CapturedKeys) + "\r\n\r\n";
+				textBox1.Select(textBox1.Text.Length, 0);
 				textBox1.ScrollToCaret();
 
 			}));
@@ -146,7 +143,9 @@ namespace AutoText
 		void _matcher_MatchFound(object sender, AutotextMatchEventArgs e)
 		{
 			//SendKeys.SendWait(e.MatchedRule.Phrase);
-			InputSimulator.SimulateTextEntry(e.MatchedRule.Phrase);
+			//InputSimulator.SimulateTextEntry(e.MatchedRule.Phrase);
+			InputSimulator.SimulateModifiedKeyStroke(Keys.ControlKey,Keys.A);
+
 
 			/*
 			for (int i = 0; i < e.MatchedRule.Phrase.Length; i++)

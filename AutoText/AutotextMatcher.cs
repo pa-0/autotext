@@ -66,7 +66,7 @@ namespace AutoText
 		public AutotextMatcher(KeyLogger keyLogger, List<AutotextRule> rules)
 		{
 			_rules = rules;
-			_abbrMaxLength = rules.Max(p => p.Abbreviation.Length);
+			_abbrMaxLength = rules.Max(p => p.Abbreviation.AbbreviationText.Length);
 			KeyLogger = keyLogger;
 		}
 
@@ -91,7 +91,7 @@ namespace AutoText
 					{
 						List<AutotextRuleTrigger> simpleChars = _matchedRule.Triggers.Where(p => _acceptablePrintableCharsRegex.IsMatch(p.Value)).ToList();
 
-						if (simpleChars.Count(p => p.Value == e.CapturedCharacter) == 1)
+						if (simpleChars.Count(p => string.Compare(p.Value , e.CapturedCharacter,StringComparison.CurrentCultureIgnoreCase) == 0 ) == 1)
 						{
 							OnMatchFound(new AutotextMatchEventArgs(_matchedRule));
 						}
@@ -124,7 +124,7 @@ namespace AutoText
 						}
 
 						string abbr = _bufferString.ToString();
-						_matchedRule = _rules.SingleOrDefault(p => abbr.EndsWith(p.Abbreviation));
+						_matchedRule = _rules.SingleOrDefault(p => abbr.EndsWith(p.Abbreviation.AbbreviationText, p.Abbreviation.CaseSensitive ? StringComparison.CurrentCulture : StringComparison.CurrentCultureIgnoreCase));
 					}
 				}
 			}
