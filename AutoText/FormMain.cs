@@ -8,8 +8,10 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using WindowsInput;
 using AutoText.Helpers;
 using AutoText.Helpers.Configuration;
 
@@ -27,22 +29,30 @@ namespace AutoText
 			InitializeComponent();
 		}
 
-		public static Keys ConvertCharToVirtualKey(char ch)
-		{
-			short vkey = VkKeyScanW(ch);
-			Keys retval = (Keys)(vkey & 0xff);
-			int modifiers = vkey >> 8;
-			if ((modifiers & 1) != 0) retval |= Keys.Shift;
-			if ((modifiers & 2) != 0) retval |= Keys.Control;
-			if ((modifiers & 4) != 0) retval |= Keys.Alt;
-			return retval;
-		}
-
-		[System.Runtime.InteropServices.DllImport("user32.dll")]
-		private static extern short VkKeyScanW(char ch);
-
 		private void FormMain_Load(object sender, EventArgs e)
 		{
+
+			Dictionary<string, int> keysEmbeddedValues = new Dictionary<string, int>();
+			Dictionary<string, int> keysOtherValues = new Dictionary<string, int>();
+
+			string[] names = Enum.GetNames(typeof(Keys));
+			int[] values = (int[])Enum.GetValues(typeof(Keys));
+
+			for (int i = 0; i < names.Length; i++)
+			{
+				keysEmbeddedValues.Add(names[i], values[i]);
+			}
+
+			string[] names1 = Enum.GetNames(typeof(VirtualKeyCode));
+			ushort[] values1 = (ushort[])Enum.GetValues(typeof(VirtualKeyCode));
+
+			for (int i = 0; i < names1.Length; i++)
+			{
+				keysOtherValues.Add(names1[i], values1[i]);
+			}
+
+			string otherStr = string.Join("\r\n", keysOtherValues.Select(p => p.Value + " " + p.Key));
+
 
 			{ }
 
@@ -135,7 +145,17 @@ namespace AutoText
 
 		void _matcher_MatchFound(object sender, AutotextMatchEventArgs e)
 		{
-			SendKeys.SendWait(e.MatchedRule.Phrase);
+			//SendKeys.SendWait(e.MatchedRule.Phrase);
+			InputSimulator.SimulateTextEntry(e.MatchedRule.Phrase);
+
+			/*
+			for (int i = 0; i < e.MatchedRule.Phrase.Length; i++)
+			{
+				SendKeys.SendWait(e.MatchedRule.Phrase[i].ToString());
+				Thread.Sleep(200);
+			}
+			*/
+
 
 			/*
 			_textBoxText += "Match found\r\n";

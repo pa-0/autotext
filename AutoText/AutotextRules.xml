@@ -2,7 +2,7 @@
 <autotextRules>
 	<rule>
 		<abbreviation><![CDATA[ttrr]]></abbreviation>
-		<phrase><![CDATA[test text на русском]]></phrase>
+		<phrase><![CDATA[test text на русском и немецком]]></phrase>
 		<description><![CDATA[Some description]]></description>
 		<triggers>
 			<items>

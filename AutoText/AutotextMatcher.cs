@@ -50,6 +50,12 @@ namespace AutoText
 		Regex _acceptablePrintableCharsRegex = new Regex(AcceptablePrintableCharsRegex, RegexOptions.Compiled | RegexOptions.IgnoreCase);
 		Regex _nonPrintableCharsRegex = new Regex(NonPrintableCharsRegex, RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
+		protected virtual void OnMatchFound(AutotextMatchEventArgs e)
+		{
+			var handler = MatchFound;
+			if (handler != null) handler(this, e);
+		}
+
 		private void SetKeyLogger(KeyLogger keyLogger)
 		{
 			_keyLogger = keyLogger;
@@ -72,6 +78,8 @@ namespace AutoText
 				{
 					_bufferString.Remove(_bufferString.Length - 1, 1);
 				}
+
+				_matchedRule = null;
 			}
 			else
 			{
@@ -122,10 +130,5 @@ namespace AutoText
 			}
 		}
 
-		protected virtual void OnMatchFound(AutotextMatchEventArgs e)
-		{
-			var handler = MatchFound;
-			if (handler != null) handler(this, e);
-		}
 	}
 }
