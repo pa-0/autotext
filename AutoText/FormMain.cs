@@ -145,6 +145,7 @@ namespace AutoText
 			//SendKeys.SendWait(e.MatchedRule.Phrase);
 			//InputSimulator.SimulateTextEntry(e.MatchedRule.Phrase);
 
+
 			InputSimulator.SimulateKeyDown(Keys.Menu);
 			InputSimulator.SimulateKeyPress(Keys.A);
 			//InputSimulator.SimulateKeyUp('A');
