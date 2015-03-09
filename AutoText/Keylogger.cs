@@ -33,6 +33,8 @@ namespace AutoText
 			_keyCaptureTask = Task.Factory.StartNew(() =>
 			{
 				int[] keysValues = (int[])Enum.GetValues(typeof (Keys));
+				List<int> capturedKeyCodes = new List<int>(10);
+				string keyChar = string.Empty;
 
 				while (true)
 				{
@@ -42,13 +44,20 @@ namespace AutoText
 
 						if (keyState == 1 || keyState == -32767)
 						{
-							string keyChar = TextHelper.GetCharsFromKeys(keysValues[i], Control.ModifierKeys.HasFlag(Keys.Shift), false,
-								WinAPI.GetKeyboardLayout(WinAPI.GetWindowThreadProcessId(WinAPI.GetForegroundWindow(), IntPtr.Zero)));
+							capturedKeyCodes.Add(keysValues[i]);
 
-							OnKeyCaptured(new KeyCapturedEventArgs(keysValues[i], keyChar));
-							break;
+							keyChar = TextHelper.GetCharsFromKeys(keysValues[i], Control.ModifierKeys.HasFlag(Keys.Shift), Control.ModifierKeys.HasFlag(Keys.Alt),
+								WinAPI.GetKeyboardLayout(WinAPI.GetWindowThreadProcessId(WinAPI.GetForegroundWindow(), IntPtr.Zero)));
 						}
 					}
+
+					if (capturedKeyCodes.Count > 0)
+					{
+						OnKeyCaptured(new KeyCapturedEventArgs(capturedKeyCodes.ToArray(), keyChar));
+						keyChar = string.Empty;
+						capturedKeyCodes.Clear();
+					}
+
 
 					if (_interruptCapture)
 					{

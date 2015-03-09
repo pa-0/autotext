@@ -27,8 +27,24 @@ namespace AutoText
 			InitializeComponent();
 		}
 
+		public static Keys ConvertCharToVirtualKey(char ch)
+		{
+			short vkey = VkKeyScanW(ch);
+			Keys retval = (Keys)(vkey & 0xff);
+			int modifiers = vkey >> 8;
+			if ((modifiers & 1) != 0) retval |= Keys.Shift;
+			if ((modifiers & 2) != 0) retval |= Keys.Control;
+			if ((modifiers & 4) != 0) retval |= Keys.Alt;
+			return retval;
+		}
+
+		[System.Runtime.InteropServices.DllImport("user32.dll")]
+		private static extern short VkKeyScanW(char ch);
+
 		private void FormMain_Load(object sender, EventArgs e)
 		{
+
+			{ }
 
 			/*
 			try
@@ -88,7 +104,6 @@ namespace AutoText
 				{ }
 			}
 			*/
-
 			/*
 			_testKeylogger.KeyCaptured += _testKeylogger_KeyCaptured;
 			_testKeylogger.StartCapture();
@@ -103,27 +118,29 @@ namespace AutoText
 			catch (Exception ex)
 			{
 				{ }
+				throw;
 			}
 		}
 
 		void _testKeylogger_KeyCaptured(object sender, KeyCapturedEventArgs e)
 		{
-			/*
 			textBox1.Invoke(new Action(() =>
 			{
-				KeysConverter kc = new KeysConverter();
-				textBox1.Text += (string.IsNullOrEmpty(e.CapturedCharacter) ? "\"\"" : e.CapturedCharacter) + "\r\n" + kc.ConvertToString(e.CapturedKey) + "\r\n\r\n";
+				textBox1.Text += (string.IsNullOrEmpty(e.CapturedCharacter) ? "\"\"" : e.CapturedCharacter) + "\r\n" + string.Join(" | ",e.CapturedKeys) + "\r\n\r\n";
 				textBox1.Select(textBox1.Text.Length,0);
 				textBox1.ScrollToCaret();
 
 			}));
-			 */
 		}
 
 		void _matcher_MatchFound(object sender, AutotextMatchEventArgs e)
 		{
+			SendKeys.SendWait(e.MatchedRule.Phrase);
+
+			/*
 			_textBoxText += "Match found\r\n";
 			textBox1.SetPropertyThreadSafe(() => textBox1.Text, _textBoxText);
+			 */
 		}
 
 		private void button1_Click(object sender, EventArgs e)

@@ -66,7 +66,7 @@ namespace AutoText
 
 		void KeyLogger_KeyCaptured(object sender, KeyCapturedEventArgs e)
 		{
-			if (e.CapturedKey == Keys.Back)
+			if (e.CapturedKeys[0] == Keys.Back)
 			{
 				if (_bufferString.Length > 0)
 				{
@@ -75,6 +75,7 @@ namespace AutoText
 			}
 			else
 			{
+				//Search for triggers
 				if (_matchedRule != null)
 				{
 					//If captured char is a simple printable character
@@ -82,29 +83,25 @@ namespace AutoText
 					{
 						List<AutotextRuleTrigger> simpleChars = _matchedRule.Triggers.Where(p => _acceptablePrintableCharsRegex.IsMatch(p.Value)).ToList();
 
-						if (simpleChars.Count(trigger => trigger.Value == e.CapturedCharacter) == 1)
+						if (simpleChars.Count(p => p.Value == e.CapturedCharacter) == 1)
 						{
 							OnMatchFound(new AutotextMatchEventArgs(_matchedRule));
 						}
 
-						_bufferString.Clear();
-					}
-					else if (_nonPrintableCharsRegex.IsMatch(string.Format("{{{0}}}", e.CapturedKey)))
-					{
-						List<AutotextRuleTrigger> nonPrintableChars = _matchedRule.Triggers.Where(p => _nonPrintableCharsRegex.IsMatch(p.Value)).ToList();
-
-						if (nonPrintableChars.Count(p => p.Value == string.Format("{{{0}}}", e.CapturedKey)) == 1)
-						{
-							OnMatchFound(new AutotextMatchEventArgs(_matchedRule));
-						}
-
-						_bufferString.Clear();
-					}
+					}//match for non printable chars
 					else
 					{
-						throw new InvalidOperationException("Trigger key not found");
+						//get non printable chars from triggers
+						List<AutotextRuleTrigger> nonPrintableCharsFromRule = _matchedRule.Triggers.Where(p => _nonPrintableCharsRegex.IsMatch(p.Value)).ToList();
+						List<string> nonPrintableFromCaptured = e.CapturedKeys.Select(p => string.Format("{{{0}}}", p)).ToList();
+
+						if (nonPrintableCharsFromRule.Any(p => nonPrintableFromCaptured.Contains(p.Value)))
+						{
+							OnMatchFound(new AutotextMatchEventArgs(_matchedRule));
+						}
 					}
 
+					_bufferString.Clear();
 					_matchedRule = null;
 				}
 				else

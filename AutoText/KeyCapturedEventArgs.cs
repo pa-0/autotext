@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace AutoText
@@ -7,16 +9,16 @@ namespace AutoText
 	{
 		public string CapturedCharacter { get; private set; }
 
-		public Keys CapturedKey
+		public Keys[] CapturedKeys
 		{
-			get { return (Keys)KeyCode; }
+			get { return CapturedKeyCodes.Select( p => (Keys)p).ToArray(); }
 		}
 
-		public int KeyCode { get; private set; }
+		public int[] CapturedKeyCodes { get; private set; }
 
-		public KeyCapturedEventArgs(int capturedKeyCode)
+		public KeyCapturedEventArgs(int[] capturedKeyCodes)
 		{
-			KeyCode = capturedKeyCode;
+			CapturedKeyCodes = capturedKeyCodes;
 		}
 
 		public KeyCapturedEventArgs(string capturedCharacter)
@@ -24,10 +26,10 @@ namespace AutoText
 			CapturedCharacter = capturedCharacter;
 		}
 
-		public KeyCapturedEventArgs(int capturedKeyCode, string capturedCharacter)
+		public KeyCapturedEventArgs(int[] capturedKeyCodes, string capturedCharacter)
 		{
 			CapturedCharacter = capturedCharacter;
-			KeyCode = capturedKeyCode;
+			CapturedKeyCodes = capturedKeyCodes;
 		}
 	}
 }
