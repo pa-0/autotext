@@ -146,10 +146,10 @@ namespace AutoText
 			//InputSimulator.SimulateTextEntry(e.MatchedRule.Phrase);
 
 
-			InputSimulator.SimulateKeyDown(Keys.Menu);
-			InputSimulator.SimulateKeyPress(Keys.A);
-			//InputSimulator.SimulateKeyUp('A');
-			InputSimulator.SimulateKeyUp(Keys.Menu);
+			InputSimulator.SimulateKeyPress(Keys.Menu);
+			//InputSimulator.SimulateKeyPress(Keys.A);
+			InputSimulator.SimulateKeyPress('Ф');
+			//InputSimulator.SimulateKeyUp(Keys.Menu);
 
 
 														

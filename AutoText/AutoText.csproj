@@ -135,7 +135,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Test projects\InputSimulator.0.1.0.0-src\InputSimulator\InputSimulator.csproj">
+    <ProjectReference Include="..\InputSimulator\InputSimulator.csproj">
       <Project>{3549cd6f-80f8-450f-b99e-cf0a736b1f2a}</Project>
       <Name>InputSimulator</Name>
     </ProjectReference>

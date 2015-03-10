@@ -5,7 +5,7 @@ VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoText", "AutoText\AutoText.csproj", "{29876F09-47F2-4C5E-94CF-D0BA49ABC5E4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InputSimulator", "..\Test projects\InputSimulator.0.1.0.0-src\InputSimulator\InputSimulator.csproj", "{3549CD6F-80F8-450F-B99E-CF0A736B1F2A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InputSimulator", "InputSimulator\InputSimulator.csproj", "{3549CD6F-80F8-450F-B99E-CF0A736B1F2A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
