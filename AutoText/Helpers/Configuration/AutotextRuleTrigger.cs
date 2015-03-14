@@ -1,14 +1,13 @@
+using System;
+using System.Xml.Serialization;
+
 namespace AutoText.Helpers.Configuration
 {
 	public class AutotextRuleTrigger
 	{
-		public string Value { get; private set; }
-		public bool CaseSensitive { get; private set; }
-
-		public AutotextRuleTrigger(string value, bool caseSensitive)
-		{
-			Value = value;
-			CaseSensitive = caseSensitive;
-		}
+		[XmlElement("value")]
+		public string Value { get;  set; }
+		[XmlAttribute("caseSensitive")]
+		public bool CaseSensitive { get; set; }
 	}
 }

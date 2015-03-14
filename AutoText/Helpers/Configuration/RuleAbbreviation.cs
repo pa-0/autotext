@@ -1,14 +1,14 @@
-﻿namespace AutoText.Helpers.Configuration
+﻿using System;
+using System.Xml.Serialization;
+
+namespace AutoText.Helpers.Configuration
 {
 	public class RuleAbbreviation
 	{
-		public string AbbreviationText { get; private set; }
-		public bool CaseSensitive { get; private set; }
+		[XmlElement("value")]
+		public string AbbreviationText { get;  set; }
 
-		public RuleAbbreviation(string abbreviation, bool caseSensitive)
-		{
-			AbbreviationText = abbreviation;
-			CaseSensitive = caseSensitive;
-		}
+		[XmlAttribute("caseSensitive")]
+		public bool CaseSensitive { get;  set; }
 	}
 }

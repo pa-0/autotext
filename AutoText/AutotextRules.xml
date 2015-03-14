@@ -1,20 +1,27 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<autotextRules>
-	<rule>
-		<abbreviation caseSensitive="false" ><![CDATA[ttrr]]></abbreviation>
-		<phrase><![CDATA[test text на русском БОЛЬШИМИ БУКВАМИ]]></phrase>
-		<description><![CDATA[Some description]]></description>
-		<triggers>
-			<items>
-				<add caseSensitive="false"><![CDATA[j]]></add>
-				<add caseSensitive="false"><![CDATA[{ShiftKey}]]></add>
-			</items>
-		</triggers>
-	</rule>
-
-	<rule>
-		<abbreviation caseSensitive="true"><![CDATA[tt1sadasdasdwq124423423243]]></abbreviation>
-		<phrase><![CDATA[test text one]]></phrase>
-		<description><![CDATA[Some description of Test text one]]></description>
-	</rule>
+<autotextRules xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" >
+	<rules>
+		<rule>
+			<abbreviation caseSensitive="false" >
+				<value><![CDATA[ttrr]]></value>
+			</abbreviation>
+			<phrase><![CDATA[test text на русском БОЛЬШИМИ БУКВАМИ]]></phrase>
+			<description><![CDATA[Some description]]></description>
+			<triggers>
+				<item caseSensitive="false">
+					<value><![CDATA[j]]></value>
+				</item>
+				<item caseSensitive="false">
+					<value><![CDATA[{ShiftKey}]]></value>
+				</item>
+			</triggers>
+		</rule>
+		<!--
+		<rule>
+			<abbreviation caseSensitive="true"><![CDATA[tt1sadasdasdwq124423423243]]></abbreviation>
+			<phrase><![CDATA[test text one]]></phrase>
+			<description><![CDATA[Some description of Test text one]]></description>
+		</rule>
+		-->
+	</rules>
 </autotextRules>

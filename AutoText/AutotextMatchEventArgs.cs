@@ -5,9 +5,9 @@ namespace AutoText
 {
 	public class AutotextMatchEventArgs : EventArgs
 	{
-		public AutotextRule MatchedRule { get; private set; }
+		public AutotextRuleConfig MatchedRule { get; private set; }
 
-		public AutotextMatchEventArgs(AutotextRule matchedRule)
+		public AutotextMatchEventArgs(AutotextRuleConfig matchedRule)
 		{
 			MatchedRule = matchedRule;
 		}

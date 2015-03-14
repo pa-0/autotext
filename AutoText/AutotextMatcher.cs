@@ -29,8 +29,8 @@ namespace AutoText
 			}
 		}
 
-		private List<AutotextRule> _rules;
-		public List<AutotextRule> Rules
+		private List<AutotextRuleConfig> _rules;
+		public List<AutotextRuleConfig> Rules
 		{
 			get
 			{
@@ -45,7 +45,7 @@ namespace AutoText
 
 		private StringBuilder _bufferString = new StringBuilder(100);
 		private int _abbrMaxLength;
-		private AutotextRule _matchedRule;
+		private AutotextRuleConfig _matchedRule;
 
 		Regex _acceptablePrintableCharsRegex = new Regex(AcceptablePrintableCharsRegex, RegexOptions.Compiled | RegexOptions.IgnoreCase);
 		Regex _nonPrintableCharsRegex = new Regex(NonPrintableCharsRegex, RegexOptions.Compiled | RegexOptions.IgnoreCase);
@@ -63,7 +63,7 @@ namespace AutoText
 			_keyLogger.StartCapture();
 		}
 
-		public AutotextMatcher(KeyLogger keyLogger, List<AutotextRule> rules)
+		public AutotextMatcher(KeyLogger keyLogger, List<AutotextRuleConfig> rules)
 		{
 			_rules = rules;
 			_abbrMaxLength = rules.Max(p => p.Abbreviation.AbbreviationText.Length);
