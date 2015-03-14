@@ -27,6 +27,7 @@ namespace AutoText
 
 		public FormMain()
 		{
+
 			InitializeComponent();
 
 			_macrosChars = ConfigHelper.GetMacrosCharacters(@"MacrosCharacters.xml");
@@ -146,9 +147,13 @@ namespace AutoText
 			//InputSimulator.SimulateTextEntry(e.MatchedRule.Phrase);
 
 
-			InputSimulator.SimulateKeyPress(Keys.Menu);
+			InputSimulator.SimulateKeyDown(Keys.ControlKey);
 			//InputSimulator.SimulateKeyPress(Keys.A);
-			InputSimulator.SimulateKeyPress('Ф');
+			Thread.Sleep(200);
+			InputSimulator.SimulateKeyPress(Keys.J);
+			Thread.Sleep(200);
+			InputSimulator.SimulateKeyUp(Keys.ControlKey);
+
 			//InputSimulator.SimulateKeyUp(Keys.Menu);
 
 
@@ -170,6 +175,7 @@ namespace AutoText
 
 		private void button1_Click(object sender, EventArgs e)
 		{
+
 		}
 	}
 }
