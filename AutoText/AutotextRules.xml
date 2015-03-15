@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <autotextRules xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" >
 	<rules>
+		
 		<rule>
 			<abbreviation caseSensitive="false" >
 				<value><![CDATA[ttrr]]></value>
@@ -16,12 +17,14 @@
 				</item>
 			</triggers>
 		</rule>
-		<!--
+
 		<rule>
-			<abbreviation caseSensitive="true"><![CDATA[tt1sadasdasdwq124423423243]]></abbreviation>
-			<phrase><![CDATA[test text one]]></phrase>
-			<description><![CDATA[Some description of Test text one]]></description>
+			<abbreviation caseSensitive="false" >
+				<value><![CDATA[ttrr]]></value>
+			</abbreviation>
+			<phrase><![CDATA[Some text]]></phrase>
+			<description><![CDATA[Some description]]></description>
 		</rule>
-		-->
+
 	</rules>
 </autotextRules>

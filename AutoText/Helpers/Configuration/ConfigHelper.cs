@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Xml.Linq;
+using System.Xml.Serialization;
 
 namespace AutoText.Helpers.Configuration
 {
@@ -17,9 +18,13 @@ namespace AutoText.Helpers.Configuration
 			List<AutotextRuleConfig> rulesList = rules.Select(g => new AutotextRuleConfig(new RuleAbbreviation(g.Element("abbreviation").Value, bool.Parse(g.Element("abbreviation").Attribute("caseSensitive").Value)), g.Element("phrase").Value, g.Element("description").Value,
 				g.Elements("triggers").Count() == 0 ? new List<AutotextRuleTrigger>() : g.Element("triggers").Element("items").Elements("add").Select(p => new AutotextRuleTrigger(p.Value, bool.Parse(p.Attribute("caseSensitive").Value))).ToList())).ToList();
 			return rulesList;
-			 * */
+			*/
+			XmlSerializer deserializer = new XmlSerializer(typeof(AutotextRulesRoot));
+			Stream textReader = new FileStream(configPath, FileMode.Open, FileAccess.Read);
+			AutotextRulesRoot rules = (AutotextRulesRoot)deserializer.Deserialize(textReader);
+			textReader.Close();
 
-			return null;
+			return rules.AutotextRulesList;
 		}
 
 		public static Dictionary<string, int> GetMacrosCharacters(string configPath)
