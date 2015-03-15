@@ -69,6 +69,7 @@
     <Compile Include="FormMain.Designer.cs">
       <DependentUpon>FormMain.cs</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\AutotextRuleExecution.cs" />
     <Compile Include="Helpers\Configuration\AutotextRuleConfig.cs" />
     <Compile Include="Helpers\Configuration\AutotextRulesRoot.cs" />
     <Compile Include="Helpers\Configuration\AutotextRuleTrigger.cs" />

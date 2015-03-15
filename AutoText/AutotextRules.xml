@@ -6,11 +6,11 @@
 			<abbreviation caseSensitive="false" >
 				<value><![CDATA[ttrr]]></value>
 			</abbreviation>
-			<phrase><![CDATA[test text на русском БОЛЬШИМИ БУКВАМИ]]></phrase>
+			<phrase><![CDATA[ss{mac{r}os}sa{asd} asd asd{mac}asdasd{123}]]></phrase>
 			<description><![CDATA[Some description]]></description>
 			<triggers>
 				<item caseSensitive="false">
-					<value><![CDATA[j]]></value>
+					<value><![CDATA[ ]]></value>
 				</item>
 				<item caseSensitive="false">
 					<value><![CDATA[{ShiftKey}]]></value>
@@ -20,7 +20,7 @@
 
 		<rule>
 			<abbreviation caseSensitive="false" >
-				<value><![CDATA[ttrr]]></value>
+				<value><![CDATA[ttrrqwer]]></value>
 			</abbreviation>
 			<phrase><![CDATA[Some text]]></phrase>
 			<description><![CDATA[Some description]]></description>

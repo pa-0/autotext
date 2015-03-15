@@ -10,7 +10,7 @@ namespace AutoText
 {
 	class AutotextMatcher
 	{
-		private const string AcceptablePrintableCharsRegex = @"[\p{L}\p{M}\p{N}\p{P}\p{S}]{1}";
+		private const string AcceptablePrintableCharsRegex = @"[\p{L}\p{M}\p{N}\p{P}\p{S} ]{1}";
 		private const string NonPrintableCharsRegex = @"{([\w\d]+)}";
 
 		public event EventHandler<AutotextMatchEventArgs> MatchFound;

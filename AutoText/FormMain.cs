@@ -27,9 +27,9 @@ namespace AutoText
 		private string _textBoxText;
 		private KeyLogger _keylogger = new KeyLogger();
 
+
 		public FormMain()
 		{
-
 			InitializeComponent();
 
 			_macrosChars = ConfigHelper.GetMacrosCharacters(@"MacrosCharacters.xml");
@@ -145,34 +145,7 @@ namespace AutoText
 
 		void _matcher_MatchFound(object sender, AutotextMatchEventArgs e)
 		{
-			//SendKeys.SendWait(e.MatchedRule.Phrase);
-			//InputSimulator.SimulateTextEntry(e.MatchedRule.Phrase);
-
-
-			//InputSimulator.SimulateKeyDown(Keys.ControlKey);
-			//InputSimulator.SimulateKeyPress(Keys.A);
-			//Thread.Sleep(200);
-			InputSimulator.SimulateKeyPress('З');
-			//Thread.Sleep(200);
-			//InputSimulator.SimulateKeyUp(Keys.ControlKey);
-
-			//InputSimulator.SimulateKeyUp(Keys.Menu);
-
-
-
-			/*
-			for (int i = 0; i < e.MatchedRule.Phrase.Length; i++)
-			{
-				SendKeys.SendWait(e.MatchedRule.Phrase[i].ToString());
-				Thread.Sleep(200);
-			}
-			*/
-
-
-			/*
-			_textBoxText += "Match found\r\n";
-			textBox1.SetPropertyThreadSafe(() => textBox1.Text, _textBoxText);
-			 */
+			AutotextRuleExecution.ProcessRule(e.MatchedRule);
 		}
 
 		private void button1_Click(object sender, EventArgs e)
