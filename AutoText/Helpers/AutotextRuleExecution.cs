@@ -7,6 +7,18 @@ using AutoText.Helpers.Configuration;
 
 namespace AutoText.Helpers
 {
+	public class AutotextPhrase
+	{
+		public string PhraseText { get; set; }
+		public List<AutotextExpression> Expressions { get; set; }
+
+		public AutotextPhrase(string phraseText)
+		{
+			PhraseText = phraseText;
+			Expressions = new List<AutotextExpression>(100);
+		}
+	}
+
 	public enum AutotextExpressionType
 	{
 		PlainText,
@@ -17,6 +29,8 @@ namespace AutoText.Helpers
 	{
 		public AutotextExpressionType ExpressionType { get; set; }
 		public string ExpressionText { get; set; }
+		public int StartIndex { get; set; }
+		public int EndIndex { get; set; }
 		public List<AutotextExpression> NestedExpressions { get; set; }
 
 		public AutotextExpression()
@@ -24,10 +38,12 @@ namespace AutoText.Helpers
 			NestedExpressions = new List<AutotextExpression>(100);
 		}
 
-		public AutotextExpression(AutotextExpressionType expressionType, string expressionText)
+		public AutotextExpression(AutotextExpressionType expressionType, string expressionText, int startIndex, int endIndex)
 		{
 			ExpressionType = expressionType;
 			ExpressionText = expressionText;
+			StartIndex = startIndex;
+			EndIndex = endIndex;
 			NestedExpressions = new List<AutotextExpression>(100);
 		}
 	}
@@ -50,7 +66,7 @@ namespace AutoText.Helpers
 			string phrase = rulePhrase.Replace(OpenBraceEscapeSeq,OpeningBraceMacrosReplacement).
 				Replace(ClosingBraceEscapeSeq,ClosingBraceMacrosReplacement);
 
-			AutotextExpression rootExpression = new AutotextExpression(AutotextExpressionType.PlainText, phrase);
+			AutotextExpression rootExpression = new AutotextExpression(AutotextExpressionType.PlainText, phrase, 0, phrase.Length);
 			ParseExpressionRecursive(rootExpression);
 
 			throw new NotImplementedException();
@@ -83,6 +99,7 @@ namespace AutoText.Helpers
 
 				if (openBraceCounter != 0 && closingBraceCounter != 0 && openBraceCounter == closingBraceCounter)
 				{
+					AutotextExpression expressionToAdd = new AutotextExpression();
 					expression.NestedExpressions.Add(new AutotextExpression(AutotextExpressionType.Macros, expression.ExpressionText.Substring(macrosStartIndex + 1, macrosEndIndex - macrosStartIndex - 1)));
 					macrosStartIndex = -1;
 					macrosEndIndex = 0;
