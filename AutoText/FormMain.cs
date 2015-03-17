@@ -32,6 +32,10 @@ namespace AutoText
 		{
 			InitializeComponent();
 
+			string testStr = "asdasd{{} sad asd {}} asd asdasd{{} asd asdasd{}}";
+			List<int> res = AutotextRuleExecution.GetEscapedBracesList(testStr);
+
+
 			_macrosChars = ConfigHelper.GetMacrosCharacters(@"MacrosCharacters.xml");
 			_rules = ConfigHelper.GetAutotextRules("AutotextRules.xml");
 			_matcher = new AutotextMatcher(_keylogger, _rules);

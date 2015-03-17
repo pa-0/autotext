@@ -61,14 +61,65 @@ namespace AutoText.Helpers
 			{ }
 		}
 
+		public static List<int> GetEscapedBracesList(string rulePhrase)
+		{
+			List<int> res = new List<int>();
+			int indexOfEscapedBracket;
+			int curIndex = 0;
+
+
+			while (true)
+			{
+				 indexOfEscapedBracket = rulePhrase.IndexOf(OpenBraceEscapeSeq,curIndex);
+
+				if (indexOfEscapedBracket != -1)
+				{
+					rulePhrase.Remove(indexOfEscapedBracket, 3);
+					rulePhrase.Insert(indexOfEscapedBracket, "{");
+					res.Add(indexOfEscapedBracket);
+					curIndex = indexOfEscapedBracket - 2;
+				}
+				else
+				{
+					break;
+				}
+			}
+
+			curIndex = 0;
+
+			while (true)
+			{
+				indexOfEscapedBracket = rulePhrase.IndexOf(ClosingBraceEscapeSeq, curIndex);
+
+				if (indexOfEscapedBracket != -1)
+				{
+					rulePhrase.Remove(indexOfEscapedBracket, 3);
+					rulePhrase.Insert(indexOfEscapedBracket, "}");
+					res.Add(indexOfEscapedBracket);
+					curIndex = indexOfEscapedBracket - 2;
+				}
+				else
+				{
+					break;
+				}
+			}
+
+			return res;
+		}
+
 		private static List<AutotextExpression> ParsePhrase(string rulePhrase)
 		{
+			/*
 			string phrase = rulePhrase.Replace(OpenBraceEscapeSeq,OpeningBraceMacrosReplacement).
 				Replace(ClosingBraceEscapeSeq,ClosingBraceMacrosReplacement);
+			*/
 
+			
+
+			/*
 			AutotextExpression rootExpression = new AutotextExpression(AutotextExpressionType.PlainText, phrase, 0, phrase.Length);
 			ParseExpressionRecursive(rootExpression);
-
+			*/
 			throw new NotImplementedException();
 		}
 
@@ -100,7 +151,7 @@ namespace AutoText.Helpers
 				if (openBraceCounter != 0 && closingBraceCounter != 0 && openBraceCounter == closingBraceCounter)
 				{
 					AutotextExpression expressionToAdd = new AutotextExpression();
-					expression.NestedExpressions.Add(new AutotextExpression(AutotextExpressionType.Macros, expression.ExpressionText.Substring(macrosStartIndex + 1, macrosEndIndex - macrosStartIndex - 1)));
+					//expression.NestedExpressions.Add(new AutotextExpression(AutotextExpressionType.Macros, expression.ExpressionText.Substring(macrosStartIndex + 1, macrosEndIndex - macrosStartIndex - 1)));
 					macrosStartIndex = -1;
 					macrosEndIndex = 0;
 					openBraceCounter = 0;
