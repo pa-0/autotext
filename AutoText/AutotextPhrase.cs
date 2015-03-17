@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace AutoText
 {
@@ -107,11 +108,6 @@ namespace AutoText
 			{
 				ParseExpressionRecursive(parsedMacros);
 			}
-		}
-
-		private List<AutotextExpression> ParsePhrase(string rulePhrase)
-		{
-			throw new NotImplementedException();
 		}
 	}
 }

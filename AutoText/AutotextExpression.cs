@@ -2,20 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using AutoText.Helpers;
 
 namespace AutoText
 {
 	public class AutotextExpression
 	{
-		public string ExpressionText { get; set; }
-		public int StartIndex { get; set; }
-		public int Length { get; set; }
-		public List<AutotextExpression> NestedExpressions { get; set; }
-
-		public AutotextExpression()
-		{
-			NestedExpressions = new List<AutotextExpression>(100);
-		}
+		public string ExpressionText { get; private set; }
+		public int StartIndex { get; private set; }
+		public int Length { get; private set; }
+		public List<AutotextExpression> NestedExpressions { get; private set; }
+		public int InputLength { get; set; }
 
 		public AutotextExpression(string expressionText, int startIndex, int length)
 		{
@@ -27,6 +24,15 @@ namespace AutoText
 
 		private List<Input> GenerateExpressionInput()
 		{
+			List<List<Input>> nestedExpressionsInput = new List<List<Input>>();
+
+			for (int i = 0; i < NestedExpressions.Count; i++)
+			{
+				nestedExpressionsInput.Add(NestedExpressions[i].GenerateExpressionInput());
+			}
+
+
+
 			throw new NotImplementedException();
 		}
 
