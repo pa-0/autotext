@@ -9,121 +9,66 @@ namespace AutoText.Helpers
 {
 	public class AutotextPhrase
 	{
-		public string PhraseText { get; set; }
-		public List<AutotextExpression> Expressions { get; set; }
+		private const string OpenBraceEscapeSeq = "{{}";
+		private const string ClosingBraceEscapeSeq = "{}}";
+		private static Regex _bracketsRegex = new Regex(@"{{}|{}}", RegexOptions.Compiled);
+
+		public string PhraseText { get; private set; }
+		public string _parsedPhrase;
+		public AutotextExpression RootExpression { get; private set; }
+		public List<int> EscapedBrackets { get; private set; }
 
 		public AutotextPhrase(string phraseText)
 		{
+			EscapedBrackets = new List<int>();
 			PhraseText = phraseText;
-			Expressions = new List<AutotextExpression>(100);
-		}
-	}
-
-	public enum AutotextExpressionType
-	{
-		PlainText,
-		Macros
-	}
-
-	public class AutotextExpression
-	{
-		public AutotextExpressionType ExpressionType { get; set; }
-		public string ExpressionText { get; set; }
-		public int StartIndex { get; set; }
-		public int EndIndex { get; set; }
-		public List<AutotextExpression> NestedExpressions { get; set; }
-
-		public AutotextExpression()
-		{
-			NestedExpressions = new List<AutotextExpression>(100);
-		}
-
-		public AutotextExpression(AutotextExpressionType expressionType, string expressionText, int startIndex, int endIndex)
-		{
-			ExpressionType = expressionType;
-			ExpressionText = expressionText;
-			StartIndex = startIndex;
-			EndIndex = endIndex;
-			NestedExpressions = new List<AutotextExpression>(100);
-		}
-	}
-
-	public static class AutotextRuleExecution
-	{
-		private const string OpeningBraceMacrosReplacement = "#f5672947-23ad-4e71-a2e6-f4440d34a874#";
-		private const string ClosingBraceMacrosReplacement = "#eb283470-f0bd-43bb-b13b-2fdbd6e4f949#";
-		private const string OpenBraceEscapeSeq = "{{}";
-		private const string ClosingBraceEscapeSeq = "{}}";
-
-		public static void ProcessRule(AutotextRuleConfig rule)
-		{
-			List<AutotextExpression> expressions = ParsePhrase(rule.Phrase);
+			BuildEscapedBracesList();
+			RootExpression = new AutotextExpression(_parsedPhrase, 0, _parsedPhrase.Length);
+			ParseExpressionRecursive(RootExpression);
 			{ }
 		}
 
-		public static List<int> GetEscapedBracesList(string rulePhrase)
+		private  void BuildEscapedBracesList()
 		{
-			List<int> res = new List<int>();
-			int indexOfEscapedBracket;
-			int curIndex = 0;
+			MatchCollection matches = _bracketsRegex.Matches(PhraseText);
+			string[] splitted = _bracketsRegex.Split(PhraseText);
+			StringBuilder resStr = new StringBuilder(1000);
 
 
-			while (true)
+			for (int i = 0; i < splitted.Length; i++)
 			{
-				 indexOfEscapedBracket = rulePhrase.IndexOf(OpenBraceEscapeSeq,curIndex);
-
-				if (indexOfEscapedBracket != -1)
+				if (i < matches.Count)
 				{
-					rulePhrase.Remove(indexOfEscapedBracket, 3);
-					rulePhrase.Insert(indexOfEscapedBracket, "{");
-					res.Add(indexOfEscapedBracket);
-					curIndex = indexOfEscapedBracket - 2;
+					if (matches[i].Value == OpenBraceEscapeSeq)
+					{
+						resStr.Append(splitted[i] + "{");
+					}
+
+					if (matches[i].Value == ClosingBraceEscapeSeq)
+					{
+						resStr.Append(splitted[i] + "}");
+					}
+
+					EscapedBrackets.Add(resStr.Length - 1);
 				}
 				else
 				{
-					break;
+					resStr.Append(splitted[i]);
 				}
 			}
 
-			curIndex = 0;
-
-			while (true)
+			if (resStr.Length > 0)
 			{
-				indexOfEscapedBracket = rulePhrase.IndexOf(ClosingBraceEscapeSeq, curIndex);
-
-				if (indexOfEscapedBracket != -1)
-				{
-					rulePhrase.Remove(indexOfEscapedBracket, 3);
-					rulePhrase.Insert(indexOfEscapedBracket, "}");
-					res.Add(indexOfEscapedBracket);
-					curIndex = indexOfEscapedBracket - 2;
-				}
-				else
-				{
-					break;
-				}
+				_parsedPhrase = resStr.ToString(); ;
 			}
+			else
+			{
+				_parsedPhrase = PhraseText;
 
-			return res;
+			}
 		}
 
-		private static List<AutotextExpression> ParsePhrase(string rulePhrase)
-		{
-			/*
-			string phrase = rulePhrase.Replace(OpenBraceEscapeSeq,OpeningBraceMacrosReplacement).
-				Replace(ClosingBraceEscapeSeq,ClosingBraceMacrosReplacement);
-			*/
-
-			
-
-			/*
-			AutotextExpression rootExpression = new AutotextExpression(AutotextExpressionType.PlainText, phrase, 0, phrase.Length);
-			ParseExpressionRecursive(rootExpression);
-			*/
-			throw new NotImplementedException();
-		}
-
-		private static void ParseExpressionRecursive(AutotextExpression expression)
+		private  void ParseExpressionRecursive(AutotextExpression expression)
 		{
 			int openBraceCounter = 0;
 			int closingBraceCounter = 0;
@@ -132,7 +77,7 @@ namespace AutoText.Helpers
 
 			for (int i = 0; i < expression.ExpressionText.Length; i++)
 			{
-				if (expression.ExpressionText[i] == '{')
+				if (expression.ExpressionText[i] == '{' && !EscapedBrackets.Contains(i))
 				{
 					openBraceCounter++;
 
@@ -142,7 +87,7 @@ namespace AutoText.Helpers
 					}
 				}
 
-				if (expression.ExpressionText[i] == '}')
+				if (expression.ExpressionText[i] == '}' && !EscapedBrackets.Contains(i))
 				{
 					closingBraceCounter++;
 					macrosEndIndex = i;
@@ -150,8 +95,9 @@ namespace AutoText.Helpers
 
 				if (openBraceCounter != 0 && closingBraceCounter != 0 && openBraceCounter == closingBraceCounter)
 				{
-					AutotextExpression expressionToAdd = new AutotextExpression();
-					//expression.NestedExpressions.Add(new AutotextExpression(AutotextExpressionType.Macros, expression.ExpressionText.Substring(macrosStartIndex + 1, macrosEndIndex - macrosStartIndex - 1)));
+					int macrosLength = macrosEndIndex - macrosStartIndex - 1;
+					AutotextExpression expressionToAdd = new AutotextExpression(expression.ExpressionText.Substring(macrosStartIndex + 1, macrosLength), macrosStartIndex + 1, macrosLength);
+					expression.NestedExpressions.Add(expressionToAdd);
 					macrosStartIndex = -1;
 					macrosEndIndex = 0;
 					openBraceCounter = 0;
@@ -163,6 +109,73 @@ namespace AutoText.Helpers
 			{
 				ParseExpressionRecursive(parsedMacros);
 			}
+		}
+
+		private  List<AutotextExpression> ParsePhrase(string rulePhrase)
+		{
+			throw new NotImplementedException();
+		}
+	}
+
+	public class AutotextExpression
+	{
+		public string ExpressionText { get; set; }
+		public int StartIndex { get; set; }
+		public int Length { get; set; }
+		public List<AutotextExpression> NestedExpressions { get; set; }
+
+		public AutotextExpression()
+		{
+			NestedExpressions = new List<AutotextExpression>(100);
+		}
+
+		public AutotextExpression( string expressionText, int startIndex, int length)
+		{
+			ExpressionText = expressionText;
+			StartIndex = startIndex;
+			Length = length;
+			NestedExpressions = new List<AutotextExpression>(100);
+		}
+
+		private List<Input> BuildExpressionInput()
+		{
+			throw new NotImplementedException();
+		}
+
+		public List<Input> GetInput()
+		{
+
+			throw new NotImplementedException();
+		}
+	}
+
+	public class Input
+	{
+		public InputType Type { get; set; }
+		public InputActionType ActionType { get; set; }
+		public char CharToInput { get; set; }
+		public int KeyCodeValueToInput{ get; set; }
+	}
+
+	public enum InputActionType
+	{
+		KeyDown,
+		KeyUp,
+		Press
+	}
+
+	public enum InputType
+	{
+		UnicideChar,
+		KeyCode
+	}
+
+	public static class AutotextRuleExecution
+	{
+		public static void ProcessRule(AutotextRuleConfig rule)
+		{
+			AutotextPhrase phrase = new AutotextPhrase(rule.Phrase);
+			{ }
 		}
 	}
 }

@@ -32,9 +32,16 @@ namespace AutoText
 		{
 			InitializeComponent();
 
-			string testStr = "asdasd{{} sad asd {}} asd asdasd{{} asd asdasd{}}";
-			List<int> res = AutotextRuleExecution.GetEscapedBracesList(testStr);
-
+			/*
+			string testStr = "{{}{}}{asdasd{{} sad asd {}} asd asdasd{{} asd asdasd{}}asd{}}{{}{{}";
+//							  {{}{}}{asdasd{{} sad asd {}} asd asdasd{{} asd asdasd{}}asd{}}{{}{{}
+			List<int> res = AutotextRuleExecution.GetEscapedBracesList(ref testStr);
+			res.Sort(new Comparison<int>((a, b) =>
+			{
+				return a.CompareTo(b);
+			}));
+			*/
+			{ }
 
 			_macrosChars = ConfigHelper.GetMacrosCharacters(@"MacrosCharacters.xml");
 			_rules = ConfigHelper.GetAutotextRules("AutotextRules.xml");
