@@ -61,8 +61,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AutotextExpression.cs" />
     <Compile Include="AutotextMatcher.cs" />
     <Compile Include="AutotextMatchEventArgs.cs" />
+    <Compile Include="AutotextPhrase.cs" />
     <Compile Include="FormMain.cs">
       <SubType>Form</SubType>
     </Compile>
