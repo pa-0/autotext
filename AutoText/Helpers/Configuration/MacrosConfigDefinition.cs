@@ -6,7 +6,7 @@ using System.Xml.Serialization;
 
 namespace AutoText.Helpers.Configuration
 {
-	public class MacrosDefinition
+	public class MacrosConfigDefinition
 	{
 		[XmlAttribute("name")]
 		public string Name { get; set; }
@@ -18,6 +18,6 @@ namespace AutoText.Helpers.Configuration
 		public bool AllowOmitShortName { get; set; }
 
 		[XmlArray("parameters"), XmlArrayItem("parameter")]
-		public List<MacrosParameter> MacrosParametrers { get; set; }
+		public List<MacrosConfigParameter> MacrosParametrers { get; set; }
 	}
 }

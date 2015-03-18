@@ -23,7 +23,7 @@ namespace AutoText
 			PhraseText = phraseText;
 			BuildEscapedBracesList();
 			RootExpression = new AutotextExpression(_parsedPhrase, 0, _parsedPhrase.Length);
-			ParseExpressionRecursive(RootExpression);
+			ParseExpressionsRecursive(RootExpression);
 			{ }
 		}
 
@@ -67,7 +67,7 @@ namespace AutoText
 			}
 		}
 
-		private void ParseExpressionRecursive(AutotextExpression expression)
+		private void ParseExpressionsRecursive(AutotextExpression expression)
 		{
 			int openBraceCounter = 0;
 			int closingBraceCounter = 0;
@@ -106,7 +106,7 @@ namespace AutoText
 
 			foreach (AutotextExpression parsedMacros in expression.NestedExpressions)
 			{
-				ParseExpressionRecursive(parsedMacros);
+				ParseExpressionsRecursive(parsedMacros);
 			}
 		}
 	}

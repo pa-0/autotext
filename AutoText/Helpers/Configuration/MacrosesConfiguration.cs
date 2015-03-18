@@ -17,7 +17,7 @@ namespace AutoText.Helpers.Configuration
 		public string MacrosParameterAssigmentString { get; set; }
 
 		[XmlArray("macrosDefinitions"), XmlArrayItem("macros")]
-		public List<MacrosDefinition> MacrosDefinitions { get; set; }
+		public List<MacrosConfigDefinition> MacrosDefinitions { get; set; }
 
 	}
 }
