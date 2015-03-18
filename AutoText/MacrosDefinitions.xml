@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<macrosesConfiguration xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" >
+
+	<macrosNameSuffixStr ><![CDATA[:]]></macrosNameSuffixStr>
+	<macrosParameterPrefix ><![CDATA[-]]></macrosParameterPrefix>
+	<macrosParameterAssignmentStr ><![CDATA[=]]></macrosParameterAssignmentStr>
+
+	<macrosDefinitions>
+
+		<macros name="PrintString" shortName="s" allowOmitShortName="false">
+			<description>Outputs a string</description>
+
+			<parameters>
+
+				<parameter name="text" allowOmitName="true">
+					<allowedDataTypes>
+						<dataType name="string" />
+					</allowedDataTypes>
+				</parameter>
+
+				<parameter name="count"  allowOmitName="true">
+					<allowedDataTypes>
+						<dataType name="int" />
+					</allowedDataTypes>
+				</parameter>
+
+			</parameters>
+
+		</macros>
+
+	</macrosDefinitions>
+
+</macrosesConfiguration>

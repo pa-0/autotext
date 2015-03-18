@@ -76,6 +76,10 @@
     <Compile Include="Helpers\Configuration\AutotextRulesRoot.cs" />
     <Compile Include="Helpers\Configuration\AutotextRuleTrigger.cs" />
     <Compile Include="Helpers\Configuration\ConfigHelper.cs" />
+    <Compile Include="Helpers\Configuration\MacrosesConfiguration.cs" />
+    <Compile Include="Helpers\Configuration\MacrosDefinition.cs" />
+    <Compile Include="Helpers\Configuration\MacrosParameter.cs" />
+    <Compile Include="Helpers\Configuration\ParameterDataType.cs" />
     <Compile Include="Helpers\Configuration\RuleAbbreviation.cs" />
     <Compile Include="Helpers\GUIHelper.cs" />
     <Compile Include="Helpers\TextHelper.cs" />
@@ -87,6 +91,9 @@
     <Content Include="MacrosCharacters.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <SubType>Designer</SubType>
+    </Content>
+    <Content Include="MacrosDefinitions.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <EmbeddedResource Include="FormMain.resx">
       <DependentUpon>FormMain.cs</DependentUpon>
@@ -113,9 +120,6 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <None Include="XMLSchema1.xsd">
-      <SubType>Designer</SubType>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
