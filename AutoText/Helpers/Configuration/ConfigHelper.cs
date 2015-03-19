@@ -10,10 +10,20 @@ namespace AutoText.Helpers.Configuration
 {
 	public class ConfigHelper
 	{
-		public static List<AutotextRuleConfig> GetAutotextRules(string configPath)
+		private static MacrosesConfiguration _macrosConfig;
+		private static KeycodesConfiguration _keycodesConfig;
+		private static List<AutotextRuleConfig> _autotextConfig;
+
+		public static List<AutotextRuleConfig> GetAutotextRules()
 		{
-			AutotextRulesRoot rules = DeserailizeXml<AutotextRulesRoot>(configPath);
-			return rules.AutotextRulesList;
+			if (_autotextConfig != null)
+			{
+				return _autotextConfig;
+			}
+
+			_autotextConfig = DeserailizeXml<AutotextRulesRoot>(@"AutotextRules.xml").AutotextRulesList;
+			return _autotextConfig;
+
 		}
 
 		private static TRes DeserailizeXml<TRes>(string xmlFilePath)
@@ -23,6 +33,10 @@ namespace AutoText.Helpers.Configuration
 			try
 			{
 				XmlSerializer deserializer = new XmlSerializer(typeof(TRes));
+				deserializer.UnknownAttribute += new XmlAttributeEventHandler(deserializer_UnknownAttribute);
+				deserializer.UnknownElement += new XmlElementEventHandler(deserializer_UnknownElement);
+				deserializer.UnknownNode += new XmlNodeEventHandler(deserializer_UnknownNode);
+				deserializer.UnreferencedObject += new UnreferencedObjectEventHandler(deserializer_UnreferencedObject);
 				return (TRes)deserializer.Deserialize(textReader);
 			}
 			finally
@@ -31,17 +45,47 @@ namespace AutoText.Helpers.Configuration
 			}
 		}
 
-		public static Dictionary<string, int> GetMacrosCharacters(string configPath)
+		static void deserializer_UnreferencedObject(object sender, UnreferencedObjectEventArgs e)
 		{
-			XDocument document = XDocument.Parse(File.ReadAllText(Path.GetFullPath(configPath)));
-			Dictionary<string, int> macrosChars = document.Element("macrosCharacters").Elements("add").ToDictionary(p => p.Attribute("name").Value, g => int.Parse(g.Attribute("value").Value));
-			return macrosChars;
+			{ }
 		}
 
-		public static MacrosesConfiguration GetMacrosDefinitions(string configPath)
+		static void deserializer_UnknownNode(object sender, XmlNodeEventArgs e)
 		{
-			MacrosesConfiguration macrosDefs = DeserailizeXml<MacrosesConfiguration>(configPath);
-			return macrosDefs;
+			{ }
+		}
+
+		static void deserializer_UnknownElement(object sender, XmlElementEventArgs e)
+		{
+			{ }
+		}
+
+		static void deserializer_UnknownAttribute(object sender, XmlAttributeEventArgs e)
+		{
+			{ }
+		}
+
+		public static KeycodesConfiguration GetKecodesConfiguration()
+		{
+			if (_keycodesConfig != null)
+			{
+				return _keycodesConfig;
+			}
+
+			_keycodesConfig = DeserailizeXml<KeycodesConfiguration>(@"Keycodes.xml");
+			return _keycodesConfig;
+
+		}
+
+		public static MacrosesConfiguration GetMacrosesConfiguration()
+		{
+			if (_macrosConfig != null)
+			{
+				return _macrosConfig;
+			}
+
+			_macrosConfig = DeserailizeXml<MacrosesConfiguration>(@"MacrosDefinitions.xml");
+			return _macrosConfig;
 		}
 
 	}

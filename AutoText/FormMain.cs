@@ -22,7 +22,6 @@ namespace AutoText
 	public partial class FormMain : Form
 	{
 		private List<AutotextRuleConfig> _rules;
-		private Dictionary<string, int> _macrosChars;
 		private AutotextMatcher _matcher;
 		private string _textBoxText;
 		private KeyLogger _keylogger = new KeyLogger();
@@ -43,8 +42,9 @@ namespace AutoText
 			*/
 			{ }
 
-			_macrosChars = ConfigHelper.GetMacrosCharacters(@"MacrosCharacters.xml");
-			_rules = ConfigHelper.GetAutotextRules("AutotextRules.xml");
+			KeycodesConfiguration kkConfig = ConfigHelper.GetKecodesConfiguration();
+
+			_rules = ConfigHelper.GetAutotextRules();
 			_matcher = new AutotextMatcher(_keylogger, _rules);
 			_matcher.MatchFound += _matcher_MatchFound;
 

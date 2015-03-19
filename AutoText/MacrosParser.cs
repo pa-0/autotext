@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using AutoText.Helpers.Configuration;
+using System.Text.RegularExpressions;
 
 namespace AutoText
 {
@@ -30,9 +32,11 @@ namespace AutoText
 
 	public class MacrosParser
 	{
+
 		public static Macros Parse(string macrosText)
 		{
-			string macrosName = macrosText.Ind
+			MacrosesConfiguration macrosesConfig = ConfigHelper.GetMacrosesConfiguration();
+			//string macrosName = macrosText.
 
 			throw new NotImplementedException();
 		}

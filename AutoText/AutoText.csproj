@@ -76,6 +76,8 @@
     <Compile Include="Helpers\Configuration\AutotextRulesRoot.cs" />
     <Compile Include="Helpers\Configuration\AutotextRuleTrigger.cs" />
     <Compile Include="Helpers\Configuration\ConfigHelper.cs" />
+    <Compile Include="Helpers\Configuration\KeycodeConfig.cs" />
+    <Compile Include="Helpers\Configuration\KeycodesConfiguration.cs" />
     <Compile Include="Helpers\Configuration\MacrosesConfiguration.cs" />
     <Compile Include="Helpers\Configuration\MacrosConfigDefinition.cs" />
     <Compile Include="Helpers\Configuration\MacrosConfigParameter.cs" />
@@ -90,12 +92,13 @@
     <Compile Include="MacrosParser.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Content Include="MacrosCharacters.xml">
+    <Content Include="Keycodes.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </Content>
     <Content Include="MacrosDefinitions.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </Content>
     <EmbeddedResource Include="FormMain.resx">
       <DependentUpon>FormMain.cs</DependentUpon>
@@ -112,6 +115,7 @@
     </Compile>
     <Content Include="AutotextRules.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </Content>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
