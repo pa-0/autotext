@@ -32,13 +32,40 @@ namespace AutoText
 
 	public class MacrosParser
 	{
-
 		public static Macros Parse(string macrosText)
 		{
 			MacrosesConfiguration macrosesConfig = ConfigHelper.GetMacrosesConfiguration();
-			//string macrosName = macrosText.
+			Macros res = new Macros();
+			MacrosConfigDefinition matchedConfig = null;
+			string regex = null;
 
-			throw new NotImplementedException();
+			foreach (MacrosConfigDefinition macrosConfig in macrosesConfig.MacrosDefinitions)
+			{
+				if (Regex.IsMatch(macrosText, macrosConfig.ExplicitParametersRegex))
+				{
+					matchedConfig = macrosConfig;
+					regex = macrosConfig.ExplicitParametersRegex;
+					break;
+				}
+
+				if (Regex.IsMatch(macrosText, macrosConfig.ImplicitParametersRegex))
+				{
+					matchedConfig = macrosConfig;
+					regex = macrosConfig.ExplicitParametersRegex;
+					break;
+				}
+			}
+
+			res.MacrosName = matchedConfig.ShortName;
+
+			MatchCollection macrosParameters = Regex.Matches(macrosText, matchedConfig.ExplicitParametersRegex, RegexOptions.Singleline | RegexOptions.IgnoreCase);
+
+			foreach (MacrosConfigParameter parameter in matchedConfig.MacrosParametrers)
+			{
+				res.Parameters.Add(new MacrosParameter(parameter.Name, macrosParameters[0].Groups[parameter.Name].Value));
+			}
+
+			return res;
 		}
 	}
 }

@@ -31,6 +31,7 @@ namespace AutoText
 				nestedExpressionsInput.Add(NestedExpressions[i].GenerateExpressionInput());
 			}
 
+			List<Input> result = new List<Input>(1000);
 
 
 			throw new NotImplementedException();
