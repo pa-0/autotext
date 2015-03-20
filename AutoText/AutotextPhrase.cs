@@ -13,7 +13,7 @@ namespace AutoText
 		private static Regex _bracketsRegex = new Regex(@"{{}|{}}", RegexOptions.Compiled);
 
 		public string PhraseText { get; private set; }
-		public string _parsedPhrase;
+		private string _parsedPhrase;
 		public AutotextExpression RootExpression { get; private set; }
 		public List<int> EscapedBrackets { get; private set; }
 
@@ -21,6 +21,7 @@ namespace AutoText
 		{
 			EscapedBrackets = new List<int>();
 			PhraseText = phraseText;
+			PhraseText = string.Format("{{s:{0} 1}}",PhraseText);
 			BuildEscapedBracesList();
 			RootExpression = new AutotextExpression(_parsedPhrase, 0, _parsedPhrase.Length);
 			ParseExpressionsRecursive(RootExpression);

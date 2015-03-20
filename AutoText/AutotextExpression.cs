@@ -39,6 +39,7 @@ namespace AutoText
 
 		public List<Input> GetInput()
 		{
+			{ }
 
 			throw new NotImplementedException();
 		}

@@ -45,12 +45,13 @@ namespace AutoText
 			double charD = Char.GetNumericValue('\t');
 			int charInt = Convert.ToInt32('\t');
 			char tab = Convert.ToChar(164);
+			/*
 			Thread.Sleep(5000);
 			InputSimulator.SimulateKeyPress((Keys)164);
 			Thread.Sleep(1000);
 			InputSimulator.SimulateKeyPress('ф');
 			Thread.Sleep(500000);
-
+			*/
 
 			_rules = ConfigHelper.GetAutotextRules();
 			_matcher = new AutotextMatcher(_keylogger, _rules);

@@ -12,6 +12,7 @@ namespace AutoText.Helpers
 		public static void ProcessRule(AutotextRuleConfig rule)
 		{
 			AutotextPhrase phrase = new AutotextPhrase(rule.Phrase);
+			List<Input> input = phrase.RootExpression.GetInput();
 			{ }
 		}
 	}

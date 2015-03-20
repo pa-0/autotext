@@ -58,7 +58,7 @@ namespace AutoText
 
 			res.MacrosName = matchedConfig.ShortName;
 
-			MatchCollection macrosParameters = Regex.Matches(macrosText, matchedConfig.ExplicitParametersRegex, RegexOptions.Singleline | RegexOptions.IgnoreCase);
+			MatchCollection macrosParameters = Regex.Matches(macrosText, regex, RegexOptions.Singleline | RegexOptions.IgnoreCase);
 
 			foreach (MacrosConfigParameter parameter in matchedConfig.MacrosParametrers)
 			{
