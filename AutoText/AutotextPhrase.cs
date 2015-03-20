@@ -23,8 +23,9 @@ namespace AutoText
 			PhraseText = phraseText;
 			PhraseText = string.Format("{{s:{0} 1}}",PhraseText);
 			BuildEscapedBracesList();
-			RootExpression = new AutotextExpression(_parsedPhrase, 0, _parsedPhrase.Length);
-			ParseExpressionsRecursive(RootExpression);
+			AutotextExpression rootExpr = new AutotextExpression(_parsedPhrase, 0, _parsedPhrase.Length);
+			ParseExpressionsRecursive(rootExpr);
+			RootExpression = rootExpr.NestedExpressions[0];
 			{ }
 		}
 
@@ -34,37 +35,38 @@ namespace AutoText
 			string[] splitted = _bracketsRegex.Split(PhraseText);
 			StringBuilder resStr = new StringBuilder(1000);
 
+			Stack<string> splittedStr = new Stack<string>(splitted.Reverse());
+			Stack<string> braces = new Stack<string>(matches.Cast<Match>().Select(p => p.Value).Reverse());
 
-			for (int i = 0; i < splitted.Length; i++)
+			while (splittedStr.Count > 0)
 			{
-				if (i < matches.Count)
+				resStr.Append(splittedStr.Pop());
+
+				if (braces.Count > 0)
 				{
-					if (matches[i].Value == OpenBraceEscapeSeq)
+					string escapedBrace = braces.Pop();
+
+					if (escapedBrace == OpenBraceEscapeSeq)
 					{
-						resStr.Append(splitted[i] + "{");
+						resStr.Append("{");
 					}
 
-					if (matches[i].Value == ClosingBraceEscapeSeq)
+					if (escapedBrace == ClosingBraceEscapeSeq)
 					{
-						resStr.Append(splitted[i] + "}");
+						resStr.Append("}");
 					}
 
 					EscapedBrackets.Add(resStr.Length - 1);
-				}
-				else
-				{
-					resStr.Append(splitted[i]);
 				}
 			}
 
 			if (resStr.Length > 0)
 			{
-				_parsedPhrase = resStr.ToString(); ;
+				_parsedPhrase = resStr.ToString();
 			}
 			else
 			{
 				_parsedPhrase = PhraseText;
-
 			}
 		}
 

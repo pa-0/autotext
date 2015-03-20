@@ -33,6 +33,8 @@ namespace AutoText
 
 			List<Input> result = new List<Input>(1000);
 
+			Macros macros = MacrosParser.ParseMacros(ExpressionText);
+			{ }
 
 			throw new NotImplementedException();
 		}
@@ -40,7 +42,7 @@ namespace AutoText
 		public List<Input> GetInput()
 		{
 			{ }
-
+			GenerateExpressionInput();
 			throw new NotImplementedException();
 		}
 	}

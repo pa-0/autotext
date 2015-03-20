@@ -40,7 +40,13 @@ namespace AutoText
 				return a.CompareTo(b);
 			}));
 			*/
+
+			string testStr = "{{}asdasasd{}}asdasdasd{}}";
+
+			Regex bracketsRegex = new Regex(@"{{}|{}}", RegexOptions.Compiled);
+			string[] spl = bracketsRegex.Split(testStr);
 			{ }
+
 
 			double charD = Char.GetNumericValue('\t');
 			int charInt = Convert.ToInt32('\t');

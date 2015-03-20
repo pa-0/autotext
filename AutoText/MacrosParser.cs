@@ -32,7 +32,7 @@ namespace AutoText
 
 	public class MacrosParser
 	{
-		public static Macros Parse(string macrosText)
+		public static Macros ParseMacros(string macrosText)
 		{
 			MacrosesConfiguration macrosesConfig = ConfigHelper.GetMacrosesConfiguration();
 			Macros res = new Macros();
@@ -51,7 +51,7 @@ namespace AutoText
 				if (Regex.IsMatch(macrosText, macrosConfig.ImplicitParametersRegex))
 				{
 					matchedConfig = macrosConfig;
-					regex = macrosConfig.ExplicitParametersRegex;
+					regex = macrosConfig.ImplicitParametersRegex;
 					break;
 				}
 			}
