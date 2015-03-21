@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Runtime.InteropServices;
+using System.Runtime.Serialization;
 using System.Windows.Forms;
+#pragma warning disable 1591
 
 namespace WindowsInput
 {
@@ -237,7 +239,7 @@ namespace WindowsInput
 				down.Data.Keyboard.Flags |= (UInt32)KeyboardFlag.EXTENDEDKEY;
 			}
 
-			uint numberOfSuccessfulSimulatedInputs = SendInput((UInt32)inputStrBytes.Length * 2, inputList, Marshal.SizeOf(typeof(INPUT)));
+			uint numberOfSuccessfulSimulatedInputs = SendInput(1, inputList, Marshal.SizeOf(typeof(INPUT)));
 			if (numberOfSuccessfulSimulatedInputs == 0) throw new Exception(string.Format("The key down simulation for {0} was not successful.", key));
 		}
 
@@ -270,7 +272,7 @@ namespace WindowsInput
 			}
 
 			inputList[0] = up;
-			uint numberOfSuccessfulSimulatedInputs = SendInput((UInt32)1, inputList, Marshal.SizeOf(typeof(INPUT)));
+			uint numberOfSuccessfulSimulatedInputs = SendInput(1, inputList, Marshal.SizeOf(typeof(INPUT)));
 		}
 
 		/// <summary>
@@ -337,6 +339,15 @@ namespace WindowsInput
 			SimulateKeyUp(key);
 		}
 
+		public static void SimulateInputSequence(params INPUT[] input)
+		{
+			uint numberOfSuccessfulSimulatedInputs = SendInput((UInt32)input.Length, input, Marshal.SizeOf(typeof(INPUT)));
+
+			if (numberOfSuccessfulSimulatedInputs < input.Length)
+			{
+				throw new InputSimulationException("Not all input events simulated successfully");
+			}
+		}
 
 		/// <summary>
 		/// Calls the Win32 SendInput method with a stream of KeyDown and KeyUp messages in order to simulate uninterrupted text entry via the keyboard.
@@ -433,5 +444,75 @@ namespace WindowsInput
 		}
 
 		#endregion
+
+		public static INPUT GetInput(char charToInput, ActionType actionType)
+		{
+			byte[] inputStrBytes = Encoding.Unicode.GetBytes(new char[] { charToInput });
+			ushort scanCode = BitConverter.ToUInt16(inputStrBytes, 0);
+
+			INPUT charInputEvent = new INPUT();
+			charInputEvent.Type = (UInt32)InputType.KEYBOARD;
+			charInputEvent.Data.Keyboard = new KEYBDINPUT();
+			charInputEvent.Data.Keyboard.Vk = 0;
+			charInputEvent.Data.Keyboard.Scan = scanCode;
+			charInputEvent.Data.Keyboard.Flags = (UInt32)KeyboardFlag.UNICODE;
+			charInputEvent.Data.Keyboard.Time = 0;
+			charInputEvent.Data.Keyboard.ExtraInfo = IntPtr.Zero;
+
+
+			if (actionType == ActionType.KeyUp)
+			{
+				charInputEvent.Data.Keyboard.Flags |= (UInt32)KeyboardFlag.KEYUP;
+			}
+
+			if ((scanCode & 0xFF00) == 0xE000)
+			{
+				charInputEvent.Data.Keyboard.Flags |= (UInt32)KeyboardFlag.EXTENDEDKEY;
+			}
+
+			return charInputEvent;
+		}
+
+		public static INPUT GetInput(Keys keyCode, ActionType actionType)
+		{
+			INPUT keyInputEvent = new INPUT();
+			keyInputEvent.Type = (UInt32)InputType.KEYBOARD;
+			keyInputEvent.Data.Keyboard = new KEYBDINPUT();
+			keyInputEvent.Data.Keyboard.Vk = (UInt16)keyCode;
+			keyInputEvent.Data.Keyboard.Scan = 0;
+			keyInputEvent.Data.Keyboard.Flags = 0;
+			keyInputEvent.Data.Keyboard.Time = 0;
+			keyInputEvent.Data.Keyboard.ExtraInfo = IntPtr.Zero;
+
+			if (actionType == ActionType.KeyUp)
+			{
+				keyInputEvent.Data.Keyboard.Flags = (UInt32)KeyboardFlag.KEYUP;
+			}
+
+			return keyInputEvent;
+		}
+
+	}
+
+	public enum ActionType
+	{
+		KeyDown,
+		KeyUp
+	}
+
+	[Serializable]
+	public class InputSimulationException : Exception
+	{
+		public InputSimulationException()
+		{
+		}
+
+		public InputSimulationException(string message) : base(message)
+		{
+		}
+
+		public InputSimulationException(string message, Exception inner) : base(message, inner)
+		{
+		}
 	}
 }

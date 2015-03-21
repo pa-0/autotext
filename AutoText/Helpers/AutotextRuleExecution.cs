@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
 using WindowsInput;
 using AutoText.Helpers.Configuration;
 
@@ -15,71 +17,70 @@ namespace AutoText.Helpers
 			AutotextPhrase phrase = new AutotextPhrase(rule.Phrase);
 			List<Input> input = phrase.RootExpression.GetInput();
 			DoInput(input);
-
-			//string res = string.Concat(input.Select(p => p.CharToInput));
-
 			{ }
+		}
+
+		private static INPUT [] ConverInput(List<Input> input)
+		{
+			INPUT[] inputSimulationArr = input.SelectMany(p =>
+			{
+				List<INPUT> res = new List<INPUT>(500);
+
+				if (p.Type == InputType.UnicodeChar)
+				{
+					if (p.ActionType == InputActionType.Press)
+					{
+						res.Add(InputSimulator.GetInput(p.CharToInput, ActionType.KeyDown));
+						res.Add(InputSimulator.GetInput(p.CharToInput, ActionType.KeyUp));
+					}
+					else if (p.ActionType == InputActionType.KeyDown)
+					{
+						res.Add(InputSimulator.GetInput(p.CharToInput, ActionType.KeyDown));
+					}
+					else if (p.ActionType == InputActionType.KeyUp)
+					{
+						res.Add(InputSimulator.GetInput(p.CharToInput, ActionType.KeyUp));
+					}
+					else
+					{
+						throw new ArgumentOutOfRangeException("InputActionType");
+					}
+				}
+				else if (p.Type == InputType.KeyCode)
+				{
+					if (p.ActionType == InputActionType.Press)
+					{
+						res.Add(InputSimulator.GetInput(p.KeyCodeToInput, ActionType.KeyDown));
+						res.Add(InputSimulator.GetInput(p.KeyCodeToInput, ActionType.KeyUp));
+					}
+					else if (p.ActionType == InputActionType.KeyDown)
+					{
+						res.Add(InputSimulator.GetInput(p.KeyCodeToInput, ActionType.KeyDown));
+					}
+					else if (p.ActionType == InputActionType.KeyUp)
+					{
+						res.Add(InputSimulator.GetInput(p.KeyCodeToInput, ActionType.KeyUp));
+					}
+					else
+					{
+						throw new ArgumentOutOfRangeException("InputActionType");
+					}
+				}
+				else
+				{
+					throw new ArgumentOutOfRangeException("InputActionType");
+				}
+
+				return res;
+			}).ToArray();
+
+			return inputSimulationArr;
 		}
 
 		public static void DoInput(List<Input> input)
 		{
-			foreach (Input inpt in input)
-			{
-				switch (inpt.ActionType)
-				{
-					case InputActionType.KeyDown:
-					{
-						if (inpt.CharToInput != '\0')
-						{
-							InputSimulator.SimulateKeyDown(inpt.CharToInput);
-						}
-						else if (inpt.KeyCodeToInput != 0)
-						{
-							InputSimulator.SimulateKeyDown(inpt.KeyCodeToInput);
-						}
-						else
-						{
-							throw new InvalidOperationException("No iput data found");
-						}
-						break;
-					}
-					case InputActionType.KeyUp:
-					{
-						if (inpt.CharToInput != '\0')
-						{
-							InputSimulator.SimulateKeyUp(inpt.CharToInput);
-						}
-						else if (inpt.KeyCodeToInput != 0)
-						{
-							InputSimulator.SimulateKeyUp(inpt.KeyCodeToInput);
-						}
-						else
-						{
-							throw new InvalidOperationException("No iput data found");
-						}
-						break;
-					}
-
-					case InputActionType.Press:
-					{
-						if (inpt.CharToInput != '\0')
-						{
-							InputSimulator.SimulateKeyPress(inpt.CharToInput);
-						}
-						else if (inpt.KeyCodeToInput != 0)
-						{
-							InputSimulator.SimulateKeyPress(inpt.KeyCodeToInput);
-						}
-						else
-						{
-							throw new InvalidOperationException("No iput data found");
-						}
-						break;
-					}
-					default:
-						throw new ArgumentOutOfRangeException();
-				}
-			}
+			INPUT[] inputSim = ConverInput(input);
+			InputSimulator.SimulateInputSequence(inputSim);
 		}
 	}
 }

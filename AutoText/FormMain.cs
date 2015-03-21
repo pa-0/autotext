@@ -40,6 +40,7 @@ namespace AutoText
 
 		private void FormMain_Load(object sender, EventArgs e)
 		{
+
 			/*
 			Dictionary<string, int> keysEmbeddedValues = new Dictionary<string, int>();
 			Dictionary<string, int> keysOtherValues = new Dictionary<string, int>();
