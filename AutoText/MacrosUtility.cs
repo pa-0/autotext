@@ -28,11 +28,8 @@ namespace AutoText
 		{
 			Parameters = new List<MacrosParameter>(20);
 		}
-	}
 
-	public class MacrosParser
-	{
-		public static Macros ParseMacros(string macrosText)
+		public static Macros Parse(string macrosText)
 		{
 			MacrosesConfiguration macrosesConfig = ConfigHelper.GetMacrosesConfiguration();
 			Macros res = new Macros();
@@ -66,6 +63,36 @@ namespace AutoText
 			}
 
 			return res;
+		}
+
+		public List<Input> GetInput()
+		{
+			switch (MacrosName.ToLower())
+			{
+				case "s":
+				{
+					StringBuilder resStr = new StringBuilder(1000);
+
+					int repeatCount = Int32.Parse(Parameters.Single(p => p.Name == "count").Value);
+					string value = Parameters.Single(p => p.Name == "text").Value;
+
+					for (int i = 0; i < repeatCount; i++)
+					{
+						resStr.Append(value);
+					}
+
+					List<Input> res = Input.FromString(resStr);
+					return res;
+					break;
+				}
+					
+				default:
+				{
+					break;
+				}
+			}
+
+			throw new NotImplementedException();
 		}
 	}
 }

@@ -31,38 +31,9 @@ namespace AutoText
 		{
 			InitializeComponent();
 
-			/*
-			string testStr = "{{}{}}{asdasd{{} sad asd {}} asd asdasd{{} asd asdasd{}}asd{}}{{}{{}";
-//							  {{}{}}{asdasd{{} sad asd {}} asd asdasd{{} asd asdasd{}}asd{}}{{}{{}
-			List<int> res = AutotextRuleExecution.GetEscapedBracesList(ref testStr);
-			res.Sort(new Comparison<int>((a, b) =>
-			{
-				return a.CompareTo(b);
-			}));
-			*/
-
-			string testStr = "{{}asdasasd{}}asdasdasd{}}";
-
-			Regex bracketsRegex = new Regex(@"{{}|{}}", RegexOptions.Compiled);
-			string[] spl = bracketsRegex.Split(testStr);
-			{ }
-
-
-			double charD = Char.GetNumericValue('\t');
-			int charInt = Convert.ToInt32('\t');
-			char tab = Convert.ToChar(164);
-			/*
-			Thread.Sleep(5000);
-			InputSimulator.SimulateKeyPress((Keys)164);
-			Thread.Sleep(1000);
-			InputSimulator.SimulateKeyPress('ф');
-			Thread.Sleep(500000);
-			*/
-
 			_rules = ConfigHelper.GetAutotextRules();
 			_matcher = new AutotextMatcher(_keylogger, _rules);
 			_matcher.MatchFound += _matcher_MatchFound;
-
 			_keylogger.KeyCaptured += _testKeylogger_KeyCaptured;
 			_keylogger.StartCapture();
 		}
@@ -165,7 +136,6 @@ namespace AutoText
 				textBox1.Text += (string.IsNullOrEmpty(e.CapturedCharacter) ? "\"\"" : e.CapturedCharacter) + "\r\n" + string.Join(" | ", e.CapturedKeys) + "\r\n\r\n";
 				textBox1.Select(textBox1.Text.Length, 0);
 				textBox1.ScrollToCaret();
-
 			}));
 		}
 

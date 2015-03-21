@@ -20,12 +20,11 @@ namespace AutoText
 		public AutotextPhrase(string phraseText)
 		{
 			EscapedBrackets = new List<int>();
-			PhraseText = phraseText;
-			PhraseText = string.Format("{{s:{0} 1}}",PhraseText);
+			PhraseText = string.Format("{{s:{0} 1}}", phraseText);
 			BuildEscapedBracesList();
 			AutotextExpression rootExpr = new AutotextExpression(_parsedPhrase, 0, _parsedPhrase.Length);
 			ParseExpressionsRecursive(rootExpr);
-			RootExpression = rootExpr.NestedExpressions[0];
+			RootExpression = rootExpr;
 			{ }
 		}
 
@@ -77,7 +76,7 @@ namespace AutoText
 			int macrosStartIndex = -1;
 			int macrosEndIndex = 0;
 
-			for (int i = 0; i < expression.ExpressionText.Length; i++)
+			for (int i = 1; i < expression.ExpressionText.Length - 1; i++)
 			{
 				if (expression.ExpressionText[i] == '{' && !EscapedBrackets.Contains(i))
 				{
@@ -97,8 +96,8 @@ namespace AutoText
 
 				if (openBraceCounter != 0 && closingBraceCounter != 0 && openBraceCounter == closingBraceCounter)
 				{
-					int macrosLength = macrosEndIndex - macrosStartIndex - 1;
-					AutotextExpression expressionToAdd = new AutotextExpression(expression.ExpressionText.Substring(macrosStartIndex + 1, macrosLength), macrosStartIndex + 1, macrosLength);
+					int macrosLength = (macrosEndIndex + 1) - macrosStartIndex ;
+					AutotextExpression expressionToAdd = new AutotextExpression(expression.ExpressionText.Substring(macrosStartIndex , macrosLength), macrosStartIndex , macrosLength);
 					expression.NestedExpressions.Add(expressionToAdd);
 					macrosStartIndex = -1;
 					macrosEndIndex = 0;

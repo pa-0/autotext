@@ -22,28 +22,28 @@ namespace AutoText
 			NestedExpressions = new List<AutotextExpression>(100);
 		}
 
-		private List<Input> GenerateExpressionInput()
+
+		public List<Input> GetInput()
 		{
 			List<List<Input>> nestedExpressionsInput = new List<List<Input>>();
 
 			for (int i = 0; i < NestedExpressions.Count; i++)
 			{
-				nestedExpressionsInput.Add(NestedExpressions[i].GenerateExpressionInput());
+				nestedExpressionsInput.Add(NestedExpressions[i].GetInput());
 			}
 
-			List<Input> result = new List<Input>(1000);
+			StringBuilder sbExpressionText = new StringBuilder(ExpressionText);
 
-			Macros macros = MacrosParser.ParseMacros(ExpressionText);
-			{ }
+			for (int i = 0; i < nestedExpressionsInput.Count; i++)
+			{
+				AutotextExpression exp = NestedExpressions[i];
+				sbExpressionText.Remove(exp.StartIndex, exp.Length );
+				sbExpressionText.Insert(exp.StartIndex, string.Concat(nestedExpressionsInput[i].Select(p => p.CharToInput)));
+			}
 
-			throw new NotImplementedException();
-		}
-
-		public List<Input> GetInput()
-		{
-			{ }
-			GenerateExpressionInput();
-			throw new NotImplementedException();
+			Macros macros = Macros.Parse(sbExpressionText.ToString());
+			List<Input> res = macros.GetInput();
+			return res;
 		}
 	}
 }

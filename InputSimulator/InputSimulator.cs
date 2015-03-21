@@ -273,7 +273,6 @@ namespace WindowsInput
 			uint numberOfSuccessfulSimulatedInputs = SendInput((UInt32)1, inputList, Marshal.SizeOf(typeof(INPUT)));
 		}
 
-
 		/// <summary>
 		/// Calls the Win32 SendInput method to simulate a Key UP.
 		/// </summary>
@@ -332,7 +331,7 @@ namespace WindowsInput
 		/// 
 		/// </summary>
 		/// <param name="key"></param>
-		public static void SimulateKeyPress(Char key)
+		public static void SimulateKeyPress(char key)
 		{
 			SimulateKeyDown(key);
 			SimulateKeyUp(key);

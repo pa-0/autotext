@@ -89,7 +89,7 @@
     <Compile Include="Input.cs" />
     <Compile Include="KeyCapturedEventArgs.cs" />
     <Compile Include="KeyLogger.cs" />
-    <Compile Include="MacrosParser.cs" />
+    <Compile Include="MacrosUtility.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Content Include="Keycodes.xml">
