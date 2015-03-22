@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using AutoText.Helpers;
 using AutoText.Helpers.Configuration;
-using AutoText.Helpers.Extensions;
 
 namespace AutoText
 {
@@ -22,18 +20,18 @@ namespace AutoText
 		public List<AutotextExpression> NestedExpressions { get; private set; }
 		private List<int> EscapedBraces { get; set; }
 		public string ExpressionName { get; private set; }
-		public List<ExpressionParameter> Parameters { get; private set; }
+		public List<AutotextExpressionParameter> Parameters { get; private set; }
 		public AutotextExpression ParentExpression { get; private set; }
 
 
-		public AutotextExpression(string expressionText, int startIndex, int length)
+		public AutotextExpression(string expressionText)
 		{
-			ExpressionText = expressionText;
-			RelativeStartIndex = startIndex;
-			Length = length;
+			ExpressionText = string.Format("{{s:{0} 1}}", expressionText);
+			RelativeStartIndex = 0;
+			Length = ExpressionText.Length;
 			EscapedBraces = new List<int>(100);
 			NestedExpressions = new List<AutotextExpression>(100);
-			Parameters = new List<ExpressionParameter>(20);
+			Parameters = new List<AutotextExpressionParameter>(20);
 			BuildEscapedBracesList();
 			ParseExpression(_parsedExpressionText);
 		}
@@ -45,7 +43,7 @@ namespace AutoText
 			RelativeStartIndex = startIndex;
 			Length = length;
 			NestedExpressions = new List<AutotextExpression>(100);
-			Parameters = new List<ExpressionParameter>(20);
+			Parameters = new List<AutotextExpressionParameter>(20);
 			EscapedBraces = escapedBraces;
 			ParseExpression(ExpressionText);
 		}
@@ -136,7 +134,7 @@ namespace AutoText
 			for (int i = 0; i < matchedConfig.MacrosParametrers.Count; i++)
 			{
 				ExpressionConfigParameter parameter = matchedConfig.MacrosParametrers[i];
-				Parameters.Add(new ExpressionParameter(parameter.Name, macrosParameters[0].Groups[parameter.Name].Value,
+				Parameters.Add(new AutotextExpressionParameter(parameter.Name, macrosParameters[0].Groups[parameter.Name].Value,
 					macrosParameters[0].Groups[parameter.Name].Index, macrosParameters[0].Groups[parameter.Name].Length));
 			}
 
@@ -204,18 +202,18 @@ namespace AutoText
 			#endregion
 		}
 
-		public List<Input> GetInput()
+		public List<AutotextInput> GetInput()
 		{
 			//Generate nested expressions result
-			List<List<Input>> nestedExpressionsInput = NestedExpressions.Select(t => t.GetInput()).ToList();
+			List<List<AutotextInput>> nestedExpressionsInput = NestedExpressions.Select(t => t.GetInput()).ToList();
 
-			Dictionary<string, List<Input>> parameters = new Dictionary<string, List<Input>>(20);
+			Dictionary<string, List<AutotextInput>> parameters = new Dictionary<string, List<AutotextInput>>(20);
 
 			//Replace macros definitions to macros evaluation results in the parameters before current expression evaluation
 			for (int i = 0; i < Parameters.Count; i++)
 			{
-				ExpressionParameter param = Parameters[i];
-				List<Input> paramInputs = Input.FromString(param.Value);
+				AutotextExpressionParameter param = Parameters[i];
+				List<AutotextInput> paramInputs = AutotextInput.FromString(param.Value);
 
 				for (int j = 0; j < NestedExpressions.Count; j++)
 				{
@@ -244,11 +242,11 @@ namespace AutoText
 				parameters.Add(param.Name, paramInputs);
 			}
 
-			List<Input> res = Evaluate(ExpressionName, parameters);
+			List<AutotextInput> res = Evaluate(ExpressionName, parameters);
 			return res;
 		}
 
-		private static List<Input> Evaluate(string macrosName, Dictionary<string, List<Input>> macrosParameters)
+		private static List<AutotextInput> Evaluate(string macrosName, Dictionary<string, List<AutotextInput>> macrosParameters)
 		{
 			switch (macrosName.ToLower())
 			{
@@ -264,7 +262,7 @@ namespace AutoText
 						resStr.Append(value);
 					}
 
-					List<Input> res = Input.FromString(resStr);
+					List<AutotextInput> res = AutotextInput.FromString(resStr);
 					return res;
 					break;
 				}

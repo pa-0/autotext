@@ -15,14 +15,13 @@ namespace AutoText.Helpers
 	{
 		public static void ProcessRule(AutotextRuleConfig rule)
 		{
-			AutotextPhrase phrase = new AutotextPhrase(rule.Phrase);
-			List<Input> input = phrase.RootExpression.GetInput();
+			AutotextExpression expression = new AutotextExpression(rule.Phrase);
+			List<AutotextInput> input = expression.GetInput();
 			string resStr = input.ToStringConcat();
 			DoInput(input);
-			{ }
 		}
 
-		private static INPUT [] ConverInput(List<Input> input)
+		private static INPUT [] ConverInput(List<AutotextInput> input)
 		{
 			INPUT[] inputSimulationArr = input.SelectMany(p =>
 			{
@@ -79,7 +78,7 @@ namespace AutoText.Helpers
 			return inputSimulationArr;
 		}
 
-		public static void DoInput(List<Input> input)
+		public static void DoInput(List<AutotextInput> input)
 		{
 			INPUT[] inputSim = ConverInput(input);
 			InputSimulator.SimulateInputSequence(inputSim);

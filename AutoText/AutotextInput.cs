@@ -6,7 +6,7 @@ using System.Windows.Forms;
 
 namespace AutoText
 {
-	public struct Input
+	public struct AutotextInput
 	{
 		public InputType Type { get; set; }
 		public InputActionType ActionType { get; set; }
@@ -14,18 +14,18 @@ namespace AutoText
 		public Keys KeyCodeToInput { get; set; }
 
 
-		public static List<Input> FromString(string str)
+		public static List<AutotextInput> FromString(string str)
 		{
 			return FromString(new StringBuilder(str));
 		}
 
-		public static List<Input> FromString(StringBuilder stringBuilder)
+		public static List<AutotextInput> FromString(StringBuilder stringBuilder)
 		{
-			List<Input> res = new List<Input>(1000);
+			List<AutotextInput> res = new List<AutotextInput>(1000);
 
 			for (int i = 0; i < stringBuilder.Length; i++)
 			{
-				res.Add(new Input() { ActionType = InputActionType.Press, CharToInput = stringBuilder[i] });
+				res.Add(new AutotextInput() { ActionType = InputActionType.Press, CharToInput = stringBuilder[i] });
 			}
 
 			return res;
