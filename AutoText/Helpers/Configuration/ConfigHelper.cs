@@ -10,7 +10,7 @@ namespace AutoText.Helpers.Configuration
 {
 	public class ConfigHelper
 	{
-		private static MacrosesConfiguration _macrosConfig;
+		private static ExpressionConfiguration _macrosConfig;
 		private static KeycodesConfiguration _keycodesConfig;
 		private static List<AutotextRuleConfig> _autotextConfig;
 
@@ -77,16 +77,15 @@ namespace AutoText.Helpers.Configuration
 
 		}
 
-		public static MacrosesConfiguration GetMacrosesConfiguration()
+		public static ExpressionConfiguration GetMacrosesConfiguration()
 		{
 			if (_macrosConfig != null)
 			{
 				return _macrosConfig;
 			}
 
-			_macrosConfig = DeserailizeXml<MacrosesConfiguration>(@"MacrosDefinitions.xml");
+			_macrosConfig = DeserailizeXml<ExpressionConfiguration>(@"ExpressionDefinitions.xml");
 			return _macrosConfig;
 		}
-
 	}
 }

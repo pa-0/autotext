@@ -7,6 +7,7 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using WindowsInput;
 using AutoText.Helpers.Configuration;
+using AutoText.Helpers.Extensions;
 
 namespace AutoText.Helpers
 {
@@ -16,6 +17,7 @@ namespace AutoText.Helpers
 		{
 			AutotextPhrase phrase = new AutotextPhrase(rule.Phrase);
 			List<Input> input = phrase.RootExpression.GetInput();
+			string resStr = input.ToStringConcat();
 			DoInput(input);
 			{ }
 		}

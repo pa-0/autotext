@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<expressionsConfiguration xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" >
+
+	<expressionNameSuffixStr ><![CDATA[:]]></expressionNameSuffixStr>
+	<expressionParameterPrefix ><![CDATA[-]]></expressionParameterPrefix>
+	<expressionParameterAssignmentStr ><![CDATA[=]]></expressionParameterAssignmentStr>
+	<expressionNameRegex ><![CDATA[=]]></expressionNameRegex>
+
+	<expressionDefinitions>
+
+		<expression name="PrintString" shortName="s" >
+			<description>Outputs a string</description>
+			
+			<explicitParamsRegex><![CDATA[^\{s: *-text=("{1})(?<text>.+)(\1) *-count=(?<count>[1-9][0-9]*) *\}$]]></explicitParamsRegex>
+			<implicitParamsRegex><![CDATA[^\{s:(?<text>.+) {1}(?<count>([1-9][0-9]*)|(\{.+\}){1}) *\}$]]></implicitParamsRegex>
+			<!--^(k:)? *(?<keycode>PageUp|Down) +(?<action>[-+]|[1-9][0-9]*|on|off|t|toggle) *$-->
+			<parameters>
+
+				<parameter name="text" allowOmitName="true">
+					<allowedDataTypes>
+						<dataType name="string" />
+					</allowedDataTypes>
+				</parameter>
+
+				<parameter name="count"  allowOmitName="true">
+					<allowedDataTypes>
+						<dataType name="int" />
+					</allowedDataTypes>
+				</parameter>
+
+			</parameters>
+
+		</expression>
+
+	</expressionDefinitions>
+
+</expressionsConfiguration>

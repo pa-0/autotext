@@ -9,59 +9,57 @@ using AutoText.Helpers.Extensions;
 
 namespace AutoText
 {
-	public class MacrosParameter
-	{
-		public string Name { get; private set; }
-		public string Value { get; private set; }
-		public int StartIndex { get; private set; }
-		public int Length { get; private set; }
-
-		public MacrosParameter(string name, string value, int startIndex, int length)
-		{
-			Name = name;
-			Value = value;
-			StartIndex = startIndex;
-			Length = length;
-		}
-	}
-
 	public class AutotextExpression
 	{
 		private const string OpenBraceEscapeSeq = "{{}";
 		private const string ClosingBraceEscapeSeq = "{}}";
-		private static Regex _bracketsRegex = new Regex(@"{{}|{}}", RegexOptions.Compiled);
+		private static readonly Regex _bracketsRegex = new Regex(@"{{}|{}}", RegexOptions.Compiled);
 
 		public string ExpressionText { get; private set; }
 		private string _parsedExpressionText;
-		public int StartIndex { get; private set; }
+		public int RelativeStartIndex { get; private set; }
 		public int Length { get; private set; }
 		public List<AutotextExpression> NestedExpressions { get; private set; }
 		private List<int> EscapedBraces { get; set; }
-		public string MacrosName { get; private set; }
-		public List<MacrosParameter> Parameters { get; private set; }
+		public string ExpressionName { get; private set; }
+		public List<ExpressionParameter> Parameters { get; private set; }
+		public AutotextExpression ParentExpression { get; private set; }
 
 
 		public AutotextExpression(string expressionText, int startIndex, int length)
 		{
 			ExpressionText = expressionText;
-			StartIndex = startIndex;
+			RelativeStartIndex = startIndex;
 			Length = length;
 			EscapedBraces = new List<int>(100);
 			NestedExpressions = new List<AutotextExpression>(100);
-			Parameters = new List<MacrosParameter>(20);
+			Parameters = new List<ExpressionParameter>(20);
 			BuildEscapedBracesList();
 			ParseExpression(_parsedExpressionText);
 		}
 
-		public AutotextExpression(string expressionText, int startIndex, int length, List<int> escapedBraces)
+		private AutotextExpression(string expressionText, int startIndex, int length, List<int> escapedBraces, AutotextExpression parentExpression)
 		{
+			ParentExpression = parentExpression;
 			ExpressionText = expressionText;
-			StartIndex = startIndex;
+			RelativeStartIndex = startIndex;
 			Length = length;
 			NestedExpressions = new List<AutotextExpression>(100);
-			Parameters = new List<MacrosParameter>(20);
+			Parameters = new List<ExpressionParameter>(20);
 			EscapedBraces = escapedBraces;
 			ParseExpression(ExpressionText);
+		}
+
+		private int GetAbsoluteStartIndex()
+		{
+			int index = RelativeStartIndex;
+
+			if (ParentExpression != null)
+			{
+				index += ParentExpression.GetAbsoluteStartIndex();
+			}
+
+			return index;
 		}
 
 		private void BuildEscapedBracesList()
@@ -107,11 +105,13 @@ namespace AutoText
 
 		private void ParseExpression(string expressionText)
 		{
-			MacrosesConfiguration macrosesConfig = ConfigHelper.GetMacrosesConfiguration();
-			MacrosConfigDefinition matchedConfig = null;
+			#region Parameters parsing
+
+			ExpressionConfiguration macrosesConfig = ConfigHelper.GetMacrosesConfiguration();
+			ExpressionConfigDefinition matchedConfig = null;
 			string regex = null;
 
-			foreach (MacrosConfigDefinition macrosConfig in macrosesConfig.MacrosDefinitions)
+			foreach (ExpressionConfigDefinition macrosConfig in macrosesConfig.MacrosDefinitions)
 			{
 				if (Regex.IsMatch(expressionText, macrosConfig.ExplicitParametersRegex))
 				{
@@ -128,35 +128,43 @@ namespace AutoText
 				}
 			}
 
-			MacrosName = matchedConfig.ShortName;
+			ExpressionName = matchedConfig.ShortName;
 
-			MatchCollection macrosParameters = Regex.Matches(expressionText, regex, RegexOptions.Singleline | RegexOptions.IgnoreCase);
+			MatchCollection macrosParameters = Regex.Matches(expressionText, regex,
+				RegexOptions.Singleline | RegexOptions.IgnoreCase);
 
 			for (int i = 0; i < matchedConfig.MacrosParametrers.Count; i++)
 			{
-				MacrosConfigParameter parameter = matchedConfig.MacrosParametrers[i];
-				Parameters.Add(new MacrosParameter(parameter.Name, macrosParameters[0].Groups[parameter.Name].Value, macrosParameters[0].Groups[parameter.Name].Index, macrosParameters[0].Groups[parameter.Name].Length));
+				ExpressionConfigParameter parameter = matchedConfig.MacrosParametrers[i];
+				Parameters.Add(new ExpressionParameter(parameter.Name, macrosParameters[0].Groups[parameter.Name].Value,
+					macrosParameters[0].Groups[parameter.Name].Index, macrosParameters[0].Groups[parameter.Name].Length));
 			}
-/*-------------------------------------------------------------------------------------------------------------------------------*/
+
+			#endregion
+
+
+			#region Nested expressions parsing
 
 			int openBraceCounter = 0;
 			int closingBraceCounter = 0;
-			int macrosStartIndex = -1;
+			int nestedExpressionStartIndex = -1;
 			int macrosEndIndex = 0;
+			int absStartIndex = GetAbsoluteStartIndex();
+
 
 			for (int i = 1; i < expressionText.Length - 1; i++)
 			{
-				if (expressionText[i] == '{' && !EscapedBraces.Contains(i))
+				if (expressionText[i] == '{' && !EscapedBraces.Contains(absStartIndex + i))
 				{
 					openBraceCounter++;
 
-					if (macrosStartIndex == -1)
+					if (nestedExpressionStartIndex == -1)
 					{
-						macrosStartIndex = i;
+						nestedExpressionStartIndex = i;
 					}
 				}
 
-				if (expressionText[i] == '}' && !EscapedBraces.Contains(i))
+				if (expressionText[i] == '}' && !EscapedBraces.Contains(absStartIndex + i))
 				{
 					closingBraceCounter++;
 					macrosEndIndex = i;
@@ -164,10 +172,16 @@ namespace AutoText
 
 				if (openBraceCounter != 0 && closingBraceCounter != 0 && openBraceCounter == closingBraceCounter)
 				{
-					int macrosLength = (macrosEndIndex + 1) - macrosStartIndex;
-					AutotextExpression expressionToAdd = new AutotextExpression(expressionText.Substring(macrosStartIndex, macrosLength), macrosStartIndex, macrosLength, EscapedBraces);
+					int nestedExpressionLength = (macrosEndIndex + 1) - nestedExpressionStartIndex;
+					AutotextExpression expressionToAdd =
+						new AutotextExpression(expressionText.Substring(nestedExpressionStartIndex, nestedExpressionLength),
+							nestedExpressionStartIndex,
+							nestedExpressionLength,
+							EscapedBraces,
+							this);
+
 					NestedExpressions.Add(expressionToAdd);
-					macrosStartIndex = -1;
+					nestedExpressionStartIndex = -1;
 					macrosEndIndex = 0;
 					openBraceCounter = 0;
 					closingBraceCounter = 0;
@@ -186,45 +200,82 @@ namespace AutoText
 					throw new InvalidOperationException("Closing brace not found");
 				}
 			}
+
+			#endregion
 		}
 
 		public List<Input> GetInput()
 		{
-			List<List<Input>> nestedExpressionsInput = new List<List<Input>>();
+			//Generate nested expressions result
+			List<List<Input>> nestedExpressionsInput = NestedExpressions.Select(t => t.GetInput()).ToList();
 
-			for (int i = 0; i < NestedExpressions.Count; i++)
-			{
-				nestedExpressionsInput.Add(NestedExpressions[i].GetInput());
-			}
+			Dictionary<string, List<Input>> parameters = new Dictionary<string, List<Input>>(20);
 
-			Dictionary<string,List<Input>> parameters = new Dictionary<string, List<Input>>(20);
-
+			//Replace macros definitions to macros evaluation results in the parameters before current expression evaluation
 			for (int i = 0; i < Parameters.Count; i++)
 			{
-				MacrosParameter param = Parameters[i];
-				bool paramAdded = false;
+				ExpressionParameter param = Parameters[i];
 				List<Input> paramInputs = Input.FromString(param.Value);
 
 				for (int j = 0; j < NestedExpressions.Count; j++)
 				{
-					if ( NestedExpressions[j].StartIndex >= param.StartIndex 
-						&& (NestedExpressions[j].StartIndex + NestedExpressions[j].Length) <= (param.StartIndex + param.Length))
+					if ( NestedExpressions[j].RelativeStartIndex >= param.RelativeStartIndex 
+						&& (NestedExpressions[j].RelativeStartIndex + NestedExpressions[j].Length) <= (param.RelativeStartIndex + param.Length))
 					{
-						paramAdded = true;
-						paramInputs.RemoveRange(NestedExpressions[j].StartIndex - param.StartIndex, NestedExpressions[j].Length);
-						paramInputs.InsertRange(NestedExpressions[j].StartIndex - param.StartIndex, nestedExpressionsInput[j]);
-						parameters.Add(param.Name, paramInputs);
+						int lengthDiff = NestedExpressions[j].Length - nestedExpressionsInput[j].Count;
+						paramInputs.RemoveRange(NestedExpressions[j].RelativeStartIndex - param.RelativeStartIndex, NestedExpressions[j].Length);
+						paramInputs.InsertRange(NestedExpressions[j].RelativeStartIndex - param.RelativeStartIndex, nestedExpressionsInput[j]);
+						param.Length -= lengthDiff;
+
+						//Correct subsequent parameter start index
+						for (int k = i + 1; k < Parameters.Count; k++)
+						{
+							Parameters[k].RelativeStartIndex -= lengthDiff;
+						}
+
+						//Correct subsequent expressions start index
+						for (int k = j + 1; k < NestedExpressions.Count; k++)
+						{
+							NestedExpressions[k].RelativeStartIndex -= lengthDiff;
+						}
 					}
 				}
 
-				if (!paramAdded)
+				parameters.Add(param.Name, paramInputs);
+			}
+
+			List<Input> res = Evaluate(ExpressionName, parameters);
+			return res;
+		}
+
+		private static List<Input> Evaluate(string macrosName, Dictionary<string, List<Input>> macrosParameters)
+		{
+			switch (macrosName.ToLower())
+			{
+				case "s":
 				{
-					parameters.Add(param.Name, paramInputs);
+					StringBuilder resStr = new StringBuilder(1000);
+
+					int repeatCount = Int32.Parse(String.Concat(macrosParameters["count"].Select(p => p.CharToInput)));
+					string value = String.Concat(macrosParameters["text"].Select(p => p.CharToInput));
+
+					for (int i = 0; i < repeatCount; i++)
+					{
+						resStr.Append(value);
+					}
+
+					List<Input> res = Input.FromString(resStr);
+					return res;
+					break;
+				}
+
+				default:
+				{
+					throw new ArgumentOutOfRangeException("macrosName");
 				}
 			}
 
-			List<Input> res = Macros.Evaluate(MacrosName, parameters);
-			return res;
+			throw new NotImplementedException();
 		}
 	}
 }

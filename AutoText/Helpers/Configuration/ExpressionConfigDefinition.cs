@@ -6,7 +6,7 @@ using System.Xml.Serialization;
 
 namespace AutoText.Helpers.Configuration
 {
-	public class MacrosConfigDefinition
+	public class ExpressionConfigDefinition
 	{
 		[XmlAttribute("name")]
 		public string Name { get; set; }
@@ -20,6 +20,6 @@ namespace AutoText.Helpers.Configuration
 		public string ImplicitParametersRegex { get; set; }
 
 		[XmlArray("parameters"), XmlArrayItem("parameter")]
-		public List<MacrosConfigParameter> MacrosParametrers { get; set; }
+		public List<ExpressionConfigParameter> MacrosParametrers { get; set; }
 	}
 }

@@ -6,7 +6,7 @@ using System.Xml.Serialization;
 
 namespace AutoText.Helpers.Configuration
 {
-	public class MacrosConfigParameter
+	public class ExpressionConfigParameter
 	{
 		[XmlAttribute("allowOmitName")]
 		public bool AllowOmitName { get; set; }
