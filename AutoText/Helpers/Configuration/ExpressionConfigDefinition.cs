@@ -20,6 +20,6 @@ namespace AutoText.Helpers.Configuration
 		public string ImplicitParametersRegex { get; set; }
 
 		[XmlArray("parameters"), XmlArrayItem("parameter")]
-		public List<ExpressionConfigParameter> MacrosParametrers { get; set; }
+		public List<ExpressionConfigParameter> ExpessionParametrers { get; set; }
 	}
 }

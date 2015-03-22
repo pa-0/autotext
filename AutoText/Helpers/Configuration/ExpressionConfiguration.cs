@@ -10,14 +10,14 @@ namespace AutoText.Helpers.Configuration
 	public class ExpressionConfiguration
 	{
 		[XmlElement("expressionNameSuffixStr")]
-		public string MacrosNameSuffix { get; set; }
+		public string ExpressionNameSuffix { get; set; }
 		[XmlElement("expressionParameterPrefix")]
-		public string MacrosParameterPrefix { get; set; }
+		public string ExpressionParameterPrefix { get; set; }
 		[XmlElement("expressionParameterAssignmentStr")]
-		public string MacrosParameterAssigmentString { get; set; }
+		public string ExpressionParameterAssigmentString { get; set; }
 
 		[XmlArray("expressionDefinitions"), XmlArrayItem("expression")]
-		public List<ExpressionConfigDefinition> MacrosDefinitions { get; set; }
+		public List<ExpressionConfigDefinition> ExpressionDefinitions { get; set; }
 
 	}
 }

@@ -110,33 +110,33 @@ namespace AutoText
 			ExpressionConfigDefinition matchedConfig = null;
 			string regex = null;
 
-			foreach (ExpressionConfigDefinition macrosConfig in expressionConfig.MacrosDefinitions)
+			foreach (ExpressionConfigDefinition expressionConfigDefinition in expressionConfig.ExpressionDefinitions)
 			{
-				if (Regex.IsMatch(expressionText, macrosConfig.ExplicitParametersRegex,RegexOptions.IgnoreCase|RegexOptions.Compiled))
+				if (Regex.IsMatch(expressionText, expressionConfigDefinition.ExplicitParametersRegex,RegexOptions.IgnoreCase|RegexOptions.Compiled))
 				{
-					matchedConfig = macrosConfig;
-					regex = macrosConfig.ExplicitParametersRegex;
+					matchedConfig = expressionConfigDefinition;
+					regex = expressionConfigDefinition.ExplicitParametersRegex;
 					break;
 				}
 
-				if (Regex.IsMatch(expressionText, macrosConfig.ImplicitParametersRegex, RegexOptions.IgnoreCase | RegexOptions.Compiled))
+				if (Regex.IsMatch(expressionText, expressionConfigDefinition.ImplicitParametersRegex, RegexOptions.IgnoreCase | RegexOptions.Compiled))
 				{
-					matchedConfig = macrosConfig;
-					regex = macrosConfig.ImplicitParametersRegex;
+					matchedConfig = expressionConfigDefinition;
+					regex = expressionConfigDefinition.ImplicitParametersRegex;
 					break;
 				}
 			}
 
 			ExpressionName = matchedConfig.ShortName;
 
-			MatchCollection macrosParameters = Regex.Matches(expressionText, regex,
+			MatchCollection expressionParameters = Regex.Matches(expressionText, regex,
 				RegexOptions.Singleline | RegexOptions.IgnoreCase);
 
-			for (int i = 0; i < matchedConfig.MacrosParametrers.Count; i++)
+			for (int i = 0; i < matchedConfig.ExpessionParametrers.Count; i++)
 			{
-				ExpressionConfigParameter parameter = matchedConfig.MacrosParametrers[i];
-				Parameters.Add(new AutotextExpressionParameter(parameter.Name, macrosParameters[0].Groups[parameter.Name].Value,
-					macrosParameters[0].Groups[parameter.Name].Index, macrosParameters[0].Groups[parameter.Name].Length));
+				ExpressionConfigParameter parameter = matchedConfig.ExpessionParametrers[i];
+				Parameters.Add(new AutotextExpressionParameter(parameter.Name, expressionParameters[0].Groups[parameter.Name].Value,
+					expressionParameters[0].Groups[parameter.Name].Index, expressionParameters[0].Groups[parameter.Name].Length));
 			}
 
 			#endregion
@@ -147,7 +147,7 @@ namespace AutoText
 			int openBraceCounter = 0;
 			int closingBraceCounter = 0;
 			int nestedExpressionStartIndex = -1;
-			int macrosEndIndex = 0;
+			int exprEndIndex = 0;
 			int absStartIndex = GetAbsoluteStartIndex();
 
 
@@ -166,12 +166,12 @@ namespace AutoText
 				if (expressionText[i] == '}' && !EscapedBraces.Contains(absStartIndex + i))
 				{
 					closingBraceCounter++;
-					macrosEndIndex = i;
+					exprEndIndex = i;
 				}
 
 				if (openBraceCounter != 0 && closingBraceCounter != 0 && openBraceCounter == closingBraceCounter)
 				{
-					int nestedExpressionLength = (macrosEndIndex + 1) - nestedExpressionStartIndex;
+					int nestedExpressionLength = (exprEndIndex + 1) - nestedExpressionStartIndex;
 					AutotextExpression expressionToAdd =
 						new AutotextExpression(expressionText.Substring(nestedExpressionStartIndex, nestedExpressionLength),
 							nestedExpressionStartIndex,
@@ -181,7 +181,7 @@ namespace AutoText
 
 					NestedExpressions.Add(expressionToAdd);
 					nestedExpressionStartIndex = -1;
-					macrosEndIndex = 0;
+					exprEndIndex = 0;
 					openBraceCounter = 0;
 					closingBraceCounter = 0;
 				}
@@ -210,7 +210,7 @@ namespace AutoText
 
 			Dictionary<string, List<AutotextInput>> parameters = new Dictionary<string, List<AutotextInput>>(20);
 
-			//Replace macros definitions to macros evaluation results in the parameters before current expression evaluation
+			//Replace expression definitions to expression evaluation results in the parameters before current expression evaluation
 			for (int i = 0; i < Parameters.Count; i++)
 			{
 				AutotextExpressionParameter param = Parameters[i];
