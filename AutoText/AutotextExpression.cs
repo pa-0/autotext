@@ -253,7 +253,14 @@ namespace AutoText
 			{
 				case "s":
 				{
-					int repeatCount = Int32.Parse(String.Concat(expressionParameters["count"].Select(p => p.CharToInput)));
+					string count = String.Concat(expressionParameters["count"].Select(p => p.CharToInput));
+
+					if (count == "")
+					{
+						count = "1";
+					}
+
+					int repeatCount = Int32.Parse(count);
 					List<AutotextInput> res = new List<AutotextInput>(repeatCount * expressionParameters["text"].Count);
 
 					for (int i = 0; i < repeatCount; i++)
@@ -287,8 +294,6 @@ namespace AutoText
 					switch (action.ToLower())
 					{
 						case "":
-						case "*":
-						case "press":
 						{
 							actionType = InputActionType.Press;
 							break;

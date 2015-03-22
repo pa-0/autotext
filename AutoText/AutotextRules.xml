@@ -6,7 +6,7 @@
 			<abbreviation caseSensitive="false" >
 				<value><![CDATA[ttrr]]></value>
 			</abbreviation>
-			<phrase><![CDATA[abcd{Left }]]></phrase>
+			<phrase><![CDATA[abcd{s:test 2}]]></phrase>
 			<description><![CDATA[Some description]]></description>
 			<triggers>
 				<item caseSensitive="false">
