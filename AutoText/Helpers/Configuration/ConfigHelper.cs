@@ -65,7 +65,7 @@ namespace AutoText.Helpers.Configuration
 			{ }
 		}
 
-		public static KeycodesConfiguration GetKecodesConfiguration()
+		public static KeycodesConfiguration GetKeycodesConfiguration()
 		{
 			if (_keycodesConfig != null)
 			{
@@ -77,7 +77,7 @@ namespace AutoText.Helpers.Configuration
 
 		}
 
-		public static ExpressionConfiguration GetMacrosesConfiguration()
+		public static ExpressionConfiguration GetExpressionsConfiguration()
 		{
 			if (_macrosConfig != null)
 			{

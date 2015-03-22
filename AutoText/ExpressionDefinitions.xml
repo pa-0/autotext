@@ -8,6 +8,9 @@
 
 	<expressionDefinitions>
 
+		
+		
+		
 		<expression name="PrintString" shortName="s" >
 			<description>Outputs a string</description>
 			
@@ -24,13 +27,44 @@
 
 				<parameter name="count"  allowOmitName="true">
 					<allowedDataTypes>
-						<dataType name="int" />
+						<dataType name="text" />
 					</allowedDataTypes>
 				</parameter>
 
 			</parameters>
 
 		</expression>
+
+
+
+
+
+		<expression name="KeyInput" shortName="k" >
+			<description>Simulates Dow, Up, Press, On, Off and Toggle actions for keyboard keys</description>
+
+			<explicitParamsRegex><![CDATA[^{(k:)? *(-key=)?(?<keycode>[A-Z0-9]+)( +(-action=)?(?<action>[-+]|[1-9][0-9]*|on|off|t|toggle|\*|press|(\{.+\})+) *)?}$]]></explicitParamsRegex>
+			<implicitParamsRegex><![CDATA[^{(k:)? *(-key=)?(?<keycode>[A-Z0-9]+)( +(-action=)?(?<action>[-+]|[1-9][0-9]*|on|off|t|toggle|\*|press|(\{.+\})+) *)?}$]]></implicitParamsRegex>
+			<parameters>
+
+				<parameter name="keycode" allowOmitName="true">
+					<allowedDataTypes>
+						<dataType name="keycode" />
+					</allowedDataTypes>
+				</parameter>
+
+				<parameter name="action"  allowOmitName="true">
+					<allowedDataTypes>
+						<dataType name="text" />
+					</allowedDataTypes>
+				</parameter>
+
+			</parameters>
+
+		</expression>
+
+
+
+
 
 	</expressionDefinitions>
 

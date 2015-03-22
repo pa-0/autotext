@@ -19,6 +19,7 @@ namespace AutoText.Helpers
 			List<AutotextInput> input = expression.GetInput();
 			string resStr = input.ToStringConcat();
 			DoInput(input);
+			{ }
 		}
 
 		private static INPUT [] ConverInput(List<AutotextInput> input)

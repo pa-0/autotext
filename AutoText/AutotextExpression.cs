@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Windows.Forms;
 using AutoText.Helpers.Configuration;
 
 namespace AutoText
@@ -105,20 +106,20 @@ namespace AutoText
 		{
 			#region Parameters parsing
 
-			ExpressionConfiguration macrosesConfig = ConfigHelper.GetMacrosesConfiguration();
+			ExpressionConfiguration expressionConfig = ConfigHelper.GetExpressionsConfiguration();
 			ExpressionConfigDefinition matchedConfig = null;
 			string regex = null;
 
-			foreach (ExpressionConfigDefinition macrosConfig in macrosesConfig.MacrosDefinitions)
+			foreach (ExpressionConfigDefinition macrosConfig in expressionConfig.MacrosDefinitions)
 			{
-				if (Regex.IsMatch(expressionText, macrosConfig.ExplicitParametersRegex))
+				if (Regex.IsMatch(expressionText, macrosConfig.ExplicitParametersRegex,RegexOptions.IgnoreCase|RegexOptions.Compiled))
 				{
 					matchedConfig = macrosConfig;
 					regex = macrosConfig.ExplicitParametersRegex;
 					break;
 				}
 
-				if (Regex.IsMatch(expressionText, macrosConfig.ImplicitParametersRegex))
+				if (Regex.IsMatch(expressionText, macrosConfig.ImplicitParametersRegex, RegexOptions.IgnoreCase | RegexOptions.Compiled))
 				{
 					matchedConfig = macrosConfig;
 					regex = macrosConfig.ImplicitParametersRegex;
@@ -246,30 +247,139 @@ namespace AutoText
 			return res;
 		}
 
-		private static List<AutotextInput> Evaluate(string macrosName, Dictionary<string, List<AutotextInput>> macrosParameters)
+		private static List<AutotextInput> Evaluate(string expressionName, Dictionary<string, List<AutotextInput>> expressionParameters)
 		{
-			switch (macrosName.ToLower())
+			switch (expressionName.ToLower())
 			{
 				case "s":
 				{
-					StringBuilder resStr = new StringBuilder(1000);
-
-					int repeatCount = Int32.Parse(String.Concat(macrosParameters["count"].Select(p => p.CharToInput)));
-					string value = String.Concat(macrosParameters["text"].Select(p => p.CharToInput));
+					int repeatCount = Int32.Parse(String.Concat(expressionParameters["count"].Select(p => p.CharToInput)));
+					List<AutotextInput> res = new List<AutotextInput>(repeatCount * expressionParameters["text"].Count);
 
 					for (int i = 0; i < repeatCount; i++)
 					{
-						resStr.Append(value);
+						res.AddRange(expressionParameters["text"]);
 					}
 
-					List<AutotextInput> res = AutotextInput.FromString(resStr);
 					return res;
 					break;
 				}
+				case "k":
+				{
+					string keycodeStr = String.Concat(expressionParameters["keycode"].Select(p => p.CharToInput));
+					string action = String.Concat(expressionParameters["action"].Select(p => p.CharToInput));
 
+					KeycodesConfiguration keycodesConfiguration = ConfigHelper.GetKeycodesConfiguration();
+					KeycodeConfig keycodeToProcess = keycodesConfiguration.Keycodes.SingleOrDefault(p => String.Equals(p.Name, keycodeStr, StringComparison.CurrentCultureIgnoreCase));
+
+					if (keycodeToProcess == null)
+					{
+						throw new ExpressionEvaluationException("No keycode name is not recognized in given expression");
+					}
+
+					//Keys keycode = (Keys)Enum.Parse(typeof(Keys), keycodeToProcess.Name, true);
+					Keys keycode = (Keys)keycodeToProcess.Value;
+					InputActionType actionType = InputActionType.Press;
+					int pressCount = -1;
+
+					List<AutotextInput> res = new List<AutotextInput>(100);
+
+					switch (action.ToLower())
+					{
+						case "":
+						case "*":
+						case "press":
+						{
+							actionType = InputActionType.Press;
+							break;
+						}
+						case "+":
+						{
+							actionType = InputActionType.KeyDown;
+							break;
+						}
+						case "-":
+						{
+							actionType = InputActionType.KeyUp;
+							break;
+						}
+						case "on":
+						{
+							if (!keycodeToProcess.CanOn)
+							{
+								throw new ExpressionEvaluationException(string.Format("Specified key({0}) can be set to On", keycode));
+							}
+
+							if (!Control.IsKeyLocked(keycode))
+							{
+								actionType = InputActionType.Press;
+							}
+							else
+							{
+								actionType = InputActionType.Press;
+								keycode = Keys.None;
+							}
+							break;
+						}
+						case "off":
+						{
+							if (!keycodeToProcess.CanOff)
+							{
+								throw new ExpressionEvaluationException(string.Format("Specified key({0}) can be set to Off", keycode));
+							}
+
+							if (Control.IsKeyLocked(keycode))
+							{
+								actionType = InputActionType.Press;
+							}
+							else
+							{
+								actionType = InputActionType.Press;
+								keycode = Keys.None;
+							}
+							break;
+						}
+						case "t":
+						case "toggle":
+						{
+							if (!keycodeToProcess.Toggleable)
+							{
+								throw new ExpressionEvaluationException(string.Format("Specified key({0}) can be toggled", keycode));
+							}
+
+							actionType = InputActionType.Press;
+							break;
+						}
+						default://Numeric, to press multiple times
+						{
+							//pressCount Will be 0 if parsing fails
+							if (!int.TryParse(action, out pressCount))
+							{
+								throw new ExpressionEvaluationException("No action is recognized in given expression");
+							}
+
+							break;
+						}
+					}
+
+					if (pressCount > 0)
+					{
+						for (int i = 0; i < pressCount; i++)
+						{
+							res.Add(new AutotextInput(InputType.KeyCode, actionType, keycode));
+						}
+					}
+					else
+					{
+						res.Add(new AutotextInput(InputType.KeyCode, actionType, keycode));
+					}
+
+					return res;
+					break;
+				}
 				default:
 				{
-					throw new ArgumentOutOfRangeException("macrosName");
+					throw new ArgumentOutOfRangeException("expressionName");
 				}
 			}
 

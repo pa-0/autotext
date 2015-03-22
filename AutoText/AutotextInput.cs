@@ -14,6 +14,20 @@ namespace AutoText
 		public Keys KeyCodeToInput { get; set; }
 
 
+		public AutotextInput(InputType type, InputActionType actionType, char charToInput) : this()
+		{
+			Type = type;
+			ActionType = actionType;
+			CharToInput = charToInput;
+		}
+
+		public AutotextInput(InputType type, InputActionType actionType, Keys keyCodeToInput) : this()
+		{
+			Type = type;
+			ActionType = actionType;
+			KeyCodeToInput = keyCodeToInput;
+		}
+
 		public static List<AutotextInput> FromString(string str)
 		{
 			return FromString(new StringBuilder(str));
