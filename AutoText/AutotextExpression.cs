@@ -12,7 +12,7 @@ namespace AutoText
 	{
 		private const string OpenBraceEscapeSeq = "{{}";
 		private const string ClosingBraceEscapeSeq = "{}}";
-		private const string ShortcutsRegexTemplate = @"(([{0}]+)((\{{[^{{}}]+\}})|({{{{}})|({{}}}})|([^{{}}])){{1}})";
+		private const string ShortcutsRegexTemplate = @"((?<shortcuts>[{0}]+)(?<target>(\{{[^{{}}]+\}})|({{{{}})|({{}}}})|([^{{}}])){{1}})";
 		private const string ShortcutsEscapeRegexTemplate = @"{{{0}}}";
 		private static readonly Regex _bracketsRegex = new Regex(@"{{}|{}}", RegexOptions.Compiled);
 
@@ -69,28 +69,30 @@ namespace AutoText
 			List<string> shortcutsList = ConfigHelper.GetKeycodesConfiguration().Keycodes.Where(p => p.Shortcut != "none").Select(p => p.Shortcut).ToList();
 			List<string> shortcutsListEscaped = shortcutsList.Select(p => string.Format(ShortcutsEscapeRegexTemplate, p)).ToList();
 			string shortcuts = Regex.Escape(string.Concat(shortcutsList));
-			ExpressionText = ExpressionText.Substring(3, ExpressionText.Length - 6);
+			//ExpressionText = ExpressionText.Substring(3, ExpressionText.Length - 6);
 			Regex shortcutsRegex = new Regex(string.Format(ShortcutsRegexTemplate, shortcuts), RegexOptions.Multiline | RegexOptions.IgnoreCase | RegexOptions.Singleline);
 			MatchCollection matches = shortcutsRegex.Matches(ExpressionText);
-			string[] splittedByShortcuts = shortcutsRegex.Split(ExpressionText);
-			Stack<string> splStack = new Stack<string>(splittedByShortcuts.Reverse());
-			Stack<string> splStringsStack = new Stack<string>(matches.Cast<Match>().Select(p => p.Value).Reverse());
+			Stack<string> splStack;
+			Stack<Match> splStringsStack = new Stack<Match>(matches.Cast<Match>().Select(p => p).Reverse());
 			StringBuilder sbRes = new StringBuilder(1000);
-
-			List<string> splitCustom = new List<string>();
+			List<string> split = new List<string>();
 
 			int startIndex = 0;
-
 
 			for (int i = 0; i < matches.Count; i++)
 			{
 				Match m = matches[i];
 
-				splitCustom.Add(ExpressionText.Substring(startIndex, m.Index - startIndex));
+				split.Add(ExpressionText.Substring(startIndex, m.Index - startIndex));
 				startIndex = m.Index + m.Length;
 			}
 
-			splitCustom.Add(ExpressionText.Substring(startIndex));
+			split.Add(ExpressionText.Substring(startIndex));
+
+			split.Reverse();
+			splStack = new Stack<string>(split);
+
+			string target = null;
 
 			while (splStack.Count > 0)
 			{
@@ -98,19 +100,23 @@ namespace AutoText
 
 				if (splStringsStack.Count > 0)
 				{
-					string splStr = splStringsStack.Pop();
+					Match spMatch = splStringsStack.Pop();
+					target = spMatch.Groups["target"].Value;
 
-					if (shortcutsListEscaped.Contains(splStr))
+					if (shortcutsListEscaped.Contains(spMatch.Groups["target"].Value))
 					{
-						sbRes.Append(splStr.Trim('{', '}'));
+						target = target.Trim('{', '}');
 					}
-					else
-					{
-						string shortcutsDistinct = string.Concat(splStr.Distinct());
-					}
+
+					string strToInput = ExpandShortcuts(string.Concat(spMatch.Groups["shortcuts"].Value.Distinct()), target);
+					sbRes.Append(strToInput);
 				}
 			}
 
+			//Multitarget
+			//((?<shortcuts>[\+\^!]+)(((\(?)(?<multitarget>[^\(\)]+?)(\))){1}))
+
+			ExpressionText = sbRes.ToString();
 			{ }
 		}
 
@@ -330,7 +336,7 @@ namespace AutoText
 					string action = String.Concat(expressionParameters["action"].Select(p => p.CharToInput));
 
 					KeycodesConfiguration keycodesConfiguration = ConfigHelper.GetKeycodesConfiguration();
-					KeycodeConfig keycodeToProcess = keycodesConfiguration.Keycodes.SingleOrDefault(p => p.Names.Any(g => String.Equals(g.Name, keycodeStr, StringComparison.CurrentCultureIgnoreCase)));
+					KeycodeConfig keycodeToProcess = keycodesConfiguration.Keycodes.SingleOrDefault(p => p.Names.Any(g => String.Equals(g.Value, keycodeStr, StringComparison.CurrentCultureIgnoreCase)));
 
 					if (keycodeToProcess == null)
 					{
@@ -443,5 +449,35 @@ namespace AutoText
 
 			throw new NotImplementedException();
 		}
+
+		private static string ExpandShortcuts(string shortcuts, string target)
+		{
+			StringBuilder res = new StringBuilder(100);
+			KeycodesConfiguration kkConfiguration = ConfigHelper.GetKeycodesConfiguration();
+
+			for (int i = 0; i < shortcuts.Length; i++)
+			{
+				string shortcut = shortcuts[i].ToString();
+				string keycodeStr = kkConfiguration.Keycodes.Single(p => p.Shortcut == shortcut).Names.First().Value;
+				res.Append(string.Format("{{{0} +}}", keycodeStr));
+			}
+
+			res.Append(target);
+
+			//Reverse, so Up event should go in reversed order
+			shortcuts = string.Concat(shortcuts.Reverse());
+
+			for (int i = 0; i < shortcuts.Length; i++)
+			{
+				string shortcut = shortcuts[i].ToString();
+				string keycodeStr = kkConfiguration.Keycodes.Single(p => p.Shortcut == shortcut).Names.First().Value;
+				res.Append(string.Format("{{{0} -}}", keycodeStr));
+			}
+
+			{ }
+
+			return res.ToString();
+		}
+
 	}
 }

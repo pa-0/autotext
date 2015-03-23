@@ -9,7 +9,7 @@ namespace AutoText.Helpers.Configuration
 	public class KeycodeConfigName
 	{
 		[XmlAttribute("value")]
-		public string Name { get; set; }
+		public string Value { get; set; }
 	}
 
 	public class KeycodeConfig
