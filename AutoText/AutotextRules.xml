@@ -6,7 +6,7 @@
 			<abbreviation caseSensitive="false" >
 				<value><![CDATA[ttrr]]></value>
 			</abbreviation>
-			<phrase><![CDATA[abcd{s:test 2}]]></phrase>
+			<phrase><![CDATA[ab^!++{CapsLock on} {asdasd} ^ asa!+!!!^^ {asdasd}  d sdfas!{{}da  sd+{}}ads asd^{!}asddasd !{^} asasd{!}]]></phrase>
 			<description><![CDATA[Some description]]></description>
 			<triggers>
 				<item caseSensitive="false">
@@ -17,16 +17,6 @@
 				</item>
 			</triggers>
 		</rule>
-
-		<!--
-		<rule>
-			<abbreviation caseSensitive="false" >
-				<value><![CDATA[ttrrqwer]]></value>
-			</abbreviation>
-			<phrase><![CDATA[Some text]]></phrase>
-			<description><![CDATA[Some description]]></description>
-		</rule>
-		-->
 
 	</rules>
 </autotextRules>

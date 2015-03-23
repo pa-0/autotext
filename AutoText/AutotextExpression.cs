@@ -12,6 +12,8 @@ namespace AutoText
 	{
 		private const string OpenBraceEscapeSeq = "{{}";
 		private const string ClosingBraceEscapeSeq = "{}}";
+		private const string ShortcutsRegexTemplate = @"(([{0}]+)((\{{[^{{}}]+\}})|({{{{}})|({{}}}})|([^{{}}])){{1}})";
+		private const string ShortcutsEscapeRegexTemplate = @"{{{0}}}";
 		private static readonly Regex _bracketsRegex = new Regex(@"{{}|{}}", RegexOptions.Compiled);
 
 		public string ExpressionText { get; private set; }
@@ -33,6 +35,7 @@ namespace AutoText
 			EscapedBraces = new List<int>(100);
 			NestedExpressions = new List<AutotextExpression>(100);
 			Parameters = new List<AutotextExpressionParameter>(20);
+			ProcessShortcuts();
 			BuildEscapedBracesList();
 			ParseExpression(_parsedExpressionText);
 		}
@@ -59,6 +62,56 @@ namespace AutoText
 			}
 
 			return index;
+		}
+
+		private void ProcessShortcuts()
+		{
+			List<string> shortcutsList = ConfigHelper.GetKeycodesConfiguration().Keycodes.Where(p => p.Shortcut != "none").Select(p => p.Shortcut).ToList();
+			List<string> shortcutsListEscaped = shortcutsList.Select(p => string.Format(ShortcutsEscapeRegexTemplate, p)).ToList();
+			string shortcuts = Regex.Escape(string.Concat(shortcutsList));
+			ExpressionText = ExpressionText.Substring(3, ExpressionText.Length - 6);
+			Regex shortcutsRegex = new Regex(string.Format(ShortcutsRegexTemplate, shortcuts), RegexOptions.Multiline | RegexOptions.IgnoreCase | RegexOptions.Singleline);
+			MatchCollection matches = shortcutsRegex.Matches(ExpressionText);
+			string[] splittedByShortcuts = shortcutsRegex.Split(ExpressionText);
+			Stack<string> splStack = new Stack<string>(splittedByShortcuts.Reverse());
+			Stack<string> splStringsStack = new Stack<string>(matches.Cast<Match>().Select(p => p.Value).Reverse());
+			StringBuilder sbRes = new StringBuilder(1000);
+
+			List<string> splitCustom = new List<string>();
+
+			int startIndex = 0;
+
+
+			for (int i = 0; i < matches.Count; i++)
+			{
+				Match m = matches[i];
+
+				splitCustom.Add(ExpressionText.Substring(startIndex, m.Index - startIndex));
+				startIndex = m.Index + m.Length;
+			}
+
+			splitCustom.Add(ExpressionText.Substring(startIndex));
+
+			while (splStack.Count > 0)
+			{
+				sbRes.Append(splStack.Pop());
+
+				if (splStringsStack.Count > 0)
+				{
+					string splStr = splStringsStack.Pop();
+
+					if (shortcutsListEscaped.Contains(splStr))
+					{
+						sbRes.Append(splStr.Trim('{', '}'));
+					}
+					else
+					{
+						string shortcutsDistinct = string.Concat(splStr.Distinct());
+					}
+				}
+			}
+
+			{ }
 		}
 
 		private void BuildEscapedBracesList()
@@ -277,7 +330,7 @@ namespace AutoText
 					string action = String.Concat(expressionParameters["action"].Select(p => p.CharToInput));
 
 					KeycodesConfiguration keycodesConfiguration = ConfigHelper.GetKeycodesConfiguration();
-					KeycodeConfig keycodeToProcess = keycodesConfiguration.Keycodes.SingleOrDefault(p => String.Equals(p.Name, keycodeStr, StringComparison.CurrentCultureIgnoreCase));
+					KeycodeConfig keycodeToProcess = keycodesConfiguration.Keycodes.SingleOrDefault(p => p.Names.Any(g => String.Equals(g.Name, keycodeStr, StringComparison.CurrentCultureIgnoreCase)));
 
 					if (keycodeToProcess == null)
 					{

@@ -1,187 +1,907 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<configuration xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" >
+<configuration>
 	<keycodes>
-		<keycode name="Back" value="8" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="Tab" value="9" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="LineFeed" value="10" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="Clear" value="12" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="Enter" value="13" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="Return" value="13" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="ShiftKey" value="16" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="ControlKey" value="17" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="Menu" value="18" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="Pause" value="19" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="CapsLock" value="20"  toggleable="true" canOn="true" canOff="true" />
-		<keycode name="Capital" value="20"  toggleable="true" canOn="true" canOff="true" />
-		<keycode name="HangulMode" value="21" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="HanguelMode" value="21" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="KanaMode" value="21" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="JunjaMode" value="23" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="FinalMode" value="24" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="KanjiMode" value="25" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="HanjaMode" value="25" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="Escape" value="27" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="IMEConvert" value="28" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="IMENonconvert" value="29" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="IMEAccept" value="30" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="IMEAceept" value="30" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="IMEModeChange" value="31" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="Space" value="32" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="Prior" value="33" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="PageUp" value="33" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="PageDown" value="34" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="Next" value="34" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="End" value="35" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="Home" value="36" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="Left" value="37" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="Up" value="38" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="Right" value="39" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="Down" value="40" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="Select" value="41" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="Print" value="42" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="Execute" value="43" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="Snapshot" value="44" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="PrintScreen" value="44" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="Insert" value="45" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="Delete" value="46" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="Help" value="47" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="D0" value="48" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="D1" value="49" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="D2" value="50" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="D3" value="51" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="D4" value="52" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="D5" value="53" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="D6" value="54" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="D7" value="55" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="D8" value="56" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="D9" value="57" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="A" value="65" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="B" value="66" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="C" value="67" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="D" value="68" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="E" value="69" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="F" value="70" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="G" value="71" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="H" value="72" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="I" value="73" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="J" value="74" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="K" value="75" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="L" value="76" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="M" value="77" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="N" value="78" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="O" value="79" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="P" value="80" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="Q" value="81" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="R" value="82" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="S" value="83" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="T" value="84" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="U" value="85" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="V" value="86" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="W" value="87" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="X" value="88" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="Y" value="89" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="Z" value="90" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="LWin" value="91" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="RWin" value="92" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="Apps" value="93" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="Sleep" value="95" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="NumPad0" value="96" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="NumPad1" value="97" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="NumPad2" value="98" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="NumPad3" value="99" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="NumPad4" value="100" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="NumPad5" value="101" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="NumPad6" value="102" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="NumPad7" value="103" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="NumPad8" value="104" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="NumPad9" value="105" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="Multiply" value="106" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="Add" value="107" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="Separator" value="108" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="Subtract" value="109" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="Decimal" value="110" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="Divide" value="111" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="F1" value="112" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="F2" value="113" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="F3" value="114" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="F4" value="115" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="F5" value="116" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="F6" value="117" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="F7" value="118" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="F8" value="119" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="F9" value="120" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="F10" value="121" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="F11" value="122" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="F12" value="123" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="F13" value="124" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="F14" value="125" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="F15" value="126" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="F16" value="127" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="F17" value="128" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="F18" value="129" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="F19" value="130" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="F20" value="131" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="F21" value="132" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="F22" value="133" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="F23" value="134" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="F24" value="135" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="NumLock" value="144" toggleable="true" canOn="true" canOff="true" />
-		<keycode name="Scroll" value="145"  toggleable="true" canOn="false" canOff="false" />
-		<keycode name="LShiftKey" value="160" toggleable="false" canOn="true" canOff="true" />
-		<keycode name="RShiftKey" value="161" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="LControlKey" value="162" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="RControlKey" value="163" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="LMenu" value="164" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="RMenu" value="165" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="BrowserBack" value="166" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="BrowserForward" value="167" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="BrowserRefresh" value="168" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="BrowserStop" value="169" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="BrowserSearch" value="170" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="BrowserFavorites" value="171" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="BrowserHome" value="172" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="VolumeMute" value="173" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="VolumeDown" value="174" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="VolumeUp" value="175" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="MediaNextTrack" value="176" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="MediaPreviousTrack" value="177" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="MediaStop" value="178" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="MediaPlayPause" value="179" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="LaunchMail" value="180" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="SelectMedia" value="181" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="LaunchApplication1" value="182" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="LaunchApplication2" value="183" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="OemSemicolon" value="186" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="Oem1" value="186" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="Oemplus" value="187" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="Oemcomma" value="188" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="OemMinus" value="189" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="OemPeriod" value="190" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="Oem2" value="191" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="OemQuestion" value="191" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="Oem3" value="192" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="Oemtilde" value="192" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="Oem4" value="219" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="OemOpenBrackets" value="219" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="OemPipe" value="220" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="Oem5" value="220" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="OemCloseBrackets" value="221" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="Oem6" value="221" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="OemQuotes" value="222" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="Oem7" value="222" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="Oem8" value="223" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="Oem102" value="226" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="OemBackslash" value="226" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="ProcessKey" value="229" toggleable="false" canOn="false" canOff="false" />
-		<!--<keycode name="Packet" value="231" toggleable="false" canOn="false" canOff="false" />-->
-		<keycode name="Attn" value="246" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="Crsel" value="247" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="Exsel" value="248" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="EraseEof" value="249" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="Play" value="250" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="Zoom" value="251" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="NoName" value="252" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="Pa1" value="253" toggleable="false" canOn="false" canOff="false" />
-		<keycode name="OemClear" value="254" toggleable="false" canOn="false" canOff="false" />
+		<keycode value="0" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="None" />
+			</names>
+		</keycode>
+		<keycode value="1" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="LButton" />
+			</names>
+		</keycode>
+		<keycode value="2" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="RButton" />
+			</names>
+		</keycode>
+		<keycode value="3" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="Cancel" />
+			</names>
+		</keycode>
+		<keycode value="4" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="MButton" />
+			</names>
+		</keycode>
+		<keycode value="5" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="XButton1" />
+			</names>
+		</keycode>
+		<keycode value="6" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="XButton2" />
+			</names>
+		</keycode>
+		<keycode value="8" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="Back" />
+			</names>
+		</keycode>
+		<keycode value="9" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="Tab" />
+			</names>
+		</keycode>
+		<keycode value="10" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="LineFeed" />
+			</names>
+		</keycode>
+		<keycode value="12" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="Clear" />
+			</names>
+		</keycode>
+		<keycode value="13" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="Enter" />
+				<name value="Return" />
+			</names>
+		</keycode>
+		<keycode value="16" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="ShiftKey" />
+			</names>
+		</keycode>
+		<keycode value="17" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="ControlKey" />
+			</names>
+		</keycode>
+		<keycode value="18" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="Menu" />
+			</names>
+		</keycode>
+		<keycode value="19" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="Pause" />
+			</names>
+		</keycode>
+		<keycode value="20" toggleable="true" canOn="true" canOff="false" shortcut="none">
+			<names>
+				<name value="CapsLock" />
+				<name value="Capital" />
+			</names>
+		</keycode>
+		<keycode value="21" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="HangulMode" />
+				<name value="HanguelMode" />
+				<name value="KanaMode" />
+			</names>
+		</keycode>
+		<keycode value="23" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="JunjaMode" />
+			</names>
+		</keycode>
+		<keycode value="24" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="FinalMode" />
+			</names>
+		</keycode>
+		<keycode value="25" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="KanjiMode" />
+				<name value="HanjaMode" />
+			</names>
+		</keycode>
+		<keycode value="27" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="Escape" />
+			</names>
+		</keycode>
+		<keycode value="28" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="IMEConvert" />
+			</names>
+		</keycode>
+		<keycode value="29" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="IMENonconvert" />
+			</names>
+		</keycode>
+		<keycode value="30" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="IMEAccept" />
+				<name value="IMEAceept" />
+			</names>
+		</keycode>
+		<keycode value="31" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="IMEModeChange" />
+			</names>
+		</keycode>
+		<keycode value="32" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="Space" />
+			</names>
+		</keycode>
+		<keycode value="33" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="Prior" />
+				<name value="PageUp" />
+			</names>
+		</keycode>
+		<keycode value="34" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="PageDown" />
+				<name value="Next" />
+			</names>
+		</keycode>
+		<keycode value="35" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="End" />
+			</names>
+		</keycode>
+		<keycode value="36" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="Home" />
+			</names>
+		</keycode>
+		<keycode value="37" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="Left" />
+			</names>
+		</keycode>
+		<keycode value="38" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="Up" />
+			</names>
+		</keycode>
+		<keycode value="39" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="Right" />
+			</names>
+		</keycode>
+		<keycode value="40" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="Down" />
+			</names>
+		</keycode>
+		<keycode value="41" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="Select" />
+			</names>
+		</keycode>
+		<keycode value="42" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="Print" />
+			</names>
+		</keycode>
+		<keycode value="43" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="Execute" />
+			</names>
+		</keycode>
+		<keycode value="44" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="Snapshot" />
+				<name value="PrintScreen" />
+			</names>
+		</keycode>
+		<keycode value="45" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="Insert" />
+			</names>
+		</keycode>
+		<keycode value="46" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="Delete" />
+			</names>
+		</keycode>
+		<keycode value="47" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="Help" />
+			</names>
+		</keycode>
+		<keycode value="48" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="D0" />
+			</names>
+		</keycode>
+		<keycode value="49" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="D1" />
+			</names>
+		</keycode>
+		<keycode value="50" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="D2" />
+			</names>
+		</keycode>
+		<keycode value="51" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="D3" />
+			</names>
+		</keycode>
+		<keycode value="52" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="D4" />
+			</names>
+		</keycode>
+		<keycode value="53" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="D5" />
+			</names>
+		</keycode>
+		<keycode value="54" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="D6" />
+			</names>
+		</keycode>
+		<keycode value="55" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="D7" />
+			</names>
+		</keycode>
+		<keycode value="56" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="D8" />
+			</names>
+		</keycode>
+		<keycode value="57" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="D9" />
+			</names>
+		</keycode>
+		<keycode value="65" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="A" />
+			</names>
+		</keycode>
+		<keycode value="66" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="B" />
+			</names>
+		</keycode>
+		<keycode value="67" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="C" />
+			</names>
+		</keycode>
+		<keycode value="68" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="D" />
+			</names>
+		</keycode>
+		<keycode value="69" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="E" />
+			</names>
+		</keycode>
+		<keycode value="70" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="F" />
+			</names>
+		</keycode>
+		<keycode value="71" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="G" />
+			</names>
+		</keycode>
+		<keycode value="72" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="H" />
+			</names>
+		</keycode>
+		<keycode value="73" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="I" />
+			</names>
+		</keycode>
+		<keycode value="74" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="J" />
+			</names>
+		</keycode>
+		<keycode value="75" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="K" />
+			</names>
+		</keycode>
+		<keycode value="76" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="L" />
+			</names>
+		</keycode>
+		<keycode value="77" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="M" />
+			</names>
+		</keycode>
+		<keycode value="78" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="N" />
+			</names>
+		</keycode>
+		<keycode value="79" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="O" />
+			</names>
+		</keycode>
+		<keycode value="80" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="P" />
+			</names>
+		</keycode>
+		<keycode value="81" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="Q" />
+			</names>
+		</keycode>
+		<keycode value="82" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="R" />
+			</names>
+		</keycode>
+		<keycode value="83" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="S" />
+			</names>
+		</keycode>
+		<keycode value="84" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="T" />
+			</names>
+		</keycode>
+		<keycode value="85" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="U" />
+			</names>
+		</keycode>
+		<keycode value="86" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="V" />
+			</names>
+		</keycode>
+		<keycode value="87" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="W" />
+			</names>
+		</keycode>
+		<keycode value="88" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="X" />
+			</names>
+		</keycode>
+		<keycode value="89" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="Y" />
+			</names>
+		</keycode>
+		<keycode value="90" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="Z" />
+			</names>
+		</keycode>
+		<keycode value="91" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="LWin" />
+			</names>
+		</keycode>
+		<keycode value="92" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="RWin" />
+			</names>
+		</keycode>
+		<keycode value="93" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="Apps" />
+			</names>
+		</keycode>
+		<keycode value="95" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="Sleep" />
+			</names>
+		</keycode>
+		<keycode value="96" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="NumPad0" />
+			</names>
+		</keycode>
+		<keycode value="97" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="NumPad1" />
+			</names>
+		</keycode>
+		<keycode value="98" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="NumPad2" />
+			</names>
+		</keycode>
+		<keycode value="99" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="NumPad3" />
+			</names>
+		</keycode>
+		<keycode value="100" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="NumPad4" />
+			</names>
+		</keycode>
+		<keycode value="101" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="NumPad5" />
+			</names>
+		</keycode>
+		<keycode value="102" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="NumPad6" />
+			</names>
+		</keycode>
+		<keycode value="103" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="NumPad7" />
+			</names>
+		</keycode>
+		<keycode value="104" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="NumPad8" />
+			</names>
+		</keycode>
+		<keycode value="105" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="NumPad9" />
+			</names>
+		</keycode>
+		<keycode value="106" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="Multiply" />
+			</names>
+		</keycode>
+		<keycode value="107" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="Add" />
+			</names>
+		</keycode>
+		<keycode value="108" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="Separator" />
+			</names>
+		</keycode>
+		<keycode value="109" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="Subtract" />
+			</names>
+		</keycode>
+		<keycode value="110" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="Decimal" />
+			</names>
+		</keycode>
+		<keycode value="111" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="Divide" />
+			</names>
+		</keycode>
+		<keycode value="112" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="F1" />
+			</names>
+		</keycode>
+		<keycode value="113" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="F2" />
+			</names>
+		</keycode>
+		<keycode value="114" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="F3" />
+			</names>
+		</keycode>
+		<keycode value="115" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="F4" />
+			</names>
+		</keycode>
+		<keycode value="116" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="F5" />
+			</names>
+		</keycode>
+		<keycode value="117" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="F6" />
+			</names>
+		</keycode>
+		<keycode value="118" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="F7" />
+			</names>
+		</keycode>
+		<keycode value="119" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="F8" />
+			</names>
+		</keycode>
+		<keycode value="120" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="F9" />
+			</names>
+		</keycode>
+		<keycode value="121" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="F10" />
+			</names>
+		</keycode>
+		<keycode value="122" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="F11" />
+			</names>
+		</keycode>
+		<keycode value="123" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="F12" />
+			</names>
+		</keycode>
+		<keycode value="124" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="F13" />
+			</names>
+		</keycode>
+		<keycode value="125" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="F14" />
+			</names>
+		</keycode>
+		<keycode value="126" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="F15" />
+			</names>
+		</keycode>
+		<keycode value="127" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="F16" />
+			</names>
+		</keycode>
+		<keycode value="128" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="F17" />
+			</names>
+		</keycode>
+		<keycode value="129" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="F18" />
+			</names>
+		</keycode>
+		<keycode value="130" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="F19" />
+			</names>
+		</keycode>
+		<keycode value="131" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="F20" />
+			</names>
+		</keycode>
+		<keycode value="132" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="F21" />
+			</names>
+		</keycode>
+		<keycode value="133" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="F22" />
+			</names>
+		</keycode>
+		<keycode value="134" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="F23" />
+			</names>
+		</keycode>
+		<keycode value="135" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="F24" />
+			</names>
+		</keycode>
+		<keycode value="144" toggleable="true" canOn="true" canOff="false" shortcut="none">
+			<names>
+				<name value="NumLock" />
+			</names>
+		</keycode>
+		<keycode value="145" toggleable="true" canOn="true" canOff="false" shortcut="none">
+			<names>
+				<name value="Scroll" />
+			</names>
+		</keycode>
+		<keycode value="160" toggleable="false" canOn="false" canOff="false" shortcut="+">
+			<names>
+				<name value="LShiftKey" />
+			</names>
+		</keycode>
+		<keycode value="161" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="RShiftKey" />
+			</names>
+		</keycode>
+		<keycode value="162" toggleable="false" canOn="false" canOff="false" shortcut="^">
+			<names>
+				<name value="LControlKey" />
+			</names>
+		</keycode>
+		<keycode value="163" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="RControlKey" />
+			</names>
+		</keycode>
+		<keycode value="164" toggleable="false" canOn="false" canOff="false" shortcut="!">
+			<names>
+				<name value="LMenu" />
+			</names>
+		</keycode>
+		<keycode value="165" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="RMenu" />
+			</names>
+		</keycode>
+		<keycode value="166" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="BrowserBack" />
+			</names>
+		</keycode>
+		<keycode value="167" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="BrowserForward" />
+			</names>
+		</keycode>
+		<keycode value="168" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="BrowserRefresh" />
+			</names>
+		</keycode>
+		<keycode value="169" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="BrowserStop" />
+			</names>
+		</keycode>
+		<keycode value="170" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="BrowserSearch" />
+			</names>
+		</keycode>
+		<keycode value="171" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="BrowserFavorites" />
+			</names>
+		</keycode>
+		<keycode value="172" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="BrowserHome" />
+			</names>
+		</keycode>
+		<keycode value="173" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="VolumeMute" />
+			</names>
+		</keycode>
+		<keycode value="174" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="VolumeDown" />
+			</names>
+		</keycode>
+		<keycode value="175" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="VolumeUp" />
+			</names>
+		</keycode>
+		<keycode value="176" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="MediaNextTrack" />
+			</names>
+		</keycode>
+		<keycode value="177" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="MediaPreviousTrack" />
+			</names>
+		</keycode>
+		<keycode value="178" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="MediaStop" />
+			</names>
+		</keycode>
+		<keycode value="179" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="MediaPlayPause" />
+			</names>
+		</keycode>
+		<keycode value="180" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="LaunchMail" />
+			</names>
+		</keycode>
+		<keycode value="181" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="SelectMedia" />
+			</names>
+		</keycode>
+		<keycode value="182" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="LaunchApplication1" />
+			</names>
+		</keycode>
+		<keycode value="183" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="LaunchApplication2" />
+			</names>
+		</keycode>
+		<keycode value="186" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="OemSemicolon" />
+				<name value="Oem1" />
+			</names>
+		</keycode>
+		<keycode value="187" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="Oemplus" />
+			</names>
+		</keycode>
+		<keycode value="188" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="Oemcomma" />
+			</names>
+		</keycode>
+		<keycode value="189" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="OemMinus" />
+			</names>
+		</keycode>
+		<keycode value="190" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="OemPeriod" />
+			</names>
+		</keycode>
+		<keycode value="191" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="Oem2" />
+				<name value="OemQuestion" />
+			</names>
+		</keycode>
+		<keycode value="192" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="Oem3" />
+				<name value="Oemtilde" />
+			</names>
+		</keycode>
+		<keycode value="219" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="Oem4" />
+				<name value="OemOpenBrackets" />
+			</names>
+		</keycode>
+		<keycode value="220" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="OemPipe" />
+				<name value="Oem5" />
+			</names>
+		</keycode>
+		<keycode value="221" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="OemCloseBrackets" />
+				<name value="Oem6" />
+			</names>
+		</keycode>
+		<keycode value="222" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="OemQuotes" />
+				<name value="Oem7" />
+			</names>
+		</keycode>
+		<keycode value="223" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="Oem8" />
+			</names>
+		</keycode>
+		<keycode value="226" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="Oem102" />
+				<name value="OemBackslash" />
+			</names>
+		</keycode>
+		<keycode value="229" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="ProcessKey" />
+			</names>
+		</keycode>
+		<keycode value="231" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="Packet" />
+			</names>
+		</keycode>
+		<keycode value="246" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="Attn" />
+			</names>
+		</keycode>
+		<keycode value="247" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="Crsel" />
+			</names>
+		</keycode>
+		<keycode value="248" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="Exsel" />
+			</names>
+		</keycode>
+		<keycode value="249" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="EraseEof" />
+			</names>
+		</keycode>
+		<keycode value="250" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="Play" />
+			</names>
+		</keycode>
+		<keycode value="251" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="Zoom" />
+			</names>
+		</keycode>
+		<keycode value="252" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="NoName" />
+			</names>
+		</keycode>
+		<keycode value="253" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="Pa1" />
+			</names>
+		</keycode>
+		<keycode value="254" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="OemClear" />
+			</names>
+		</keycode>
+		<keycode value="65535" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="KeyCode" />
+			</names>
+		</keycode>
+		<keycode value="65536" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="Shift" />
+			</names>
+		</keycode>
+		<keycode value="131072" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="Control" />
+			</names>
+		</keycode>
+		<keycode value="262144" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="Alt" />
+			</names>
+		</keycode>
+		<keycode value="-65536" toggleable="false" canOn="false" canOff="false" shortcut="none">
+			<names>
+				<name value="Modifiers" />
+			</names>
+		</keycode>
 	</keycodes>
 </configuration>

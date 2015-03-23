@@ -16,14 +16,22 @@ using System.Xml.Serialization;
 using WindowsInput;
 using AutoText.Helpers;
 using AutoText.Helpers.Configuration;
+using System.Xml.Linq;
 
 namespace AutoText
 {
+	class KeycodeTest
+	{
+		public string Name { get; set; }
+		public int Value { get; set; }
+	}
+
+	delegate void TestDel(int number);
+
 	public partial class FormMain : Form
 	{
 		private List<AutotextRuleConfig> _rules;
 		private AutotextMatcher _matcher;
-		private string _textBoxText;
 		private KeyLogger _keylogger = new KeyLogger();
 
 
@@ -31,11 +39,75 @@ namespace AutoText
 		{
 			InitializeComponent();
 
+			//KeycodesConfiguration kkConfig01 = ConfigHelper.GetKeycodesConfiguration();
+
+			{ }
+			/*
+			string[] strTest = {"^","!","+","+","+","^","^" };
+			string[] dist = strTest.Distinct().ToArray();
+			string regEsc = Regex.Escape("^+");
+			
+			KeycodesConfiguration kkConfig = ConfigHelper.GetKeycodesConfiguration();
+			List<int> similar = kkConfig.Keycodes.GroupBy(p => p.Value).Where(p => p.Count() > 1).Select(p => p.Key).ToList();
+
+			List<KeycodeConfig> keycodes = kkConfig.Keycodes.Where(p => similar.Contains(p.Value )).ToList();
+
+			string values = string.Join("\r\n", similar);
+			string names = string.Join("\r\n", keycodes.Select(p => p.Value.ToString() + " " + p.Name));
+			*/
+
+			/*
+			string[] testNames = Enum.GetNames(typeof(Keys));
+			int[] testValues = (int[])Enum.GetValues(typeof(Keys));
+
+			List<KeycodeTest> kkTest = new List<KeycodeTest>();
+
+			for (int i = 0; i < testNames.Length; i++)
+			{
+				kkTest.Add(new KeycodeTest() { Name = testNames[i], Value = (int)Enum.Parse(typeof(Keys), testNames[i]) });
+			}
+
+			List<IGrouping<int, KeycodeTest>> groups = kkTest.GroupBy(p => p.Value).ToList();
+
+			XDocument xmlDoc = new XDocument();
+			XElement root = new XElement("configuration");
+			xmlDoc.Add(root);
+			XElement keycode;
+
+			for (int i = 0; i < groups.Count; i++)
+			{
+				IGrouping<int, KeycodeTest> group = groups[i];
+				keycode = new XElement("keycode");
+				keycode.Add(new XAttribute("value", group.Key));
+				keycode.Add(new XAttribute("toggleable", "false"));
+				keycode.Add(new XAttribute("canOn", "false"));
+				keycode.Add(new XAttribute("canOff", "false"));
+
+				XElement namesCollection = new XElement("names");
+				keycode.Add(namesCollection);
+
+				foreach (KeycodeTest item in group)
+				{
+					XElement nemeElem = new XElement("name");
+					nemeElem.Add(new XAttribute("value",item.Name));
+					namesCollection.Add(nemeElem);
+				}
+
+				root.Add(keycode);
+			}
+
+			string resXml = xmlDoc.ToString();
+			*/
 			_rules = ConfigHelper.GetAutotextRules();
 			_matcher = new AutotextMatcher(_keylogger, _rules);
 			_matcher.MatchFound += _matcher_MatchFound;
 			_keylogger.KeyCaptured += _testKeylogger_KeyCaptured;
 			_keylogger.StartCapture();
+		}
+
+		void FormMain_TestDelEvent(int number)
+		{
+			throw new NotImplementedException();
 		}
 
 		private void FormMain_Load(object sender, EventArgs e)

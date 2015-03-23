@@ -16,7 +16,6 @@
 			
 			<explicitParamsRegex><![CDATA[^{s: *-text=("{1})(?<text>.+)(\1) *-count=(?<count>([1-9][0-9]*)|(\{.+\})) *}$]]></explicitParamsRegex>
 			<implicitParamsRegex><![CDATA[^{s:(?<text>.+?) {1}(?<count>([1-9][0-9]*)|(\{.+\})) *}$]]></implicitParamsRegex>
-			<!--^{(k:)? *(?<keycode>PageUp|Down) +(?<action>[-+]|[1-9][0-9]*|on|off|t|toggle|(\{.+\})+) *}$-->
 			<parameters>
 
 				<parameter name="text" allowOmitName="true">

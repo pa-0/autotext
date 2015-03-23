@@ -52,6 +52,7 @@ namespace AutoText.Helpers.Configuration
 
 		static void deserializer_UnknownNode(object sender, XmlNodeEventArgs e)
 		{
+			string s = e.Name;
 			{ }
 		}
 
