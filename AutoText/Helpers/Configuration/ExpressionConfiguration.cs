@@ -15,6 +15,8 @@ namespace AutoText.Helpers.Configuration
 		public string ExpressionParameterPrefix { get; set; }
 		[XmlElement("expressionParameterAssignmentStr")]
 		public string ExpressionParameterAssigmentString { get; set; }
+		[XmlElement("shortcutRegex")]
+		public string ShortcutRegexTemplate { get; set; }
 
 		[XmlArray("expressionDefinitions"), XmlArrayItem("expression")]
 		public List<ExpressionConfigDefinition> ExpressionDefinitions { get; set; }

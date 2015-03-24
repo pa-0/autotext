@@ -10,9 +10,10 @@ namespace AutoText
 {
 	public class AutotextExpression
 	{
+		//((?<shortcuts>[\+\^!]+)(((\(?)(?<multitarget>[^\(\)]+?)(\))){1}))
 		private const string OpenBraceEscapeSeq = "{{}";
 		private const string ClosingBraceEscapeSeq = "{}}";
-		private const string ShortcutsRegexTemplate = @"((?<shortcuts>[{0}]+)(?<target>(\{{[^{{}}]+\}})|({{{{}})|({{}}}})|([^{{}}])){{1}})";
+		private readonly string ShortcutsRegexTemplate;
 		private const string ShortcutsEscapeRegexTemplate = @"{{{0}}}";
 		private static readonly Regex _bracketsRegex = new Regex(@"{{}|{}}", RegexOptions.Compiled);
 
@@ -30,6 +31,7 @@ namespace AutoText
 		public AutotextExpression(string expressionText)
 		{
 			ExpressionText = string.Format("{{s:{0} 1}}", expressionText);
+			ShortcutsRegexTemplate = ConfigHelper.GetExpressionsConfiguration().ShortcutRegexTemplate;
 			RelativeStartIndex = 0;
 			Length = ExpressionText.Length;
 			EscapedBraces = new List<int>(100);
@@ -70,7 +72,7 @@ namespace AutoText
 			List<string> shortcutsListEscaped = shortcutsList.Select(p => string.Format(ShortcutsEscapeRegexTemplate, p)).ToList();
 			string shortcuts = Regex.Escape(string.Concat(shortcutsList));
 			//ExpressionText = ExpressionText.Substring(3, ExpressionText.Length - 6);
-			Regex shortcutsRegex = new Regex(string.Format(ShortcutsRegexTemplate, shortcuts), RegexOptions.Multiline | RegexOptions.IgnoreCase | RegexOptions.Singleline);
+			Regex shortcutsRegex = new Regex(ShortcutsRegexTemplate.Replace("#shortcutsPlaceholder#", shortcuts), RegexOptions.Multiline | RegexOptions.IgnoreCase | RegexOptions.Singleline);
 			MatchCollection matches = shortcutsRegex.Matches(ExpressionText);
 			Stack<string> splStack;
 			Stack<Match> splStringsStack = new Stack<Match>(matches.Cast<Match>().Select(p => p).Reverse());
