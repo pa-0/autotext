@@ -71,7 +71,6 @@ namespace AutoText
 			List<string> shortcutsList = ConfigHelper.GetKeycodesConfiguration().Keycodes.Where(p => p.Shortcut != "none").Select(p => p.Shortcut).ToList();
 			List<string> shortcutsListEscaped = shortcutsList.Select(p => string.Format(ShortcutsEscapeRegexTemplate, p)).ToList();
 			string shortcuts = Regex.Escape(string.Concat(shortcutsList));
-			//ExpressionText = ExpressionText.Substring(3, ExpressionText.Length - 6);
 			Regex shortcutsRegex = new Regex(ShortcutsRegexTemplate.Replace("#shortcutsPlaceholder#", shortcuts), RegexOptions.Multiline | RegexOptions.IgnoreCase | RegexOptions.Singleline);
 			MatchCollection matches = shortcutsRegex.Matches(ExpressionText);
 			Stack<string> splStack;
@@ -105,9 +104,16 @@ namespace AutoText
 					Match spMatch = splStringsStack.Pop();
 					target = spMatch.Groups["target"].Value;
 
-					if (shortcutsListEscaped.Contains(spMatch.Groups["target"].Value))
+					if (target.StartsWith("(") && target.EndsWith(")"))
 					{
-						target = target.Trim('{', '}');
+						if (spMatch.Groups["multitarget"].Value != string.Empty)
+						{
+							target = spMatch.Groups["multitarget"].Value;
+						}
+						else
+						{
+							throw new InvalidOperationException("The shortcut target is not defined.");
+						}
 					}
 
 					string strToInput = ExpandShortcuts(string.Concat(spMatch.Groups["shortcuts"].Value.Distinct()), target);
@@ -115,11 +121,13 @@ namespace AutoText
 				}
 			}
 
-			//Multitarget
-			//((?<shortcuts>[\+\^!]+)(((\(?)(?<multitarget>[^\(\)]+?)(\))){1}))
+			//Replace escaped shortcuts with their symbols
+			shortcutsListEscaped.ForEach(p => sbRes = sbRes.Replace(p, p.Trim('{', '}')));
+			//Replace escaped parentheses with their symbols
+			sbRes = sbRes.Replace("{(}", "(");
+			sbRes = sbRes.Replace("{)}", ")");
 
 			ExpressionText = sbRes.ToString();
-			{ }
 		}
 
 		private void BuildEscapedBracesList()
@@ -173,7 +181,7 @@ namespace AutoText
 
 			foreach (ExpressionConfigDefinition expressionConfigDefinition in expressionConfig.ExpressionDefinitions)
 			{
-				if (Regex.IsMatch(expressionText, expressionConfigDefinition.ExplicitParametersRegex,RegexOptions.IgnoreCase|RegexOptions.Compiled))
+				if (Regex.IsMatch(expressionText, expressionConfigDefinition.ExplicitParametersRegex, RegexOptions.IgnoreCase | RegexOptions.Compiled))
 				{
 					matchedConfig = expressionConfigDefinition;
 					regex = expressionConfigDefinition.ExplicitParametersRegex;
@@ -279,7 +287,7 @@ namespace AutoText
 
 				for (int j = 0; j < NestedExpressions.Count; j++)
 				{
-					if ( NestedExpressions[j].RelativeStartIndex >= param.RelativeStartIndex 
+					if (NestedExpressions[j].RelativeStartIndex >= param.RelativeStartIndex
 						&& (NestedExpressions[j].RelativeStartIndex + NestedExpressions[j].Length) <= (param.RelativeStartIndex + param.Length))
 					{
 						int lengthDiff = NestedExpressions[j].Length - nestedExpressionsInput[j].Count;
@@ -313,140 +321,140 @@ namespace AutoText
 			switch (expressionName.ToLower())
 			{
 				case "s":
-				{
-					string count = String.Concat(expressionParameters["count"].Select(p => p.CharToInput));
-
-					if (count == "")
 					{
-						count = "1";
+						string count = String.Concat(expressionParameters["count"].Select(p => p.CharToInput));
+
+						if (count == "")
+						{
+							count = "1";
+						}
+
+						int repeatCount = Int32.Parse(count);
+						List<AutotextInput> res = new List<AutotextInput>(repeatCount * expressionParameters["text"].Count);
+
+						for (int i = 0; i < repeatCount; i++)
+						{
+							res.AddRange(expressionParameters["text"]);
+						}
+
+						return res;
+						break;
 					}
-
-					int repeatCount = Int32.Parse(count);
-					List<AutotextInput> res = new List<AutotextInput>(repeatCount * expressionParameters["text"].Count);
-
-					for (int i = 0; i < repeatCount; i++)
-					{
-						res.AddRange(expressionParameters["text"]);
-					}
-
-					return res;
-					break;
-				}
 				case "k":
-				{
-					string keycodeStr = String.Concat(expressionParameters["keycode"].Select(p => p.CharToInput));
-					string action = String.Concat(expressionParameters["action"].Select(p => p.CharToInput));
-
-					KeycodesConfiguration keycodesConfiguration = ConfigHelper.GetKeycodesConfiguration();
-					KeycodeConfig keycodeToProcess = keycodesConfiguration.Keycodes.SingleOrDefault(p => p.Names.Any(g => String.Equals(g.Value, keycodeStr, StringComparison.CurrentCultureIgnoreCase)));
-
-					if (keycodeToProcess == null)
 					{
-						throw new ExpressionEvaluationException("No keycode name is not recognized in given expression");
-					}
+						string keycodeStr = String.Concat(expressionParameters["keycode"].Select(p => p.CharToInput));
+						string action = String.Concat(expressionParameters["action"].Select(p => p.CharToInput));
 
-					//Keys keycode = (Keys)Enum.Parse(typeof(Keys), keycodeToProcess.Name, true);
-					Keys keycode = (Keys)keycodeToProcess.Value;
-					InputActionType actionType = InputActionType.Press;
-					int pressCount = -1;
+						KeycodesConfiguration keycodesConfiguration = ConfigHelper.GetKeycodesConfiguration();
+						KeycodeConfig keycodeToProcess = keycodesConfiguration.Keycodes.SingleOrDefault(p => p.Names.Any(g => String.Equals(g.Value, keycodeStr, StringComparison.CurrentCultureIgnoreCase)));
 
-					List<AutotextInput> res = new List<AutotextInput>(100);
-
-					switch (action.ToLower())
-					{
-						case "":
+						if (keycodeToProcess == null)
 						{
-							actionType = InputActionType.Press;
-							break;
+							throw new ExpressionEvaluationException("No keycode name is not recognized in given expression");
 						}
-						case "+":
-						{
-							actionType = InputActionType.KeyDown;
-							break;
-						}
-						case "-":
-						{
-							actionType = InputActionType.KeyUp;
-							break;
-						}
-						case "on":
-						{
-							if (!keycodeToProcess.CanOn)
-							{
-								throw new ExpressionEvaluationException(string.Format("Specified key({0}) can be set to On", keycode));
-							}
 
-							if (!Control.IsKeyLocked(keycode))
-							{
-								actionType = InputActionType.Press;
-							}
-							else
-							{
-								actionType = InputActionType.Press;
-								keycode = Keys.None;
-							}
-							break;
-						}
-						case "off":
+						//Keys keycode = (Keys)Enum.Parse(typeof(Keys), keycodeToProcess.Name, true);
+						Keys keycode = (Keys)keycodeToProcess.Value;
+						InputActionType actionType = InputActionType.Press;
+						int pressCount = -1;
+
+						List<AutotextInput> res = new List<AutotextInput>(100);
+
+						switch (action.ToLower())
 						{
-							if (!keycodeToProcess.CanOff)
-							{
-								throw new ExpressionEvaluationException(string.Format("Specified key({0}) can be set to Off", keycode));
-							}
+							case "":
+								{
+									actionType = InputActionType.Press;
+									break;
+								}
+							case "+":
+								{
+									actionType = InputActionType.KeyDown;
+									break;
+								}
+							case "-":
+								{
+									actionType = InputActionType.KeyUp;
+									break;
+								}
+							case "on":
+								{
+									if (!keycodeToProcess.CanOn)
+									{
+										throw new ExpressionEvaluationException(string.Format("Specified key({0}) can be set to On", keycode));
+									}
 
-							if (Control.IsKeyLocked(keycode))
-							{
-								actionType = InputActionType.Press;
-							}
-							else
-							{
-								actionType = InputActionType.Press;
-								keycode = Keys.None;
-							}
-							break;
+									if (!Control.IsKeyLocked(keycode))
+									{
+										actionType = InputActionType.Press;
+									}
+									else
+									{
+										actionType = InputActionType.Press;
+										keycode = Keys.None;
+									}
+									break;
+								}
+							case "off":
+								{
+									if (!keycodeToProcess.CanOff)
+									{
+										throw new ExpressionEvaluationException(string.Format("Specified key({0}) can be set to Off", keycode));
+									}
+
+									if (Control.IsKeyLocked(keycode))
+									{
+										actionType = InputActionType.Press;
+									}
+									else
+									{
+										actionType = InputActionType.Press;
+										keycode = Keys.None;
+									}
+									break;
+								}
+							case "t":
+							case "toggle":
+								{
+									if (!keycodeToProcess.Toggleable)
+									{
+										throw new ExpressionEvaluationException(string.Format("Specified key({0}) can be toggled", keycode));
+									}
+
+									actionType = InputActionType.Press;
+									break;
+								}
+							default://Numeric, to press multiple times
+								{
+									//pressCount Will be 0 if parsing fails
+									if (!int.TryParse(action, out pressCount))
+									{
+										throw new ExpressionEvaluationException("No action is recognized in given expression");
+									}
+
+									break;
+								}
 						}
-						case "t":
-						case "toggle":
+
+						if (pressCount > 0)
 						{
-							if (!keycodeToProcess.Toggleable)
+							for (int i = 0; i < pressCount; i++)
 							{
-								throw new ExpressionEvaluationException(string.Format("Specified key({0}) can be toggled", keycode));
+								res.Add(new AutotextInput(InputType.KeyCode, actionType, keycode));
 							}
-
-							actionType = InputActionType.Press;
-							break;
 						}
-						default://Numeric, to press multiple times
-						{
-							//pressCount Will be 0 if parsing fails
-							if (!int.TryParse(action, out pressCount))
-							{
-								throw new ExpressionEvaluationException("No action is recognized in given expression");
-							}
-
-							break;
-						}
-					}
-
-					if (pressCount > 0)
-					{
-						for (int i = 0; i < pressCount; i++)
+						else
 						{
 							res.Add(new AutotextInput(InputType.KeyCode, actionType, keycode));
 						}
-					}
-					else
-					{
-						res.Add(new AutotextInput(InputType.KeyCode, actionType, keycode));
-					}
 
-					return res;
-					break;
-				}
+						return res;
+						break;
+					}
 				default:
-				{
-					throw new ArgumentOutOfRangeException("expressionName");
-				}
+					{
+						throw new ArgumentOutOfRangeException("expressionName");
+					}
 			}
 
 			throw new NotImplementedException();

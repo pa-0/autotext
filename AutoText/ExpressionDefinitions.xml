@@ -5,7 +5,8 @@
 	<expressionParameterPrefix ><![CDATA[-]]></expressionParameterPrefix>
 	<expressionParameterAssignmentStr ><![CDATA[=]]></expressionParameterAssignmentStr>
 	<expressionNameRegex ><![CDATA[=]]></expressionNameRegex>
-	<shortcutRegex><![CDATA[((?<shortcuts>[#shortcutsPlaceholder#]+)(?<target>(\([^\(\)]+\))|(\{[^{}]+\})|({}})|({{})|([^{}]){1}))]]></shortcutRegex>
+	<!--<shortcutRegex><![CDATA[((?<shortcuts>[#shortcutsPlaceholder#]+)(?<target>(\([^\(\)]+\))|(\{[^{}]+\})|({}})|({{})|([^{}]){1}))]]></shortcutRegex>-->
+	<shortcutRegex><![CDATA[((?<shortcuts>[#shortcutsPlaceholder#]+)(?<target>(\((?<multitarget>[^\(\)]+)\))|(\{[^{}]+\})|({}})|({{})|([^{}]){1}))]]></shortcutRegex>
 
 	<expressionDefinitions>
 
