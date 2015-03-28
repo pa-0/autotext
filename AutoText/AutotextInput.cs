@@ -39,7 +39,7 @@ namespace AutoText
 
 			for (int i = 0; i < stringBuilder.Length; i++)
 			{
-				res.Add(new AutotextInput() { ActionType = InputActionType.Press, CharToInput = stringBuilder[i] });
+				res.Add(new AutotextInput() { ActionType = InputActionType.Press, CharToInput = stringBuilder[i],Type = InputType.UnicodeChar});
 			}
 
 			return res;

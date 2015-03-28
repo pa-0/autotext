@@ -15,7 +15,7 @@ namespace AutoText.Helpers
 	{
 		public static void ProcessRule(AutotextRuleConfig rule)
 		{
-			AutotextExpression expression = new AutotextExpression(rule.Phrase);
+			AutotextExpression expression = new AutotextExpression(rule);
 			List<AutotextInput> input = expression.GetInput();
 			string resStr = input.ToStringConcat();
 			DoInput(input);

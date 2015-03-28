@@ -26,11 +26,11 @@ namespace AutoText
 		public string ExpressionName { get; private set; }
 		public List<AutotextExpressionParameter> Parameters { get; private set; }
 		public AutotextExpression ParentExpression { get; private set; }
+		private Dictionary<string,string> _userVariables = new Dictionary<string, string>();
 
-
-		public AutotextExpression(string expressionText)
+		public AutotextExpression(AutotextRuleConfig rule)
 		{
-			ExpressionText = string.Format("{{s:{0} 1}}", expressionText);
+			ExpressionText = string.Format("{{s:{0} 1}}", rule.Phrase);
 			ShortcutsRegexTemplate = ConfigHelper.GetExpressionsConfiguration().ShortcutRegexTemplate;
 			RelativeStartIndex = 0;
 			Length = ExpressionText.Length;
@@ -40,10 +40,33 @@ namespace AutoText
 			ProcessShortcuts();
 			BuildEscapedBracesList();
 			ParseExpression(_parsedExpressionText);
+
+			if (rule.Abbreviation.Type == Abbriviationtype.Regex && rule.MatchedString != null)
+			{
+				Regex reg = new Regex(rule.Abbreviation.AbbreviationText);
+				MatchCollection matches = reg.Matches(rule.MatchedString);
+
+				string[] groupNames = reg.GetGroupNames();
+
+				if (matches.Count == 0)
+				{
+					throw new InvalidOperationException("Error in regex abbreviation parsing");
+				}
+
+				foreach (string groupName in groupNames)
+				{
+					_userVariables.Add(groupName,matches.Cast<Match>().Last().Groups[groupName].Value);
+				}
+			}
+			else
+			{
+				throw new InvalidOperationException("Error in regex abbreviation parsing");
+			}
 		}
 
-		private AutotextExpression(string expressionText, int startIndex, int length, List<int> escapedBraces, AutotextExpression parentExpression)
+		private AutotextExpression(string expressionText, int startIndex, int length, List<int> escapedBraces, AutotextExpression parentExpression, Dictionary<string,string> userVars)
 		{
+			_userVariables = userVars;
 			ParentExpression = parentExpression;
 			ExpressionText = expressionText;
 			RelativeStartIndex = startIndex;
@@ -246,7 +269,8 @@ namespace AutoText
 							nestedExpressionStartIndex,
 							nestedExpressionLength,
 							EscapedBraces,
-							this);
+							this,
+							_userVariables);
 
 					NestedExpressions.Add(expressionToAdd);
 					nestedExpressionStartIndex = -1;
@@ -312,11 +336,11 @@ namespace AutoText
 				parameters.Add(param.Name, paramInputs);
 			}
 
-			List<AutotextInput> res = Evaluate(ExpressionName, parameters);
+			List<AutotextInput> res = Evaluate(ExpressionName, parameters,_userVariables);
 			return res;
 		}
 
-		private static List<AutotextInput> Evaluate(string expressionName, Dictionary<string, List<AutotextInput>> expressionParameters)
+		private static List<AutotextInput> Evaluate(string expressionName, Dictionary<string, List<AutotextInput>> expressionParameters, Dictionary<string,string> userVariables)
 		{
 			switch (expressionName.ToLower())
 			{
@@ -451,6 +475,20 @@ namespace AutoText
 						return res;
 						break;
 					}
+				case "v":
+					{
+						string userVarName = String.Concat(expressionParameters["name"].Select(p => p.CharToInput));
+
+						if (!userVariables.ContainsKey(userVarName))
+						{
+							throw new ExpressionEvaluationException(string.Format("User variable with name \"{0}\" is not found in input string", userVarName));
+						}
+
+						return AutotextInput.FromString(userVariables[userVarName]);
+
+						break;
+					}
+
 				default:
 					{
 						throw new ArgumentOutOfRangeException("expressionName");

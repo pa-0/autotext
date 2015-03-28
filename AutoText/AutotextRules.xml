@@ -3,11 +3,14 @@
 	<rules>
 		
 		<rule>
-			<abbreviation caseSensitive="false" >
+			
+			<abbreviation caseSensitive="false" type="Text">
 				<value><![CDATA[ttrr]]></value>
 			</abbreviation>
-			<phrase><![CDATA[{LMenu +}{F}{A}{LMenu -}]]></phrase>
+
+			<phrase><![CDATA[Now is:asd 1]]></phrase>
 			<description><![CDATA[Some description]]></description>
+			
 			<triggers>
 				<item caseSensitive="false">
 					<value><![CDATA[ ]]></value>
@@ -16,7 +19,28 @@
 					<value><![CDATA[{ShiftKey}]]></value>
 				</item>
 			</triggers>
+			
 		</rule>
+
+		<rule>
+
+			<abbreviation caseSensitive="false" type="Regex" lastCharsCount="20">
+				<value><![CDATA[count:(?<count>\d+)]]></value>
+			</abbreviation>
+
+
+			<phrase><![CDATA[{s:Phrase repeat{v:count} times {v:count}}]]></phrase>
+			<description><![CDATA[Some description]]></description>
+
+			<triggers>
+				<item caseSensitive="false">
+					<value><![CDATA[ ]]></value>
+				</item>
+			</triggers>
+
+		</rule>
+
+
 
 	</rules>
 </autotextRules>

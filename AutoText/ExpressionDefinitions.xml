@@ -28,15 +28,13 @@
 
 				<parameter name="count"  allowOmitName="true">
 					<allowedDataTypes>
-						<dataType name="text" />
+						<dataType name="string" />
 					</allowedDataTypes>
 				</parameter>
 
 			</parameters>
 
 		</expression>
-
-
 
 
 
@@ -55,7 +53,7 @@
 
 				<parameter name="action"  allowOmitName="true">
 					<allowedDataTypes>
-						<dataType name="text" />
+						<dataType name="string" />
 					</allowedDataTypes>
 				</parameter>
 
@@ -64,6 +62,41 @@
 		</expression>
 
 
+
+		<expression name="PrintUserVar" shortName="v" >
+			<description>Prints user variable value</description>
+
+			<explicitParamsRegex><![CDATA[^{v:(?<name>.+?)}$]]></explicitParamsRegex>
+			<implicitParamsRegex><![CDATA[^{v:(?<name>.+?)}$]]></implicitParamsRegex>
+			<parameters>
+
+				<parameter name="name" allowOmitName="true">
+					<allowedDataTypes>
+						<dataType name="string" />
+					</allowedDataTypes>
+				</parameter>
+
+			</parameters>
+
+		</expression>
+
+
+		<expression name="PrintCurrentDate" shortName="d" >
+			<description>Prints curent date using provided user format</description>
+
+			<explicitParamsRegex><![CDATA[^{d:(-format=)?(?<format>.+?)}$]]></explicitParamsRegex>
+			<implicitParamsRegex><![CDATA[^{d:(-format=)?(?<format>.+?)}$]]></implicitParamsRegex>
+			<parameters>
+
+				<parameter name="format" allowOmitName="true">
+					<allowedDataTypes>
+						<dataType name="string" />
+					</allowedDataTypes>
+				</parameter>
+
+			</parameters>
+
+		</expression>
 
 
 

@@ -88,7 +88,7 @@
     <Compile Include="Helpers\Configuration\ExpressionConfigDefinition.cs" />
     <Compile Include="Helpers\Configuration\ExpressionConfigParameter.cs" />
     <Compile Include="Helpers\Configuration\ParameterDataType.cs" />
-    <Compile Include="Helpers\Configuration\RuleAbbreviation.cs" />
+    <Compile Include="Helpers\Configuration\AutotextRuleAbbreviation.cs" />
     <Compile Include="Helpers\Extensions\Common.cs" />
     <Compile Include="Helpers\GUIHelper.cs" />
     <Compile Include="Helpers\TextHelper.cs" />

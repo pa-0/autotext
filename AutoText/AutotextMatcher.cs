@@ -8,7 +8,7 @@ using AutoText.Helpers.Configuration;
 
 namespace AutoText
 {
-	class AutotextMatcher
+	public class AutotextMatcher
 	{
 		private const string AcceptablePrintableCharsRegex = @"[\p{L}\p{M}\p{N}\p{P}\p{S} ]{1}";
 		private const string NonPrintableCharsRegex = @"{([\w\d]+)}";
@@ -67,6 +67,13 @@ namespace AutoText
 		{
 			_rules = rules;
 			_abbrMaxLength = rules.Max(p => p.Abbreviation.AbbreviationText.Length);
+			int userDefinedMaxLenght = rules.Max(p => p.Abbreviation.LastCharsCount);
+
+			if (userDefinedMaxLenght > _abbrMaxLength)
+			{
+				_abbrMaxLength = userDefinedMaxLenght;
+			}
+
 			KeyLogger = keyLogger;
 		}
 
@@ -120,11 +127,40 @@ namespace AutoText
 
 						if (_bufferString.Length > _abbrMaxLength)
 						{
-							_bufferString.Remove(0, 1);
+							_bufferString.Remove(0, _bufferString.Length - _abbrMaxLength);
 						}
-
+						
 						string abbr = _bufferString.ToString();
-						_matchedRule = _rules.SingleOrDefault(p => abbr.EndsWith(p.Abbreviation.AbbreviationText, p.Abbreviation.CaseSensitive ? StringComparison.CurrentCulture : StringComparison.CurrentCultureIgnoreCase));
+
+						foreach (AutotextRuleConfig rule in _rules)
+						{
+							if (rule.Abbreviation.Type == Abbriviationtype.Text)
+							{
+								if (abbr.EndsWith(rule.Abbreviation.AbbreviationText))
+								{
+									_matchedRule = rule;
+									break;
+								}
+							}
+							else if (rule.Abbreviation.Type == Abbriviationtype.Regex)
+							{
+								string stringToMatch = abbr;
+
+								if (abbr.Length > rule.Abbreviation.LastCharsCount)
+								{
+									stringToMatch = abbr.Substring(abbr.Length - rule.Abbreviation.LastCharsCount);
+								}
+
+								MatchCollection matches = Regex.Matches(stringToMatch, rule.Abbreviation.AbbreviationText);
+
+								if (matches.Count > 0)
+								{
+									_matchedRule = rule;
+									_matchedRule.MatchedString = stringToMatch;
+									break;
+								}
+							}
+						}
 					}
 				}
 			}
