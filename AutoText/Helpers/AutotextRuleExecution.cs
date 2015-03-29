@@ -17,7 +17,6 @@ namespace AutoText.Helpers
 		{
 			AutotextExpression expression = new AutotextExpression(rule);
 			List<AutotextInput> input = expression.GetInput();
-			string resStr = input.ToStringConcat();
 			DoInput(input);
 			{ }
 		}

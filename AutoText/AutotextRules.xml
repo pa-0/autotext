@@ -2,7 +2,7 @@
 <autotextRules xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" >
 	<rules>
 		
-		<rule>
+		<rule name="Test 1">
 			
 			<abbreviation caseSensitive="false" type="Text">
 				<value><![CDATA[ttrr]]></value>
@@ -22,14 +22,14 @@
 			
 		</rule>
 
-		<rule>
+		<rule name="Test with regex abbreviation">
 
-			<abbreviation caseSensitive="false" type="Regex" lastCharsCount="20">
-				<value><![CDATA[count:(?<count>\d+)]]></value>
+			<abbreviation caseSensitive="false" type="Regex" lastCharsCount="50">
+				<value><![CDATA[cd:(?<format>[^ ]+?)go$]]></value>
 			</abbreviation>
 
 
-			<phrase><![CDATA[{s:Phrase repeat{v:count} times {v:count}}]]></phrase>
+			<phrase><![CDATA[Current date formatted: {d:{v:format}}]]></phrase>
 			<description><![CDATA[Some description]]></description>
 
 			<triggers>

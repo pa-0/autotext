@@ -5,6 +5,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using AutoText.Helpers.Configuration;
+using AutoText.Helpers.Extensions;
 
 namespace AutoText
 {
@@ -26,7 +27,7 @@ namespace AutoText
 		public string ExpressionName { get; private set; }
 		public List<AutotextExpressionParameter> Parameters { get; private set; }
 		public AutotextExpression ParentExpression { get; private set; }
-		private Dictionary<string,string> _userVariables = new Dictionary<string, string>();
+		private Dictionary<string, string> _userVariables = new Dictionary<string, string>();
 
 		public AutotextExpression(AutotextRuleConfig rule)
 		{
@@ -55,7 +56,7 @@ namespace AutoText
 
 				foreach (string groupName in groupNames)
 				{
-					_userVariables.Add(groupName,matches.Cast<Match>().Last().Groups[groupName].Value);
+					_userVariables.Add(groupName, matches.Cast<Match>().Last().Groups[groupName].Value);
 				}
 			}
 			else
@@ -64,7 +65,7 @@ namespace AutoText
 			}
 		}
 
-		private AutotextExpression(string expressionText, int startIndex, int length, List<int> escapedBraces, AutotextExpression parentExpression, Dictionary<string,string> userVars)
+		private AutotextExpression(string expressionText, int startIndex, int length, List<int> escapedBraces, AutotextExpression parentExpression, Dictionary<string, string> userVars)
 		{
 			_userVariables = userVars;
 			ParentExpression = parentExpression;
@@ -336,11 +337,11 @@ namespace AutoText
 				parameters.Add(param.Name, paramInputs);
 			}
 
-			List<AutotextInput> res = Evaluate(ExpressionName, parameters,_userVariables);
+			List<AutotextInput> res = Evaluate(ExpressionName, parameters, _userVariables);
 			return res;
 		}
 
-		private static List<AutotextInput> Evaluate(string expressionName, Dictionary<string, List<AutotextInput>> expressionParameters, Dictionary<string,string> userVariables)
+		private static List<AutotextInput> Evaluate(string expressionName, Dictionary<string, List<AutotextInput>> expressionParameters, Dictionary<string, string> userVariables)
 		{
 			switch (expressionName.ToLower())
 			{
@@ -488,6 +489,29 @@ namespace AutoText
 
 						break;
 					}
+
+				case "d":
+					{
+						string dateFormat = expressionParameters["format"].ConcatToString();
+						DateTime now = DateTime.Now;
+						string resDateStr;
+
+						try
+						{
+							resDateStr = now.ToString(dateFormat);
+						}
+						catch (FormatException ex)
+						{
+							ExpressionEvaluationException expressionEvaluationException = 
+								new ExpressionEvaluationException("Error during expression parsing. Specified date or time format is not a vilid date or time format",ex);
+							throw expressionEvaluationException;
+						}
+
+						return AutotextInput.FromString(resDateStr);
+
+						break;
+					}
+
 
 				default:
 					{

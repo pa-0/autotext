@@ -43,12 +43,13 @@ namespace AutoText
 			}
 		}
 
-		private StringBuilder _bufferString = new StringBuilder(100);
+		private readonly StringBuilder _bufferString = new StringBuilder(100);
 		private int _abbrMaxLength;
+		private int _cursorPosition;
 		private AutotextRuleConfig _matchedRule;
 
-		Regex _acceptablePrintableCharsRegex = new Regex(AcceptablePrintableCharsRegex, RegexOptions.Compiled | RegexOptions.IgnoreCase);
-		Regex _nonPrintableCharsRegex = new Regex(NonPrintableCharsRegex, RegexOptions.Compiled | RegexOptions.IgnoreCase);
+		readonly Regex _acceptablePrintableCharsRegex = new Regex(AcceptablePrintableCharsRegex, RegexOptions.Compiled | RegexOptions.IgnoreCase);
+		readonly Regex _nonPrintableCharsRegex = new Regex(NonPrintableCharsRegex, RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
 		protected virtual void OnMatchFound(AutotextMatchEventArgs e)
 		{

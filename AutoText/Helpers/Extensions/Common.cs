@@ -7,7 +7,7 @@ namespace AutoText.Helpers.Extensions
 {
 	public static class Common
 	{
-		public static string ToStringConcat(this List<AutotextInput> input)
+		public static string ConcatToString(this List<AutotextInput> input)
 		{
 			return string.Concat(input.Select(p => p.CharToInput));
 		}

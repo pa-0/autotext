@@ -9,16 +9,11 @@ namespace AutoText
 	{
 		public string CapturedCharacter { get; private set; }
 
-		public Keys[] CapturedKeys
-		{
-			get { return CapturedKeyCodes.Select( p => (Keys)p).ToArray(); }
-		}
+		public Keys[] CapturedKeys { get; private set; }
 
-		public int[] CapturedKeyCodes { get; private set; }
-
-		public KeyCapturedEventArgs(int[] capturedKeyCodes)
+		public KeyCapturedEventArgs(Keys[] capturedKeyCodes)
 		{
-			CapturedKeyCodes = capturedKeyCodes;
+			CapturedKeys = capturedKeyCodes;
 		}
 
 		public KeyCapturedEventArgs(string capturedCharacter)
@@ -26,10 +21,10 @@ namespace AutoText
 			CapturedCharacter = capturedCharacter;
 		}
 
-		public KeyCapturedEventArgs(int[] capturedKeyCodes, string capturedCharacter)
+		public KeyCapturedEventArgs(Keys[] capturedKeyCodes, string capturedCharacter)
 		{
 			CapturedCharacter = capturedCharacter;
-			CapturedKeyCodes = capturedKeyCodes;
+			CapturedKeys = capturedKeyCodes;
 		}
 	}
 }

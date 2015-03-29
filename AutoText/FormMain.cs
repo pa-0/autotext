@@ -6,6 +6,7 @@ using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -17,17 +18,10 @@ using WindowsInput;
 using AutoText.Helpers;
 using AutoText.Helpers.Configuration;
 using System.Xml.Linq;
+using NCalc;
 
 namespace AutoText
 {
-	class KeycodeTest
-	{
-		public string Name { get; set; }
-		public int Value { get; set; }
-	}
-
-	delegate void TestDel(int number);
-
 	public partial class FormMain : Form
 	{
 		private List<AutotextRuleConfig> _rules;
@@ -39,9 +33,6 @@ namespace AutoText
 		{
 			InitializeComponent();
 
-			//KeycodesConfiguration kkConfig01 = ConfigHelper.GetKeycodesConfiguration();
-
-			{ }
 			/*
 			string[] strTest = {"^","!","+","+","+","^","^" };
 			string[] dist = strTest.Distinct().ToArray();
@@ -98,16 +89,13 @@ namespace AutoText
 
 			string resXml = xmlDoc.ToString();
 			*/
+
+
 			_rules = ConfigHelper.GetAutotextRules();
 			_matcher = new AutotextMatcher(_keylogger, _rules);
 			_matcher.MatchFound += _matcher_MatchFound;
 			_keylogger.KeyCaptured += _testKeylogger_KeyCaptured;
 			_keylogger.StartCapture();
-		}
-
-		void FormMain_TestDelEvent(int number)
-		{
-			throw new NotImplementedException();
 		}
 
 		private void FormMain_Load(object sender, EventArgs e)
@@ -221,5 +209,22 @@ namespace AutoText
 		{
 
 		}
+
+		[DllImport("user32.dll")]
+		static extern IntPtr GetFocus();
+
+		public static Control GetFocusedControl()
+		{
+			Control focusedControl = null;
+			// To get hold of the focused control:
+			IntPtr focusedHandle = GetFocus();
+			if (focusedHandle != IntPtr.Zero)
+			{
+				// Note that if the focused Control is not a .Net control, then this will return null.
+				focusedControl = Control.FromHandle(focusedHandle);
+			}
+			return focusedControl;
+		} 
 	}
+
 }

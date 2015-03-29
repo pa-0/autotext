@@ -53,7 +53,7 @@ namespace AutoText
 
 					if (capturedKeyCodes.Count > 0)
 					{
-						OnKeyCaptured(new KeyCapturedEventArgs(capturedKeyCodes.ToArray(), keyChar));
+						OnKeyCaptured(new KeyCapturedEventArgs(capturedKeyCodes.Select(p => (Keys)p).ToArray(), keyChar));
 						keyChar = string.Empty;
 						capturedKeyCodes.Clear();
 					}
