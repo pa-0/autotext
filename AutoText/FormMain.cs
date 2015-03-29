@@ -209,22 +209,6 @@ namespace AutoText
 		{
 
 		}
-
-		[DllImport("user32.dll")]
-		static extern IntPtr GetFocus();
-
-		public static Control GetFocusedControl()
-		{
-			Control focusedControl = null;
-			// To get hold of the focused control:
-			IntPtr focusedHandle = GetFocus();
-			if (focusedHandle != IntPtr.Zero)
-			{
-				// Note that if the focused Control is not a .Net control, then this will return null.
-				focusedControl = Control.FromHandle(focusedHandle);
-			}
-			return focusedControl;
-		} 
 	}
 
 }

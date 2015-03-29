@@ -59,10 +59,6 @@ namespace AutoText
 					_userVariables.Add(groupName, matches.Cast<Match>().Last().Groups[groupName].Value);
 				}
 			}
-			else
-			{
-				throw new InvalidOperationException("Error in regex abbreviation parsing");
-			}
 		}
 
 		private AutotextExpression(string expressionText, int startIndex, int length, List<int> escapedBraces, AutotextExpression parentExpression, Dictionary<string, string> userVars)
