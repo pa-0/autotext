@@ -94,8 +94,27 @@ namespace AutoText
 			_rules = ConfigHelper.GetAutotextRules();
 			_matcher = new AutotextMatcher(_keylogger, _rules);
 			_matcher.MatchFound += _matcher_MatchFound;
+			_matcher.BufferContentsChanged += _matcher_BufferContentsChanged;
+			_matcher.CursorpositionChanged += _matcher_CursorpositionChanged;
 			_keylogger.KeyCaptured += _testKeylogger_KeyCaptured;
 			_keylogger.StartCapture();
+		}
+
+		void _matcher_CursorpositionChanged(object sender, CursorPositionChangedEventArgs e)
+		{
+			string cursorVisLeft = _matcher.BufferContents.Substring(0, e.NewCursorPosition);
+			string cursorVisRight = _matcher.BufferContents.Substring(e.NewCursorPosition);
+			string res = cursorVisLeft + "|" + cursorVisRight;
+			textBoxBufferContents.Invoke(new Action(() => textBoxBufferContents.Text = res));
+		}
+
+		void _matcher_BufferContentsChanged(object sender, BufferContentsChangedEventArgs e)
+		{
+			string cursorVisLeft = e.NewValue.Substring(0, e.CursorPosition);
+			string cursorVisRight = e.NewValue.Substring(e.CursorPosition);
+			string res = cursorVisLeft + "|" + cursorVisRight;
+
+			textBoxBufferContents.Invoke(new Action(() => textBoxBufferContents.Text = res));
 		}
 
 		private void FormMain_Load(object sender, EventArgs e)

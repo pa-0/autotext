@@ -8,12 +8,42 @@ using AutoText.Helpers.Configuration;
 
 namespace AutoText
 {
+	public class CursorPositionChangedEventArgs : EventArgs
+	{
+		public int OldCursorPosition { get; private set; }
+		public int NewCursorPosition { get; private set; }
+
+		public CursorPositionChangedEventArgs(int oldCursorPosition, int newCursorPosition)
+		{
+			OldCursorPosition = oldCursorPosition;
+			NewCursorPosition = newCursorPosition;
+		}
+	}
+
+
+	public class BufferContentsChangedEventArgs : EventArgs
+	{
+		public string OldValue { get; private set; }
+		public string NewValue { get; private set; }
+		public int CursorPosition { get; private set; }
+
+		public BufferContentsChangedEventArgs(string oldValue, string newValue, int cursorPos)
+		{
+			OldValue = oldValue;
+			NewValue = newValue;
+			CursorPosition = cursorPos;
+		}
+	}
+
+
 	public class AutotextMatcher
 	{
 		private const string AcceptablePrintableCharsRegex = @"[\p{L}\p{M}\p{N}\p{P}\p{S} ]{1}";
 		private const string NonPrintableCharsRegex = @"{([\w\d]+)}";
 
 		public event EventHandler<AutotextMatchEventArgs> MatchFound;
+		public event EventHandler<CursorPositionChangedEventArgs> CursorpositionChanged;
+		public event EventHandler<BufferContentsChangedEventArgs> BufferContentsChanged;
 
 		private KeyLogger _keyLogger;
 		public KeyLogger KeyLogger
@@ -44,8 +74,16 @@ namespace AutoText
 		}
 
 		private readonly StringBuilder _bufferString = new StringBuilder(100);
-		private int _abbrMaxLength;
+		public string BufferContents
+		{
+			get
+			{
+				return  _bufferString.ToString();
+			}
+		}
 		private int _cursorPosition;
+
+		private int _abbrMaxLength;
 		private AutotextRuleConfig _matchedRule;
 
 		readonly Regex _acceptablePrintableCharsRegex = new Regex(AcceptablePrintableCharsRegex, RegexOptions.Compiled | RegexOptions.IgnoreCase);
@@ -84,10 +122,38 @@ namespace AutoText
 			{
 				if (_bufferString.Length > 0)
 				{
+					string oldVal = _bufferString.ToString();
 					_bufferString.Remove(_bufferString.Length - 1, 1);
+					_cursorPosition--;
+					string newVal = _bufferString.ToString();
+					OnBufferContentsChanged(new BufferContentsChangedEventArgs(oldVal, newVal, _cursorPosition));
 				}
 
 				_matchedRule = null;
+			}
+			else if (e.CapturedKeys[0] == Keys.Left)
+			{
+				int oldPos = _cursorPosition;
+
+				if (_cursorPosition > 0)
+				{
+					if (_bufferString.Length > 0)
+					{
+						_cursorPosition--;
+						OnCursorpositionChanged(new CursorPositionChangedEventArgs(oldPos, _cursorPosition));
+					}
+				}
+
+			}
+			else if (e.CapturedKeys[0] == Keys.Right)
+			{
+				int oldPos = _cursorPosition;
+
+				if (_cursorPosition < _bufferString.Length)
+				{
+					_cursorPosition++;
+					OnCursorpositionChanged(new CursorPositionChangedEventArgs(oldPos, _cursorPosition));
+				}
 			}
 			else
 			{
@@ -117,20 +183,29 @@ namespace AutoText
 						}
 					}
 
+					string oldVal = _bufferString.ToString();
 					_bufferString.Clear();
+					string newVal = _bufferString.ToString();
+					OnBufferContentsChanged(new BufferContentsChangedEventArgs(oldVal, newVal,_cursorPosition));
+
 					_matchedRule = null;
 				}
 				else
 				{
 					if (_acceptablePrintableCharsRegex.IsMatch(e.CapturedCharacter))
 					{
+						string oldVal = _bufferString.ToString();
+
 						_bufferString.Append(e.CapturedCharacter);
 
 						if (_bufferString.Length > _abbrMaxLength)
 						{
 							_bufferString.Remove(0, _bufferString.Length - _abbrMaxLength);
 						}
-						
+
+						string newVal = _bufferString.ToString();
+						OnBufferContentsChanged(new BufferContentsChangedEventArgs(oldVal, newVal,_cursorPosition));
+
 						string abbr = _bufferString.ToString();
 
 						foreach (AutotextRuleConfig rule in _rules)
@@ -165,6 +240,18 @@ namespace AutoText
 					}
 				}
 			}
+		}
+
+		protected virtual void OnBufferContentsChanged(BufferContentsChangedEventArgs e)
+		{
+			var handler = BufferContentsChanged;
+			if (handler != null) handler(this, e);
+		}
+
+		protected virtual void OnCursorpositionChanged(CursorPositionChangedEventArgs e)
+		{
+			var handler = CursorpositionChanged;
+			if (handler != null) handler(this, e);
 		}
 	}
 }
