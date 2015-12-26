@@ -10,6 +10,8 @@ namespace AutoText.Helpers.Configuration
 		public string RuleName { get; set; }
 		[XmlElement("abbreviation")]
 		public AutotextRuleAbbreviation Abbreviation { get;  set; }
+		[XmlElement("removeAbbr")]
+		public bool RemoveAbbr { get; set; }
 		[XmlElement("phrase")]
 		public string Phrase { get;  set; }
 		[XmlElement("description")]

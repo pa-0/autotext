@@ -5,8 +5,8 @@
 	<expressionParameterPrefix ><![CDATA[-]]></expressionParameterPrefix>
 	<expressionParameterAssignmentStr ><![CDATA[=]]></expressionParameterAssignmentStr>
 	<expressionNameRegex ><![CDATA[=]]></expressionNameRegex>
-	<!--<shortcutRegex><![CDATA[((?<shortcuts>[#shortcutsPlaceholder#]+)(?<target>(\([^\(\)]+\))|(\{[^{}]+\})|({}})|({{})|([^{}]){1}))]]></shortcutRegex>-->
 	<shortcutRegex><![CDATA[((?<shortcuts>[#shortcutsPlaceholder#]+)(?<target>(\((?<multitarget>[^\(\)]+)\))|(\{[^{}]+\})|({}})|({{})|([^{}]){1}))]]></shortcutRegex>
+	<nonPrintableTriggers><![CDATA[ShiftKey,ControlKey,Menu,Pause,CapsLock,Capital,Escape,Prior,PageUp,PageDown,Next,End,Home,Snapshot,PrintScreen,Insert,Delete,LWin,RWin,NumLock,LShiftKey,RShiftKey,LControlKey,RControlKey,LMenu,RMenu,Shift,Control,Alt,]]></nonPrintableTriggers>
 
 	<expressionDefinitions>
 
@@ -17,7 +17,7 @@
 			<description>Outputs a string</description>
 			
 			<explicitParamsRegex><![CDATA[^{s: *-text=("{1})(?<text>.+)(\1) *-count=(?<count>([1-9][0-9]*)|(\{.+\})) *}$]]></explicitParamsRegex>
-			<implicitParamsRegex><![CDATA[^{s:(?<text>.+?) {1}(?<count>([1-9][0-9]*)|(\{.+\})) *}$]]></implicitParamsRegex>
+			<implicitParamsRegex><![CDATA[^{s:(?<text>.+?) {1}(?<count>([1-9][0-9]*)|(\{.+\}))? *}$]]></implicitParamsRegex>
 			<parameters>
 
 				<parameter name="text" allowOmitName="true">

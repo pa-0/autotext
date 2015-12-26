@@ -2,23 +2,25 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
+using System.Windows.Forms;
 using WindowsInput;
 using AutoText.Helpers.Configuration;
 using AutoText.Helpers.Extensions;
 
 namespace AutoText.Helpers
 {
+
 	public static class AutotextRuleExecution
 	{
-		public static void ProcessRule(AutotextRuleConfig rule)
+		public static void ProcessRule(MatchParameters rule)
 		{
 			AutotextExpression expression = new AutotextExpression(rule);
 			List<AutotextInput> input = expression.GetInput();
 			DoInput(input);
-			{ }
 		}
 
 		private static INPUT [] ConverInput(List<AutotextInput> input)

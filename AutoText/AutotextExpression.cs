@@ -11,7 +11,6 @@ namespace AutoText
 {
 	public class AutotextExpression
 	{
-		//((?<shortcuts>[\+\^!]+)(((\(?)(?<multitarget>[^\(\)]+?)(\))){1}))
 		private const string OpenBraceEscapeSeq = "{{}";
 		private const string ClosingBraceEscapeSeq = "{}}";
 		private readonly string ShortcutsRegexTemplate;
@@ -29,23 +28,43 @@ namespace AutoText
 		public AutotextExpression ParentExpression { get; private set; }
 		private Dictionary<string, string> _userVariables = new Dictionary<string, string>();
 
-		public AutotextExpression(AutotextRuleConfig rule)
+		public AutotextExpression(MatchParameters matchParams)
 		{
-			ExpressionText = string.Format("{{s:{0} 1}}", rule.Phrase);
+			string abbrRemoveText = "";
+
+			if (matchParams != null && matchParams.AutotextRuleConfig.RemoveAbbr)
+			{
+				for (int i = 0; i < matchParams.AutotextRuleConfig.Abbreviation.AbbreviationText.Length; i++)
+				{
+					abbrRemoveText += "{Back}";
+				}
+
+
+				string[] nonPrintableTriggers = ConfigHelper.GetExpressionsConfiguration().NonPrintableTriggers.Split(',').Select(p => "{" + p + "}").ToArray();
+				if (!nonPrintableTriggers.Contains(matchParams.MatchTrigger.Value))
+				{
+					abbrRemoveText += "{Back}";
+				}
+			}
+
+
+			ExpressionText = string.Format("{{s:{0} 1}}", abbrRemoveText + matchParams.AutotextRuleConfig.Phrase);
 			ShortcutsRegexTemplate = ConfigHelper.GetExpressionsConfiguration().ShortcutRegexTemplate;
 			RelativeStartIndex = 0;
 			Length = ExpressionText.Length;
 			EscapedBraces = new List<int>(100);
 			NestedExpressions = new List<AutotextExpression>(100);
 			Parameters = new List<AutotextExpressionParameter>(20);
+
+
 			ProcessShortcuts();
 			BuildEscapedBracesList();
 			ParseExpression(_parsedExpressionText);
 
-			if (rule.Abbreviation.Type == Abbriviationtype.Regex && rule.MatchedString != null)
+			if (matchParams.AutotextRuleConfig.Abbreviation.Type == Abbriviationtype.Regex && matchParams.AutotextRuleConfig.MatchedString != null)
 			{
-				Regex reg = new Regex(rule.Abbreviation.AbbreviationText);
-				MatchCollection matches = reg.Matches(rule.MatchedString);
+				Regex reg = new Regex(matchParams.AutotextRuleConfig.Abbreviation.AbbreviationText);
+				MatchCollection matches = reg.Matches(matchParams.AutotextRuleConfig.MatchedString);
 
 				string[] groupNames = reg.GetGroupNames();
 
@@ -136,7 +155,14 @@ namespace AutoText
 						}
 					}
 
-					string strToInput = ExpandShortcuts(string.Concat(spMatch.Groups["shortcuts"].Value.Distinct()), target);
+					string expandedKeys = "";
+
+					foreach (char c in target)
+					{
+						expandedKeys = string.Format("{{k:{0} 1}}", c);
+					}
+
+					string strToInput = ExpandShortcuts(string.Concat(spMatch.Groups["shortcuts"].Value.Distinct()), expandedKeys);
 					sbRes.Append(strToInput);
 				}
 			}
@@ -218,8 +244,7 @@ namespace AutoText
 
 			ExpressionName = matchedConfig.ShortName;
 
-			MatchCollection expressionParameters = Regex.Matches(expressionText, regex,
-				RegexOptions.Singleline | RegexOptions.IgnoreCase);
+			MatchCollection expressionParameters = Regex.Matches(expressionText, regex, RegexOptions.Singleline | RegexOptions.IgnoreCase);
 
 			for (int i = 0; i < matchedConfig.ExpessionParametrers.Count; i++)
 			{
@@ -333,7 +358,9 @@ namespace AutoText
 				parameters.Add(param.Name, paramInputs);
 			}
 
+
 			List<AutotextInput> res = Evaluate(ExpressionName, parameters, _userVariables);
+
 			return res;
 		}
 
@@ -498,8 +525,8 @@ namespace AutoText
 						}
 						catch (FormatException ex)
 						{
-							ExpressionEvaluationException expressionEvaluationException = 
-								new ExpressionEvaluationException("Error during expression parsing. Specified date or time format is not a vilid date or time format",ex);
+							ExpressionEvaluationException expressionEvaluationException =
+								new ExpressionEvaluationException("Error during expression parsing. Specified date or time format is not a vilid date or time format", ex);
 							throw expressionEvaluationException;
 						}
 
@@ -526,8 +553,13 @@ namespace AutoText
 			for (int i = 0; i < shortcuts.Length; i++)
 			{
 				string shortcut = shortcuts[i].ToString();
-				string keycodeStr = kkConfiguration.Keycodes.Single(p => p.Shortcut == shortcut).Names.First().Value;
-				res.Append(string.Format("{{{0} +}}", keycodeStr));
+				List<string> keycodeStr = kkConfiguration.Keycodes.Where(p => p.Shortcut == shortcut).Select(p => p.Names.First().Value).ToList();
+
+				foreach (string s in keycodeStr)
+				{
+					res.Append(string.Format("{{{0} +}}", s));
+				}
+
 			}
 
 			res.Append(target);
@@ -538,8 +570,12 @@ namespace AutoText
 			for (int i = 0; i < shortcuts.Length; i++)
 			{
 				string shortcut = shortcuts[i].ToString();
-				string keycodeStr = kkConfiguration.Keycodes.Single(p => p.Shortcut == shortcut).Names.First().Value;
-				res.Append(string.Format("{{{0} -}}", keycodeStr));
+				List<string> keycodeStr = kkConfiguration.Keycodes.Where(p => p.Shortcut == shortcut).Select(p => p.Names.First().Value).ToList();
+
+				foreach (string s in keycodeStr)
+				{
+					res.Append(string.Format("{{{0} -}}", s));
+				}
 			}
 
 			{ }

@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Configuration;
 using System.Data;
 using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -24,6 +25,7 @@ namespace AutoText
 {
 	public partial class FormMain : Form
 	{
+		
 		private List<AutotextRuleConfig> _rules;
 		private AutotextMatcher _matcher;
 		private KeyLogger _keylogger = new KeyLogger();
@@ -33,89 +35,13 @@ namespace AutoText
 		{
 			InitializeComponent();
 
-			/*
-			string[] strTest = {"^","!","+","+","+","^","^" };
-			string[] dist = strTest.Distinct().ToArray();
-			string regEsc = Regex.Escape("^+");
-			
-			KeycodesConfiguration kkConfig = ConfigHelper.GetKeycodesConfiguration();
-			List<int> similar = kkConfig.Keycodes.GroupBy(p => p.Value).Where(p => p.Count() > 1).Select(p => p.Key).ToList();
-
-			List<KeycodeConfig> keycodes = kkConfig.Keycodes.Where(p => similar.Contains(p.Value )).ToList();
-
-			string values = string.Join("\r\n", similar);
-			string names = string.Join("\r\n", keycodes.Select(p => p.Value.ToString() + " " + p.Name));
-			*/
-
-			/*
-			string[] testNames = Enum.GetNames(typeof(Keys));
-			int[] testValues = (int[])Enum.GetValues(typeof(Keys));
-
-			List<KeycodeTest> kkTest = new List<KeycodeTest>();
-
-			for (int i = 0; i < testNames.Length; i++)
-			{
-				kkTest.Add(new KeycodeTest() { Name = testNames[i], Value = (int)Enum.Parse(typeof(Keys), testNames[i]) });
-			}
-
-			List<IGrouping<int, KeycodeTest>> groups = kkTest.GroupBy(p => p.Value).ToList();
-
-			XDocument xmlDoc = new XDocument();
-			XElement root = new XElement("configuration");
-			xmlDoc.Add(root);
-			XElement keycode;
-
-			for (int i = 0; i < groups.Count; i++)
-			{
-				IGrouping<int, KeycodeTest> group = groups[i];
-				keycode = new XElement("keycode");
-				keycode.Add(new XAttribute("value", group.Key));
-				keycode.Add(new XAttribute("toggleable", "false"));
-				keycode.Add(new XAttribute("canOn", "false"));
-				keycode.Add(new XAttribute("canOff", "false"));
-
-				XElement namesCollection = new XElement("names");
-				keycode.Add(namesCollection);
-
-				foreach (KeycodeTest item in group)
-				{
-					XElement nemeElem = new XElement("name");
-					nemeElem.Add(new XAttribute("value",item.Name));
-					namesCollection.Add(nemeElem);
-				}
-
-				root.Add(keycode);
-			}
-
-			string resXml = xmlDoc.ToString();
-			*/
-
-
 			_rules = ConfigHelper.GetAutotextRules();
-			_matcher = new AutotextMatcher(_keylogger, _rules);
+			_matcher = new AutotextMatcher(_rules);
 			_matcher.MatchFound += _matcher_MatchFound;
-			_matcher.BufferContentsChanged += _matcher_BufferContentsChanged;
-			_matcher.CursorpositionChanged += _matcher_CursorpositionChanged;
 			_keylogger.KeyCaptured += _testKeylogger_KeyCaptured;
 			_keylogger.StartCapture();
 		}
 
-		void _matcher_CursorpositionChanged(object sender, CursorPositionChangedEventArgs e)
-		{
-			string cursorVisLeft = _matcher.BufferContents.Substring(0, e.NewCursorPosition);
-			string cursorVisRight = _matcher.BufferContents.Substring(e.NewCursorPosition);
-			string res = cursorVisLeft + "|" + cursorVisRight;
-			textBoxBufferContents.Invoke(new Action(() => textBoxBufferContents.Text = res));
-		}
-
-		void _matcher_BufferContentsChanged(object sender, BufferContentsChangedEventArgs e)
-		{
-			string cursorVisLeft = e.NewValue.Substring(0, e.CursorPosition);
-			string cursorVisRight = e.NewValue.Substring(e.CursorPosition);
-			string res = cursorVisLeft + "|" + cursorVisRight;
-
-			textBoxBufferContents.Invoke(new Action(() => textBoxBufferContents.Text = res));
-		}
 
 		private void FormMain_Load(object sender, EventArgs e)
 		{
@@ -213,15 +139,48 @@ namespace AutoText
 		{
 			textBox1.Invoke(new Action(() =>
 			{
-				textBox1.Text += (string.IsNullOrEmpty(e.CapturedCharacter) ? "\"\"" : e.CapturedCharacter) + "\r\n" + string.Join(" | ", e.CapturedKeys) + "\r\n\r\n";
+				textBox1.Text += (String.IsNullOrEmpty(e.CapturedCharacter) ? "\"\"" : e.CapturedCharacter) + "\r\n" + String.Join(" | ", e.CapturedKeys) + "\r\n\r\n";
 				textBox1.Select(textBox1.Text.Length, 0);
 				textBox1.ScrollToCaret();
 			}));
+
+			Keys[] notAllowedSymbols =
+			{
+				Keys.Up,
+				Keys.Right,
+				Keys.Left,
+				Keys.Down,
+				Keys.MButton,
+				Keys.LButton,
+				Keys.RButton,
+				Keys.Home,
+				Keys.End,
+				Keys.PageDown,
+				Keys.Delete,
+				Keys.PageUp
+			};
+
+			if (e.CapturedKeys.Any(capturedKey => notAllowedSymbols.Contains(capturedKey)))
+			{
+				_matcher.ClearBuffer();
+				return;
+			}
+
+
+			if (e.CapturedKeys[0] == Keys.Back )
+			{
+				_matcher.EraseLastBufferSymbol();
+			}
+
+			_matcher.CaptureSymbol(e);
 		}
 
 		void _matcher_MatchFound(object sender, AutotextMatchEventArgs e)
 		{
-			AutotextRuleExecution.ProcessRule(e.MatchedRule);
+			_keylogger.PauseCapture();
+			Thread.Sleep(20);
+			AutotextRuleExecution.ProcessRule(new MatchParameters(e.MatchedRule,e.Trigger));
+			_keylogger.ResumeCapture();
 		}
 
 		private void button1_Click(object sender, EventArgs e)

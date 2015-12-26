@@ -27,9 +27,12 @@ namespace AutoText
 		public event EventHandler<KeyCapturedEventArgs> KeyCaptured;
 		public event EventHandler<EventArgs> CaptureStopped;
 		private bool _interruptCapture;
+		private bool _pauseCapture;
 
 		public void StartCapture()
 		{
+			_interruptCapture = false;
+
 			_keyCaptureTask = Task.Factory.StartNew(() =>
 			{
 				int[] keysValues = (int[])Enum.GetValues(typeof (Keys));
@@ -38,6 +41,12 @@ namespace AutoText
 
 				while (true)
 				{
+					if (_pauseCapture)
+					{
+						Thread.Sleep(10);
+						continue;
+					}
+
 					for (uint i = 0; i < keysValues.Length; i++)
 					{
 						short keyState = WinAPI.GetAsyncKeyState(keysValues[i]);
@@ -57,7 +66,6 @@ namespace AutoText
 						keyChar = string.Empty;
 						capturedKeyCodes.Clear();
 					}
-
 
 					if (_interruptCapture)
 					{
@@ -85,6 +93,19 @@ namespace AutoText
 				OnCaptureStopped();
 			});
 		}
+
+
+		public void PauseCapture()
+		{
+			_pauseCapture = true;
+		}
+
+		public void ResumeCapture()
+		{
+			_pauseCapture = false;
+		}
+
+
 
 		protected virtual void OnKeyCaptured(KeyCapturedEventArgs e)
 		{

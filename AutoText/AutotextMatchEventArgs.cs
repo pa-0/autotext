@@ -6,10 +6,12 @@ namespace AutoText
 	public class AutotextMatchEventArgs : EventArgs
 	{
 		public AutotextRuleConfig MatchedRule { get; private set; }
+		public AutotextRuleTrigger Trigger { get; private set; }
 
-		public AutotextMatchEventArgs(AutotextRuleConfig matchedRule)
+		public AutotextMatchEventArgs(AutotextRuleConfig matchedRule, AutotextRuleTrigger trigger)
 		{
 			MatchedRule = matchedRule;
+			Trigger = trigger;
 		}
 	}
 }

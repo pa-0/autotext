@@ -883,7 +883,7 @@
 				<name value="KeyCode" />
 			</names>
 		</keycode>
-		<keycode value="65536" toggleable="false" canOn="false" canOff="false" shortcut="none">
+		<keycode value="65536" toggleable="false" canOn="false" canOff="false" shortcut="+">
 			<names>
 				<name value="Shift" />
 			</names>
