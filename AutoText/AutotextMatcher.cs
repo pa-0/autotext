@@ -53,44 +53,40 @@ namespace AutoText
 
 		public void CaptureSymbol(KeyCapturedEventArgs e)
 		{
-			_bufferString.Append(e.CapturedCharacter);
-
 			if (_bufferString.Length >= _bufferString.Capacity)
 			{
 				_bufferString.Remove(0, 1);
 			}
 
-			if (e.CapturedCharacter != "\b")
+			foreach (AutotextRuleConfig ruleConfig in _rules)
 			{
-				foreach (AutotextRuleConfig ruleConfig in _rules)
+				foreach (AutotextRuleTrigger ruleTrigger in ruleConfig.Triggers)
 				{
-					foreach (AutotextRuleTrigger ruleTrigger in ruleConfig.Triggers)
+					if (string.Compare(e.CapturedCharacter, ruleTrigger.Value, !ruleTrigger.CaseSensitive) == 0)
 					{
-						if (string.Compare(e.CapturedCharacter, ruleTrigger.Value, !ruleTrigger.CaseSensitive) == 0)
+						if (_bufferString.ToString().EndsWith(ruleConfig.Abbreviation.AbbreviationText, !ruleConfig.Abbreviation.CaseSensitive, null))
 						{
-							if (_bufferString.ToString().EndsWith(ruleConfig.Abbreviation.AbbreviationText, !ruleConfig.Abbreviation.CaseSensitive,null))
-							{
-								OnMatchFound(new AutotextMatchEventArgs(ruleConfig, ruleTrigger));
-								return;
-							}
+							OnMatchFound(new AutotextMatchEventArgs(ruleConfig, ruleTrigger));
+							return;
 						}
 					}
 				}
-
-
-				foreach (AutotextRuleConfig ruleConfig in _rules)
-				{
-					//Check if abbreviatiuon matches
-					if (ruleConfig.Triggers.Any(p => e.CapturedKeys.Where(j => "{" + j + "}" == p.Value).Count() > 0))
-					{
-						if (_bufferString.ToString().EndsWith(ruleConfig.Abbreviation.AbbreviationText))
-						{
-							OnMatchFound(new AutotextMatchEventArgs(ruleConfig, ruleConfig.Triggers.Single(p => e.CapturedKeys.Where(j => "{" + j + "}" == p.Value).Any())));
-						}
-					}
-				}
-
 			}
+
+			foreach (AutotextRuleConfig ruleConfig in _rules)
+			{
+				//Check if abbreviatiuon matches
+				if (ruleConfig.Triggers.Any(p => e.CapturedKeys.Where(j => "{" + j + "}" == p.Value).Count() > 0))
+				{
+					if (_bufferString.ToString().EndsWith(ruleConfig.Abbreviation.AbbreviationText))
+					{
+						OnMatchFound(new AutotextMatchEventArgs(ruleConfig, ruleConfig.Triggers.Single(p => e.CapturedKeys.Where(j => "{" + j + "}" == p.Value).Any())));
+						return;
+					}
+				}
+			}
+
+			_bufferString.Append(e.CapturedCharacter);
 		}
 
 		public void ClearBuffer()

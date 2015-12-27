@@ -119,6 +119,7 @@ namespace AutoText
 
 			int startIndex = 0;
 
+			//Determine shortcuts index for extraction
 			for (int i = 0; i < matches.Count; i++)
 			{
 				Match m = matches[i];
@@ -134,32 +135,38 @@ namespace AutoText
 
 			string target = null;
 
+			//Expanding shortcuts to their corresponding macroses
 			while (splStack.Count > 0)
 			{
+				string expandedKeys = "";
+
+
 				sbRes.Append(splStack.Pop());
 
 				if (splStringsStack.Count > 0)
 				{
 					Match spMatch = splStringsStack.Pop();
 					target = spMatch.Groups["target"].Value;
+					string keycodes = "";
 
-					if (target.StartsWith("(") && target.EndsWith(")"))
+					//Keycodes in key combination
+					foreach (KeycodeConfig keycode in ConfigHelper.GetKeycodesConfiguration().Keycodes)
 					{
-						if (spMatch.Groups["multitarget"].Value != string.Empty)
+						foreach (KeycodeConfigName name in keycode.Names)
 						{
-							target = spMatch.Groups["multitarget"].Value;
-						}
-						else
-						{
-							throw new InvalidOperationException("The shortcut target is not defined.");
+							if (target.Contains("{"+ name.Value + "}"))
+							{
+								string kkToAd = "{k:" + name.Value + " 1}";
+								expandedKeys += kkToAd;
+								target = target.Replace("{" + name.Value + "}", "");
+							}
 						}
 					}
 
-					string expandedKeys = "";
-
+					//Simple keys
 					foreach (char c in target)
 					{
-						expandedKeys = string.Format("{{k:{0} 1}}", c);
+						expandedKeys += string.Format("{{k:{0} 1}}", c);
 					}
 
 					string strToInput = ExpandShortcuts(string.Concat(spMatch.Groups["shortcuts"].Value.Distinct()), expandedKeys);

@@ -7,7 +7,7 @@
 				<value><![CDATA[tt]]></value>
 			</abbreviation>
 			<removeAbbr>true</removeAbbr>
-			<phrase><![CDATA[{s:Hello 3}]]></phrase>
+			<phrase><![CDATA[^({Escape})asdasd]]></phrase>
 			<description><![CDATA[Some description 1]]></description>
 			<triggers>
 				<item caseSensitive="false">

@@ -95,6 +95,7 @@
     <Compile Include="Helpers\Configuration\AutotextRuleAbbreviation.cs" />
     <Compile Include="Helpers\Extensions\Common.cs" />
     <Compile Include="Helpers\GUIHelper.cs" />
+    <Compile Include="Helpers\PairedDelimiterParser.cs" />
     <Compile Include="Helpers\TextHelper.cs" />
     <Compile Include="Helpers\WinAPI.cs" />
     <Compile Include="AutotextInput.cs" />
