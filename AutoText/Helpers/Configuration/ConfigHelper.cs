@@ -16,14 +16,8 @@ namespace AutoText.Helpers.Configuration
 
 		public static List<AutotextRuleConfig> GetAutotextRules()
 		{
-			if (_autotextConfig != null)
-			{
-				return _autotextConfig;
-			}
-
 			_autotextConfig = DeserailizeXml<AutotextRulesRoot>(@"AutotextRules.xml").AutotextRulesList;
 			return _autotextConfig;
-
 		}
 
 		private static TRes DeserailizeXml<TRes>(string xmlFilePath)

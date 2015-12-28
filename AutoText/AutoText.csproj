@@ -71,6 +71,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AddKeyCode.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AddKeyCode.Designer.cs">
+      <DependentUpon>AddKeyCode.cs</DependentUpon>
+    </Compile>
     <Compile Include="AutotextExpression.cs" />
     <Compile Include="AutotextMatcher.cs" />
     <Compile Include="AutotextMatchEventArgs.cs" />
@@ -95,7 +101,6 @@
     <Compile Include="Helpers\Configuration\AutotextRuleAbbreviation.cs" />
     <Compile Include="Helpers\Extensions\Common.cs" />
     <Compile Include="Helpers\GUIHelper.cs" />
-    <Compile Include="Helpers\PairedDelimiterParser.cs" />
     <Compile Include="Helpers\TextHelper.cs" />
     <Compile Include="Helpers\WinAPI.cs" />
     <Compile Include="AutotextInput.cs" />
@@ -113,6 +118,11 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="AutotextRuleTemplate.xml" />
+    <None Include="Resources\keycode_small.png" />
+    <EmbeddedResource Include="AddKeyCode.resx">
+      <DependentUpon>AddKeyCode.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FormMain.resx">
       <DependentUpon>FormMain.cs</DependentUpon>
     </EmbeddedResource>

@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
+using System.Windows.Forms;
 
 namespace AutoText.Helpers.Extensions
 {
@@ -11,5 +13,7 @@ namespace AutoText.Helpers.Extensions
 		{
 			return string.Concat(input.Select(p => p.CharToInput));
 		}
+		
 	}
+
 }

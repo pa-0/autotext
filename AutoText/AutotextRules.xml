@@ -2,30 +2,30 @@
 <autotextRules xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" >
 	<rules>
 		
-		<rule name="Test 1">
-			<abbreviation caseSensitive="false" type="Text">
+		<rule>
+			<abbreviation caseSensitive="true" type="Text">
 				<value><![CDATA[tt]]></value>
 			</abbreviation>
 			<removeAbbr>true</removeAbbr>
 			<phrase><![CDATA[^({Escape})asdasd]]></phrase>
 			<description><![CDATA[Some description 1]]></description>
 			<triggers>
-				<item caseSensitive="false">
-					<value><![CDATA[{Space}]]></value>
+				<item caseSensitive="true">
+					<value><![CDATA[f]]></value>
 				</item>
-				<item caseSensitive="false">
+				<item caseSensitive="true">
 					<value><![CDATA[{ShiftKey}]]></value>
 				</item>
 			</triggers>
 		</rule>
 
 
-		<rule name="Test with regex abbreviation">
+		<rule>
 			<abbreviation caseSensitive="false" type="Regex" lastCharsCount="50">
 				<value><![CDATA[cd:(?<format>[^ ]+?)go$]]></value>
 			</abbreviation>
 			<phrase><![CDATA[Current date formatted: {d:{v:format}}]]></phrase>
-			<description><![CDATA[Some description]]></description>
+			<description><![CDATA[Some  description]]></description>
 			<triggers>
 				<item caseSensitive="false">
 					<value><![CDATA[{Space}]]></value>
@@ -33,5 +33,6 @@
 			</triggers>
 		</rule>
 
+		
 	</rules>
 </autotextRules>

@@ -62,9 +62,9 @@ namespace AutoText
 			{
 				foreach (AutotextRuleTrigger ruleTrigger in ruleConfig.Triggers)
 				{
-					if (string.Compare(e.CapturedCharacter, ruleTrigger.Value, !ruleTrigger.CaseSensitive) == 0)
+					if (_bufferString.ToString().EndsWith(ruleConfig.Abbreviation.AbbreviationText, !ruleConfig.Abbreviation.CaseSensitive, null))
 					{
-						if (_bufferString.ToString().EndsWith(ruleConfig.Abbreviation.AbbreviationText, !ruleConfig.Abbreviation.CaseSensitive, null))
+						if (string.Compare(e.CapturedCharacter, ruleTrigger.Value, !ruleTrigger.CaseSensitive) == 0)
 						{
 							OnMatchFound(new AutotextMatchEventArgs(ruleConfig, ruleTrigger));
 							return;
