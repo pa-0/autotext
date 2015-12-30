@@ -18,19 +18,8 @@
 			
 			<implicitParamsRegex><![CDATA[^{s:(?<text>.+?) {1}(?<count>([1-9][0-9]*)|(\{.+\}))? *}$]]></implicitParamsRegex>
 			<parameters>
-
-				<parameter name="text" allowOmitName="true">
-					<allowedDataTypes>
-						<dataType name="string" />
-					</allowedDataTypes>
-				</parameter>
-
-				<parameter name="count"  allowOmitName="true">
-					<allowedDataTypes>
-						<dataType name="string" />
-					</allowedDataTypes>
-				</parameter>
-
+				<parameter name="text" />
+				<parameter name="count"/>
 			</parameters>
 
 		</expression>
@@ -42,19 +31,8 @@
 
 			<implicitParamsRegex><![CDATA[^{(k:)? *(-key=)?(?<keycode>[A-Z0-9]+)( +(-action=)?(?<action>[-+]|[1-9][0-9]*|on|off|t|toggle|(\{.+\})+) *)?}$]]></implicitParamsRegex>
 			<parameters>
-
-				<parameter name="keycode" allowOmitName="true">
-					<allowedDataTypes>
-						<dataType name="keycode" />
-					</allowedDataTypes>
-				</parameter>
-
-				<parameter name="action"  allowOmitName="true">
-					<allowedDataTypes>
-						<dataType name="string" />
-					</allowedDataTypes>
-				</parameter>
-
+				<parameter name="keycode" allowOmitName="true"/>
+				<parameter name="action"  allowOmitName="true"/>
 			</parameters>
 
 		</expression>
@@ -66,13 +44,7 @@
 
 			<implicitParamsRegex><![CDATA[^{v:(?<name>.+?)}$]]></implicitParamsRegex>
 			<parameters>
-
-				<parameter name="name" allowOmitName="true">
-					<allowedDataTypes>
-						<dataType name="string" />
-					</allowedDataTypes>
-				</parameter>
-
+				<parameter name="name" allowOmitName="true"/>
 			</parameters>
 
 		</expression>
@@ -83,13 +55,7 @@
 
 			<implicitParamsRegex><![CDATA[^{d:(-format=)?(?<format>.+?)}$]]></implicitParamsRegex>
 			<parameters>
-
-				<parameter name="format" allowOmitName="true">
-					<allowedDataTypes>
-						<dataType name="string" />
-					</allowedDataTypes>
-				</parameter>
-
+				<parameter name="format" allowOmitName="true"/>
 			</parameters>
 
 		</expression>

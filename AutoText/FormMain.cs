@@ -51,6 +51,7 @@ namespace AutoText
 			_matcher.MatchFound += _matcher_MatchFound;
 			_keylogger.KeyCaptured += _testKeylogger_KeyCaptured;
 			_keylogger.StartCapture();
+
 		}
 
 		private void FormMain_Load(object sender, EventArgs e)
@@ -59,7 +60,6 @@ namespace AutoText
 			{
 				listViewPhrases.Items.Add(new ListViewItem(ruleConfig.Abbreviation.AbbreviationText, ruleConfig.Description));
 			}
-
 		}
 
 		public void LoadRules()

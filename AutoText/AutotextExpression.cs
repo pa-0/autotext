@@ -57,9 +57,37 @@ namespace AutoText
 			Parameters = new List<AutotextExpressionParameter>(20);
 
 
+
 			ProcessShortcuts();
 			BuildEscapedBracesList();
 			ParseExpression(_parsedExpressionText);
+
+			/*List<int> indeces = new List<int>(100);
+			GetAllExpressionBraceIndeces(this, indeces);
+
+			for (int i = 0; i < ExpressionText.Length; i++)
+			{
+				if (indeces.Contains(i))
+				{
+					continue;
+				}
+				else
+				{
+					if (ExpressionText[i] == '{')
+					{
+						ExpressionText.Insert(i, "{{}");
+						i += 2;
+					}
+
+					if (ExpressionText[i] == '}')
+					{
+						ExpressionText.Insert(i, "{}}");
+						i += 2;
+					}
+				}
+			}*/
+
+
 
 			if (matchParams.AutotextRuleConfig.Abbreviation.Type == Abbriviationtype.Regex && matchParams.AutotextRuleConfig.MatchedString != null)
 			{
@@ -80,6 +108,20 @@ namespace AutoText
 			}
 		}
 
+/*
+		private void GetAllExpressionBraceIndeces(AutotextExpression expr, List<int> res)
+		{
+			res.Add(expr.GetAbsoluteStartIndex());
+			res.Add(expr.GetAbsoluteStartIndex() + expr.Length);
+
+			foreach (AutotextExpression expression in expr.NestedExpressions)
+			{
+				GetAllExpressionBraceIndeces(expression, res);
+			}
+
+		}
+
+*/
 		private AutotextExpression(string expressionText, int startIndex, int length, List<int> escapedBraces, AutotextExpression parentExpression, Dictionary<string, string> userVars)
 		{
 			_userVariables = userVars;
@@ -315,6 +357,7 @@ namespace AutoText
 				}
 			}
 
+			
 			#endregion
 		}
 

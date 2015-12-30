@@ -8,13 +8,7 @@ namespace AutoText.Helpers.Configuration
 {
 	public class ExpressionConfigParameter
 	{
-		[XmlAttribute("allowOmitName")]
-		public bool AllowOmitName { get; set; }
 		[XmlAttribute("name")]
 		public string Name { get; set; }
-
-		[XmlArray("allowedDataTypes"), XmlArrayItem("dataType")]
-		public List<ParameterDataType> AllowedDataTypes { get; set; }
-
 	}
 }

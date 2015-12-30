@@ -97,7 +97,6 @@
     <Compile Include="Helpers\Configuration\ExpressionConfiguration.cs" />
     <Compile Include="Helpers\Configuration\ExpressionConfigDefinition.cs" />
     <Compile Include="Helpers\Configuration\ExpressionConfigParameter.cs" />
-    <Compile Include="Helpers\Configuration\ParameterDataType.cs" />
     <Compile Include="Helpers\Configuration\AutotextRuleAbbreviation.cs" />
     <Compile Include="Helpers\Extensions\Common.cs" />
     <Compile Include="Helpers\GUIHelper.cs" />
@@ -119,7 +118,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="AutotextRuleTemplate.xml" />
     <None Include="Resources\keycode_small.png" />
     <EmbeddedResource Include="AddKeyCode.resx">
       <DependentUpon>AddKeyCode.cs</DependentUpon>
