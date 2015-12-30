@@ -7,6 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using AutoText.Helpers;
+using AutoText.Helpers.Configuration;
 
 namespace AutoText
 {
@@ -60,12 +61,29 @@ namespace AutoText
 						}
 					}
 
+
 					if (capturedKeyCodes.Count > 0)
 					{
-						OnKeyCaptured(new KeyCapturedEventArgs(capturedKeyCodes.Select(p => (Keys)p).ToArray(), keyChar));
+						List<KeycodeConfig> kcConfig = ConfigHelper.GetKeycodesConfiguration().Keycodes;
+						List<string> capturedKecodes = new List<string>(10);
+
+						foreach (int code in capturedKeyCodes)
+						{
+							foreach (KeycodeConfig config in kcConfig)
+							{
+								if (config.Value == code)
+								{
+									capturedKecodes.Add(config.Names.First().Value);
+								}
+							}
+						}
+
+
+						OnKeyCaptured(new KeyCapturedEventArgs(capturedKecodes, keyChar));
 						keyChar = string.Empty;
 						capturedKeyCodes.Clear();
 					}
+
 
 					if (_interruptCapture)
 					{

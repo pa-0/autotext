@@ -9,9 +9,9 @@ namespace AutoText
 	{
 		public string CapturedCharacter { get; private set; }
 
-		public Keys[] CapturedKeys { get; private set; }
+		public List<string> CapturedKeys { get; private set; }
 
-		public KeyCapturedEventArgs(Keys[] capturedKeyCodes)
+		public KeyCapturedEventArgs(List<string> capturedKeyCodes)
 		{
 			CapturedKeys = capturedKeyCodes;
 		}
@@ -21,7 +21,7 @@ namespace AutoText
 			CapturedCharacter = capturedCharacter;
 		}
 
-		public KeyCapturedEventArgs(Keys[] capturedKeyCodes, string capturedCharacter)
+		public KeyCapturedEventArgs(List<string> capturedKeyCodes, string capturedCharacter)
 		{
 			CapturedCharacter = capturedCharacter;
 			CapturedKeys = capturedKeyCodes;

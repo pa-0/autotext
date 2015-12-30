@@ -82,7 +82,7 @@
 				<name value="Pause" />
 			</names>
 		</keycode>
-		<keycode value="20" toggleable="true" canOn="true" canOff="false" shortcut="none">
+		<keycode value="20" toggleable="true" canOn="true" canOff="true" shortcut="none">
 			<names>
 				<name value="CapsLock" />
 				<name value="Capital" />
@@ -144,8 +144,8 @@
 		</keycode>
 		<keycode value="33" toggleable="false" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name value="Prior" />
 				<name value="PageUp" />
+				<name value="Prior" />
 			</names>
 		</keycode>
 		<keycode value="34" toggleable="false" canOn="false" canOff="false" shortcut="none">
@@ -201,8 +201,8 @@
 		</keycode>
 		<keycode value="44" toggleable="false" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name value="Snapshot" />
 				<name value="PrintScreen" />
+				<name value="Snapshot" />
 			</names>
 		</keycode>
 		<keycode value="45" toggleable="false" canOn="false" canOff="false" shortcut="none">

@@ -58,33 +58,40 @@ namespace AutoText
 				_bufferString.Remove(0, 1);
 			}
 
-			foreach (AutotextRuleConfig ruleConfig in _rules)
+
+			AutotextRuleConfig config =
+				_rules.SingleOrDefault(p => _bufferString.ToString().EndsWith(p.Abbreviation.AbbreviationText, !p.Abbreviation.CaseSensitive,null) );
+
+			if (config != null)
 			{
-				foreach (AutotextRuleTrigger ruleTrigger in ruleConfig.Triggers)
+				AutotextRuleTrigger configMatchTrigger =
+					config.Triggers.SingleOrDefault(p => string.Compare(p.Value, e.CapturedCharacter, !p.CaseSensitive) == 0);
+
+				if (configMatchTrigger != null)
 				{
-					if (_bufferString.ToString().EndsWith(ruleConfig.Abbreviation.AbbreviationText, !ruleConfig.Abbreviation.CaseSensitive, null))
+					OnMatchFound(new AutotextMatchEventArgs(config, configMatchTrigger));
+					_bufferString.Clear();
+					return;
+
+				}
+				else
+				{
+					foreach (string capturedKey in e.CapturedKeys)
 					{
-						if (string.Compare(e.CapturedCharacter, ruleTrigger.Value, !ruleTrigger.CaseSensitive) == 0)
+						foreach (AutotextRuleTrigger ruleTrigger in config.Triggers)
 						{
-							OnMatchFound(new AutotextMatchEventArgs(ruleConfig, ruleTrigger));
-							return;
+							if ("{" + capturedKey + "}" == ruleTrigger.Value)
+							{
+								OnMatchFound(new AutotextMatchEventArgs(config, ruleTrigger));
+								_bufferString.Clear();
+								return;
+							}
 						}
 					}
+
 				}
 			}
 
-			foreach (AutotextRuleConfig ruleConfig in _rules)
-			{
-				//Check if abbreviatiuon matches
-				if (ruleConfig.Triggers.Any(p => e.CapturedKeys.Where(j => "{" + j + "}" == p.Value).Count() > 0))
-				{
-					if (_bufferString.ToString().EndsWith(ruleConfig.Abbreviation.AbbreviationText))
-					{
-						OnMatchFound(new AutotextMatchEventArgs(ruleConfig, ruleConfig.Triggers.Single(p => e.CapturedKeys.Where(j => "{" + j + "}" == p.Value).Any())));
-						return;
-					}
-				}
-			}
 
 			_bufferString.Append(e.CapturedCharacter);
 		}

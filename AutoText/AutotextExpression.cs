@@ -48,7 +48,7 @@ namespace AutoText
 			}
 
 
-			ExpressionText = string.Format("{{s:{0} 1}}", abbrRemoveText + matchParams.AutotextRuleConfig.Phrase);
+			ExpressionText = string.Format("{{s:{0} 1}}", abbrRemoveText + matchParams.AutotextRuleConfig.PhraseCompiled);
 			ShortcutsRegexTemplate = ConfigHelper.GetExpressionsConfiguration().ShortcutRegexTemplate;
 			RelativeStartIndex = 0;
 			Length = ExpressionText.Length;
@@ -234,13 +234,6 @@ namespace AutoText
 
 			foreach (ExpressionConfigDefinition expressionConfigDefinition in expressionConfig.ExpressionDefinitions)
 			{
-				if (Regex.IsMatch(expressionText, expressionConfigDefinition.ExplicitParametersRegex, RegexOptions.IgnoreCase | RegexOptions.Compiled))
-				{
-					matchedConfig = expressionConfigDefinition;
-					regex = expressionConfigDefinition.ExplicitParametersRegex;
-					break;
-				}
-
 				if (Regex.IsMatch(expressionText, expressionConfigDefinition.ImplicitParametersRegex, RegexOptions.IgnoreCase | RegexOptions.Compiled))
 				{
 					matchedConfig = expressionConfigDefinition;
@@ -436,7 +429,7 @@ namespace AutoText
 								{
 									if (!keycodeToProcess.CanOn)
 									{
-										throw new ExpressionEvaluationException(string.Format("Specified key({0}) can be set to On", keycode));
+										throw new ExpressionEvaluationException(string.Format("Specified key({0}) can't be set to On", keycode));
 									}
 
 									if (!Control.IsKeyLocked(keycode))
@@ -454,7 +447,7 @@ namespace AutoText
 								{
 									if (!keycodeToProcess.CanOff)
 									{
-										throw new ExpressionEvaluationException(string.Format("Specified key({0}) can be set to Off", keycode));
+										throw new ExpressionEvaluationException(string.Format("Specified key({0}) can't be set to Off", keycode));
 									}
 
 									if (Control.IsKeyLocked(keycode))

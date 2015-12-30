@@ -92,14 +92,14 @@ namespace AutoText
 				Keys.PageUp
 			};
 
-			if (e.CapturedKeys.Any(capturedKey => notAllowedSymbols.Contains(capturedKey)))
+			if (e.CapturedKeys.Any(capturedKey => notAllowedSymbols.Count(p => p.ToString() == capturedKey) > 0))
 			{
 				_matcher.ClearBuffer();
 				return;
 			}
 
 
-			if (e.CapturedKeys[0] == Keys.Back)
+			if (e.CapturedKeys[0] == "Back")
 			{
 				_matcher.EraseLastBufferSymbol();
 			}
@@ -449,9 +449,11 @@ namespace AutoText
 
 			XElement newrule = new XElement("rule",
 				new XElement("abbreviation",
+					new XAttribute("caseSensitive",checkBoxAutotextCaseSensetive.Checked),
 					new XElement("value", new XCData(textBoxAutotext.Text))),
 				new XElement("removeAbbr", checkBoxSubstitute.Checked ? "true" : "false"),
 				new XElement("phrase", new XCData(textBoxPhraseContent.Text)),
+				new XElement("phraseCompiled", new XCData(PhraseCompiler.Compile(textBoxPhraseContent.Text))),
 				new XElement("description", new XCData(textBoxDescription.Text)),
 				triggerItem);
 
@@ -548,6 +550,16 @@ namespace AutoText
 		{
 			AddKeyCode formKeyCodes = new AddKeyCode();
 			formKeyCodes.Show(this);
+		}
+
+		private void FormMain_Activated(object sender, EventArgs e)
+		{
+			_keylogger.PauseCapture();
+		}
+
+		private void FormMain_Deactivate(object sender, EventArgs e)
+		{
+			_keylogger.ResumeCapture();
 		}
 	}
 

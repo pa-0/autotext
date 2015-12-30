@@ -16,7 +16,6 @@
 		<expression name="PrintString" shortName="s" >
 			<description>Outputs a string</description>
 			
-			<explicitParamsRegex><![CDATA[^{s: *-text=("{1})(?<text>.+)(\1) *-count=(?<count>([1-9][0-9]*)|(\{.+\})) *}$]]></explicitParamsRegex>
 			<implicitParamsRegex><![CDATA[^{s:(?<text>.+?) {1}(?<count>([1-9][0-9]*)|(\{.+\}))? *}$]]></implicitParamsRegex>
 			<parameters>
 
@@ -41,7 +40,6 @@
 		<expression name="KeyInput" shortName="k" >
 			<description>Simulates Dow, Up, Press, On, Off and Toggle actions for keyboard keys</description>
 
-			<explicitParamsRegex><![CDATA[^{(k:)? *(-key=)?(?<keycode>[A-Z0-9]+)( +(-action=)?(?<action>[-+]|[1-9][0-9]*|on|off|t|toggle|(\{.+\})+) *)?}$]]></explicitParamsRegex>
 			<implicitParamsRegex><![CDATA[^{(k:)? *(-key=)?(?<keycode>[A-Z0-9]+)( +(-action=)?(?<action>[-+]|[1-9][0-9]*|on|off|t|toggle|(\{.+\})+) *)?}$]]></implicitParamsRegex>
 			<parameters>
 
@@ -66,7 +64,6 @@
 		<expression name="PrintUserVar" shortName="v" >
 			<description>Prints user variable value</description>
 
-			<explicitParamsRegex><![CDATA[^{v:(?<name>.+?)}$]]></explicitParamsRegex>
 			<implicitParamsRegex><![CDATA[^{v:(?<name>.+?)}$]]></implicitParamsRegex>
 			<parameters>
 
@@ -84,7 +81,6 @@
 		<expression name="PrintCurrentDate" shortName="d" >
 			<description>Prints curent date using provided user format</description>
 
-			<explicitParamsRegex><![CDATA[^{d:(-format=)?(?<format>.+?)}$]]></explicitParamsRegex>
 			<implicitParamsRegex><![CDATA[^{d:(-format=)?(?<format>.+?)}$]]></implicitParamsRegex>
 			<parameters>
 

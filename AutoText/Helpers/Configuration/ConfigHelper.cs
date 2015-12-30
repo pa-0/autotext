@@ -17,6 +17,17 @@ namespace AutoText.Helpers.Configuration
 		public static List<AutotextRuleConfig> GetAutotextRules()
 		{
 			_autotextConfig = DeserailizeXml<AutotextRulesRoot>(@"AutotextRules.xml").AutotextRulesList;
+
+			foreach (AutotextRuleConfig config in _autotextConfig)
+			{
+				config.Phrase = config.Phrase.Replace("\n", "\r\n");
+			}
+
+			foreach (AutotextRuleConfig config in _autotextConfig)
+			{
+				config.PhraseCompiled = config.PhraseCompiled.Replace("\n", "\r\n");
+			}
+
 			return _autotextConfig;
 		}
 

@@ -264,6 +264,8 @@ namespace AutoText
 			this.Name = "FormMain";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
 			this.Text = "AutoText";
+			this.Activated += new System.EventHandler(this.FormMain_Activated);
+			this.Deactivate += new System.EventHandler(this.FormMain_Deactivate);
 			this.Load += new System.EventHandler(this.FormMain_Load);
 			this.ResumeLayout(false);
 			this.PerformLayout();

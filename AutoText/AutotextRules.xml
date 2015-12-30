@@ -1,13 +1,19 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <autotextRules xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" >
 	<rules>
-		
+
 		<rule>
-			<abbreviation caseSensitive="true" type="Text">
+			<abbreviation caseSensitive="true">
 				<value><![CDATA[tt]]></value>
 			</abbreviation>
 			<removeAbbr>true</removeAbbr>
-			<phrase><![CDATA[^({Escape})asdasd]]></phrase>
+			<phrase>
+				<![CDATA[asdasdas
+dasdasdasd]]>
+			</phrase>
+			<phraseCompiled>
+				<![CDATA[asdasdas{Enter}dasdasdasd]]>
+			</phraseCompiled>
 			<description><![CDATA[Some description 1]]></description>
 			<triggers>
 				<item caseSensitive="true">
@@ -25,6 +31,7 @@
 				<value><![CDATA[cd:(?<format>[^ ]+?)go$]]></value>
 			</abbreviation>
 			<phrase><![CDATA[Current date formatted: {d:{v:format}}]]></phrase>
+			<phraseCompiled><![CDATA[^({Escape})asdasd]]></phraseCompiled>
 			<description><![CDATA[Some  description]]></description>
 			<triggers>
 				<item caseSensitive="false">

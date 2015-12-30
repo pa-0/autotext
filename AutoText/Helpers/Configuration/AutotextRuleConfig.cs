@@ -12,6 +12,8 @@ namespace AutoText.Helpers.Configuration
 		public bool RemoveAbbr { get; set; }
 		[XmlElement("phrase")]
 		public string Phrase { get;  set; }
+		[XmlElement("phraseCompiled")]
+		public string PhraseCompiled { get; set; }
 		[XmlElement("description")]
 		public string Description { get;  set; }
 		public string MatchedString { get; set; }
