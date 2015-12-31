@@ -60,6 +60,8 @@ namespace AutoText
 			{
 				listViewPhrases.Items.Add(new ListViewItem(ruleConfig.Abbreviation.AbbreviationText, ruleConfig.Description));
 			}
+
+			comboBoxProcessMacros.SelectedIndex = 0;
 		}
 
 		public void LoadRules()
@@ -402,9 +404,6 @@ namespace AutoText
 
 				List<string> kKodes = kcConfig.Keycodes.SelectMany(p => p.Names.Select(j => j.Value)).ToList();
 
-
-				List<Keys>   allKeys = new List<Keys>();
-
 				foreach (AutotextRuleTrigger trigger in config.Triggers)
 				{
 					if (kKodes.Contains( trigger.Value.Trim('{','}') ))
@@ -416,9 +415,21 @@ namespace AutoText
 						AddTriggerControls(trigger.Value, null, trigger.CaseSensitive);
 					}
 				}
+
+				foreach (object item in comboBoxProcessMacros.Items)
+				{
+					if (item.ToString() == config.Macros.Mode.ToString())
+					{
+						comboBoxProcessMacros.SelectedItem = item;
+						break;
+					}
+				}
+				
 			}
 
 			((Control)groupBoxTriggers.Controls[0].Controls[5]).Enabled = false;
+
+
 		}
 
 		private void buttonSavePhrase_Click(object sender, EventArgs e)
@@ -453,7 +464,8 @@ namespace AutoText
 					new XElement("value", new XCData(textBoxAutotext.Text))),
 				new XElement("removeAbbr", checkBoxSubstitute.Checked ? "true" : "false"),
 				new XElement("phrase", new XCData(textBoxPhraseContent.Text)),
-				new XElement("phraseCompiled", new XCData(PhraseCompiler.Compile(textBoxPhraseContent.Text))),
+				new XElement("phraseCompiled", new XCData(textBoxPhraseContent.Text)),
+				new XElement("macros", new XAttribute("mode", comboBoxProcessMacros.SelectedItem.ToString())),
 				new XElement("description", new XCData(textBoxDescription.Text)),
 				triggerItem);
 

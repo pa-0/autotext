@@ -52,6 +52,8 @@ namespace AutoText
 			this.buttonAddPhrase = new System.Windows.Forms.Button();
 			this.buttonSavePhrase = new System.Windows.Forms.Button();
 			this.buttonAddKeyCodeEpression = new System.Windows.Forms.Button();
+			this.comboBoxProcessMacros = new System.Windows.Forms.ComboBox();
+			this.label1 = new System.Windows.Forms.Label();
 			this.SuspendLayout();
 			// 
 			// textBox1
@@ -240,9 +242,32 @@ namespace AutoText
 			this.buttonAddKeyCodeEpression.UseVisualStyleBackColor = true;
 			this.buttonAddKeyCodeEpression.Click += new System.EventHandler(this.buttonAddKeyCodeEpression_Click);
 			// 
+			// comboBoxProcessMacros
+			// 
+			this.comboBoxProcessMacros.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.comboBoxProcessMacros.FormattingEnabled = true;
+			this.comboBoxProcessMacros.Items.AddRange(new object[] {
+            "Execute",
+            "Skip"});
+			this.comboBoxProcessMacros.Location = new System.Drawing.Point(697, 64);
+			this.comboBoxProcessMacros.Name = "comboBoxProcessMacros";
+			this.comboBoxProcessMacros.Size = new System.Drawing.Size(121, 21);
+			this.comboBoxProcessMacros.TabIndex = 26;
+			// 
+			// label1
+			// 
+			this.label1.AutoSize = true;
+			this.label1.Location = new System.Drawing.Point(649, 67);
+			this.label1.Name = "label1";
+			this.label1.Size = new System.Drawing.Size(42, 13);
+			this.label1.TabIndex = 27;
+			this.label1.Text = "Macros";
+			// 
 			// FormMain
 			// 
 			this.ClientSize = new System.Drawing.Size(874, 583);
+			this.Controls.Add(this.label1);
+			this.Controls.Add(this.comboBoxProcessMacros);
 			this.Controls.Add(this.buttonAddKeyCodeEpression);
 			this.Controls.Add(this.buttonSavePhrase);
 			this.Controls.Add(this.buttonAddPhrase);
@@ -292,6 +317,8 @@ namespace AutoText
 		private Button buttonAddPhrase;
 		private Button buttonSavePhrase;
 		private Button buttonAddKeyCodeEpression;
+		private ComboBox comboBoxProcessMacros;
+		private Label label1;
 	}
 }
 

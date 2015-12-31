@@ -47,8 +47,52 @@ namespace AutoText
 				}
 			}
 
+			string phraseText = matchParams.AutotextRuleConfig.PhraseCompiled;
 
-			ExpressionText = string.Format("{{s:{0} 1}}", abbrRemoveText + matchParams.AutotextRuleConfig.PhraseCompiled);
+
+			if (matchParams.AutotextRuleConfig.Macros.Mode == MacrosMode.Skip)
+			{
+				for (int i = 0; i < phraseText.Length; i++)
+				{
+					if (phraseText[i] == '{')
+					{
+						phraseText = phraseText.Remove(i, 1);
+						phraseText = phraseText.Insert(i, "{{}");
+						i += 2;
+						continue;
+					}
+
+					if (phraseText[i] == '}')
+					{
+						phraseText = phraseText.Remove(i, 1);
+						phraseText = phraseText.Insert(i, "{}}");
+						i += 2;
+						continue;
+
+					}
+
+					if (phraseText[i] == '(')
+					{
+						phraseText = phraseText.Remove(i, 1);
+						phraseText = phraseText.Insert(i, "{(}");
+						i += 2;
+						continue;
+
+					}
+
+					if (phraseText[i] == ')')
+					{
+						phraseText = phraseText.Remove(i, 1);
+						phraseText = phraseText.Insert(i, "{)}");
+						i += 2;
+						continue;
+
+					}
+				}
+			}
+
+
+			ExpressionText = string.Format("{{s:{0} 1}}", abbrRemoveText + phraseText);
 			ShortcutsRegexTemplate = ConfigHelper.GetExpressionsConfiguration().ShortcutRegexTemplate;
 			RelativeStartIndex = 0;
 			Length = ExpressionText.Length;
@@ -56,11 +100,10 @@ namespace AutoText
 			NestedExpressions = new List<AutotextExpression>(100);
 			Parameters = new List<AutotextExpressionParameter>(20);
 
-
-
 			ProcessShortcuts();
 			BuildEscapedBracesList();
 			ParseExpression(_parsedExpressionText);
+
 
 			/*List<int> indeces = new List<int>(100);
 			GetAllExpressionBraceIndeces(this, indeces);
@@ -276,7 +319,7 @@ namespace AutoText
 
 			foreach (ExpressionConfigDefinition expressionConfigDefinition in expressionConfig.ExpressionDefinitions)
 			{
-				if (Regex.IsMatch(expressionText, expressionConfigDefinition.ImplicitParametersRegex, RegexOptions.IgnoreCase | RegexOptions.Compiled))
+				if (Regex.IsMatch(expressionText, expressionConfigDefinition.ImplicitParametersRegex, RegexOptions.IgnoreCase | RegexOptions.Compiled | RegexOptions.Singleline))
 				{
 					matchedConfig = expressionConfigDefinition;
 					regex = expressionConfigDefinition.ImplicitParametersRegex;

@@ -12,8 +12,9 @@
 dasdasdasd]]>
 			</phrase>
 			<phraseCompiled>
-				<![CDATA[asdasdas{Enter}dasdasdasd]]>
+				<![CDATA[asdasdas{Enter}dasdassdasd]]>
 			</phraseCompiled>
+			<macros mode="Execute"/> >
 			<description><![CDATA[Some description 1]]></description>
 			<triggers>
 				<item caseSensitive="true">
@@ -32,6 +33,7 @@ dasdasdasd]]>
 			</abbreviation>
 			<phrase><![CDATA[Current date formatted: {d:{v:format}}]]></phrase>
 			<phraseCompiled><![CDATA[^({Escape})asdasd]]></phraseCompiled>
+			<macros mode="Execute"/> >
 			<description><![CDATA[Some  description]]></description>
 			<triggers>
 				<item caseSensitive="false">

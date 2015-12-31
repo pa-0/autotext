@@ -12,6 +12,8 @@ namespace AutoText.Helpers.Configuration
 		public bool RemoveAbbr { get; set; }
 		[XmlElement("phrase")]
 		public string Phrase { get;  set; }
+		[XmlElement("macros")]
+		public AutotextRuleMacrosMode Macros { get; set; }
 		[XmlElement("phraseCompiled")]
 		public string PhraseCompiled { get; set; }
 		[XmlElement("description")]
