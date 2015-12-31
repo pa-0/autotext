@@ -18,9 +18,24 @@ namespace AutoText.Helpers
 	{
 		public static void ProcessRule(MatchParameters rule)
 		{
-			AutotextExpression expression = new AutotextExpression(rule);
-			List<AutotextInput> input = expression.GetInput();
-			DoInput(input);
+			AutotextExpression expression = null;
+			try
+			{
+				expression = new AutotextExpression(rule);
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show("Failed to execute phrase. Please check phrase syntax and fix contradictory phrase settings.",
+					"Faled to execute phrase",
+					MessageBoxButtons.OK);
+			}
+
+			if (expression != null)
+			{
+				List<AutotextInput> input = expression.GetInput();
+				DoInput(input);
+			}
+
 		}
 
 		private static INPUT [] ConverInput(List<AutotextInput> input)

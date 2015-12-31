@@ -483,7 +483,6 @@ namespace AutoText
 				config.Descendants("rules").First().Add(newrule);
 			}
 
-
 			File.Delete("AutotextRules.xml");
 
 			using (FileStream fs = File.OpenWrite("AutotextRules.xml"))
@@ -502,6 +501,10 @@ namespace AutoText
 
 			LoadRules();
 			_matcher.Rules = _rules;
+
+
+
+
 		}
 
 		private void listViewPhrases_Enter(object sender, EventArgs e)
@@ -572,6 +575,12 @@ namespace AutoText
 		private void FormMain_Deactivate(object sender, EventArgs e)
 		{
 			_keylogger.ResumeCapture();
+		}
+
+		private void button1_Click(object sender, EventArgs e)
+		{
+			AddShortcutKeys form = new AddShortcutKeys();
+			form.Show(this);
 		}
 	}
 

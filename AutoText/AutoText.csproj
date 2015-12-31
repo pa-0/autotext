@@ -77,6 +77,12 @@
     <Compile Include="AddKeyCode.Designer.cs">
       <DependentUpon>AddKeyCode.cs</DependentUpon>
     </Compile>
+    <Compile Include="AddShortcutKeys.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AddShortcutKeys.Designer.cs">
+      <DependentUpon>AddShortcutKeys.cs</DependentUpon>
+    </Compile>
     <Compile Include="AutotextExpression.cs" />
     <Compile Include="AutotextMatcher.cs" />
     <Compile Include="AutotextMatchEventArgs.cs" />
@@ -119,9 +125,13 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </Content>
+    <None Include="Resources\keys-combo 30 30.png" />
     <None Include="Resources\keycode_small.png" />
     <EmbeddedResource Include="AddKeyCode.resx">
       <DependentUpon>AddKeyCode.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AddShortcutKeys.resx">
+      <DependentUpon>AddShortcutKeys.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormMain.resx">
       <DependentUpon>FormMain.cs</DependentUpon>

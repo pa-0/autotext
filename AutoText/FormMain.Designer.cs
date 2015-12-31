@@ -51,9 +51,10 @@ namespace AutoText
 			this.buttonRemovePhrase = new System.Windows.Forms.Button();
 			this.buttonAddPhrase = new System.Windows.Forms.Button();
 			this.buttonSavePhrase = new System.Windows.Forms.Button();
-			this.buttonAddKeyCodeEpression = new System.Windows.Forms.Button();
 			this.comboBoxProcessMacros = new System.Windows.Forms.ComboBox();
 			this.label1 = new System.Windows.Forms.Label();
+			this.button1 = new System.Windows.Forms.Button();
+			this.buttonAddKeyCodeEpression = new System.Windows.Forms.Button();
 			this.SuspendLayout();
 			// 
 			// textBox1
@@ -232,16 +233,6 @@ namespace AutoText
 			this.buttonSavePhrase.UseVisualStyleBackColor = true;
 			this.buttonSavePhrase.Click += new System.EventHandler(this.buttonSavePhrase_Click);
 			// 
-			// buttonAddKeyCodeEpression
-			// 
-			this.buttonAddKeyCodeEpression.Image = global::AutoText.Properties.Resources.keycode_small;
-			this.buttonAddKeyCodeEpression.Location = new System.Drawing.Point(424, 56);
-			this.buttonAddKeyCodeEpression.Name = "buttonAddKeyCodeEpression";
-			this.buttonAddKeyCodeEpression.Size = new System.Drawing.Size(32, 32);
-			this.buttonAddKeyCodeEpression.TabIndex = 25;
-			this.buttonAddKeyCodeEpression.UseVisualStyleBackColor = true;
-			this.buttonAddKeyCodeEpression.Click += new System.EventHandler(this.buttonAddKeyCodeEpression_Click);
-			// 
 			// comboBoxProcessMacros
 			// 
 			this.comboBoxProcessMacros.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
@@ -263,9 +254,30 @@ namespace AutoText
 			this.label1.TabIndex = 27;
 			this.label1.Text = "Macros";
 			// 
+			// button1
+			// 
+			this.button1.Image = global::AutoText.Properties.Resources.keys_combo_30_30;
+			this.button1.Location = new System.Drawing.Point(462, 56);
+			this.button1.Name = "button1";
+			this.button1.Size = new System.Drawing.Size(32, 32);
+			this.button1.TabIndex = 28;
+			this.button1.UseVisualStyleBackColor = true;
+			this.button1.Click += new System.EventHandler(this.button1_Click);
+			// 
+			// buttonAddKeyCodeEpression
+			// 
+			this.buttonAddKeyCodeEpression.Image = global::AutoText.Properties.Resources.keycode_small;
+			this.buttonAddKeyCodeEpression.Location = new System.Drawing.Point(424, 56);
+			this.buttonAddKeyCodeEpression.Name = "buttonAddKeyCodeEpression";
+			this.buttonAddKeyCodeEpression.Size = new System.Drawing.Size(32, 32);
+			this.buttonAddKeyCodeEpression.TabIndex = 25;
+			this.buttonAddKeyCodeEpression.UseVisualStyleBackColor = true;
+			this.buttonAddKeyCodeEpression.Click += new System.EventHandler(this.buttonAddKeyCodeEpression_Click);
+			// 
 			// FormMain
 			// 
 			this.ClientSize = new System.Drawing.Size(874, 583);
+			this.Controls.Add(this.button1);
 			this.Controls.Add(this.label1);
 			this.Controls.Add(this.comboBoxProcessMacros);
 			this.Controls.Add(this.buttonAddKeyCodeEpression);
@@ -319,6 +331,7 @@ namespace AutoText
 		private Button buttonAddKeyCodeEpression;
 		private ComboBox comboBoxProcessMacros;
 		private Label label1;
+		private Button button1;
 	}
 }
 

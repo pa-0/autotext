@@ -28,7 +28,7 @@ dasdasdasd]]>
 
 
 		<rule>
-			<abbreviation caseSensitive="false" type="Regex" lastCharsCount="50">
+			<abbreviation caseSensitive="false" type="Regex">
 				<value><![CDATA[cd:(?<format>[^ ]+?)go$]]></value>
 			</abbreviation>
 			<phrase><![CDATA[Current date formatted: {d:{v:format}}]]></phrase>
