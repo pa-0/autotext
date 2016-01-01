@@ -97,8 +97,20 @@ namespace AutoText.Helpers
 
 		public static void DoInput(List<AutotextInput> input)
 		{
-			INPUT[] inputSim = ConverInput(input);
-			InputSimulator.SimulateInputSequence(inputSim);
+
+			foreach (AutotextInput autotextInput in input)
+			{
+				if (autotextInput.Sleep > 0)
+				{
+					Thread.Sleep(autotextInput.Sleep);
+				}
+				else
+				{
+					INPUT[] inputSim = ConverInput(new List<AutotextInput>(){ autotextInput});
+					InputSimulator.SimulateInputSequence(inputSim);
+				}
+			}
+
 		}
 	}
 }

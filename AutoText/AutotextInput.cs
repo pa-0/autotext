@@ -12,6 +12,7 @@ namespace AutoText
 		public InputActionType ActionType { get; set; }
 		public char CharToInput { get; set; }
 		public Keys KeyCodeToInput { get; set; }
+		public int  Sleep { get; set; }
 
 
 		public AutotextInput(InputType type, InputActionType actionType, char charToInput) : this()

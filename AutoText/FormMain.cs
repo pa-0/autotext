@@ -71,11 +71,11 @@ namespace AutoText
 
 		void _testKeylogger_KeyCaptured(object sender, KeyCapturedEventArgs e)
 		{
-			textBox1.Invoke(new Action(() =>
+			textBoxKeysLog.Invoke(new Action(() =>
 			{
-				textBox1.Text += (String.IsNullOrEmpty(e.CapturedCharacter) ? "\"\"" : e.CapturedCharacter) + "\r\n" + String.Join(" | ", e.CapturedKeys) + "\r\n\r\n";
-				textBox1.Select(textBox1.Text.Length, 0);
-				textBox1.ScrollToCaret();
+				textBoxKeysLog.Text +=  e.CapturedCharacter + String.Join(" | ", e.CapturedKeys) + "\r\n\r\n";
+				textBoxKeysLog.Select(textBoxKeysLog.Text.Length, 0);
+				textBoxKeysLog.ScrollToCaret();
 			}));
 
 			Keys[] notAllowedSymbols =
@@ -501,10 +501,6 @@ namespace AutoText
 
 			LoadRules();
 			_matcher.Rules = _rules;
-
-
-
-
 		}
 
 		private void listViewPhrases_Enter(object sender, EventArgs e)
@@ -581,6 +577,22 @@ namespace AutoText
 		{
 			AddShortcutKeys form = new AddShortcutKeys();
 			form.Show(this);
+		}
+
+		private void buttonAddPauseScript_Click(object sender, EventArgs e)
+		{
+			AddPauseMacros addPauseMacrosForm = new AddPauseMacros();
+			addPauseMacrosForm.Show(this);
+		}
+
+		private void textBox1_TextChanged(object sender, EventArgs e)
+		{
+			if (textBoxKeysLog.Lines.Count() >= 100)
+			{
+				string[] lines = textBoxKeysLog.Lines;
+				textBoxKeysLog.Lines = lines.Skip(1).ToArray();
+
+			}
 		}
 	}
 

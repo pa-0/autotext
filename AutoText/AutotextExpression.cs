@@ -621,6 +621,13 @@ namespace AutoText
 						break;
 					}
 
+				case "p":
+				{
+					int sleepTime = int.Parse(expressionParameters["duration"].ConcatToString());
+					return new List<AutotextInput>() { new AutotextInput(InputType.KeyCode, InputActionType.Press, Keys.None) { Sleep = sleepTime } };
+					break;
+
+				}
 
 				default:
 					{
@@ -628,7 +635,7 @@ namespace AutoText
 					}
 			}
 
-			throw new NotImplementedException();
+			throw new InvalidOperationException();
 		}
 
 		private static string ExpandShortcuts(string shortcuts, string target)

@@ -34,7 +34,7 @@ namespace AutoText
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.textBox1 = new System.Windows.Forms.TextBox();
+			this.textBoxKeysLog = new System.Windows.Forms.TextBox();
 			this.listViewPhrases = new System.Windows.Forms.ListView();
 			this.columnHeaderAutotext = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.columnHeaderDescription = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -55,17 +55,21 @@ namespace AutoText
 			this.label1 = new System.Windows.Forms.Label();
 			this.button1 = new System.Windows.Forms.Button();
 			this.buttonAddKeyCodeEpression = new System.Windows.Forms.Button();
+			this.buttonAddPauseScript = new System.Windows.Forms.Button();
+			this.label6 = new System.Windows.Forms.Label();
 			this.SuspendLayout();
 			// 
-			// textBox1
+			// textBoxKeysLog
 			// 
-			this.textBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.textBox1.Location = new System.Drawing.Point(644, 315);
-			this.textBox1.Multiline = true;
-			this.textBox1.Name = "textBox1";
-			this.textBox1.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-			this.textBox1.Size = new System.Drawing.Size(219, 87);
-			this.textBox1.TabIndex = 1;
+			this.textBoxKeysLog.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.textBoxKeysLog.Location = new System.Drawing.Point(644, 325);
+			this.textBoxKeysLog.Multiline = true;
+			this.textBoxKeysLog.Name = "textBoxKeysLog";
+			this.textBoxKeysLog.ReadOnly = true;
+			this.textBoxKeysLog.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+			this.textBoxKeysLog.Size = new System.Drawing.Size(219, 217);
+			this.textBoxKeysLog.TabIndex = 1;
+			this.textBoxKeysLog.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
 			// 
 			// listViewPhrases
 			// 
@@ -274,9 +278,31 @@ namespace AutoText
 			this.buttonAddKeyCodeEpression.UseVisualStyleBackColor = true;
 			this.buttonAddKeyCodeEpression.Click += new System.EventHandler(this.buttonAddKeyCodeEpression_Click);
 			// 
+			// buttonAddPauseScript
+			// 
+			this.buttonAddPauseScript.Location = new System.Drawing.Point(500, 56);
+			this.buttonAddPauseScript.Name = "buttonAddPauseScript";
+			this.buttonAddPauseScript.Size = new System.Drawing.Size(32, 32);
+			this.buttonAddPauseScript.TabIndex = 29;
+			this.buttonAddPauseScript.Text = "| |";
+			this.buttonAddPauseScript.UseVisualStyleBackColor = true;
+			this.buttonAddPauseScript.Click += new System.EventHandler(this.buttonAddPauseScript_Click);
+			// 
+			// label6
+			// 
+			this.label6.AutoSize = true;
+			this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			this.label6.Location = new System.Drawing.Point(644, 309);
+			this.label6.Name = "label6";
+			this.label6.Size = new System.Drawing.Size(82, 13);
+			this.label6.TabIndex = 30;
+			this.label6.Text = "Keys pressed";
+			// 
 			// FormMain
 			// 
 			this.ClientSize = new System.Drawing.Size(874, 583);
+			this.Controls.Add(this.label6);
+			this.Controls.Add(this.buttonAddPauseScript);
 			this.Controls.Add(this.button1);
 			this.Controls.Add(this.label1);
 			this.Controls.Add(this.comboBoxProcessMacros);
@@ -295,7 +321,7 @@ namespace AutoText
 			this.Controls.Add(this.label3);
 			this.Controls.Add(this.label2);
 			this.Controls.Add(this.listViewPhrases);
-			this.Controls.Add(this.textBox1);
+			this.Controls.Add(this.textBoxKeysLog);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
 			this.MaximizeBox = false;
 			this.Name = "FormMain";
@@ -311,7 +337,7 @@ namespace AutoText
 
 		#endregion
 
-		private TextBox textBox1;
+		private TextBox textBoxKeysLog;
 		private ListView listViewPhrases;
 		private Label label2;
 		private ColumnHeader columnHeaderAutotext;
@@ -332,6 +358,8 @@ namespace AutoText
 		private ComboBox comboBoxProcessMacros;
 		private Label label1;
 		private Button button1;
+		private Button buttonAddPauseScript;
+		private Label label6;
 	}
 }
 

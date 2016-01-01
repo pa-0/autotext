@@ -31,12 +31,22 @@
 
 			<implicitParamsRegex><![CDATA[^{(k:)? *(-key=)?(?<keycode>[A-Z0-9]+)( +(-action=)?(?<action>[-+]|[1-9][0-9]*|on|off|t|toggle|(\{.+\})+) *)?}$]]></implicitParamsRegex>
 			<parameters>
-				<parameter name="keycode" allowOmitName="true"/>
-				<parameter name="action"  allowOmitName="true"/>
+				<parameter name="keycode" />
+				<parameter name="action"  />
 			</parameters>
 
 		</expression>
 
+
+		<expression name="Pause" shortName="p" >
+			<description>Do a pause</description>
+
+			<implicitParamsRegex><![CDATA[^{p:(?<duration>\d+) *}$]]></implicitParamsRegex>
+			<parameters>
+				<parameter name="duration" />
+			</parameters>
+
+		</expression>
 
 
 		<expression name="PrintUserVar" shortName="v" >
@@ -44,7 +54,7 @@
 
 			<implicitParamsRegex><![CDATA[^{v:(?<name>.+?)}$]]></implicitParamsRegex>
 			<parameters>
-				<parameter name="name" allowOmitName="true"/>
+				<parameter name="name" />
 			</parameters>
 
 		</expression>
@@ -55,7 +65,7 @@
 
 			<implicitParamsRegex><![CDATA[^{d:(-format=)?(?<format>.+?)}$]]></implicitParamsRegex>
 			<parameters>
-				<parameter name="format" allowOmitName="true"/>
+				<parameter name="format"/>
 			</parameters>
 
 		</expression>
