@@ -535,10 +535,7 @@ namespace AutoText
 					xd.Save(fs);
 				}
 
-				foreach (AutotextRuleConfig ruleConfig in _rules)
-				{
-					listViewPhrases.Items.Add(new ListViewItem(ruleConfig.Abbreviation.AbbreviationText, ruleConfig.Description));
-				}
+				LoadPhrases();
 			}
 		}
 
@@ -608,6 +605,12 @@ namespace AutoText
 			this.WindowState = FormWindowState.Minimized;
 			this.Show();
 			this.WindowState = FormWindowState.Normal;
+		}
+
+		private void buttonDateMacros_Click(object sender, EventArgs e)
+		{
+			AddDateMacros addDateMacrosForm = new AddDateMacros();
+			addDateMacrosForm.Show(this);
 		}
 	}
 

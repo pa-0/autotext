@@ -60,6 +60,7 @@ namespace AutoText
 			this.buttonAddPauseScript = new System.Windows.Forms.Button();
 			this.label6 = new System.Windows.Forms.Label();
 			this.notifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
+			this.buttonDateMacros = new System.Windows.Forms.Button();
 			this.SuspendLayout();
 			// 
 			// textBoxKeysLog
@@ -307,9 +308,20 @@ namespace AutoText
 			this.notifyIcon.Text = "AutoText";
 			this.notifyIcon.MouseClick += new System.Windows.Forms.MouseEventHandler(this.notifyIcon_MouseClick);
 			// 
+			// buttonDateMacros
+			// 
+			this.buttonDateMacros.Image = global::AutoText.Properties.Resources._1451757124_calender;
+			this.buttonDateMacros.Location = new System.Drawing.Point(538, 57);
+			this.buttonDateMacros.Name = "buttonDateMacros";
+			this.buttonDateMacros.Size = new System.Drawing.Size(32, 32);
+			this.buttonDateMacros.TabIndex = 31;
+			this.buttonDateMacros.UseVisualStyleBackColor = true;
+			this.buttonDateMacros.Click += new System.EventHandler(this.buttonDateMacros_Click);
+			// 
 			// FormMain
 			// 
 			this.ClientSize = new System.Drawing.Size(874, 583);
+			this.Controls.Add(this.buttonDateMacros);
 			this.Controls.Add(this.label6);
 			this.Controls.Add(this.buttonAddPauseScript);
 			this.Controls.Add(this.button1);
@@ -373,6 +385,7 @@ namespace AutoText
 		private Button buttonAddPauseScript;
 		private Label label6;
 		private NotifyIcon notifyIcon;
+		private Button buttonDateMacros;
 	}
 }
 

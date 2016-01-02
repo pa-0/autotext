@@ -63,6 +63,16 @@ namespace AutoText.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap _1451757124_calender {
+            get {
+                object obj = ResourceManager.GetObject("1451757124_calender", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap keycode_small {
             get {
                 object obj = ResourceManager.GetObject("keycode_small", resourceCulture);

@@ -18,10 +18,7 @@ dasdasdasd]]>
 			<description><![CDATA[Some description 1]]></description>
 			<triggers>
 				<item caseSensitive="true">
-					<value><![CDATA[f]]></value>
-				</item>
-				<item caseSensitive="true">
-					<value><![CDATA[{ShiftKey}]]></value>
+					<value><![CDATA[{Tab}]]></value>
 				</item>
 			</triggers>
 		</rule>

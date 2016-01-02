@@ -74,6 +74,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AddDateMacros.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AddDateMacros.Designer.cs">
+      <DependentUpon>AddDateMacros.cs</DependentUpon>
+    </Compile>
     <Compile Include="AddKeyCode.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -119,6 +125,12 @@
     <Compile Include="Helpers\TextHelper.cs" />
     <Compile Include="Helpers\WinAPI.cs" />
     <Compile Include="AutotextInput.cs" />
+    <Compile Include="HelpOnDateFormat.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="HelpOnDateFormat.Designer.cs">
+      <DependentUpon>HelpOnDateFormat.cs</DependentUpon>
+    </Compile>
     <Compile Include="KeyCapturedEventArgs.cs" />
     <Compile Include="KeyLogger.cs" />
     <Compile Include="AutotextExpressionParameter.cs" />
@@ -135,8 +147,12 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </Content>
+    <None Include="Resources\1451757124_calender.png" />
     <None Include="Resources\keys-combo 30 30.png" />
     <None Include="Resources\keycode_small.png" />
+    <EmbeddedResource Include="AddDateMacros.resx">
+      <DependentUpon>AddDateMacros.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="AddKeyCode.resx">
       <DependentUpon>AddKeyCode.cs</DependentUpon>
     </EmbeddedResource>
@@ -148,6 +164,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormMain.resx">
       <DependentUpon>FormMain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HelpOnDateFormat.resx">
+      <DependentUpon>HelpOnDateFormat.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
