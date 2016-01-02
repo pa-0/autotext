@@ -34,7 +34,7 @@ namespace AutoText
 		private KeyLogger _keylogger = new KeyLogger();
 		int shift = 0;
 		int numberOfTriggers = 0;
-		private int _curEditItemIndex = -1;
+		private int _curSelectedPhrase = -1;
 
 		public TextBox PhraseTextBox
 		{
@@ -54,13 +54,19 @@ namespace AutoText
 
 		}
 
-		private void FormMain_Load(object sender, EventArgs e)
+		private void LoadPhrases()
 		{
 			foreach (AutotextRuleConfig ruleConfig in _rules)
 			{
-				listViewPhrases.Items.Add(new ListViewItem(ruleConfig.Abbreviation.AbbreviationText, ruleConfig.Description));
+				ListViewItem lvi = new ListViewItem(ruleConfig.Abbreviation.AbbreviationText);
+				lvi.SubItems.Add(ruleConfig.Description);
+				listViewPhrases.Items.Add(lvi);
 			}
+		}
 
+		private void FormMain_Load(object sender, EventArgs e)
+		{
+			LoadPhrases();
 			comboBoxProcessMacros.SelectedIndex = 0;
 		}
 
@@ -365,21 +371,7 @@ namespace AutoText
 
 		private void buttonAddPhrase_Click(object sender, EventArgs e)
 		{
-			listViewPhrases.Items.Add(new ListViewItem("<autotext>"));
-			_curEditItemIndex = listViewPhrases.Items.Count - 1;
-
-			textBoxDescription.Text = "";
-			textBoxAutotext.Text = "";
-			textBoxPhraseContent.Text = "";
-			checkBoxSubstitute.Checked = false;
-			checkBoxAutotextCaseSensetive.Checked = false;
-			groupBoxTriggers.Controls.Clear();
-			textBoxDescription.Focus();
-			shift = 0;
-			groupBoxTriggers.Controls.Clear();
-			AddTriggerControls(null, null, null);
-			((Control)groupBoxTriggers.Controls[0].Controls[5]).Enabled = false;
-
+			SavePhrase(true);
 		}
 
 		private void listViewPhrases_SelectedIndexChanged(object sender, EventArgs e)
@@ -388,6 +380,7 @@ namespace AutoText
 
 			if (lv.SelectedIndices.Count > 0)
 			{
+				_curSelectedPhrase = listViewPhrases.SelectedIndices[0];
 				shift = 0;
 				groupBoxTriggers.Controls.Clear();
 
@@ -432,9 +425,15 @@ namespace AutoText
 
 		}
 
-		private void buttonSavePhrase_Click(object sender, EventArgs e)
+		private void SavePhrase(bool addNew)
 		{
-			XDocument config = XDocument.Parse(File.ReadAllText("AutotextRules.xml"), LoadOptions.PreserveWhitespace);
+			if (addNew && _rules.Any(p => p.Abbreviation.AbbreviationText == textBoxAutotext.Text))
+			{
+				MessageBox.Show(this, "Phrase with specified autotext is already exists", "Warning", MessageBoxButtons.OK,
+					MessageBoxIcon.Stop);
+				return;
+			}
+
 			List<Panel> triggersPanels = groupBoxTriggers.Controls.Cast<Panel>().ToList();
 
 			XElement triggerItem = new XElement("triggers");
@@ -460,7 +459,7 @@ namespace AutoText
 
 			XElement newrule = new XElement("rule",
 				new XElement("abbreviation",
-					new XAttribute("caseSensitive",checkBoxAutotextCaseSensetive.Checked),
+					new XAttribute("caseSensitive", checkBoxAutotextCaseSensetive.Checked),
 					new XElement("value", new XCData(textBoxAutotext.Text))),
 				new XElement("removeAbbr", checkBoxSubstitute.Checked ? "true" : "false"),
 				new XElement("phrase", new XCData(textBoxPhraseContent.Text)),
@@ -469,10 +468,12 @@ namespace AutoText
 				new XElement("description", new XCData(textBoxDescription.Text)),
 				triggerItem);
 
+			XDocument config = XDocument.Parse(File.ReadAllText("AutotextRules.xml"), LoadOptions.PreserveWhitespace);
+
 			XElement rule =
 				config.XPathSelectElement(string.Format("//rule/abbreviation/value[text()='{0}']/../..", textBoxAutotext.Text));
 
-			if (rule != null)
+			if (!addNew && rule != null)
 			{
 				rule.RemoveAll();
 				rule.Add(newrule.XPathSelectElements("/*"));
@@ -490,33 +491,17 @@ namespace AutoText
 				config.Save(fs);
 			}
 
-			listViewPhrases.Items.Clear();
-
-			_rules = ConfigHelper.GetAutotextRules();
-
-			foreach (AutotextRuleConfig ruleConfig in _rules)
-			{
-				listViewPhrases.Items.Add(new ListViewItem(ruleConfig.Abbreviation.AbbreviationText, ruleConfig.Description));
-			}
-
 			LoadRules();
-			_matcher.Rules = _rules;
+
+			listViewPhrases.Items.Clear();
+			LoadPhrases();
+
+			_matcher.Rules = ConfigHelper.GetAutotextRules();
 		}
 
-		private void listViewPhrases_Enter(object sender, EventArgs e)
+		private void buttonSavePhrase_Click(object sender, EventArgs e)
 		{
-			List<ListViewItem> itemToRemove = new List<ListViewItem>(5);
-
-			foreach (ListViewItem listViewItem in listViewPhrases.Items)
-			{
-				if (listViewItem.SubItems[0].Text == "<autotext>")
-				{
-					itemToRemove.Add(listViewItem);
-				}
-			}
-
-			itemToRemove.ForEach(p => listViewPhrases.Items.Remove(p));
-
+			SavePhrase(false);
 		}
 
 		private void buttonRemovePhrase_Click(object sender, EventArgs e)
@@ -531,7 +516,7 @@ namespace AutoText
 			else
 			{
 
-				ListViewItem lvi = listViewPhrases.SelectedItems[0];
+				ListViewItem lvi = listViewPhrases.Items[_curSelectedPhrase];
 				listViewPhrases.Items.Remove(lvi);
 
 				_rules.Remove(_rules.Single(p => p.Abbreviation.AbbreviationText == lvi.SubItems[0].Text));
@@ -592,6 +577,15 @@ namespace AutoText
 				string[] lines = textBoxKeysLog.Lines;
 				textBoxKeysLog.Lines = lines.Skip(1).ToArray();
 
+			}
+		}
+
+		private void FormMain_Shown(object sender, EventArgs e)
+		{
+			if (listViewPhrases.Items.Count > 0)
+			{
+				listViewPhrases.SelectedIndices.Add(0);
+				_curSelectedPhrase = 0;
 			}
 		}
 	}

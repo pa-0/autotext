@@ -26,22 +26,6 @@ dasdasdasd]]>
 			</triggers>
 		</rule>
 
-
-		<rule>
-			<abbreviation caseSensitive="false" type="Regex">
-				<value><![CDATA[cd:(?<format>[^ ]+?)go$]]></value>
-			</abbreviation>
-			<phrase><![CDATA[Current date formatted: {d:{v:format}}]]></phrase>
-			<phraseCompiled><![CDATA[^({Escape})asdasd]]></phraseCompiled>
-			<macros mode="Execute"/> >
-			<description><![CDATA[Some  description]]></description>
-			<triggers>
-				<item caseSensitive="false">
-					<value><![CDATA[{Space}]]></value>
-				</item>
-			</triggers>
-		</rule>
-
 		
 	</rules>
 </autotextRules>

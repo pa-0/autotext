@@ -34,6 +34,7 @@ namespace AutoText
 		/// </summary>
 		private void InitializeComponent()
 		{
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
 			this.textBoxKeysLog = new System.Windows.Forms.TextBox();
 			this.listViewPhrases = new System.Windows.Forms.ListView();
 			this.columnHeaderAutotext = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -67,7 +68,7 @@ namespace AutoText
 			this.textBoxKeysLog.Name = "textBoxKeysLog";
 			this.textBoxKeysLog.ReadOnly = true;
 			this.textBoxKeysLog.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-			this.textBoxKeysLog.Size = new System.Drawing.Size(219, 217);
+			this.textBoxKeysLog.Size = new System.Drawing.Size(219, 222);
 			this.textBoxKeysLog.TabIndex = 1;
 			this.textBoxKeysLog.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
 			// 
@@ -79,6 +80,7 @@ namespace AutoText
             this.columnHeaderAutotext,
             this.columnHeaderDescription});
 			this.listViewPhrases.FullRowSelect = true;
+			this.listViewPhrases.HideSelection = false;
 			this.listViewPhrases.Location = new System.Drawing.Point(12, 29);
 			this.listViewPhrases.MultiSelect = false;
 			this.listViewPhrases.Name = "listViewPhrases";
@@ -87,17 +89,16 @@ namespace AutoText
 			this.listViewPhrases.UseCompatibleStateImageBehavior = false;
 			this.listViewPhrases.View = System.Windows.Forms.View.Details;
 			this.listViewPhrases.SelectedIndexChanged += new System.EventHandler(this.listViewPhrases_SelectedIndexChanged);
-			this.listViewPhrases.Enter += new System.EventHandler(this.listViewPhrases_Enter);
 			// 
 			// columnHeaderAutotext
 			// 
 			this.columnHeaderAutotext.Text = "Autotext";
-			this.columnHeaderAutotext.Width = 80;
+			this.columnHeaderAutotext.Width = 120;
 			// 
 			// columnHeaderDescription
 			// 
 			this.columnHeaderDescription.Text = "Description";
-			this.columnHeaderDescription.Width = 200;
+			this.columnHeaderDescription.Width = 181;
 			// 
 			// label2
 			// 
@@ -207,7 +208,7 @@ namespace AutoText
 			// buttonRemovePhrase
 			// 
 			this.buttonRemovePhrase.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.buttonRemovePhrase.Location = new System.Drawing.Point(166, 552);
+			this.buttonRemovePhrase.Location = new System.Drawing.Point(247, 552);
 			this.buttonRemovePhrase.Name = "buttonRemovePhrase";
 			this.buttonRemovePhrase.Size = new System.Drawing.Size(75, 23);
 			this.buttonRemovePhrase.TabIndex = 22;
@@ -218,18 +219,18 @@ namespace AutoText
 			// buttonAddPhrase
 			// 
 			this.buttonAddPhrase.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.buttonAddPhrase.Location = new System.Drawing.Point(247, 552);
+			this.buttonAddPhrase.Location = new System.Drawing.Point(706, 552);
 			this.buttonAddPhrase.Name = "buttonAddPhrase";
 			this.buttonAddPhrase.Size = new System.Drawing.Size(75, 23);
 			this.buttonAddPhrase.TabIndex = 23;
-			this.buttonAddPhrase.Text = "Add";
+			this.buttonAddPhrase.Text = "Add new";
 			this.buttonAddPhrase.UseVisualStyleBackColor = true;
 			this.buttonAddPhrase.Click += new System.EventHandler(this.buttonAddPhrase_Click);
 			// 
 			// buttonSavePhrase
 			// 
 			this.buttonSavePhrase.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.buttonSavePhrase.Location = new System.Drawing.Point(787, 548);
+			this.buttonSavePhrase.Location = new System.Drawing.Point(787, 552);
 			this.buttonSavePhrase.Name = "buttonSavePhrase";
 			this.buttonSavePhrase.Size = new System.Drawing.Size(75, 23);
 			this.buttonSavePhrase.TabIndex = 24;
@@ -323,6 +324,7 @@ namespace AutoText
 			this.Controls.Add(this.listViewPhrases);
 			this.Controls.Add(this.textBoxKeysLog);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.MaximizeBox = false;
 			this.Name = "FormMain";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -330,6 +332,7 @@ namespace AutoText
 			this.Activated += new System.EventHandler(this.FormMain_Activated);
 			this.Deactivate += new System.EventHandler(this.FormMain_Deactivate);
 			this.Load += new System.EventHandler(this.FormMain_Load);
+			this.Shown += new System.EventHandler(this.FormMain_Shown);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
