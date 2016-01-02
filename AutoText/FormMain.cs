@@ -588,6 +588,27 @@ namespace AutoText
 				_curSelectedPhrase = 0;
 			}
 		}
+
+		private void FormMain_Resize(object sender, EventArgs e)
+		{
+			if (FormWindowState.Minimized == this.WindowState)
+			{
+				notifyIcon.Visible = true;
+				this.Hide();
+			}
+
+			else if (FormWindowState.Normal == this.WindowState)
+			{
+				notifyIcon.Visible = false;
+			}
+		}
+
+		private void notifyIcon_MouseClick(object sender, MouseEventArgs e)
+		{
+			this.WindowState = FormWindowState.Minimized;
+			this.Show();
+			this.WindowState = FormWindowState.Normal;
+		}
 	}
 
 }

@@ -34,6 +34,7 @@ namespace AutoText
 		/// </summary>
 		private void InitializeComponent()
 		{
+			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
 			this.textBoxKeysLog = new System.Windows.Forms.TextBox();
 			this.listViewPhrases = new System.Windows.Forms.ListView();
@@ -58,6 +59,7 @@ namespace AutoText
 			this.buttonAddKeyCodeEpression = new System.Windows.Forms.Button();
 			this.buttonAddPauseScript = new System.Windows.Forms.Button();
 			this.label6 = new System.Windows.Forms.Label();
+			this.notifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
 			this.SuspendLayout();
 			// 
 			// textBoxKeysLog
@@ -299,6 +301,12 @@ namespace AutoText
 			this.label6.TabIndex = 30;
 			this.label6.Text = "Keys pressed";
 			// 
+			// notifyIcon
+			// 
+			this.notifyIcon.Icon = ((System.Drawing.Icon)(resources.GetObject("notifyIcon.Icon")));
+			this.notifyIcon.Text = "AutoText";
+			this.notifyIcon.MouseClick += new System.Windows.Forms.MouseEventHandler(this.notifyIcon_MouseClick);
+			// 
 			// FormMain
 			// 
 			this.ClientSize = new System.Drawing.Size(874, 583);
@@ -333,6 +341,7 @@ namespace AutoText
 			this.Deactivate += new System.EventHandler(this.FormMain_Deactivate);
 			this.Load += new System.EventHandler(this.FormMain_Load);
 			this.Shown += new System.EventHandler(this.FormMain_Shown);
+			this.Resize += new System.EventHandler(this.FormMain_Resize);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -363,6 +372,7 @@ namespace AutoText
 		private Button button1;
 		private Button buttonAddPauseScript;
 		private Label label6;
+		private NotifyIcon notifyIcon;
 	}
 }
 
