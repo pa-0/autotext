@@ -596,16 +596,18 @@ namespace AutoText
 
 					ListViewItem lvi = listViewPhrases.Items[_curSelectedPhraseIndex];
 					listViewPhrases.Items.Remove(lvi);
-
 					listViewPhrases.SelectedIndices.Clear();
 
-					if (_curSelectedPhraseIndex <= (listViewPhrases.Items.Count - 1))
+					if (listViewPhrases.Items.Count > 0)
 					{
-						listViewPhrases.SelectedIndices.Add(_curSelectedPhraseIndex);
-					}
-					else
-					{
-						listViewPhrases.SelectedIndices.Add(listViewPhrases.Items.Count - 1);
+						if (_curSelectedPhraseIndex <= (listViewPhrases.Items.Count - 1))
+						{
+							listViewPhrases.SelectedIndices.Add(_curSelectedPhraseIndex);
+						}
+						else
+						{
+							listViewPhrases.SelectedIndices.Add(listViewPhrases.Items.Count - 1);
+						}
 					}
 
 					_rules.RemoveAt(_curSelectedPhraseIndex);
@@ -798,6 +800,27 @@ namespace AutoText
 
 		private void textBoxPhraseContent_TextChanged(object sender, EventArgs e)
 		{
+
+		}
+
+		private void FormMain_KeyDown(object sender, KeyEventArgs e)
+		{
+			if (e.Control && (e.KeyCode == Keys.S))
+			{
+				if (listViewPhrases.SelectedItems.Count == 0)
+				{
+					MessageBox.Show(this, "Please select item first", "Attention");
+				}
+				else
+				{
+					int selIndex = listViewPhrases.SelectedIndices[0];
+					SavePhrase(selIndex);
+					listViewPhrases.SelectedIndices.Clear();
+					listViewPhrases.SelectedIndices.Add(selIndex);
+				}
+
+				e.Handled = true;
+			}
 
 		}
 	}

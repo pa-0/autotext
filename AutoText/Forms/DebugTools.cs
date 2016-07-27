@@ -24,12 +24,15 @@ namespace AutoText.Forms
 		{
 			try
 			{
-				textBoxKeyCaptured.Invoke(new Action(() =>
+				if (textBoxKeyCaptured.IsHandleCreated)
 				{
-					textBoxKeyCaptured.Text += e.CapturedCharacter + " " + String.Join(" | ", e.CapturedKeys) + "\r\n\r\n";
-					textBoxKeyCaptured.Select(textBoxKeyCaptured.Text.Length, 0);
-					textBoxKeyCaptured.ScrollToCaret();
-				}));
+					textBoxKeyCaptured.Invoke(new Action(() =>
+					{
+						textBoxKeyCaptured.Text += e.CapturedCharacter + " " + String.Join(" | ", e.CapturedKeys) + "\r\n\r\n";
+						textBoxKeyCaptured.Select(textBoxKeyCaptured.Text.Length, 0);
+						textBoxKeyCaptured.ScrollToCaret();
+					}));
+				}
 			}
 			//Ignore if object is disposed
 			catch (ObjectDisposedException ex){}

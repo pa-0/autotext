@@ -377,8 +377,8 @@ namespace AutoText
 			// debugWindowToolStripMenuItem
 			// 
 			this.debugWindowToolStripMenuItem.Name = "debugWindowToolStripMenuItem";
-			this.debugWindowToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
-			this.debugWindowToolStripMenuItem.Text = "Debug window";
+			this.debugWindowToolStripMenuItem.Size = new System.Drawing.Size(156, 22);
+			this.debugWindowToolStripMenuItem.Text = "Debug Window";
 			this.debugWindowToolStripMenuItem.Click += new System.EventHandler(this.debugWindowToolStripMenuItem_Click);
 			// 
 			// toolStripSeparator2
@@ -414,6 +414,7 @@ namespace AutoText
 			this.Controls.Add(this.listViewPhrases);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+			this.KeyPreview = true;
 			this.MaximizeBox = false;
 			this.Name = "FormMain";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -422,6 +423,7 @@ namespace AutoText
 			this.Deactivate += new System.EventHandler(this.FormMain_Deactivate);
 			this.Load += new System.EventHandler(this.FormMain_Load);
 			this.Shown += new System.EventHandler(this.FormMain_Shown);
+			this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FormMain_KeyDown);
 			this.Resize += new System.EventHandler(this.FormMain_Resize);
 			this.contextMenuStripPhraseContentEdit.ResumeLayout(false);
 			this.ResumeLayout(false);
