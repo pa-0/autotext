@@ -101,7 +101,7 @@ namespace AutoText
 			_bufferString.Clear();
 		}
 
-		public void EraseLastBufferSymbol()
+		public void EraseLastBufferedSymbol()
 		{
 			if (_bufferString.Length != 0)
 			{

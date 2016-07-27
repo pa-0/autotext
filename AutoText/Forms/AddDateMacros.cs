@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using AutoText.Helpers;
 
 namespace AutoText
 {
@@ -18,7 +19,7 @@ namespace AutoText
 
 		private void AddDateMacros_Load(object sender, EventArgs e)
 		{
-			
+			labelExampleDateTime.Text = DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss.fff");
 		}
 
 		private void button1_Click(object sender, EventArgs e)
@@ -33,6 +34,7 @@ namespace AutoText
 		private void linkLabelHelp_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
 		{
 			HelpOnDateFormat helpOnDateFormatForm = new HelpOnDateFormat();
+			helpOnDateFormatForm.CenterTo(this);
 			helpOnDateFormatForm.Show(this);
 		}
 

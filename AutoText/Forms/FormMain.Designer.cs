@@ -36,7 +36,6 @@ namespace AutoText
 		{
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
-			this.textBoxKeysLog = new System.Windows.Forms.TextBox();
 			this.listViewPhrases = new System.Windows.Forms.ListView();
 			this.columnHeaderAutotext = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.columnHeaderDescription = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -45,6 +44,15 @@ namespace AutoText
 			this.textBoxDescription = new System.Windows.Forms.TextBox();
 			this.label4 = new System.Windows.Forms.Label();
 			this.textBoxPhraseContent = new System.Windows.Forms.TextBox();
+			this.contextMenuStripPhraseContentEdit = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.macrosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.keyPressMacrosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+			this.copyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.pasteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.cutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.selectAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.label5 = new System.Windows.Forms.Label();
 			this.textBoxAutotext = new System.Windows.Forms.TextBox();
 			this.checkBoxAutotextCaseSensetive = new System.Windows.Forms.CheckBox();
@@ -55,25 +63,16 @@ namespace AutoText
 			this.buttonSavePhrase = new System.Windows.Forms.Button();
 			this.comboBoxProcessMacros = new System.Windows.Forms.ComboBox();
 			this.label1 = new System.Windows.Forms.Label();
-			this.button1 = new System.Windows.Forms.Button();
-			this.buttonAddKeyCodeEpression = new System.Windows.Forms.Button();
-			this.buttonAddPauseScript = new System.Windows.Forms.Button();
-			this.label6 = new System.Windows.Forms.Label();
 			this.notifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
-			this.buttonDateMacros = new System.Windows.Forms.Button();
+			this.keyComboMacrosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.pauseMacrosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.dateAndTimeMacrosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.debugWindowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+			this.undoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.contextMenuStripPhraseContentEdit.SuspendLayout();
 			this.SuspendLayout();
-			// 
-			// textBoxKeysLog
-			// 
-			this.textBoxKeysLog.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.textBoxKeysLog.Location = new System.Drawing.Point(644, 325);
-			this.textBoxKeysLog.Multiline = true;
-			this.textBoxKeysLog.Name = "textBoxKeysLog";
-			this.textBoxKeysLog.ReadOnly = true;
-			this.textBoxKeysLog.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-			this.textBoxKeysLog.Size = new System.Drawing.Size(219, 222);
-			this.textBoxKeysLog.TabIndex = 1;
-			this.textBoxKeysLog.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
 			// 
 			// listViewPhrases
 			// 
@@ -119,9 +118,9 @@ namespace AutoText
 			this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
 			this.label3.Location = new System.Drawing.Point(325, 13);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(71, 13);
+			this.label3.Size = new System.Drawing.Size(112, 13);
 			this.label3.TabIndex = 7;
-			this.label3.Text = "Description";
+			this.label3.Text = "Phrase description";
 			// 
 			// textBoxDescription
 			// 
@@ -138,20 +137,97 @@ namespace AutoText
 			this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
 			this.label4.Location = new System.Drawing.Point(325, 75);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(93, 13);
+			this.label4.Size = new System.Drawing.Size(251, 13);
 			this.label4.TabIndex = 9;
-			this.label4.Text = "Phrase content";
+			this.label4.Text = "Phrase content(right-click to insert macros)";
 			// 
 			// textBoxPhraseContent
 			// 
 			this.textBoxPhraseContent.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+			this.textBoxPhraseContent.ContextMenuStrip = this.contextMenuStripPhraseContentEdit;
 			this.textBoxPhraseContent.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
 			this.textBoxPhraseContent.Location = new System.Drawing.Point(328, 91);
 			this.textBoxPhraseContent.Multiline = true;
 			this.textBoxPhraseContent.Name = "textBoxPhraseContent";
 			this.textBoxPhraseContent.Size = new System.Drawing.Size(535, 186);
 			this.textBoxPhraseContent.TabIndex = 10;
+			this.textBoxPhraseContent.TextChanged += new System.EventHandler(this.textBoxPhraseContent_TextChanged);
+			this.textBoxPhraseContent.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBoxPhraseContent_KeyDown);
+			// 
+			// contextMenuStripPhraseContentEdit
+			// 
+			this.contextMenuStripPhraseContentEdit.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.macrosToolStripMenuItem,
+            this.toolStripSeparator1,
+            this.copyToolStripMenuItem,
+            this.pasteToolStripMenuItem,
+            this.cutToolStripMenuItem,
+            this.selectAllToolStripMenuItem,
+            this.deleteToolStripMenuItem,
+            this.undoToolStripMenuItem,
+            this.toolStripSeparator2,
+            this.toolsToolStripMenuItem});
+			this.contextMenuStripPhraseContentEdit.Name = "contextMenuStripPhraseContentEdit";
+			this.contextMenuStripPhraseContentEdit.Size = new System.Drawing.Size(153, 214);
+			// 
+			// macrosToolStripMenuItem
+			// 
+			this.macrosToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.keyPressMacrosToolStripMenuItem,
+            this.keyComboMacrosToolStripMenuItem,
+            this.pauseMacrosToolStripMenuItem,
+            this.dateAndTimeMacrosToolStripMenuItem});
+			this.macrosToolStripMenuItem.Name = "macrosToolStripMenuItem";
+			this.macrosToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.macrosToolStripMenuItem.Text = "Macros";
+			// 
+			// keyPressMacrosToolStripMenuItem
+			// 
+			this.keyPressMacrosToolStripMenuItem.Name = "keyPressMacrosToolStripMenuItem";
+			this.keyPressMacrosToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
+			this.keyPressMacrosToolStripMenuItem.Text = "Key Action Macros";
+			this.keyPressMacrosToolStripMenuItem.Click += new System.EventHandler(this.keyActionMacrosToolStripMenuItem_Click);
+			// 
+			// toolStripSeparator1
+			// 
+			this.toolStripSeparator1.Name = "toolStripSeparator1";
+			this.toolStripSeparator1.Size = new System.Drawing.Size(149, 6);
+			// 
+			// copyToolStripMenuItem
+			// 
+			this.copyToolStripMenuItem.Name = "copyToolStripMenuItem";
+			this.copyToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.copyToolStripMenuItem.Text = "Copy";
+			this.copyToolStripMenuItem.Click += new System.EventHandler(this.copyToolStripMenuItem_Click);
+			// 
+			// pasteToolStripMenuItem
+			// 
+			this.pasteToolStripMenuItem.Name = "pasteToolStripMenuItem";
+			this.pasteToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.pasteToolStripMenuItem.Text = "Paste";
+			this.pasteToolStripMenuItem.Click += new System.EventHandler(this.pasteToolStripMenuItem_Click);
+			// 
+			// cutToolStripMenuItem
+			// 
+			this.cutToolStripMenuItem.Name = "cutToolStripMenuItem";
+			this.cutToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.cutToolStripMenuItem.Text = "Cut";
+			this.cutToolStripMenuItem.Click += new System.EventHandler(this.cutToolStripMenuItem_Click);
+			// 
+			// selectAllToolStripMenuItem
+			// 
+			this.selectAllToolStripMenuItem.Name = "selectAllToolStripMenuItem";
+			this.selectAllToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.selectAllToolStripMenuItem.Text = "Select All";
+			this.selectAllToolStripMenuItem.Click += new System.EventHandler(this.selectAllToolStripMenuItem_Click);
+			// 
+			// deleteToolStripMenuItem
+			// 
+			this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
+			this.deleteToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.deleteToolStripMenuItem.Text = "Delete";
+			this.deleteToolStripMenuItem.Click += new System.EventHandler(this.deleteToolStripMenuItem_Click);
 			// 
 			// label5
 			// 
@@ -161,17 +237,17 @@ namespace AutoText
 			this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
 			this.label5.Location = new System.Drawing.Point(328, 286);
 			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(54, 13);
+			this.label5.Size = new System.Drawing.Size(96, 13);
 			this.label5.TabIndex = 11;
-			this.label5.Text = "Autotext";
+			this.label5.Text = "Phrase autotext";
 			// 
 			// textBoxAutotext
 			// 
 			this.textBoxAutotext.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.textBoxAutotext.Location = new System.Drawing.Point(385, 283);
+			this.textBoxAutotext.Location = new System.Drawing.Point(424, 283);
 			this.textBoxAutotext.Name = "textBoxAutotext";
-			this.textBoxAutotext.Size = new System.Drawing.Size(253, 20);
+			this.textBoxAutotext.Size = new System.Drawing.Size(214, 20);
 			this.textBoxAutotext.TabIndex = 12;
 			// 
 			// checkBoxAutotextCaseSensetive
@@ -206,7 +282,7 @@ namespace AutoText
 			this.groupBoxTriggers.Size = new System.Drawing.Size(310, 238);
 			this.groupBoxTriggers.TabIndex = 21;
 			this.groupBoxTriggers.TabStop = false;
-			this.groupBoxTriggers.Text = "Triggers";
+			this.groupBoxTriggers.Text = "Phrase triggers";
 			// 
 			// buttonRemovePhrase
 			// 
@@ -215,14 +291,14 @@ namespace AutoText
 			this.buttonRemovePhrase.Name = "buttonRemovePhrase";
 			this.buttonRemovePhrase.Size = new System.Drawing.Size(75, 23);
 			this.buttonRemovePhrase.TabIndex = 22;
-			this.buttonRemovePhrase.Text = "Remove";
+			this.buttonRemovePhrase.Text = "Delete";
 			this.buttonRemovePhrase.UseVisualStyleBackColor = true;
 			this.buttonRemovePhrase.Click += new System.EventHandler(this.buttonRemovePhrase_Click);
 			// 
 			// buttonAddPhrase
 			// 
 			this.buttonAddPhrase.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.buttonAddPhrase.Location = new System.Drawing.Point(706, 552);
+			this.buttonAddPhrase.Location = new System.Drawing.Point(166, 552);
 			this.buttonAddPhrase.Name = "buttonAddPhrase";
 			this.buttonAddPhrase.Size = new System.Drawing.Size(75, 23);
 			this.buttonAddPhrase.TabIndex = 23;
@@ -248,7 +324,7 @@ namespace AutoText
 			this.comboBoxProcessMacros.Items.AddRange(new object[] {
             "Execute",
             "Skip"});
-			this.comboBoxProcessMacros.Location = new System.Drawing.Point(697, 64);
+			this.comboBoxProcessMacros.Location = new System.Drawing.Point(741, 64);
 			this.comboBoxProcessMacros.Name = "comboBoxProcessMacros";
 			this.comboBoxProcessMacros.Size = new System.Drawing.Size(121, 21);
 			this.comboBoxProcessMacros.TabIndex = 26;
@@ -256,51 +332,12 @@ namespace AutoText
 			// label1
 			// 
 			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(649, 67);
+			this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			this.label1.Location = new System.Drawing.Point(611, 67);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(42, 13);
+			this.label1.Size = new System.Drawing.Size(124, 13);
 			this.label1.TabIndex = 27;
-			this.label1.Text = "Macros";
-			// 
-			// button1
-			// 
-			this.button1.Image = global::AutoText.Properties.Resources.keys_combo_30_30;
-			this.button1.Location = new System.Drawing.Point(462, 56);
-			this.button1.Name = "button1";
-			this.button1.Size = new System.Drawing.Size(32, 32);
-			this.button1.TabIndex = 28;
-			this.button1.UseVisualStyleBackColor = true;
-			this.button1.Click += new System.EventHandler(this.button1_Click);
-			// 
-			// buttonAddKeyCodeEpression
-			// 
-			this.buttonAddKeyCodeEpression.Image = global::AutoText.Properties.Resources.keycode_small;
-			this.buttonAddKeyCodeEpression.Location = new System.Drawing.Point(424, 56);
-			this.buttonAddKeyCodeEpression.Name = "buttonAddKeyCodeEpression";
-			this.buttonAddKeyCodeEpression.Size = new System.Drawing.Size(32, 32);
-			this.buttonAddKeyCodeEpression.TabIndex = 25;
-			this.buttonAddKeyCodeEpression.UseVisualStyleBackColor = true;
-			this.buttonAddKeyCodeEpression.Click += new System.EventHandler(this.buttonAddKeyCodeEpression_Click);
-			// 
-			// buttonAddPauseScript
-			// 
-			this.buttonAddPauseScript.Location = new System.Drawing.Point(500, 56);
-			this.buttonAddPauseScript.Name = "buttonAddPauseScript";
-			this.buttonAddPauseScript.Size = new System.Drawing.Size(32, 32);
-			this.buttonAddPauseScript.TabIndex = 29;
-			this.buttonAddPauseScript.Text = "| |";
-			this.buttonAddPauseScript.UseVisualStyleBackColor = true;
-			this.buttonAddPauseScript.Click += new System.EventHandler(this.buttonAddPauseScript_Click);
-			// 
-			// label6
-			// 
-			this.label6.AutoSize = true;
-			this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			this.label6.Location = new System.Drawing.Point(644, 309);
-			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(82, 13);
-			this.label6.TabIndex = 30;
-			this.label6.Text = "Keys pressed";
+			this.label1.Text = "Phrase macros mode";
 			// 
 			// notifyIcon
 			// 
@@ -308,26 +345,59 @@ namespace AutoText
 			this.notifyIcon.Text = "AutoText";
 			this.notifyIcon.MouseClick += new System.Windows.Forms.MouseEventHandler(this.notifyIcon_MouseClick);
 			// 
-			// buttonDateMacros
+			// keyComboMacrosToolStripMenuItem
 			// 
-			this.buttonDateMacros.Image = global::AutoText.Properties.Resources._1451757124_calender;
-			this.buttonDateMacros.Location = new System.Drawing.Point(538, 57);
-			this.buttonDateMacros.Name = "buttonDateMacros";
-			this.buttonDateMacros.Size = new System.Drawing.Size(32, 32);
-			this.buttonDateMacros.TabIndex = 31;
-			this.buttonDateMacros.UseVisualStyleBackColor = true;
-			this.buttonDateMacros.Click += new System.EventHandler(this.buttonDateMacros_Click);
+			this.keyComboMacrosToolStripMenuItem.Name = "keyComboMacrosToolStripMenuItem";
+			this.keyComboMacrosToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
+			this.keyComboMacrosToolStripMenuItem.Text = "Key Combo Macros";
+			this.keyComboMacrosToolStripMenuItem.Click += new System.EventHandler(this.keyComboMacrosToolStripMenuItem_Click);
+			// 
+			// pauseMacrosToolStripMenuItem
+			// 
+			this.pauseMacrosToolStripMenuItem.Name = "pauseMacrosToolStripMenuItem";
+			this.pauseMacrosToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
+			this.pauseMacrosToolStripMenuItem.Text = "Pause Macros";
+			this.pauseMacrosToolStripMenuItem.Click += new System.EventHandler(this.pauseMacrosToolStripMenuItem_Click);
+			// 
+			// dateAndTimeMacrosToolStripMenuItem
+			// 
+			this.dateAndTimeMacrosToolStripMenuItem.Name = "dateAndTimeMacrosToolStripMenuItem";
+			this.dateAndTimeMacrosToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
+			this.dateAndTimeMacrosToolStripMenuItem.Text = "Date And Time Macros";
+			this.dateAndTimeMacrosToolStripMenuItem.Click += new System.EventHandler(this.dateAndTimeMacrosToolStripMenuItem_Click);
+			// 
+			// toolsToolStripMenuItem
+			// 
+			this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.debugWindowToolStripMenuItem});
+			this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
+			this.toolsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.toolsToolStripMenuItem.Text = "Tools";
+			// 
+			// debugWindowToolStripMenuItem
+			// 
+			this.debugWindowToolStripMenuItem.Name = "debugWindowToolStripMenuItem";
+			this.debugWindowToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
+			this.debugWindowToolStripMenuItem.Text = "Debug window";
+			this.debugWindowToolStripMenuItem.Click += new System.EventHandler(this.debugWindowToolStripMenuItem_Click);
+			// 
+			// toolStripSeparator2
+			// 
+			this.toolStripSeparator2.Name = "toolStripSeparator2";
+			this.toolStripSeparator2.Size = new System.Drawing.Size(149, 6);
+			// 
+			// undoToolStripMenuItem
+			// 
+			this.undoToolStripMenuItem.Name = "undoToolStripMenuItem";
+			this.undoToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.undoToolStripMenuItem.Text = "Undo";
+			this.undoToolStripMenuItem.Click += new System.EventHandler(this.toolStripMenuItem2_Click);
 			// 
 			// FormMain
 			// 
 			this.ClientSize = new System.Drawing.Size(874, 583);
-			this.Controls.Add(this.buttonDateMacros);
-			this.Controls.Add(this.label6);
-			this.Controls.Add(this.buttonAddPauseScript);
-			this.Controls.Add(this.button1);
 			this.Controls.Add(this.label1);
 			this.Controls.Add(this.comboBoxProcessMacros);
-			this.Controls.Add(this.buttonAddKeyCodeEpression);
 			this.Controls.Add(this.buttonSavePhrase);
 			this.Controls.Add(this.buttonAddPhrase);
 			this.Controls.Add(this.buttonRemovePhrase);
@@ -342,7 +412,6 @@ namespace AutoText
 			this.Controls.Add(this.label3);
 			this.Controls.Add(this.label2);
 			this.Controls.Add(this.listViewPhrases);
-			this.Controls.Add(this.textBoxKeysLog);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.MaximizeBox = false;
@@ -354,6 +423,7 @@ namespace AutoText
 			this.Load += new System.EventHandler(this.FormMain_Load);
 			this.Shown += new System.EventHandler(this.FormMain_Shown);
 			this.Resize += new System.EventHandler(this.FormMain_Resize);
+			this.contextMenuStripPhraseContentEdit.ResumeLayout(false);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -361,7 +431,6 @@ namespace AutoText
 
 		#endregion
 
-		private TextBox textBoxKeysLog;
 		private ListView listViewPhrases;
 		private Label label2;
 		private ColumnHeader columnHeaderAutotext;
@@ -378,14 +447,25 @@ namespace AutoText
 		private Button buttonRemovePhrase;
 		private Button buttonAddPhrase;
 		private Button buttonSavePhrase;
-		private Button buttonAddKeyCodeEpression;
 		private ComboBox comboBoxProcessMacros;
 		private Label label1;
-		private Button button1;
-		private Button buttonAddPauseScript;
-		private Label label6;
 		private NotifyIcon notifyIcon;
-		private Button buttonDateMacros;
+		private ContextMenuStrip contextMenuStripPhraseContentEdit;
+		private ToolStripMenuItem macrosToolStripMenuItem;
+		private ToolStripMenuItem copyToolStripMenuItem;
+		private ToolStripMenuItem pasteToolStripMenuItem;
+		private ToolStripMenuItem cutToolStripMenuItem;
+		private ToolStripMenuItem selectAllToolStripMenuItem;
+		private ToolStripMenuItem deleteToolStripMenuItem;
+		private ToolStripSeparator toolStripSeparator1;
+		private ToolStripMenuItem keyPressMacrosToolStripMenuItem;
+		private ToolStripMenuItem keyComboMacrosToolStripMenuItem;
+		private ToolStripMenuItem pauseMacrosToolStripMenuItem;
+		private ToolStripMenuItem dateAndTimeMacrosToolStripMenuItem;
+		private ToolStripMenuItem toolsToolStripMenuItem;
+		private ToolStripMenuItem debugWindowToolStripMenuItem;
+		private ToolStripSeparator toolStripSeparator2;
+		private ToolStripMenuItem undoToolStripMenuItem;
 	}
 }
 

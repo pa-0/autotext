@@ -29,30 +29,31 @@
 		private void InitializeComponent()
 		{
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(HelpOnDateFormat));
-			this.textBox1 = new System.Windows.Forms.TextBox();
+			this.label1 = new System.Windows.Forms.Label();
 			this.SuspendLayout();
 			// 
-			// textBox1
+			// label1
 			// 
-			this.textBox1.Location = new System.Drawing.Point(0, 0);
-			this.textBox1.Multiline = true;
-			this.textBox1.Name = "textBox1";
-			this.textBox1.ReadOnly = true;
-			this.textBox1.Size = new System.Drawing.Size(466, 560);
-			this.textBox1.TabIndex = 0;
-			this.textBox1.Text = resources.GetString("textBox1.Text");
-			this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
+			this.label1.AutoSize = true;
+			this.label1.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			this.label1.Location = new System.Drawing.Point(12, 9);
+			this.label1.Name = "label1";
+			this.label1.Size = new System.Drawing.Size(588, 588);
+			this.label1.TabIndex = 0;
+			this.label1.Text = resources.GetString("label1.Text");
 			// 
 			// HelpOnDateFormat
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(466, 560);
-			this.Controls.Add(this.textBox1);
+			this.ClientSize = new System.Drawing.Size(612, 606);
+			this.Controls.Add(this.label1);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+			this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
 			this.MaximizeBox = false;
 			this.Name = "HelpOnDateFormat";
-			this.Text = "Help on date format";
+			this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
+			this.Text = "Help on date formatting";
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -60,6 +61,7 @@
 
 		#endregion
 
-		private System.Windows.Forms.TextBox textBox1;
+		private System.Windows.Forms.Label label1;
+
 	}
 }

@@ -74,38 +74,45 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AddDateMacros.cs">
+    <Compile Include="Constants\Common.cs" />
+    <Compile Include="Forms\AddDateMacros.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="AddDateMacros.Designer.cs">
+    <Compile Include="Forms\AddDateMacros.Designer.cs">
       <DependentUpon>AddDateMacros.cs</DependentUpon>
     </Compile>
-    <Compile Include="AddKeyCode.cs">
+    <Compile Include="Forms\AddKeyCode.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="AddKeyCode.Designer.cs">
+    <Compile Include="Forms\AddKeyCode.Designer.cs">
       <DependentUpon>AddKeyCode.cs</DependentUpon>
     </Compile>
-    <Compile Include="AddPauseMacros.cs">
+    <Compile Include="Forms\AddPauseMacros.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="AddPauseMacros.Designer.cs">
+    <Compile Include="Forms\AddPauseMacros.Designer.cs">
       <DependentUpon>AddPauseMacros.cs</DependentUpon>
     </Compile>
-    <Compile Include="AddShortcutKeys.cs">
+    <Compile Include="Forms\AddShortcutKeys.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="AddShortcutKeys.Designer.cs">
+    <Compile Include="Forms\AddShortcutKeys.Designer.cs">
       <DependentUpon>AddShortcutKeys.cs</DependentUpon>
     </Compile>
     <Compile Include="AutotextExpression.cs" />
     <Compile Include="AutotextMatcher.cs" />
     <Compile Include="AutotextMatchEventArgs.cs" />
     <Compile Include="ExpressionEvaluationException.cs" />
-    <Compile Include="FormMain.cs">
+    <Compile Include="Forms\DebugTools.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormMain.Designer.cs">
+    <Compile Include="Forms\DebugTools.Designer.cs">
+      <DependentUpon>DebugTools.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FormMain.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FormMain.Designer.cs">
       <DependentUpon>FormMain.cs</DependentUpon>
     </Compile>
     <Compile Include="Helpers\AutotextRuleExecution.cs" />
@@ -125,17 +132,16 @@
     <Compile Include="Helpers\TextHelper.cs" />
     <Compile Include="Helpers\WinAPI.cs" />
     <Compile Include="AutotextInput.cs" />
-    <Compile Include="HelpOnDateFormat.cs">
+    <Compile Include="Forms\HelpOnDateFormat.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="HelpOnDateFormat.Designer.cs">
+    <Compile Include="Forms\HelpOnDateFormat.Designer.cs">
       <DependentUpon>HelpOnDateFormat.cs</DependentUpon>
     </Compile>
     <Compile Include="KeyCapturedEventArgs.cs" />
     <Compile Include="KeyLogger.cs" />
     <Compile Include="AutotextExpressionParameter.cs" />
     <Compile Include="MatchParameters.cs" />
-    <Compile Include="PhraseCompiler.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Content Include="favicon.ico" />
@@ -150,22 +156,25 @@
     <None Include="Resources\1451757124_calender.png" />
     <None Include="Resources\keys-combo 30 30.png" />
     <None Include="Resources\keycode_small.png" />
-    <EmbeddedResource Include="AddDateMacros.resx">
+    <EmbeddedResource Include="Forms\AddDateMacros.resx">
       <DependentUpon>AddDateMacros.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="AddKeyCode.resx">
+    <EmbeddedResource Include="Forms\AddKeyCode.resx">
       <DependentUpon>AddKeyCode.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="AddPauseMacros.resx">
+    <EmbeddedResource Include="Forms\AddPauseMacros.resx">
       <DependentUpon>AddPauseMacros.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="AddShortcutKeys.resx">
+    <EmbeddedResource Include="Forms\AddShortcutKeys.resx">
       <DependentUpon>AddShortcutKeys.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormMain.resx">
+    <EmbeddedResource Include="Forms\DebugTools.resx">
+      <DependentUpon>DebugTools.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FormMain.resx">
       <DependentUpon>FormMain.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="HelpOnDateFormat.resx">
+    <EmbeddedResource Include="Forms\HelpOnDateFormat.resx">
       <DependentUpon>HelpOnDateFormat.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">

@@ -127,8 +127,8 @@
 			this.Controls.Add(this.label1);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
 			this.Name = "AddKeyCode";
-			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-			this.Text = "Add Key Code Action";
+			this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
+			this.Text = "Add key macros";
 			this.Load += new System.EventHandler(this.AddKeyCode_Load);
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDownQuantity)).EndInit();
 			this.ResumeLayout(false);

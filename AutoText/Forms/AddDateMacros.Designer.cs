@@ -32,6 +32,8 @@
 			this.label1 = new System.Windows.Forms.Label();
 			this.button1 = new System.Windows.Forms.Button();
 			this.linkLabelHelp = new System.Windows.Forms.LinkLabel();
+			this.label2 = new System.Windows.Forms.Label();
+			this.labelExampleDateTime = new System.Windows.Forms.Label();
 			this.SuspendLayout();
 			// 
 			// textBoxFormat
@@ -63,26 +65,47 @@
 			// linkLabelHelp
 			// 
 			this.linkLabelHelp.AutoSize = true;
-			this.linkLabelHelp.Location = new System.Drawing.Point(152, 41);
+			this.linkLabelHelp.Location = new System.Drawing.Point(119, 41);
 			this.linkLabelHelp.Name = "linkLabelHelp";
-			this.linkLabelHelp.Size = new System.Drawing.Size(29, 13);
+			this.linkLabelHelp.Size = new System.Drawing.Size(117, 13);
 			this.linkLabelHelp.TabIndex = 3;
 			this.linkLabelHelp.TabStop = true;
-			this.linkLabelHelp.Text = "Help";
+			this.linkLabelHelp.Text = "Help on date formatting";
 			this.linkLabelHelp.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabelHelp_LinkClicked);
+			// 
+			// label2
+			// 
+			this.label2.AutoSize = true;
+			this.label2.Location = new System.Drawing.Point(12, 68);
+			this.label2.Name = "label2";
+			this.label2.Size = new System.Drawing.Size(172, 26);
+			this.label2.TabIndex = 4;
+			this.label2.Text = "Example: dd.MM.yyyy HH:mm:ss.fff\r\nwill result in";
+			// 
+			// labelExampleDateTime
+			// 
+			this.labelExampleDateTime.AutoSize = true;
+			this.labelExampleDateTime.Location = new System.Drawing.Point(12, 94);
+			this.labelExampleDateTime.Name = "labelExampleDateTime";
+			this.labelExampleDateTime.Size = new System.Drawing.Size(16, 13);
+			this.labelExampleDateTime.TabIndex = 5;
+			this.labelExampleDateTime.Text = "---";
 			// 
 			// AddDateMacros
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(246, 63);
+			this.ClientSize = new System.Drawing.Size(261, 132);
+			this.Controls.Add(this.labelExampleDateTime);
+			this.Controls.Add(this.label2);
 			this.Controls.Add(this.linkLabelHelp);
 			this.Controls.Add(this.button1);
 			this.Controls.Add(this.label1);
 			this.Controls.Add(this.textBoxFormat);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
 			this.Name = "AddDateMacros";
-			this.Text = "AddDateMacros";
+			this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
+			this.Text = "Add date macros";
 			this.Load += new System.EventHandler(this.AddDateMacros_Load);
 			this.Shown += new System.EventHandler(this.AddDateMacros_Shown);
 			this.ResumeLayout(false);
@@ -96,5 +119,7 @@
 		private System.Windows.Forms.Label label1;
 		private System.Windows.Forms.Button button1;
 		private System.Windows.Forms.LinkLabel linkLabelHelp;
+		private System.Windows.Forms.Label label2;
+		private System.Windows.Forms.Label labelExampleDateTime;
 	}
 }

@@ -21,6 +21,7 @@ using AutoText.Helpers;
 using AutoText.Helpers.Configuration;
 using System.Xml.Linq;
 using System.Xml.XPath;
+using AutoText.Forms;
 using AutoText.Helpers.Extensions;
 using NCalc;
 
@@ -32,9 +33,9 @@ namespace AutoText
 		private List<AutotextRuleConfig> _rules;
 		private AutotextMatcher _matcher;
 		private KeyLogger _keylogger = new KeyLogger();
-		int shift = 0;
-		int numberOfTriggers = 0;
-		private int _curSelectedPhrase = -1;
+		int _shift = 0;
+		int _numberOfTriggers = 0;
+		private int _curSelectedPhraseIndex = -1;
 
 		public TextBox PhraseTextBox
 		{
@@ -54,8 +55,10 @@ namespace AutoText
 
 		}
 
-		private void LoadPhrases()
+		private void LoadPhrasesToListView()
 		{
+			listViewPhrases.Items.Clear();
+
 			foreach (AutotextRuleConfig ruleConfig in _rules)
 			{
 				ListViewItem lvi = new ListViewItem(ruleConfig.Abbreviation.AbbreviationText);
@@ -66,8 +69,9 @@ namespace AutoText
 
 		private void FormMain_Load(object sender, EventArgs e)
 		{
-			LoadPhrases();
+			LoadPhrasesToListView();
 			comboBoxProcessMacros.SelectedIndex = 0;
+			contextMenuStripPhraseContentEdit.Opening += contextMenuStripPhraseContentEdit_Opening;
 		}
 
 		public void LoadRules()
@@ -77,13 +81,6 @@ namespace AutoText
 
 		void _testKeylogger_KeyCaptured(object sender, KeyCapturedEventArgs e)
 		{
-			textBoxKeysLog.Invoke(new Action(() =>
-			{
-				textBoxKeysLog.Text +=  e.CapturedCharacter + String.Join(" | ", e.CapturedKeys) + "\r\n\r\n";
-				textBoxKeysLog.Select(textBoxKeysLog.Text.Length, 0);
-				textBoxKeysLog.ScrollToCaret();
-			}));
-
 			Keys[] notAllowedSymbols =
 			{
 				Keys.Up,
@@ -109,7 +106,7 @@ namespace AutoText
 
 			if (e.CapturedKeys[0] == "Back")
 			{
-				_matcher.EraseLastBufferSymbol();
+				_matcher.EraseLastBufferedSymbol();
 			}
 			else
 			{
@@ -128,13 +125,13 @@ namespace AutoText
 
 		private void AddTriggerControls(string triggerChar, Keys? triggerKey, bool? charIsKeySensitive)
 		{
-			numberOfTriggers++;
+			_numberOfTriggers++;
 
 			Panel triggerPanel = new Panel();
 			triggerPanel.Size = new Size(298, 27);
-			triggerPanel.Location = new Point(6, 19 + shift);
+			triggerPanel.Location = new Point(6, 19 + _shift);
 			//			triggerPanel.BorderStyle = BorderStyle.FixedSingle;
-			triggerPanel.Name = "triggertsPanel" + numberOfTriggers;
+			triggerPanel.Name = "triggertsPanel" + _numberOfTriggers;
 
 			ComboBox comboBoxTriggerType = new ComboBox();
 			TextBox textBoxTriggerChar = new TextBox();
@@ -153,6 +150,7 @@ namespace AutoText
 			comboBoxTriggerType.Location = new System.Drawing.Point(1, 2);
 			comboBoxTriggerType.Name = "comboBoxTriggerType";
 			comboBoxTriggerType.Size = new System.Drawing.Size(80, 21);
+			comboBoxTriggerType.Font = new Font(comboBoxTriggerType.Font, FontStyle.Regular);
 			comboBoxTriggerType.TabIndex = 15;
 			if (triggerChar != null)
 			{
@@ -178,6 +176,7 @@ namespace AutoText
 			textBoxTriggerChar.TabIndex = 16;
 			textBoxTriggerChar.Visible = triggerChar != null;
 			textBoxTriggerChar.Text = triggerChar == null ? "" : triggerChar;
+			textBoxTriggerChar.Font = new Font(textBoxTriggerChar.Font,FontStyle.Regular);
 			// 
 			// comboBoxTriggerKey
 			// 
@@ -188,7 +187,8 @@ namespace AutoText
 			comboBoxTriggerKey.Size = new System.Drawing.Size(135, 21);
 			comboBoxTriggerKey.TabIndex = 17;
 			comboBoxTriggerKey.Visible = triggerChar == null;
-			comboBoxTriggerKey.Items.AddRange(ConfigHelper.GetKeycodesConfiguration().Keycodes.Select(p => p.Names.First().Value).ToArray());
+			comboBoxTriggerKey.Font = new Font(comboBoxTriggerKey.Font, FontStyle.Regular);
+			ConfigHelper.GetKeycodesConfiguration().Keycodes.ForEach(p => comboBoxTriggerKey.Items.Add(string.Join(" | ", p.Names.Select( g => g.Value))));
 			comboBoxTriggerKey.Items.RemoveAt(0);
 			comboBoxTriggerKey.SelectedIndex = 0;
 
@@ -196,15 +196,12 @@ namespace AutoText
 			{
 				foreach (var item in comboBoxTriggerKey.Items)
 				{
-					if (triggerKey != null && item.ToString() == triggerKey.ToString())
+					if (triggerKey != null && item.ToString().Split('|').Select(p => p.Trim()).ToList().Contains(triggerKey.ToString()))
 					{
 						comboBoxTriggerKey.SelectedItem = item;
 						break;
 					}
 				}
-
-				comboBoxTriggerKey.SelectedItem = triggerKey;
-
 			}
 			else
 			{
@@ -230,6 +227,7 @@ namespace AutoText
 			charTriggerIsCaseSensitive.UseVisualStyleBackColor = true;
 			charTriggerIsCaseSensitive.Visible = charIsKeySensitive != null;
 			charTriggerIsCaseSensitive.Checked = charIsKeySensitive == null ? false : (bool)charIsKeySensitive;
+			charTriggerIsCaseSensitive.Font = new Font(charTriggerIsCaseSensitive.Font, FontStyle.Regular);
 			// 
 			// buttonAddTriggerButton
 			// 
@@ -258,22 +256,22 @@ namespace AutoText
 			triggerPanel.Controls.Add(buttonAddTrigger);
 			triggerPanel.Controls.Add(buttonRemoveTrigger);
 			groupBoxTriggers.Controls.Add(triggerPanel);
-			shift += 30;
+			_shift += 30;
 
 		}
 
 		void buttonRemoveTrigger_Click(object sender, EventArgs e)
 		{
-			Panel pToRemove = groupBoxTriggers.Controls.Cast<Panel>().Where(p => p.Controls.Contains((Control)sender)).Single();
+			Panel pToRemove = groupBoxTriggers.Controls.Cast<Panel>().Single(p => p.Controls.Contains((Control)sender));
 			groupBoxTriggers.Controls.Remove(pToRemove);
 
-			shift = 19;
+			_shift = 19;
 			List<Panel> availPanels = groupBoxTriggers.Controls.Cast<Panel>().ToList();
 
 			foreach (Panel panel in availPanels)
 			{
-				panel.Location = new Point(panel.Location.X, 0 + shift);
-				shift += 30;
+				panel.Location = new Point(panel.Location.X, 0 + _shift);
+				_shift += 30;
 			}
 
 			if (availPanels.Count < 7)
@@ -342,13 +340,13 @@ namespace AutoText
 		{
 			AddTriggerControls(null, null, null);
 
-			shift = 19;
+			_shift = 19;
 			List<Panel> availPanels = groupBoxTriggers.Controls.Cast<Panel>().ToList();
 
 			foreach (Panel panel in availPanels)
 			{
-				panel.Location = new Point(panel.Location.X, 0 + shift);
-				shift += 30;
+				panel.Location = new Point(panel.Location.X, 0 + _shift);
+				_shift += 30;
 			}
 
 			if (availPanels.Count == 7)
@@ -371,7 +369,36 @@ namespace AutoText
 
 		private void buttonAddPhrase_Click(object sender, EventArgs e)
 		{
-			SavePhrase(true);
+			IEnumerable<string> availPhraseAbbreviations = _rules.Select(p => p.Abbreviation.AbbreviationText);
+			IEnumerable<string> matchedToDefNameAbbr =
+				availPhraseAbbreviations.Where(p => Regex.IsMatch(p, Constants.Common.NewPhraseDefaultAutotextRegex));
+
+			string nextNewPhraseAutotext;
+
+			if (!matchedToDefNameAbbr.Any())
+			{
+				nextNewPhraseAutotext = string.Format(Constants.Common.NewPhraseDefaultAutotext, "");
+			}
+			//if we have autotext template with no numbers
+			else if (matchedToDefNameAbbr.Count() == 1 && matchedToDefNameAbbr.First() == string.Format(Constants.Common.NewPhraseDefaultAutotext, ""))
+			{
+				nextNewPhraseAutotext = string.Format(Constants.Common.NewPhraseDefaultAutotext, "1");
+			}
+			else
+			{
+				int maxNum =
+					//Where we have some number
+					matchedToDefNameAbbr.Where(g => !string.IsNullOrEmpty(Regex.Match(g, Constants.Common.NewPhraseDefaultAutotextRegex).Groups[1].Value)).
+					//Get that number max value
+					Select(p => int.Parse(Regex.Match(p, Constants.Common.NewPhraseDefaultAutotextRegex).Groups[1].Value)).Max();
+				nextNewPhraseAutotext = string.Format(Constants.Common.NewPhraseDefaultAutotext, maxNum + 1);
+			}
+
+
+			{ }
+			AddNewPhrase(nextNewPhraseAutotext);
+			listViewPhrases.SelectedIndices.Clear();
+			listViewPhrases.SelectedIndices.Add(listViewPhrases.Items.Count - 1);
 		}
 
 		private void listViewPhrases_SelectedIndexChanged(object sender, EventArgs e)
@@ -380,8 +407,8 @@ namespace AutoText
 
 			if (lv.SelectedIndices.Count > 0)
 			{
-				_curSelectedPhrase = listViewPhrases.SelectedIndices[0];
-				shift = 0;
+				_curSelectedPhraseIndex = listViewPhrases.SelectedIndices[0];
+				_shift = 0;
 				groupBoxTriggers.Controls.Clear();
 
 				AutotextRuleConfig config = _rules[lv.SelectedIndices[0]];
@@ -391,7 +418,14 @@ namespace AutoText
 				textBoxAutotext.Text = config.Abbreviation.AbbreviationText;
 				checkBoxSubstitute.Checked = config.RemoveAbbr;
 				checkBoxAutotextCaseSensetive.Checked = config.Abbreviation.CaseSensitive;
-				bool shortcutFound = false;
+
+				comboBoxProcessMacros.Enabled = true;
+				textBoxDescription.Enabled = true;
+				textBoxAutotext.Enabled = true;
+				checkBoxSubstitute.Enabled = true;
+				checkBoxAutotextCaseSensetive.Enabled = true;
+				textBoxPhraseContent.Enabled = true;
+
 
 				KeycodesConfiguration kcConfig = ConfigHelper.GetKeycodesConfiguration();
 
@@ -417,17 +451,32 @@ namespace AutoText
 						break;
 					}
 				}
-				
+
+				((Control)groupBoxTriggers.Controls[0].Controls[5]).Enabled = false;
 			}
+			else
+			{
+				groupBoxTriggers.Controls.Clear();
 
-			((Control)groupBoxTriggers.Controls[0].Controls[5]).Enabled = false;
+				textBoxDescription.Text = "";
+				textBoxPhraseContent.Text = "";
+				textBoxAutotext.Text = "";
+				checkBoxSubstitute.Checked = false;
+				checkBoxAutotextCaseSensetive.Checked = false;
 
+				comboBoxProcessMacros.Enabled = false;
+				textBoxDescription.Enabled = false;
+				textBoxAutotext.Enabled = false;
+				checkBoxSubstitute.Enabled = false;
+				checkBoxAutotextCaseSensetive.Enabled = false;
+				textBoxPhraseContent.Enabled = false;
 
+			}
 		}
 
-		private void SavePhrase(bool addNew)
+		private void SavePhrase(int phraseIndex)
 		{
-			if (addNew && _rules.Any(p => p.Abbreviation.AbbreviationText == textBoxAutotext.Text))
+			if (_rules.Where((p,i) => i != phraseIndex).Any(p => p.Abbreviation.AbbreviationText == textBoxAutotext.Text))
 			{
 				MessageBox.Show(this, "Phrase with specified autotext is already exists", "Warning", MessageBoxButtons.OK,
 					MessageBoxIcon.Stop);
@@ -442,7 +491,7 @@ namespace AutoText
 			{
 				string triggerType = ((ComboBox)panel.Controls.Find("comboBoxTriggerType", false)[0]).SelectedItem.ToString();
 				string triggerChar = ((TextBox)panel.Controls.Find("textBoxTriggerChar", false)[0]).Text;
-				string triggerKey = ((ComboBox)panel.Controls.Find("comboBoxTriggerKey", false)[0]).SelectedItem.ToString();
+				string triggerKey = ((ComboBox)panel.Controls.Find("comboBoxTriggerKey", false)[0]).SelectedItem.ToString().Split('|').Select(p=> p.Trim()).First();
 				bool triggerCaseSen = ((CheckBox)panel.Controls.Find("checkBoxTriggerCaseSensitive", false)[0]).Checked;
 
 				if (triggerType == "Character")
@@ -457,7 +506,7 @@ namespace AutoText
 				}
 			}
 
-			XElement newrule = new XElement("rule",
+			XElement ruleToSave = new XElement("rule",
 				new XElement("abbreviation",
 					new XAttribute("caseSensitive", checkBoxAutotextCaseSensetive.Checked),
 					new XElement("value", new XCData(textBoxAutotext.Text))),
@@ -468,113 +517,124 @@ namespace AutoText
 				new XElement("description", new XCData(textBoxDescription.Text)),
 				triggerItem);
 
-			XDocument config = XDocument.Parse(File.ReadAllText("AutotextRules.xml"), LoadOptions.PreserveWhitespace);
+			XDocument config = XDocument.Parse(File.ReadAllText(Constants.Common.AutotextRulesConfigFileName), LoadOptions.PreserveWhitespace);
+			XElement ruleToRewrite = config.Descendants("rule").ElementAt(phraseIndex);
+			ruleToRewrite.RemoveAll();
+			ruleToRewrite.Add(ruleToSave.XPathSelectElements("/*"));
 
-			XElement rule =
-				config.XPathSelectElement(string.Format("//rule/abbreviation/value[text()='{0}']/../..", textBoxAutotext.Text));
+			File.Delete(Constants.Common.AutotextRulesConfigFileName);
 
-			if (!addNew && rule != null)
-			{
-				rule.RemoveAll();
-				rule.Add(newrule.XPathSelectElements("/*"));
-
-			}
-			else
-			{
-				config.Descendants("rules").First().Add(newrule);
-			}
-
-			File.Delete("AutotextRules.xml");
-
-			using (FileStream fs = File.OpenWrite("AutotextRules.xml"))
+			using (FileStream fs = File.OpenWrite(Constants.Common.AutotextRulesConfigFileName))
 			{
 				config.Save(fs);
 			}
 
 			LoadRules();
+			LoadPhrasesToListView();
+			_matcher.Rules = ConfigHelper.GetAutotextRules();
+		}
 
-			listViewPhrases.Items.Clear();
-			LoadPhrases();
+		private void AddNewPhrase(string abbreviationText)
+		{
+			XElement triggerItem = new XElement("triggers");
+			triggerItem.Add(new XElement("item", new XAttribute("caseSensitive", false),
+						new XElement("value", new XCData("{Tab}"))));
 
+			XElement ruleToSave = new XElement("rule",
+				new XElement("abbreviation",
+					new XAttribute("caseSensitive", false),
+					new XElement("value", new XCData(abbreviationText))),
+				new XElement("removeAbbr", true),
+				new XElement("phrase", new XCData("<phrase content>")),
+				new XElement("phraseCompiled", new XCData("<phrase content>")),
+				new XElement("macros", new XAttribute("mode", "Execute")),
+				new XElement("description", new XCData("<phrase description>")),
+				triggerItem);
+
+			XDocument config = XDocument.Parse(File.ReadAllText(Constants.Common.AutotextRulesConfigFileName), LoadOptions.PreserveWhitespace);
+			config.Descendants("rules").First().Add(ruleToSave);
+
+			File.Delete(Constants.Common.AutotextRulesConfigFileName);
+
+			using (FileStream fs = File.OpenWrite(Constants.Common.AutotextRulesConfigFileName))
+			{
+				config.Save(fs);
+			}
+
+			LoadRules();
+			LoadPhrasesToListView();
 			_matcher.Rules = ConfigHelper.GetAutotextRules();
 		}
 
 		private void buttonSavePhrase_Click(object sender, EventArgs e)
 		{
-			SavePhrase(false);
+			if (listViewPhrases.SelectedItems.Count == 0)
+			{
+				MessageBox.Show(this, "Please select item first", "Attention");
+			}
+			else
+			{
+				int selIndex = listViewPhrases.SelectedIndices[0];
+				SavePhrase(selIndex);
+				listViewPhrases.SelectedIndices.Clear();
+				listViewPhrases.SelectedIndices.Add(selIndex);
+			}
 		}
 
 		private void buttonRemovePhrase_Click(object sender, EventArgs e)
 		{
-			_rules = ConfigHelper.GetAutotextRules();
-
 			if (listViewPhrases.SelectedItems.Count == 0)
 			{
-				MessageBox.Show(this, "Please select item first", "Warning");
-
+				MessageBox.Show(this, "Please select item first", "Attention");
 			}
 			else
 			{
-
-				ListViewItem lvi = listViewPhrases.Items[_curSelectedPhrase];
-				listViewPhrases.Items.Remove(lvi);
-
-				_rules.Remove(_rules.Single(p => p.Abbreviation.AbbreviationText == lvi.SubItems[0].Text));
-				listViewPhrases.Items.Clear();
-
-				XDocument xd = XDocument.Parse(File.ReadAllText("AutotextRules.xml"));
-				XElement elemTODel=  xd.XPathSelectElement(string.Format("//rule/abbreviation/value[text()='{0}']/../..", lvi.SubItems[0].Text));
-				elemTODel.Remove();
-
-				File.Delete("AutotextRules.xml");
-
-				
-
-				using (FileStream fs = File.OpenWrite("AutotextRules.xml"))
+				if (MessageBox.Show(this, "Are you sure that you want to delete selected phrase?", 
+					"Please confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
 				{
-					xd.Save(fs);
+					_rules = ConfigHelper.GetAutotextRules();
+
+					ListViewItem lvi = listViewPhrases.Items[_curSelectedPhraseIndex];
+					listViewPhrases.Items.Remove(lvi);
+
+					listViewPhrases.SelectedIndices.Clear();
+
+					if (_curSelectedPhraseIndex <= (listViewPhrases.Items.Count - 1))
+					{
+						listViewPhrases.SelectedIndices.Add(_curSelectedPhraseIndex);
+					}
+					else
+					{
+						listViewPhrases.SelectedIndices.Add(listViewPhrases.Items.Count - 1);
+					}
+
+					_rules.RemoveAt(_curSelectedPhraseIndex);
+
+					XDocument xd = XDocument.Parse(File.ReadAllText(Constants.Common.AutotextRulesConfigFileName));
+					XElement elemToDel = xd.Descendants("rule").ElementAt(_curSelectedPhraseIndex);
+					elemToDel.Remove();
+
+					File.Delete(Constants.Common.AutotextRulesConfigFileName);
+
+					using (FileStream fs = File.OpenWrite(Constants.Common.AutotextRulesConfigFileName))
+					{
+						xd.Save(fs);
+					}
+
+					LoadRules();
+					_matcher.Rules = ConfigHelper.GetAutotextRules();
 				}
-
-				LoadPhrases();
 			}
-		}
-
-		private void buttonAddKeyCodeEpression_Click(object sender, EventArgs e)
-		{
-			AddKeyCode formKeyCodes = new AddKeyCode();
-			formKeyCodes.Show(this);
 		}
 
 		private void FormMain_Activated(object sender, EventArgs e)
 		{
-			_keylogger.PauseCapture();
+//			_keylogger.PauseCapture();
 		}
 
 		private void FormMain_Deactivate(object sender, EventArgs e)
 		{
-			_keylogger.ResumeCapture();
-		}
-
-		private void button1_Click(object sender, EventArgs e)
-		{
-			AddShortcutKeys form = new AddShortcutKeys();
-			form.Show(this);
-		}
-
-		private void buttonAddPauseScript_Click(object sender, EventArgs e)
-		{
-			AddPauseMacros addPauseMacrosForm = new AddPauseMacros();
-			addPauseMacrosForm.Show(this);
-		}
-
-		private void textBox1_TextChanged(object sender, EventArgs e)
-		{
-			if (textBoxKeysLog.Lines.Count() >= 100)
-			{
-				string[] lines = textBoxKeysLog.Lines;
-				textBoxKeysLog.Lines = lines.Skip(1).ToArray();
-
-			}
+//			_keylogger.ResumeCapture();
 		}
 
 		private void FormMain_Shown(object sender, EventArgs e)
@@ -582,7 +642,7 @@ namespace AutoText
 			if (listViewPhrases.Items.Count > 0)
 			{
 				listViewPhrases.SelectedIndices.Add(0);
-				_curSelectedPhrase = 0;
+				_curSelectedPhraseIndex = 0;
 			}
 		}
 
@@ -607,10 +667,138 @@ namespace AutoText
 			this.WindowState = FormWindowState.Normal;
 		}
 
-		private void buttonDateMacros_Click(object sender, EventArgs e)
+
+		private void copyToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			if (!string.IsNullOrEmpty(textBoxPhraseContent.Text))
+			{
+				Clipboard.SetText(textBoxPhraseContent.Text);
+			}
+		}
+
+		private void pasteToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			string textToPaste = Clipboard.GetText();
+			int selectionStart = textBoxPhraseContent.SelectionStart;
+			string textBoxText = textBoxPhraseContent.Text;
+
+			if (textBoxPhraseContent.SelectionLength != 0)
+			{
+				textBoxText = textBoxText.Remove(textBoxPhraseContent.SelectionStart, textBoxPhraseContent.SelectionLength);
+			}
+
+			textBoxText = textBoxText.Insert(selectionStart, textToPaste);
+			textBoxPhraseContent.Text = textBoxText;
+			textBoxPhraseContent.SelectionStart = selectionStart + textToPaste.Length;
+
+		}
+
+		private void cutToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			if (textBoxPhraseContent.SelectionLength == 0)
+			{
+				return;
+			}
+
+			int selStart = textBoxPhraseContent.SelectionStart;
+
+			Clipboard.SetText(textBoxPhraseContent.Text.Substring(textBoxPhraseContent.SelectionStart,textBoxPhraseContent.SelectionLength));
+			textBoxPhraseContent.Text = textBoxPhraseContent.Text.Remove(textBoxPhraseContent.SelectionStart, textBoxPhraseContent.SelectionLength);
+			textBoxPhraseContent.SelectionStart = selStart;
+		}
+
+		private void selectAllToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			textBoxPhraseContent.SelectionStart = 0;
+			textBoxPhraseContent.SelectionLength = textBoxPhraseContent.TextLength;
+		}
+
+		private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			if (textBoxPhraseContent.SelectionLength == 0)
+			{
+				return;
+			}
+
+			int selStart = textBoxPhraseContent.SelectionStart;
+			textBoxPhraseContent.Text = textBoxPhraseContent.Text.Remove(textBoxPhraseContent.SelectionStart, textBoxPhraseContent.SelectionLength);
+			textBoxPhraseContent.SelectionStart = selStart;
+		}
+
+		void contextMenuStripPhraseContentEdit_Opening(object sender, CancelEventArgs e)
+		{
+			if (!textBoxPhraseContent.Focused)
+			{
+				textBoxPhraseContent.Focus();
+			}
+
+			contextMenuStripPhraseContentEdit.Items["copyToolStripMenuItem"].Enabled = textBoxPhraseContent.SelectionLength != 0;
+			contextMenuStripPhraseContentEdit.Items["pasteToolStripMenuItem"].Enabled = Clipboard.ContainsText();
+			contextMenuStripPhraseContentEdit.Items["cutToolStripMenuItem"].Enabled = textBoxPhraseContent.SelectionLength != 0;
+			contextMenuStripPhraseContentEdit.Items["undoToolStripMenuItem"].Enabled = textBoxPhraseContent.CanUndo;
+			contextMenuStripPhraseContentEdit.Items["deleteToolStripMenuItem"].Enabled = textBoxPhraseContent.SelectionLength != 0;
+			contextMenuStripPhraseContentEdit.Items["selectAllToolStripMenuItem"].Enabled = textBoxPhraseContent.TextLength > 0;
+
+		}
+
+		private void keyActionMacrosToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			AddKeyCode formKeyCodes = new AddKeyCode();
+			formKeyCodes.CenterTo(this);
+			formKeyCodes.Show(this);
+
+		}
+
+		private void keyComboMacrosToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			AddShortcutKeys form = new AddShortcutKeys();
+			form.CenterTo(this);
+			form.Show(this);
+		}
+
+		private void textBoxPhraseContent_KeyDown(object sender, KeyEventArgs e)
+		{
+			if (e.Control && (e.KeyCode == Keys.A))
+			{
+				if (sender != null)
+					((TextBox)sender).SelectAll();
+				e.Handled = true;
+			}
+		}
+
+		private void pauseMacrosToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			AddPauseMacros addPauseMacrosForm = new AddPauseMacros();
+			addPauseMacrosForm.CenterTo(this);
+			addPauseMacrosForm.Show(this);
+		}
+
+		private void dateAndTimeMacrosToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			AddDateMacros addDateMacrosForm = new AddDateMacros();
+			addDateMacrosForm.CenterTo(this);
 			addDateMacrosForm.Show(this);
+		}
+
+		private void debugWindowToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			DebugTools debugToolsWindow = new DebugTools(_keylogger);
+			debugToolsWindow.CenterTo(this);
+			debugToolsWindow.Show();
+
+		}
+
+		private void toolStripMenuItem2_Click(object sender, EventArgs e)
+		{
+			if (textBoxPhraseContent.CanUndo)
+			{
+				textBoxPhraseContent.Undo();
+			}
+		}
+
+		private void textBoxPhraseContent_TextChanged(object sender, EventArgs e)
+		{
+
 		}
 	}
 

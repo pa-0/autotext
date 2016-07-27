@@ -16,7 +16,7 @@ namespace AutoText.Helpers.Configuration
 
 		public static List<AutotextRuleConfig> GetAutotextRules()
 		{
-			_autotextConfig = DeserailizeXml<AutotextRulesRoot>(@"AutotextRules.xml").AutotextRulesList;
+			_autotextConfig = DeserailizeXml<AutotextRulesRoot>(Constants.Common.AutotextRulesConfigFileName).AutotextRulesList;
 
 			foreach (AutotextRuleConfig config in _autotextConfig)
 			{
