@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<autotextRules xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <rules>
+    <rule>
+      <abbreviation caseSensitive="false">
+        <value><![CDATA[<autotext>assa]]></value>
+      </abbreviation>
+      <removeAbbr>true</removeAbbr>
+      <phrase><![CDATA[<phrase content>asdasd]]></phrase>
+      <phraseCompiled><![CDATA[<phrase content>asdasd]]></phraseCompiled>
+      <macros mode="Execute" />
+      <description><![CDATA[dasdasd]]></description>
+      <triggers>
+        <item caseSensitive="false">
+          <value><![CDATA[{Tab}]]></value>
+        </item>
+      </triggers>
+    </rule>
+  </rules>
+</autotextRules>

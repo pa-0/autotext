@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.Serialization;
 
-namespace AutoText
+namespace AutoText.Engine
 {
 	[Serializable]
 	public class ExpressionEvaluationException : Exception

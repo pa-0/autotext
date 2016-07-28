@@ -8,8 +8,10 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
 using WindowsInput;
+using AutoText.Engine;
 using AutoText.Helpers.Configuration;
 using AutoText.Helpers.Extensions;
+using InputType = AutoText.Engine.InputType;
 
 namespace AutoText.Helpers
 {

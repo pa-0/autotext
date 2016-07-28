@@ -21,8 +21,10 @@ using AutoText.Helpers;
 using AutoText.Helpers.Configuration;
 using System.Xml.Linq;
 using System.Xml.XPath;
+using AutoText.Engine;
 using AutoText.Forms;
 using AutoText.Helpers.Extensions;
+using AutoText.Model.Configuration;
 using NCalc;
 
 namespace AutoText
@@ -517,14 +519,14 @@ namespace AutoText
 				new XElement("description", new XCData(textBoxDescription.Text)),
 				triggerItem);
 
-			XDocument config = XDocument.Parse(File.ReadAllText(Constants.Common.AutotextRulesConfigFileName), LoadOptions.PreserveWhitespace);
+			XDocument config = XDocument.Parse(File.ReadAllText(Constants.Common.AutotextRulesConfigFileFullPath), LoadOptions.PreserveWhitespace);
 			XElement ruleToRewrite = config.Descendants("rule").ElementAt(phraseIndex);
 			ruleToRewrite.RemoveAll();
 			ruleToRewrite.Add(ruleToSave.XPathSelectElements("/*"));
 
-			File.Delete(Constants.Common.AutotextRulesConfigFileName);
+			File.Delete(Constants.Common.AutotextRulesConfigFileFullPath);
 
-			using (FileStream fs = File.OpenWrite(Constants.Common.AutotextRulesConfigFileName))
+			using (FileStream fs = File.OpenWrite(Constants.Common.AutotextRulesConfigFileFullPath))
 			{
 				config.Save(fs);
 			}
@@ -551,12 +553,12 @@ namespace AutoText
 				new XElement("description", new XCData("<phrase description>")),
 				triggerItem);
 
-			XDocument config = XDocument.Parse(File.ReadAllText(Constants.Common.AutotextRulesConfigFileName), LoadOptions.PreserveWhitespace);
+			XDocument config = XDocument.Parse(File.ReadAllText(Constants.Common.AutotextRulesConfigFileFullPath), LoadOptions.PreserveWhitespace);
 			config.Descendants("rules").First().Add(ruleToSave);
 
-			File.Delete(Constants.Common.AutotextRulesConfigFileName);
+			File.Delete(Constants.Common.AutotextRulesConfigFileFullPath);
 
-			using (FileStream fs = File.OpenWrite(Constants.Common.AutotextRulesConfigFileName))
+			using (FileStream fs = File.OpenWrite(Constants.Common.AutotextRulesConfigFileFullPath))
 			{
 				config.Save(fs);
 			}
@@ -612,13 +614,13 @@ namespace AutoText
 
 					_rules.RemoveAt(_curSelectedPhraseIndex);
 
-					XDocument xd = XDocument.Parse(File.ReadAllText(Constants.Common.AutotextRulesConfigFileName));
+					XDocument xd = XDocument.Parse(File.ReadAllText(Constants.Common.AutotextRulesConfigFileFullPath));
 					XElement elemToDel = xd.Descendants("rule").ElementAt(_curSelectedPhraseIndex);
 					elemToDel.Remove();
 
-					File.Delete(Constants.Common.AutotextRulesConfigFileName);
+					File.Delete(Constants.Common.AutotextRulesConfigFileFullPath);
 
-					using (FileStream fs = File.OpenWrite(Constants.Common.AutotextRulesConfigFileName))
+					using (FileStream fs = File.OpenWrite(Constants.Common.AutotextRulesConfigFileFullPath))
 					{
 						xd.Save(fs);
 					}
@@ -825,7 +827,7 @@ namespace AutoText
 
 		private bool IsCurrentPhraseDirty()
 		{
-
+			throw new NotImplementedException();
 		}
 	}
 

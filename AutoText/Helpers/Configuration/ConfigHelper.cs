@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Xml.Linq;
 using System.Xml.Serialization;
+using AutoText.Model.Configuration;
 
 namespace AutoText.Helpers.Configuration
 {
@@ -16,7 +17,7 @@ namespace AutoText.Helpers.Configuration
 
 		public static List<AutotextRuleConfig> GetAutotextRules()
 		{
-			_autotextConfig = DeserailizeXml<AutotextRulesRoot>(Constants.Common.AutotextRulesConfigFileName).AutotextRulesList;
+			_autotextConfig = DeserailizeXml<AutotextRulesRoot>(Constants.Common.AutotextRulesConfigFileFullPath).AutotextRulesList;
 
 			foreach (AutotextRuleConfig config in _autotextConfig)
 			{
@@ -77,7 +78,7 @@ namespace AutoText.Helpers.Configuration
 				return _keycodesConfig;
 			}
 
-			_keycodesConfig = DeserailizeXml<KeycodesConfiguration>(@"Keycodes.xml");
+			_keycodesConfig = DeserailizeXml<KeycodesConfiguration>(Constants.Common.KeycodesConfigFileFullPath);
 			return _keycodesConfig;
 
 		}
@@ -89,7 +90,7 @@ namespace AutoText.Helpers.Configuration
 				return _expressionConfiguration;
 			}
 
-			_expressionConfiguration = DeserailizeXml<ExpressionConfiguration>(@"ExpressionDefinitions.xml");
+			_expressionConfiguration = DeserailizeXml<ExpressionConfiguration>(Constants.Common.ExpressionDefinitionsConfigFileFullPath);
 			return _expressionConfiguration;
 		}
 	}

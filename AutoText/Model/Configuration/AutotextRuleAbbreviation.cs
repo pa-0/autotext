@@ -1,7 +1,6 @@
-﻿using System;
-using System.Xml.Serialization;
+﻿using System.Xml.Serialization;
 
-namespace AutoText.Helpers.Configuration
+namespace AutoText.Model.Configuration
 {
 	public enum Abbriviationtype
 	{

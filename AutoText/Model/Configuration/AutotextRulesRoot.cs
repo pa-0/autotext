@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Xml.Serialization;
 
-namespace AutoText.Helpers.Configuration
+namespace AutoText.Model.Configuration
 {
-	[XmlRootAttribute("autotextRules", IsNullable = false)]
+	[XmlRoot("autotextRules", IsNullable = false)]
 	public class AutotextRulesRoot
 	{
 		[XmlArray("rules"), XmlArrayItem("rule")]

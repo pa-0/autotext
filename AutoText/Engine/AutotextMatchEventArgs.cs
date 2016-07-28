@@ -1,7 +1,7 @@
 using System;
-using AutoText.Helpers.Configuration;
+using AutoText.Model.Configuration;
 
-namespace AutoText
+namespace AutoText.Engine
 {
 	public class AutotextMatchEventArgs : EventArgs
 	{

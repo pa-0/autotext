@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Text;
 using System.Windows.Forms;
 
-namespace AutoText
+namespace AutoText.Engine
 {
 	public struct AutotextInput
 	{

@@ -2,11 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Text.RegularExpressions;
-using System.Windows.Forms;
-using AutoText.Helpers.Configuration;
+using AutoText.Model.Configuration;
 
-namespace AutoText
+namespace AutoText.Engine
 {
 	public class AutotextMatcher
 	{

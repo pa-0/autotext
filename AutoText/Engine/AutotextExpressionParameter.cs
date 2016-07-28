@@ -1,4 +1,4 @@
-namespace AutoText
+namespace AutoText.Engine
 {
 	public class AutotextExpressionParameter
 	{

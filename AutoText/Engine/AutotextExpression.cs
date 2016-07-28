@@ -6,8 +6,9 @@ using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using AutoText.Helpers.Configuration;
 using AutoText.Helpers.Extensions;
+using AutoText.Model.Configuration;
 
-namespace AutoText
+namespace AutoText.Engine
 {
 	public class AutotextExpression
 	{

@@ -75,6 +75,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Constants\Common.cs" />
+    <Compile Include="Engine\AutotextExpression.cs" />
+    <Compile Include="Engine\AutotextExpressionParameter.cs" />
+    <Compile Include="Engine\AutotextInput.cs" />
+    <Compile Include="Engine\AutotextMatcher.cs" />
+    <Compile Include="Engine\AutotextMatchEventArgs.cs" />
+    <Compile Include="Engine\AutotextRuleMatchParameters.cs" />
+    <Compile Include="Engine\ExpressionEvaluationException.cs" />
+    <Compile Include="Engine\KeyCapturedEventArgs.cs" />
+    <Compile Include="Engine\KeyLogger.cs" />
     <Compile Include="Forms\AddDateMacros.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -99,10 +108,6 @@
     <Compile Include="Forms\AddShortcutKeys.Designer.cs">
       <DependentUpon>AddShortcutKeys.cs</DependentUpon>
     </Compile>
-    <Compile Include="AutotextExpression.cs" />
-    <Compile Include="AutotextMatcher.cs" />
-    <Compile Include="AutotextMatchEventArgs.cs" />
-    <Compile Include="ExpressionEvaluationException.cs" />
     <Compile Include="Forms\DebugTools.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -116,43 +121,41 @@
       <DependentUpon>FormMain.cs</DependentUpon>
     </Compile>
     <Compile Include="Helpers\AutotextRuleExecution.cs" />
-    <Compile Include="Helpers\Configuration\AutotextRuleConfig.cs" />
-    <Compile Include="Helpers\Configuration\AutotextRuleMacrosMode.cs" />
-    <Compile Include="Helpers\Configuration\AutotextRulesRoot.cs" />
-    <Compile Include="Helpers\Configuration\AutotextRuleTrigger.cs" />
     <Compile Include="Helpers\Configuration\ConfigHelper.cs" />
-    <Compile Include="Helpers\Configuration\KeycodeConfig.cs" />
-    <Compile Include="Helpers\Configuration\KeycodesConfiguration.cs" />
-    <Compile Include="Helpers\Configuration\ExpressionConfiguration.cs" />
-    <Compile Include="Helpers\Configuration\ExpressionConfigDefinition.cs" />
-    <Compile Include="Helpers\Configuration\ExpressionConfigParameter.cs" />
-    <Compile Include="Helpers\Configuration\AutotextRuleAbbreviation.cs" />
     <Compile Include="Helpers\Extensions\Common.cs" />
     <Compile Include="Helpers\GUIHelper.cs" />
     <Compile Include="Helpers\TextHelper.cs" />
     <Compile Include="Helpers\WinAPI.cs" />
-    <Compile Include="AutotextInput.cs" />
     <Compile Include="Forms\HelpOnDateFormat.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\HelpOnDateFormat.Designer.cs">
       <DependentUpon>HelpOnDateFormat.cs</DependentUpon>
     </Compile>
-    <Compile Include="KeyCapturedEventArgs.cs" />
-    <Compile Include="KeyLogger.cs" />
-    <Compile Include="AutotextExpressionParameter.cs" />
-    <Compile Include="AutotextRuleMatchParameters.cs" />
+    <Compile Include="Model\Configuration\AutotextRuleAbbreviation.cs" />
+    <Compile Include="Model\Configuration\AutotextRuleConfig.cs" />
+    <Compile Include="Model\Configuration\AutotextRuleMacrosMode.cs" />
+    <Compile Include="Model\Configuration\AutotextRulesRoot.cs" />
+    <Compile Include="Model\Configuration\AutotextRuleTrigger.cs" />
+    <Compile Include="Model\Configuration\ExpressionConfigDefinition.cs" />
+    <Compile Include="Model\Configuration\ExpressionConfigParameter.cs" />
+    <Compile Include="Model\Configuration\ExpressionConfiguration.cs" />
+    <Compile Include="Model\Configuration\KeycodeConfig.cs" />
+    <Compile Include="Model\Configuration\KeycodesConfiguration.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Content Include="Configuration\AutotextRules.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Configuration\ExpressionDefinitions.xml">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Configuration\Keycodes.xml">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="favicon.ico" />
-    <Content Include="Keycodes.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="ExpressionDefinitions.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <SubType>Designer</SubType>
-    </Content>
     <None Include="Resources\1451757124_calender.png" />
     <None Include="Resources\keys-combo 30 30.png" />
     <None Include="Resources\keycode_small.png" />
@@ -187,10 +190,6 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Content Include="AutotextRules.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <SubType>Designer</SubType>
-    </Content>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -236,6 +235,7 @@
       <Name>InputSimulator</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SlowCheetahTargets)" Condition="Exists('$(SlowCheetahTargets)')" Label="SlowCheetah" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
