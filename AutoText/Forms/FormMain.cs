@@ -118,7 +118,7 @@ namespace AutoText
 		{
 			_keylogger.PauseCapture();
 			Thread.Sleep(20);
-			AutotextRuleExecution.ProcessRule(new MatchParameters(e.MatchedRule, e.Trigger));
+			AutotextRuleExecution.ProcessRule(new AutotextRuleMatchParameters(e.MatchedRule, e.Trigger));
 			_keylogger.ResumeCapture();
 			_matcher.ClearBuffer();
 		}
@@ -669,7 +669,6 @@ namespace AutoText
 			this.WindowState = FormWindowState.Normal;
 		}
 
-
 		private void copyToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			if (!string.IsNullOrEmpty(textBoxPhraseContent.Text))
@@ -821,6 +820,11 @@ namespace AutoText
 
 				e.Handled = true;
 			}
+
+		}
+
+		private bool IsCurrentPhraseDirty()
+		{
 
 		}
 	}

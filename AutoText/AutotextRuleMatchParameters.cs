@@ -6,12 +6,12 @@ using AutoText.Helpers.Configuration;
 
 namespace AutoText
 {
-	public class MatchParameters
+	public class AutotextRuleMatchParameters
 	{
 		public AutotextRuleConfig AutotextRuleConfig { get; set; }
 		public AutotextRuleTrigger MatchTrigger { get; set; }
 
-		public MatchParameters(AutotextRuleConfig autotextRuleConfig, AutotextRuleTrigger matchTrigger)
+		public AutotextRuleMatchParameters(AutotextRuleConfig autotextRuleConfig, AutotextRuleTrigger matchTrigger)
 		{
 			AutotextRuleConfig = autotextRuleConfig;
 			MatchTrigger = matchTrigger;

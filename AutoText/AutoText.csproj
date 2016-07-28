@@ -141,7 +141,7 @@
     <Compile Include="KeyCapturedEventArgs.cs" />
     <Compile Include="KeyLogger.cs" />
     <Compile Include="AutotextExpressionParameter.cs" />
-    <Compile Include="MatchParameters.cs" />
+    <Compile Include="AutotextRuleMatchParameters.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Content Include="favicon.ico" />

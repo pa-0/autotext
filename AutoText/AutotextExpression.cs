@@ -28,29 +28,29 @@ namespace AutoText
 		public AutotextExpression ParentExpression { get; private set; }
 		private Dictionary<string, string> _userVariables = new Dictionary<string, string>();
 
-		public AutotextExpression(MatchParameters matchParams)
+		public AutotextExpression(AutotextRuleMatchParameters autotextRuleMatchParams)
 		{
 			string abbrRemoveText = "";
 
-			if (matchParams != null && matchParams.AutotextRuleConfig.RemoveAbbr)
+			if (autotextRuleMatchParams != null && autotextRuleMatchParams.AutotextRuleConfig.RemoveAbbr)
 			{
-				for (int i = 0; i < matchParams.AutotextRuleConfig.Abbreviation.AbbreviationText.Length; i++)
+				for (int i = 0; i < autotextRuleMatchParams.AutotextRuleConfig.Abbreviation.AbbreviationText.Length; i++)
 				{
 					abbrRemoveText += "{Back}";
 				}
 
 
 				string[] nonPrintableTriggers = ConfigHelper.GetExpressionsConfiguration().NonPrintableTriggers.Split(',').Select(p => "{" + p + "}").ToArray();
-				if (!nonPrintableTriggers.Contains(matchParams.MatchTrigger.Value))
+				if (!nonPrintableTriggers.Contains(autotextRuleMatchParams.MatchTrigger.Value))
 				{
 					abbrRemoveText += "{Back}";
 				}
 			}
 
-			string phraseText = matchParams.AutotextRuleConfig.PhraseCompiled;
+			string phraseText = autotextRuleMatchParams.AutotextRuleConfig.PhraseCompiled;
 
 
-			if (matchParams.AutotextRuleConfig.Macros.Mode == MacrosMode.Skip)
+			if (autotextRuleMatchParams.AutotextRuleConfig.Macros.Mode == MacrosMode.Skip)
 			{
 				for (int i = 0; i < phraseText.Length; i++)
 				{
@@ -132,10 +132,10 @@ namespace AutoText
 
 
 
-			if (matchParams.AutotextRuleConfig.Abbreviation.Type == Abbriviationtype.Regex && matchParams.AutotextRuleConfig.MatchedString != null)
+			if (autotextRuleMatchParams.AutotextRuleConfig.Abbreviation.Type == Abbriviationtype.Regex && autotextRuleMatchParams.AutotextRuleConfig.MatchedString != null)
 			{
-				Regex reg = new Regex(matchParams.AutotextRuleConfig.Abbreviation.AbbreviationText);
-				MatchCollection matches = reg.Matches(matchParams.AutotextRuleConfig.MatchedString);
+				Regex reg = new Regex(autotextRuleMatchParams.AutotextRuleConfig.Abbreviation.AbbreviationText);
+				MatchCollection matches = reg.Matches(autotextRuleMatchParams.AutotextRuleConfig.MatchedString);
 
 				string[] groupNames = reg.GetGroupNames();
 

@@ -16,7 +16,7 @@ namespace AutoText.Helpers
 
 	public static class AutotextRuleExecution
 	{
-		public static void ProcessRule(MatchParameters rule)
+		public static void ProcessRule(AutotextRuleMatchParameters rule)
 		{
 			AutotextExpression expression = null;
 			try
