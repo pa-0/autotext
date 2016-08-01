@@ -378,13 +378,13 @@ namespace AutoText
 			this.dataGridViewPhrases.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.AutotextColumn,
             this.ColumnDescription});
-			this.dataGridViewPhrases.Location = new System.Drawing.Point(12, 131);
+			this.dataGridViewPhrases.Location = new System.Drawing.Point(12, 29);
 			this.dataGridViewPhrases.MultiSelect = false;
 			this.dataGridViewPhrases.Name = "dataGridViewPhrases";
 			this.dataGridViewPhrases.ReadOnly = true;
 			this.dataGridViewPhrases.RowHeadersVisible = false;
 			this.dataGridViewPhrases.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-			this.dataGridViewPhrases.Size = new System.Drawing.Size(307, 363);
+			this.dataGridViewPhrases.Size = new System.Drawing.Size(307, 517);
 			this.dataGridViewPhrases.TabIndex = 28;
 			this.dataGridViewPhrases.RowValidating += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dataGridViewPhrases_RowValidating);
 			this.dataGridViewPhrases.SelectionChanged += new System.EventHandler(this.dataGridViewPhrases_SelectionChanged);

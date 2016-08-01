@@ -177,7 +177,7 @@ namespace AutoText
 			textBoxTriggerChar.TabIndex = 16;
 			textBoxTriggerChar.Visible = triggerChar != null;
 			textBoxTriggerChar.Text = triggerChar == null ? "" : triggerChar;
-			textBoxTriggerChar.Font = new Font(textBoxTriggerChar.Font,FontStyle.Regular);
+			textBoxTriggerChar.Font = new Font(textBoxTriggerChar.Font, FontStyle.Regular);
 			// 
 			// comboBoxTriggerKey
 			// 
@@ -189,7 +189,7 @@ namespace AutoText
 			comboBoxTriggerKey.TabIndex = 17;
 			comboBoxTriggerKey.Visible = triggerChar == null;
 			comboBoxTriggerKey.Font = new Font(comboBoxTriggerKey.Font, FontStyle.Regular);
-			ConfigHelper.GetKeycodesConfiguration().Keycodes.ForEach(p => comboBoxTriggerKey.Items.Add(string.Join(" | ", p.Names.Select( g => g.Value))));
+			ConfigHelper.GetKeycodesConfiguration().Keycodes.ForEach(p => comboBoxTriggerKey.Items.Add(string.Join(" | ", p.Names.Select(g => g.Value))));
 			comboBoxTriggerKey.Items.RemoveAt(0);
 			comboBoxTriggerKey.SelectedIndex = 0;
 
@@ -315,20 +315,20 @@ namespace AutoText
 			Panel panel = (Panel)((Control)sender).Parent;
 
 			string selRes =
-				((ComboBox)panel.Controls.Find("comboBoxTriggerType" , false).First()).SelectedItem.ToString();
+				((ComboBox)panel.Controls.Find("comboBoxTriggerType", false).First()).SelectedItem.ToString();
 
 			if (selRes == "Key")
 			{
-				((TextBox)panel.Controls.Find("textBoxTriggerChar" , false).First()).Hide();
+				((TextBox)panel.Controls.Find("textBoxTriggerChar", false).First()).Hide();
 				((CheckBox)panel.Controls.Find("checkBoxTriggerCaseSensitive", false).First()).Hide();
-				((ComboBox)panel.Controls.Find("comboBoxTriggerKey" , false).First()).Show();
+				((ComboBox)panel.Controls.Find("comboBoxTriggerKey", false).First()).Show();
 
 			}
 			else if (selRes == "Character")
 			{
-				((TextBox)panel.Controls.Find("textBoxTriggerChar" , false).First()).Show();
-				((CheckBox)panel.Controls.Find("checkBoxTriggerCaseSensitive" , false).First()).Show();
-				((ComboBox)panel.Controls.Find("comboBoxTriggerKey" , false).First()).Hide();
+				((TextBox)panel.Controls.Find("textBoxTriggerChar", false).First()).Show();
+				((CheckBox)panel.Controls.Find("checkBoxTriggerCaseSensitive", false).First()).Show();
+				((ComboBox)panel.Controls.Find("comboBoxTriggerKey", false).First()).Hide();
 
 			}
 			else
@@ -395,12 +395,9 @@ namespace AutoText
 				nextNewPhraseAutotext = string.Format(Constants.Common.NewPhraseDefaultAutotext, maxNum + 1);
 			}
 
-
-			{ }
 			AddNewPhrase(nextNewPhraseAutotext);
-			dataGridViewPhrases.SelectedRows.Clear();
-//			listViewPhrases.SelectedIndices.Clear();
-//			listViewPhrases.SelectedIndices.Add(listViewPhrases.Items.Count - 1);
+			dataGridViewPhrases.Rows.Cast<DataGridViewRow>().ToList().ForEach(p => p.Selected = false);
+			dataGridViewPhrases.Rows.Cast<DataGridViewRow>().Last().Selected = true;
 		}
 
 		private void SavePhrase(int phraseIndex)
@@ -453,7 +450,7 @@ namespace AutoText
 
 		private void buttonSavePhrase_Click(object sender, EventArgs e)
 		{
-			List<int> selRowsIndeces = GetDataGridViewSelectedRows();
+			List<int> selRowsIndeces = GetDataGridViewSelectedRowIndeces();
 
 			if (selRowsIndeces.Count == 0)
 			{
@@ -463,81 +460,63 @@ namespace AutoText
 			{
 				int selIndex = selRowsIndeces.First();
 				SavePhrase(selIndex);
-				dataGridViewPhrases.SelectedRows.Clear();
-//				listViewPhrases.SelectedIndices.Clear();
-//				listViewPhrases.SelectedIndices.Add(selIndex);
+				dataGridViewPhrases.Rows.Cast<DataGridViewRow>().ToList().ForEach(p => p.Selected = false);
+				dataGridViewPhrases.Rows.Cast<DataGridViewRow>().ElementAt(selIndex).Selected = true;
 			}
 		}
 
 		private void buttonRemovePhrase_Click(object sender, EventArgs e)
 		{
+			if (MessageBox.Show(this, "Are you sure that you want to delete selected phrase?", "Please confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+			{
+				_rules = ConfigHelper.GetAutotextRules();
 
-/*
-			if (listViewPhrases.SelectedItems.Count == 0)
-			{
-				MessageBox.Show(this, "Please select item first", "Attention");
-			}
-			else
-			{
-				if (MessageBox.Show(this, "Are you sure that you want to delete selected phrase?", "Please confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+				dataGridViewPhrases.Rows.RemoveAt(_curSelectedPhraseIndex);
+				dataGridViewPhrases.Rows.Cast<DataGridViewRow>().ToList().ForEach(p => p.Selected = false);
+
+				if (dataGridViewPhrases.Rows.Count > 0)
 				{
-					_rules = ConfigHelper.GetAutotextRules();
-
-					ListViewItem lvi = listViewPhrases.Items[_curSelectedPhraseIndex];
-					listViewPhrases.Items.Remove(lvi);
-					listViewPhrases.SelectedIndices.Clear();
-
-					if (listViewPhrases.Items.Count > 0)
+					if (_curSelectedPhraseIndex <= (dataGridViewPhrases.Rows.Count - 1))
 					{
-						if (_curSelectedPhraseIndex <= (listViewPhrases.Items.Count - 1))
-						{
-							listViewPhrases.SelectedIndices.Add(_curSelectedPhraseIndex);
-						}
-						else
-						{
-							listViewPhrases.SelectedIndices.Add(listViewPhrases.Items.Count - 1);
-						}
+						dataGridViewPhrases.Rows.Cast<DataGridViewRow>().ElementAt(_curSelectedPhraseIndex).Selected = true;
 					}
-
-					_rules.RemoveAt(_curSelectedPhraseIndex);
-
-					XDocument xd = XDocument.Parse(File.ReadAllText(Constants.Common.AutotextRulesConfigFileFullPath));
-					XElement elemToDel = xd.Descendants("rule").ElementAt(_curSelectedPhraseIndex);
-					elemToDel.Remove();
-
-					File.Delete(Constants.Common.AutotextRulesConfigFileFullPath);
-
-					using (FileStream fs = File.OpenWrite(Constants.Common.AutotextRulesConfigFileFullPath))
+					else
 					{
-						xd.Save(fs);
+						dataGridViewPhrases.Rows.Cast<DataGridViewRow>().ElementAt(dataGridViewPhrases.Rows.Count - 1).Selected = true;
 					}
-
-					LoadRules();
-					_matcher.Rules = ConfigHelper.GetAutotextRules();
 				}
+
+				_rules.RemoveAt(_curSelectedPhraseIndex);
+
+				XDocument xd = XDocument.Parse(File.ReadAllText(Constants.Common.AutotextRulesConfigFileFullPath));
+				XElement elemToDel = xd.Descendants("rule").ElementAt(_curSelectedPhraseIndex);
+				elemToDel.Remove();
+
+				File.Delete(Constants.Common.AutotextRulesConfigFileFullPath);
+
+				using (FileStream fs = File.OpenWrite(Constants.Common.AutotextRulesConfigFileFullPath))
+				{
+					xd.Save(fs);
+				}
+
+				LoadRules();
+				_matcher.Rules = ConfigHelper.GetAutotextRules();
+
 			}
-*/
 		}
 
 		private void FormMain_Activated(object sender, EventArgs e)
 		{
-//			_keylogger.PauseCapture();
+			//			_keylogger.PauseCapture();
 		}
 
 		private void FormMain_Deactivate(object sender, EventArgs e)
 		{
-//			_keylogger.ResumeCapture();
+			//			_keylogger.ResumeCapture();
 		}
 
 		private void FormMain_Shown(object sender, EventArgs e)
 		{
-/*
-			if (listViewPhrases.Items.Count > 0)
-			{
-				listViewPhrases.SelectedIndices.Add(0);
-				_curSelectedPhraseIndex = 0;
-			}
-*/
 		}
 
 		private void FormMain_Resize(object sender, EventArgs e)
@@ -651,7 +630,7 @@ namespace AutoText
 			if (e.Control && (e.KeyCode == Keys.A))
 			{
 				if (sender != null)
-					((TextBox) sender).SelectAll();
+					((TextBox)sender).SelectAll();
 				e.Handled = true;
 			}
 		}
@@ -691,24 +670,14 @@ namespace AutoText
 
 		private void FormMain_KeyDown(object sender, KeyEventArgs e)
 		{
-/*
 			if (e.Control && (e.KeyCode == Keys.S))
 			{
-				if (listViewPhrases.SelectedItems.Count == 0)
-				{
-					MessageBox.Show(this, "Please select item first", "Attention");
-				}
-				else
-				{
-					int selIndex = listViewPhrases.SelectedIndices[0];
-					SavePhrase(selIndex);
-					listViewPhrases.SelectedIndices.Clear();
-					listViewPhrases.SelectedIndices.Add(selIndex);
-				}
-
+				int selIndex = GetDataGridViewSelectedRowIndeces().First();
+				SavePhrase(selIndex);
+				dataGridViewPhrases.Rows.Cast<DataGridViewRow>().ToList().ForEach(p => p.Selected = false);
+				dataGridViewPhrases.Rows.Cast<DataGridViewRow>().ElementAt(selIndex).Selected = true;
 				e.Handled = true;
 			}
-*/
 		}
 
 		private XElement GetCurrentPhrase()
@@ -719,10 +688,10 @@ namespace AutoText
 
 			foreach (Panel panel in triggersPanels)
 			{
-				string triggerType = ((ComboBox) panel.Controls.Find("comboBoxTriggerType", false)[0]).SelectedItem.ToString();
-				string triggerChar = ((TextBox) panel.Controls.Find("textBoxTriggerChar", false)[0]).Text;
-				string triggerKey = ((ComboBox) panel.Controls.Find("comboBoxTriggerKey", false)[0]).SelectedItem.ToString().Split('|').Select(p => p.Trim()).First();
-				bool triggerCaseSen = ((CheckBox) panel.Controls.Find("checkBoxTriggerCaseSensitive", false)[0]).Checked;
+				string triggerType = ((ComboBox)panel.Controls.Find("comboBoxTriggerType", false)[0]).SelectedItem.ToString();
+				string triggerChar = ((TextBox)panel.Controls.Find("textBoxTriggerChar", false)[0]).Text;
+				string triggerKey = ((ComboBox)panel.Controls.Find("comboBoxTriggerKey", false)[0]).SelectedItem.ToString().Split('|').Select(p => p.Trim()).First();
+				bool triggerCaseSen = ((CheckBox)panel.Controls.Find("checkBoxTriggerCaseSensitive", false)[0]).Checked;
 
 				if (triggerType == "Character")
 				{
@@ -759,7 +728,7 @@ namespace AutoText
 			return false;
 		}
 
-		private List<int> GetDataGridViewSelectedRows()
+		private List<int> GetDataGridViewSelectedRowIndeces()
 		{
 			return dataGridViewPhrases.SelectedRows.Cast<DataGridViewRow>().Select(p => p.Index).ToList();
 		}
@@ -767,7 +736,6 @@ namespace AutoText
 		private void dataGridViewPhrases_RowValidating(object sender, DataGridViewCellCancelEventArgs e)
 		{
 			List<int> selIndeces = dataGridViewPhrases.SelectedRows.Cast<DataGridViewRow>().Select(p => p.Index).ToList();
-			
 		}
 
 		private void dataGridViewPhrases_SelectionChanged(object sender, EventArgs e)
@@ -803,7 +771,7 @@ namespace AutoText
 
 				foreach (AutotextRuleTrigger trigger in config.Triggers)
 				{
-					if (kKodes.Contains( trigger.Value.Trim('{','}') ))
+					if (kKodes.Contains(trigger.Value.Trim('{', '}')))
 					{
 						AddTriggerControls(null, (Keys)Enum.Parse(typeof(Keys), trigger.Value.Trim('{', '}')), trigger.CaseSensitive);
 					}
@@ -823,7 +791,6 @@ namespace AutoText
 				}
 
 				groupBoxTriggers.Controls[0].Controls[5].Enabled = false;
-
 			}
 			else
 			{
