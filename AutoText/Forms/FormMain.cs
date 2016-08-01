@@ -398,100 +398,9 @@ namespace AutoText
 
 			{ }
 			AddNewPhrase(nextNewPhraseAutotext);
-			listViewPhrases.SelectedIndices.Clear();
-			listViewPhrases.SelectedIndices.Add(listViewPhrases.Items.Count - 1);
-		}
-
-		private void listViewPhrases_SelectedIndexChanged(object sender, EventArgs e)
-		{
-			return;
-			ListView lv = (ListView)sender;
-
-			if (lv.SelectedIndices.Count > 0)
-			{
-				_curSelectedPhraseIndex = listViewPhrases.SelectedIndices[0];
-
-				_shift = 0;
-				groupBoxTriggers.Controls.Clear();
-
-				AutotextRuleConfig config = _rules[lv.SelectedIndices[0]];
-
-				textBoxDescription.Text = config.Description;
-				textBoxPhraseContent.Text = config.Phrase;
-				textBoxAutotext.Text = config.Abbreviation.AbbreviationText;
-				checkBoxSubstitute.Checked = config.RemoveAbbr;
-				checkBoxAutotextCaseSensetive.Checked = config.Abbreviation.CaseSensitive;
-
-				comboBoxProcessMacros.Enabled = true;
-				textBoxDescription.Enabled = true;
-				textBoxAutotext.Enabled = true;
-				checkBoxSubstitute.Enabled = true;
-				checkBoxAutotextCaseSensetive.Enabled = true;
-				textBoxPhraseContent.Enabled = true;
-
-
-				KeycodesConfiguration kcConfig = ConfigHelper.GetKeycodesConfiguration();
-
-				List<string> kKodes = kcConfig.Keycodes.SelectMany(p => p.Names.Select(j => j.Value)).ToList();
-
-				foreach (AutotextRuleTrigger trigger in config.Triggers)
-				{
-					if (kKodes.Contains( trigger.Value.Trim('{','}') ))
-					{
-						AddTriggerControls(null, (Keys)Enum.Parse(typeof(Keys), trigger.Value.Trim('{', '}')), trigger.CaseSensitive);
-					}
-					else
-					{
-						AddTriggerControls(trigger.Value, null, trigger.CaseSensitive);
-					}
-				}
-
-				foreach (object item in comboBoxProcessMacros.Items)
-				{
-					if (item.ToString() == config.Macros.Mode.ToString())
-					{
-						comboBoxProcessMacros.SelectedItem = item;
-						break;
-					}
-				}
-
-				groupBoxTriggers.Controls[0].Controls[5].Enabled = false;
-
-			}
-			else
-			{
-				if (IsCurrentPhraseDirty())
-				{
-					DialogResult dl = MessageBox.Show(this, "Currently selected phrase has unsaved changes. Save changes?", "Confirmation",
-						MessageBoxButtons.YesNoCancel,
-						MessageBoxIcon.Question);
-
-					switch (dl)
-					{
-						case DialogResult.Cancel:
-							break;
-						case DialogResult.Yes:
-							break;
-						case DialogResult.No:
-							break;
-					}
-				}
-
-				groupBoxTriggers.Controls.Clear();
-
-				textBoxDescription.Text = "";
-				textBoxPhraseContent.Text = "";
-				textBoxAutotext.Text = "";
-				checkBoxSubstitute.Checked = false;
-				checkBoxAutotextCaseSensetive.Checked = false;
-
-				comboBoxProcessMacros.Enabled = false;
-				textBoxDescription.Enabled = false;
-				textBoxAutotext.Enabled = false;
-				checkBoxSubstitute.Enabled = false;
-				checkBoxAutotextCaseSensetive.Enabled = false;
-				textBoxPhraseContent.Enabled = false;
-			}
+			dataGridViewPhrases.SelectedRows.Clear();
+//			listViewPhrases.SelectedIndices.Clear();
+//			listViewPhrases.SelectedIndices.Add(listViewPhrases.Items.Count - 1);
 		}
 
 		private void SavePhrase(int phraseIndex)
@@ -544,21 +453,26 @@ namespace AutoText
 
 		private void buttonSavePhrase_Click(object sender, EventArgs e)
 		{
-			if (listViewPhrases.SelectedItems.Count == 0)
+			List<int> selRowsIndeces = GetDataGridViewSelectedRows();
+
+			if (selRowsIndeces.Count == 0)
 			{
 				MessageBox.Show(this, "Please select item first", "Attention");
 			}
 			else
 			{
-				int selIndex = listViewPhrases.SelectedIndices[0];
+				int selIndex = selRowsIndeces.First();
 				SavePhrase(selIndex);
-				listViewPhrases.SelectedIndices.Clear();
-				listViewPhrases.SelectedIndices.Add(selIndex);
+				dataGridViewPhrases.SelectedRows.Clear();
+//				listViewPhrases.SelectedIndices.Clear();
+//				listViewPhrases.SelectedIndices.Add(selIndex);
 			}
 		}
 
 		private void buttonRemovePhrase_Click(object sender, EventArgs e)
 		{
+
+/*
 			if (listViewPhrases.SelectedItems.Count == 0)
 			{
 				MessageBox.Show(this, "Please select item first", "Attention");
@@ -602,6 +516,7 @@ namespace AutoText
 					_matcher.Rules = ConfigHelper.GetAutotextRules();
 				}
 			}
+*/
 		}
 
 		private void FormMain_Activated(object sender, EventArgs e)
@@ -616,11 +531,13 @@ namespace AutoText
 
 		private void FormMain_Shown(object sender, EventArgs e)
 		{
+/*
 			if (listViewPhrases.Items.Count > 0)
 			{
 				listViewPhrases.SelectedIndices.Add(0);
 				_curSelectedPhraseIndex = 0;
 			}
+*/
 		}
 
 		private void FormMain_Resize(object sender, EventArgs e)
@@ -774,6 +691,7 @@ namespace AutoText
 
 		private void FormMain_KeyDown(object sender, KeyEventArgs e)
 		{
+/*
 			if (e.Control && (e.KeyCode == Keys.S))
 			{
 				if (listViewPhrases.SelectedItems.Count == 0)
@@ -790,6 +708,7 @@ namespace AutoText
 
 				e.Handled = true;
 			}
+*/
 		}
 
 		private XElement GetCurrentPhrase()
@@ -838,6 +757,11 @@ namespace AutoText
 			}
 
 			return false;
+		}
+
+		private List<int> GetDataGridViewSelectedRows()
+		{
+			return dataGridViewPhrases.SelectedRows.Cast<DataGridViewRow>().Select(p => p.Index).ToList();
 		}
 
 		private void dataGridViewPhrases_RowValidating(object sender, DataGridViewCellCancelEventArgs e)
