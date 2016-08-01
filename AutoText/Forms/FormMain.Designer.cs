@@ -36,9 +36,6 @@ namespace AutoText
 		{
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
-			this.listViewPhrases = new System.Windows.Forms.ListView();
-			this.columnHeaderAutotext = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-			this.columnHeaderDescription = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.label2 = new System.Windows.Forms.Label();
 			this.label3 = new System.Windows.Forms.Label();
 			this.textBoxDescription = new System.Windows.Forms.TextBox();
@@ -47,12 +44,19 @@ namespace AutoText
 			this.contextMenuStripPhraseContentEdit = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.macrosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.keyPressMacrosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.keyComboMacrosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.pauseMacrosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.dateAndTimeMacrosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
 			this.copyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.pasteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.cutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.selectAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.undoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+			this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.debugWindowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.label5 = new System.Windows.Forms.Label();
 			this.textBoxAutotext = new System.Windows.Forms.TextBox();
 			this.checkBoxAutotextCaseSensetive = new System.Windows.Forms.CheckBox();
@@ -64,43 +68,14 @@ namespace AutoText
 			this.comboBoxProcessMacros = new System.Windows.Forms.ComboBox();
 			this.label1 = new System.Windows.Forms.Label();
 			this.notifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
-			this.keyComboMacrosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.pauseMacrosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.dateAndTimeMacrosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.debugWindowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-			this.undoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.dataGridViewPhrases = new System.Windows.Forms.DataGridView();
+			this.AutotextColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.ColumnDescription = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.columnHeaderAutotext = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+			this.columnHeaderDescripton = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.contextMenuStripPhraseContentEdit.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.dataGridViewPhrases)).BeginInit();
 			this.SuspendLayout();
-			// 
-			// listViewPhrases
-			// 
-			this.listViewPhrases.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
-			this.listViewPhrases.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.columnHeaderAutotext,
-            this.columnHeaderDescription});
-			this.listViewPhrases.FullRowSelect = true;
-			this.listViewPhrases.HideSelection = false;
-			this.listViewPhrases.Location = new System.Drawing.Point(12, 29);
-			this.listViewPhrases.MultiSelect = false;
-			this.listViewPhrases.Name = "listViewPhrases";
-			this.listViewPhrases.Size = new System.Drawing.Size(310, 517);
-			this.listViewPhrases.TabIndex = 5;
-			this.listViewPhrases.UseCompatibleStateImageBehavior = false;
-			this.listViewPhrases.View = System.Windows.Forms.View.Details;
-			this.listViewPhrases.SelectedIndexChanged += new System.EventHandler(this.listViewPhrases_SelectedIndexChanged);
-			// 
-			// columnHeaderAutotext
-			// 
-			this.columnHeaderAutotext.Text = "Autotext";
-			this.columnHeaderAutotext.Width = 120;
-			// 
-			// columnHeaderDescription
-			// 
-			this.columnHeaderDescription.Text = "Description";
-			this.columnHeaderDescription.Width = 181;
 			// 
 			// label2
 			// 
@@ -169,7 +144,7 @@ namespace AutoText
             this.toolStripSeparator2,
             this.toolsToolStripMenuItem});
 			this.contextMenuStripPhraseContentEdit.Name = "contextMenuStripPhraseContentEdit";
-			this.contextMenuStripPhraseContentEdit.Size = new System.Drawing.Size(153, 214);
+			this.contextMenuStripPhraseContentEdit.Size = new System.Drawing.Size(123, 192);
 			// 
 			// macrosToolStripMenuItem
 			// 
@@ -179,7 +154,7 @@ namespace AutoText
             this.pauseMacrosToolStripMenuItem,
             this.dateAndTimeMacrosToolStripMenuItem});
 			this.macrosToolStripMenuItem.Name = "macrosToolStripMenuItem";
-			this.macrosToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.macrosToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
 			this.macrosToolStripMenuItem.Text = "Macros";
 			// 
 			// keyPressMacrosToolStripMenuItem
@@ -189,45 +164,93 @@ namespace AutoText
 			this.keyPressMacrosToolStripMenuItem.Text = "Key Action Macros";
 			this.keyPressMacrosToolStripMenuItem.Click += new System.EventHandler(this.keyActionMacrosToolStripMenuItem_Click);
 			// 
+			// keyComboMacrosToolStripMenuItem
+			// 
+			this.keyComboMacrosToolStripMenuItem.Name = "keyComboMacrosToolStripMenuItem";
+			this.keyComboMacrosToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
+			this.keyComboMacrosToolStripMenuItem.Text = "Key Combo Macros";
+			this.keyComboMacrosToolStripMenuItem.Click += new System.EventHandler(this.keyComboMacrosToolStripMenuItem_Click);
+			// 
+			// pauseMacrosToolStripMenuItem
+			// 
+			this.pauseMacrosToolStripMenuItem.Name = "pauseMacrosToolStripMenuItem";
+			this.pauseMacrosToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
+			this.pauseMacrosToolStripMenuItem.Text = "Pause Macros";
+			this.pauseMacrosToolStripMenuItem.Click += new System.EventHandler(this.pauseMacrosToolStripMenuItem_Click);
+			// 
+			// dateAndTimeMacrosToolStripMenuItem
+			// 
+			this.dateAndTimeMacrosToolStripMenuItem.Name = "dateAndTimeMacrosToolStripMenuItem";
+			this.dateAndTimeMacrosToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
+			this.dateAndTimeMacrosToolStripMenuItem.Text = "Date And Time Macros";
+			this.dateAndTimeMacrosToolStripMenuItem.Click += new System.EventHandler(this.dateAndTimeMacrosToolStripMenuItem_Click);
+			// 
 			// toolStripSeparator1
 			// 
 			this.toolStripSeparator1.Name = "toolStripSeparator1";
-			this.toolStripSeparator1.Size = new System.Drawing.Size(149, 6);
+			this.toolStripSeparator1.Size = new System.Drawing.Size(119, 6);
 			// 
 			// copyToolStripMenuItem
 			// 
 			this.copyToolStripMenuItem.Name = "copyToolStripMenuItem";
-			this.copyToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.copyToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
 			this.copyToolStripMenuItem.Text = "Copy";
 			this.copyToolStripMenuItem.Click += new System.EventHandler(this.copyToolStripMenuItem_Click);
 			// 
 			// pasteToolStripMenuItem
 			// 
 			this.pasteToolStripMenuItem.Name = "pasteToolStripMenuItem";
-			this.pasteToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.pasteToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
 			this.pasteToolStripMenuItem.Text = "Paste";
 			this.pasteToolStripMenuItem.Click += new System.EventHandler(this.pasteToolStripMenuItem_Click);
 			// 
 			// cutToolStripMenuItem
 			// 
 			this.cutToolStripMenuItem.Name = "cutToolStripMenuItem";
-			this.cutToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.cutToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
 			this.cutToolStripMenuItem.Text = "Cut";
 			this.cutToolStripMenuItem.Click += new System.EventHandler(this.cutToolStripMenuItem_Click);
 			// 
 			// selectAllToolStripMenuItem
 			// 
 			this.selectAllToolStripMenuItem.Name = "selectAllToolStripMenuItem";
-			this.selectAllToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.selectAllToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
 			this.selectAllToolStripMenuItem.Text = "Select All";
 			this.selectAllToolStripMenuItem.Click += new System.EventHandler(this.selectAllToolStripMenuItem_Click);
 			// 
 			// deleteToolStripMenuItem
 			// 
 			this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
-			this.deleteToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.deleteToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
 			this.deleteToolStripMenuItem.Text = "Delete";
 			this.deleteToolStripMenuItem.Click += new System.EventHandler(this.deleteToolStripMenuItem_Click);
+			// 
+			// undoToolStripMenuItem
+			// 
+			this.undoToolStripMenuItem.Name = "undoToolStripMenuItem";
+			this.undoToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
+			this.undoToolStripMenuItem.Text = "Undo";
+			this.undoToolStripMenuItem.Click += new System.EventHandler(this.toolStripMenuItem2_Click);
+			// 
+			// toolStripSeparator2
+			// 
+			this.toolStripSeparator2.Name = "toolStripSeparator2";
+			this.toolStripSeparator2.Size = new System.Drawing.Size(119, 6);
+			// 
+			// toolsToolStripMenuItem
+			// 
+			this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.debugWindowToolStripMenuItem});
+			this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
+			this.toolsToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
+			this.toolsToolStripMenuItem.Text = "Tools";
+			// 
+			// debugWindowToolStripMenuItem
+			// 
+			this.debugWindowToolStripMenuItem.Name = "debugWindowToolStripMenuItem";
+			this.debugWindowToolStripMenuItem.Size = new System.Drawing.Size(156, 22);
+			this.debugWindowToolStripMenuItem.Text = "Debug Window";
+			this.debugWindowToolStripMenuItem.Click += new System.EventHandler(this.debugWindowToolStripMenuItem_Click);
 			// 
 			// label5
 			// 
@@ -345,57 +368,47 @@ namespace AutoText
 			this.notifyIcon.Text = "AutoText";
 			this.notifyIcon.MouseClick += new System.Windows.Forms.MouseEventHandler(this.notifyIcon_MouseClick);
 			// 
-			// keyComboMacrosToolStripMenuItem
+			// dataGridViewPhrases
 			// 
-			this.keyComboMacrosToolStripMenuItem.Name = "keyComboMacrosToolStripMenuItem";
-			this.keyComboMacrosToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
-			this.keyComboMacrosToolStripMenuItem.Text = "Key Combo Macros";
-			this.keyComboMacrosToolStripMenuItem.Click += new System.EventHandler(this.keyComboMacrosToolStripMenuItem_Click);
+			this.dataGridViewPhrases.AllowUserToAddRows = false;
+			this.dataGridViewPhrases.AllowUserToDeleteRows = false;
+			this.dataGridViewPhrases.AllowUserToResizeRows = false;
+			this.dataGridViewPhrases.BackgroundColor = System.Drawing.SystemColors.Window;
+			this.dataGridViewPhrases.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+			this.dataGridViewPhrases.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.AutotextColumn,
+            this.ColumnDescription});
+			this.dataGridViewPhrases.Location = new System.Drawing.Point(12, 131);
+			this.dataGridViewPhrases.MultiSelect = false;
+			this.dataGridViewPhrases.Name = "dataGridViewPhrases";
+			this.dataGridViewPhrases.ReadOnly = true;
+			this.dataGridViewPhrases.RowHeadersVisible = false;
+			this.dataGridViewPhrases.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+			this.dataGridViewPhrases.Size = new System.Drawing.Size(307, 363);
+			this.dataGridViewPhrases.TabIndex = 28;
+			this.dataGridViewPhrases.RowValidating += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dataGridViewPhrases_RowValidating);
+			this.dataGridViewPhrases.SelectionChanged += new System.EventHandler(this.dataGridViewPhrases_SelectionChanged);
 			// 
-			// pauseMacrosToolStripMenuItem
+			// AutotextColumn
 			// 
-			this.pauseMacrosToolStripMenuItem.Name = "pauseMacrosToolStripMenuItem";
-			this.pauseMacrosToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
-			this.pauseMacrosToolStripMenuItem.Text = "Pause Macros";
-			this.pauseMacrosToolStripMenuItem.Click += new System.EventHandler(this.pauseMacrosToolStripMenuItem_Click);
+			this.AutotextColumn.HeaderText = "Autotext";
+			this.AutotextColumn.Name = "AutotextColumn";
+			this.AutotextColumn.ReadOnly = true;
+			this.AutotextColumn.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+			this.AutotextColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
 			// 
-			// dateAndTimeMacrosToolStripMenuItem
+			// ColumnDescription
 			// 
-			this.dateAndTimeMacrosToolStripMenuItem.Name = "dateAndTimeMacrosToolStripMenuItem";
-			this.dateAndTimeMacrosToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
-			this.dateAndTimeMacrosToolStripMenuItem.Text = "Date And Time Macros";
-			this.dateAndTimeMacrosToolStripMenuItem.Click += new System.EventHandler(this.dateAndTimeMacrosToolStripMenuItem_Click);
-			// 
-			// toolsToolStripMenuItem
-			// 
-			this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.debugWindowToolStripMenuItem});
-			this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
-			this.toolsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-			this.toolsToolStripMenuItem.Text = "Tools";
-			// 
-			// debugWindowToolStripMenuItem
-			// 
-			this.debugWindowToolStripMenuItem.Name = "debugWindowToolStripMenuItem";
-			this.debugWindowToolStripMenuItem.Size = new System.Drawing.Size(156, 22);
-			this.debugWindowToolStripMenuItem.Text = "Debug Window";
-			this.debugWindowToolStripMenuItem.Click += new System.EventHandler(this.debugWindowToolStripMenuItem_Click);
-			// 
-			// toolStripSeparator2
-			// 
-			this.toolStripSeparator2.Name = "toolStripSeparator2";
-			this.toolStripSeparator2.Size = new System.Drawing.Size(149, 6);
-			// 
-			// undoToolStripMenuItem
-			// 
-			this.undoToolStripMenuItem.Name = "undoToolStripMenuItem";
-			this.undoToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-			this.undoToolStripMenuItem.Text = "Undo";
-			this.undoToolStripMenuItem.Click += new System.EventHandler(this.toolStripMenuItem2_Click);
+			this.ColumnDescription.HeaderText = "Description";
+			this.ColumnDescription.Name = "ColumnDescription";
+			this.ColumnDescription.ReadOnly = true;
+			this.ColumnDescription.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+			this.ColumnDescription.Width = 203;
 			// 
 			// FormMain
 			// 
 			this.ClientSize = new System.Drawing.Size(874, 583);
+			this.Controls.Add(this.dataGridViewPhrases);
 			this.Controls.Add(this.label1);
 			this.Controls.Add(this.comboBoxProcessMacros);
 			this.Controls.Add(this.buttonSavePhrase);
@@ -411,7 +424,6 @@ namespace AutoText
 			this.Controls.Add(this.textBoxDescription);
 			this.Controls.Add(this.label3);
 			this.Controls.Add(this.label2);
-			this.Controls.Add(this.listViewPhrases);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.KeyPreview = true;
@@ -426,6 +438,7 @@ namespace AutoText
 			this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FormMain_KeyDown);
 			this.Resize += new System.EventHandler(this.FormMain_Resize);
 			this.contextMenuStripPhraseContentEdit.ResumeLayout(false);
+			((System.ComponentModel.ISupportInitialize)(this.dataGridViewPhrases)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -433,10 +446,7 @@ namespace AutoText
 
 		#endregion
 
-		private ListView listViewPhrases;
 		private Label label2;
-		private ColumnHeader columnHeaderAutotext;
-		private ColumnHeader columnHeaderDescription;
 		private Label label3;
 		private TextBox textBoxDescription;
 		private Label label4;
@@ -468,6 +478,11 @@ namespace AutoText
 		private ToolStripMenuItem debugWindowToolStripMenuItem;
 		private ToolStripSeparator toolStripSeparator2;
 		private ToolStripMenuItem undoToolStripMenuItem;
+		private ColumnHeader columnHeaderAutotext;
+		private ColumnHeader columnHeaderDescripton;
+		private DataGridView dataGridViewPhrases;
+		private DataGridViewTextBoxColumn AutotextColumn;
+		private DataGridViewTextBoxColumn ColumnDescription;
 	}
 }
 

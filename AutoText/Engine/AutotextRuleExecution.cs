@@ -1,19 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
 using WindowsInput;
-using AutoText.Engine;
-using AutoText.Helpers.Configuration;
-using AutoText.Helpers.Extensions;
 using InputType = AutoText.Engine.InputType;
 
-namespace AutoText.Helpers
+namespace AutoText.Engine
 {
 
 	public static class AutotextRuleExecution
@@ -50,16 +43,16 @@ namespace AutoText.Helpers
 				{
 					if (p.ActionType == InputActionType.Press)
 					{
-						res.Add(InputSimulator.GetInput(p.CharToInput, ActionType.KeyDown));
-						res.Add(InputSimulator.GetInput(p.CharToInput, ActionType.KeyUp));
+						res.Add(InputSimulator.GetInput((char) p.CharToInput, ActionType.KeyDown));
+						res.Add(InputSimulator.GetInput((char) p.CharToInput, ActionType.KeyUp));
 					}
 					else if (p.ActionType == InputActionType.KeyDown)
 					{
-						res.Add(InputSimulator.GetInput(p.CharToInput, ActionType.KeyDown));
+						res.Add(InputSimulator.GetInput((char) p.CharToInput, ActionType.KeyDown));
 					}
 					else if (p.ActionType == InputActionType.KeyUp)
 					{
-						res.Add(InputSimulator.GetInput(p.CharToInput, ActionType.KeyUp));
+						res.Add(InputSimulator.GetInput((char) p.CharToInput, ActionType.KeyUp));
 					}
 					else
 					{
@@ -70,16 +63,16 @@ namespace AutoText.Helpers
 				{
 					if (p.ActionType == InputActionType.Press)
 					{
-						res.Add(InputSimulator.GetInput(p.KeyCodeToInput, ActionType.KeyDown));
-						res.Add(InputSimulator.GetInput(p.KeyCodeToInput, ActionType.KeyUp));
+						res.Add(InputSimulator.GetInput((Keys) p.KeyCodeToInput, ActionType.KeyDown));
+						res.Add(InputSimulator.GetInput((Keys) p.KeyCodeToInput, ActionType.KeyUp));
 					}
 					else if (p.ActionType == InputActionType.KeyDown)
 					{
-						res.Add(InputSimulator.GetInput(p.KeyCodeToInput, ActionType.KeyDown));
+						res.Add(InputSimulator.GetInput((Keys) p.KeyCodeToInput, ActionType.KeyDown));
 					}
 					else if (p.ActionType == InputActionType.KeyUp)
 					{
-						res.Add(InputSimulator.GetInput(p.KeyCodeToInput, ActionType.KeyUp));
+						res.Add(InputSimulator.GetInput((Keys) p.KeyCodeToInput, ActionType.KeyUp));
 					}
 					else
 					{

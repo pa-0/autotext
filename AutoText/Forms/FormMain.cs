@@ -25,7 +25,8 @@ using AutoText.Engine;
 using AutoText.Forms;
 using AutoText.Helpers.Extensions;
 using AutoText.Model.Configuration;
-using NCalc;
+using KellermanSoftware.CompareNetObjects;
+
 
 namespace AutoText
 {
@@ -35,8 +36,8 @@ namespace AutoText
 		private List<AutotextRuleConfig> _rules;
 		private AutotextMatcher _matcher;
 		private KeyLogger _keylogger = new KeyLogger();
-		int _shift = 0;
-		int _numberOfTriggers = 0;
+		int _shift;
+		int _numberOfTriggers;
 		private int _curSelectedPhraseIndex = -1;
 
 		public TextBox PhraseTextBox
@@ -59,13 +60,11 @@ namespace AutoText
 
 		private void LoadPhrasesToListView()
 		{
-			listViewPhrases.Items.Clear();
+			dataGridViewPhrases.Rows.Clear();
 
 			foreach (AutotextRuleConfig ruleConfig in _rules)
 			{
-				ListViewItem lvi = new ListViewItem(ruleConfig.Abbreviation.AbbreviationText);
-				lvi.SubItems.Add(ruleConfig.Description);
-				listViewPhrases.Items.Add(lvi);
+				dataGridViewPhrases.Rows.Add(ruleConfig.Abbreviation.AbbreviationText, ruleConfig.Description);
 			}
 		}
 
@@ -405,11 +404,13 @@ namespace AutoText
 
 		private void listViewPhrases_SelectedIndexChanged(object sender, EventArgs e)
 		{
+			return;
 			ListView lv = (ListView)sender;
 
 			if (lv.SelectedIndices.Count > 0)
 			{
 				_curSelectedPhraseIndex = listViewPhrases.SelectedIndices[0];
+
 				_shift = 0;
 				groupBoxTriggers.Controls.Clear();
 
@@ -454,10 +455,28 @@ namespace AutoText
 					}
 				}
 
-				((Control)groupBoxTriggers.Controls[0].Controls[5]).Enabled = false;
+				groupBoxTriggers.Controls[0].Controls[5].Enabled = false;
+
 			}
 			else
 			{
+				if (IsCurrentPhraseDirty())
+				{
+					DialogResult dl = MessageBox.Show(this, "Currently selected phrase has unsaved changes. Save changes?", "Confirmation",
+						MessageBoxButtons.YesNoCancel,
+						MessageBoxIcon.Question);
+
+					switch (dl)
+					{
+						case DialogResult.Cancel:
+							break;
+						case DialogResult.Yes:
+							break;
+						case DialogResult.No:
+							break;
+					}
+				}
+
 				groupBoxTriggers.Controls.Clear();
 
 				textBoxDescription.Text = "";
@@ -472,53 +491,18 @@ namespace AutoText
 				checkBoxSubstitute.Enabled = false;
 				checkBoxAutotextCaseSensetive.Enabled = false;
 				textBoxPhraseContent.Enabled = false;
-
 			}
 		}
 
 		private void SavePhrase(int phraseIndex)
 		{
-			if (_rules.Where((p,i) => i != phraseIndex).Any(p => p.Abbreviation.AbbreviationText == textBoxAutotext.Text))
+			if (_rules.Where((p, i) => i != phraseIndex).Any(p => p.Abbreviation.AbbreviationText == textBoxAutotext.Text))
 			{
-				MessageBox.Show(this, "Phrase with specified autotext is already exists", "Warning", MessageBoxButtons.OK,
-					MessageBoxIcon.Stop);
+				MessageBox.Show(this, "Phrase with specified autotext is already exists", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Stop);
 				return;
 			}
 
-			List<Panel> triggersPanels = groupBoxTriggers.Controls.Cast<Panel>().ToList();
-
-			XElement triggerItem = new XElement("triggers");
-
-			foreach (Panel panel in triggersPanels)
-			{
-				string triggerType = ((ComboBox)panel.Controls.Find("comboBoxTriggerType", false)[0]).SelectedItem.ToString();
-				string triggerChar = ((TextBox)panel.Controls.Find("textBoxTriggerChar", false)[0]).Text;
-				string triggerKey = ((ComboBox)panel.Controls.Find("comboBoxTriggerKey", false)[0]).SelectedItem.ToString().Split('|').Select(p=> p.Trim()).First();
-				bool triggerCaseSen = ((CheckBox)panel.Controls.Find("checkBoxTriggerCaseSensitive", false)[0]).Checked;
-
-				if (triggerType == "Character")
-				{
-					triggerItem.Add(new XElement("item", new XAttribute("caseSensitive", triggerCaseSen),
-							new XElement("value", new XCData(triggerChar))));
-				}
-				else if (triggerType == "Key")
-				{
-					triggerItem.Add(new XElement("item", new XAttribute("caseSensitive", triggerCaseSen),
-							new XElement("value", new XCData("{" + triggerKey + "}"))));
-				}
-			}
-
-			XElement ruleToSave = new XElement("rule",
-				new XElement("abbreviation",
-					new XAttribute("caseSensitive", checkBoxAutotextCaseSensetive.Checked),
-					new XElement("value", new XCData(textBoxAutotext.Text))),
-				new XElement("removeAbbr", checkBoxSubstitute.Checked ? "true" : "false"),
-				new XElement("phrase", new XCData(textBoxPhraseContent.Text)),
-				new XElement("phraseCompiled", new XCData(textBoxPhraseContent.Text)),
-				new XElement("macros", new XAttribute("mode", comboBoxProcessMacros.SelectedItem.ToString())),
-				new XElement("description", new XCData(textBoxDescription.Text)),
-				triggerItem);
-
+			XElement ruleToSave = GetCurrentPhrase();
 			XDocument config = XDocument.Parse(File.ReadAllText(Constants.Common.AutotextRulesConfigFileFullPath), LoadOptions.PreserveWhitespace);
 			XElement ruleToRewrite = config.Descendants("rule").ElementAt(phraseIndex);
 			ruleToRewrite.RemoveAll();
@@ -539,19 +523,9 @@ namespace AutoText
 		private void AddNewPhrase(string abbreviationText)
 		{
 			XElement triggerItem = new XElement("triggers");
-			triggerItem.Add(new XElement("item", new XAttribute("caseSensitive", false),
-						new XElement("value", new XCData("{Tab}"))));
+			triggerItem.Add(new XElement("item", new XAttribute("caseSensitive", false), new XElement("value", new XCData("{Tab}"))));
 
-			XElement ruleToSave = new XElement("rule",
-				new XElement("abbreviation",
-					new XAttribute("caseSensitive", false),
-					new XElement("value", new XCData(abbreviationText))),
-				new XElement("removeAbbr", true),
-				new XElement("phrase", new XCData("<phrase content>")),
-				new XElement("phraseCompiled", new XCData("<phrase content>")),
-				new XElement("macros", new XAttribute("mode", "Execute")),
-				new XElement("description", new XCData("<phrase description>")),
-				triggerItem);
+			XElement ruleToSave = new XElement("rule", new XElement("abbreviation", new XAttribute("caseSensitive", false), new XElement("value", new XCData(abbreviationText))), new XElement("removeAbbr", true), new XElement("phrase", new XCData("<phrase content>")), new XElement("phraseCompiled", new XCData("<phrase content>")), new XElement("macros", new XAttribute("mode", "Execute")), new XElement("description", new XCData("<phrase description>")), triggerItem);
 
 			XDocument config = XDocument.Parse(File.ReadAllText(Constants.Common.AutotextRulesConfigFileFullPath), LoadOptions.PreserveWhitespace);
 			config.Descendants("rules").First().Add(ruleToSave);
@@ -591,8 +565,7 @@ namespace AutoText
 			}
 			else
 			{
-				if (MessageBox.Show(this, "Are you sure that you want to delete selected phrase?", 
-					"Please confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+				if (MessageBox.Show(this, "Are you sure that you want to delete selected phrase?", "Please confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
 				{
 					_rules = ConfigHelper.GetAutotextRules();
 
@@ -693,7 +666,6 @@ namespace AutoText
 			textBoxText = textBoxText.Insert(selectionStart, textToPaste);
 			textBoxPhraseContent.Text = textBoxText;
 			textBoxPhraseContent.SelectionStart = selectionStart + textToPaste.Length;
-
 		}
 
 		private void cutToolStripMenuItem_Click(object sender, EventArgs e)
@@ -705,7 +677,7 @@ namespace AutoText
 
 			int selStart = textBoxPhraseContent.SelectionStart;
 
-			Clipboard.SetText(textBoxPhraseContent.Text.Substring(textBoxPhraseContent.SelectionStart,textBoxPhraseContent.SelectionLength));
+			Clipboard.SetText(textBoxPhraseContent.Text.Substring(textBoxPhraseContent.SelectionStart, textBoxPhraseContent.SelectionLength));
 			textBoxPhraseContent.Text = textBoxPhraseContent.Text.Remove(textBoxPhraseContent.SelectionStart, textBoxPhraseContent.SelectionLength);
 			textBoxPhraseContent.SelectionStart = selStart;
 		}
@@ -741,7 +713,6 @@ namespace AutoText
 			contextMenuStripPhraseContentEdit.Items["undoToolStripMenuItem"].Enabled = textBoxPhraseContent.CanUndo;
 			contextMenuStripPhraseContentEdit.Items["deleteToolStripMenuItem"].Enabled = textBoxPhraseContent.SelectionLength != 0;
 			contextMenuStripPhraseContentEdit.Items["selectAllToolStripMenuItem"].Enabled = textBoxPhraseContent.TextLength > 0;
-
 		}
 
 		private void keyActionMacrosToolStripMenuItem_Click(object sender, EventArgs e)
@@ -749,7 +720,6 @@ namespace AutoText
 			AddKeyCode formKeyCodes = new AddKeyCode();
 			formKeyCodes.CenterTo(this);
 			formKeyCodes.Show(this);
-
 		}
 
 		private void keyComboMacrosToolStripMenuItem_Click(object sender, EventArgs e)
@@ -764,7 +734,7 @@ namespace AutoText
 			if (e.Control && (e.KeyCode == Keys.A))
 			{
 				if (sender != null)
-					((TextBox)sender).SelectAll();
+					((TextBox) sender).SelectAll();
 				e.Handled = true;
 			}
 		}
@@ -788,7 +758,6 @@ namespace AutoText
 			DebugTools debugToolsWindow = new DebugTools(_keylogger);
 			debugToolsWindow.CenterTo(this);
 			debugToolsWindow.Show();
-
 		}
 
 		private void toolStripMenuItem2_Click(object sender, EventArgs e)
@@ -801,7 +770,6 @@ namespace AutoText
 
 		private void textBoxPhraseContent_TextChanged(object sender, EventArgs e)
 		{
-
 		}
 
 		private void FormMain_KeyDown(object sender, KeyEventArgs e)
@@ -822,13 +790,151 @@ namespace AutoText
 
 				e.Handled = true;
 			}
+		}
 
+		private XElement GetCurrentPhrase()
+		{
+			List<Panel> triggersPanels = groupBoxTriggers.Controls.Cast<Panel>().ToList();
+
+			XElement triggerItem = new XElement("triggers");
+
+			foreach (Panel panel in triggersPanels)
+			{
+				string triggerType = ((ComboBox) panel.Controls.Find("comboBoxTriggerType", false)[0]).SelectedItem.ToString();
+				string triggerChar = ((TextBox) panel.Controls.Find("textBoxTriggerChar", false)[0]).Text;
+				string triggerKey = ((ComboBox) panel.Controls.Find("comboBoxTriggerKey", false)[0]).SelectedItem.ToString().Split('|').Select(p => p.Trim()).First();
+				bool triggerCaseSen = ((CheckBox) panel.Controls.Find("checkBoxTriggerCaseSensitive", false)[0]).Checked;
+
+				if (triggerType == "Character")
+				{
+					triggerItem.Add(new XElement("item", new XAttribute("caseSensitive", triggerCaseSen), new XElement("value", new XCData(triggerChar))));
+				}
+				else if (triggerType == "Key")
+				{
+					triggerItem.Add(new XElement("item", new XAttribute("caseSensitive", triggerCaseSen), new XElement("value", new XCData("{" + triggerKey + "}"))));
+				}
+			}
+
+			XElement resRule = new XElement("rule", new XElement("abbreviation", new XAttribute("caseSensitive", checkBoxAutotextCaseSensetive.Checked), new XElement("value", new XCData(textBoxAutotext.Text))), new XElement("removeAbbr", checkBoxSubstitute.Checked ? "true" : "false"), new XElement("phrase", new XCData(textBoxPhraseContent.Text)), new XElement("phraseCompiled", new XCData(textBoxPhraseContent.Text)), new XElement("macros", new XAttribute("mode", comboBoxProcessMacros.SelectedItem.ToString())), new XElement("description", new XCData(textBoxDescription.Text)), triggerItem);
+
+			return resRule;
 		}
 
 		private bool IsCurrentPhraseDirty()
 		{
-			throw new NotImplementedException();
+			AutotextRuleConfig ruleToRewrite = _rules[_curSelectedPhraseIndex];
+
+			XElement curRuleState = GetCurrentPhrase();
+			XDocument doc = new XDocument(new XElement("autotextRules", new XElement("rules", curRuleState)));
+
+			string xmlDocStr = doc.ToXmlString();
+			AutotextRulesRoot root = ConfigHelper.DeserailizeXmlFromString<AutotextRulesRoot>(xmlDocStr);
+
+			CompareLogic basicComparison = new CompareLogic();
+
+			if (!basicComparison.Compare(root.AutotextRulesList.First(), ruleToRewrite).AreEqual)
+			{
+				return true;
+			}
+
+			return false;
+		}
+
+		private void dataGridViewPhrases_RowValidating(object sender, DataGridViewCellCancelEventArgs e)
+		{
+			List<int> selIndeces = dataGridViewPhrases.SelectedRows.Cast<DataGridViewRow>().Select(p => p.Index).ToList();
+			
+		}
+
+		private void dataGridViewPhrases_SelectionChanged(object sender, EventArgs e)
+		{
+			List<int> selIndeces = dataGridViewPhrases.SelectedRows.Cast<DataGridViewRow>().Select(p => p.Index).ToList();
+
+			if (selIndeces.Count > 0)
+			{
+				_curSelectedPhraseIndex = selIndeces.First();
+
+				_shift = 0;
+				groupBoxTriggers.Controls.Clear();
+
+				AutotextRuleConfig config = _rules[selIndeces.First()];
+
+				textBoxDescription.Text = config.Description;
+				textBoxPhraseContent.Text = config.Phrase;
+				textBoxAutotext.Text = config.Abbreviation.AbbreviationText;
+				checkBoxSubstitute.Checked = config.RemoveAbbr;
+				checkBoxAutotextCaseSensetive.Checked = config.Abbreviation.CaseSensitive;
+
+				comboBoxProcessMacros.Enabled = true;
+				textBoxDescription.Enabled = true;
+				textBoxAutotext.Enabled = true;
+				checkBoxSubstitute.Enabled = true;
+				checkBoxAutotextCaseSensetive.Enabled = true;
+				textBoxPhraseContent.Enabled = true;
+
+
+				KeycodesConfiguration kcConfig = ConfigHelper.GetKeycodesConfiguration();
+
+				List<string> kKodes = kcConfig.Keycodes.SelectMany(p => p.Names.Select(j => j.Value)).ToList();
+
+				foreach (AutotextRuleTrigger trigger in config.Triggers)
+				{
+					if (kKodes.Contains( trigger.Value.Trim('{','}') ))
+					{
+						AddTriggerControls(null, (Keys)Enum.Parse(typeof(Keys), trigger.Value.Trim('{', '}')), trigger.CaseSensitive);
+					}
+					else
+					{
+						AddTriggerControls(trigger.Value, null, trigger.CaseSensitive);
+					}
+				}
+
+				foreach (object item in comboBoxProcessMacros.Items)
+				{
+					if (item.ToString() == config.Macros.Mode.ToString())
+					{
+						comboBoxProcessMacros.SelectedItem = item;
+						break;
+					}
+				}
+
+				groupBoxTriggers.Controls[0].Controls[5].Enabled = false;
+
+			}
+			else
+			{
+				if (IsCurrentPhraseDirty())
+				{
+					DialogResult dl = MessageBox.Show(this, "Currently selected phrase has unsaved changes. Save changes?", "Confirmation",
+						MessageBoxButtons.YesNoCancel,
+						MessageBoxIcon.Question);
+
+					switch (dl)
+					{
+						case DialogResult.Cancel:
+							break;
+						case DialogResult.Yes:
+							break;
+						case DialogResult.No:
+							break;
+					}
+				}
+
+				groupBoxTriggers.Controls.Clear();
+
+				textBoxDescription.Text = "";
+				textBoxPhraseContent.Text = "";
+				textBoxAutotext.Text = "";
+				checkBoxSubstitute.Checked = false;
+				checkBoxAutotextCaseSensetive.Checked = false;
+
+				comboBoxProcessMacros.Enabled = false;
+				textBoxDescription.Enabled = false;
+				textBoxAutotext.Enabled = false;
+				checkBoxSubstitute.Enabled = false;
+				checkBoxAutotextCaseSensetive.Enabled = false;
+				textBoxPhraseContent.Enabled = false;
+			}
 		}
 	}
-
 }

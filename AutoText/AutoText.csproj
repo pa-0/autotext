@@ -57,6 +57,10 @@
     <ApplicationIcon>favicon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="KellermanSoftware.Compare-NET-Objects, Version=3.5.0.0, Culture=neutral, PublicKeyToken=d970ace04cc85217, processorArchitecture=MSIL">
+      <HintPath>..\packages\CompareNETObjects.3.05.0.0\lib\net40\KellermanSoftware.Compare-NET-Objects.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="NCalc, Version=1.3.8.0, Culture=neutral, PublicKeyToken=973cde3f1cafed03, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\lib\NCalc.dll</HintPath>
@@ -80,6 +84,7 @@
     <Compile Include="Engine\AutotextInput.cs" />
     <Compile Include="Engine\AutotextMatcher.cs" />
     <Compile Include="Engine\AutotextMatchEventArgs.cs" />
+    <Compile Include="Engine\AutotextRuleExecution.cs" />
     <Compile Include="Engine\AutotextRuleMatchParameters.cs" />
     <Compile Include="Engine\ExpressionEvaluationException.cs" />
     <Compile Include="Engine\KeyCapturedEventArgs.cs" />
@@ -120,9 +125,9 @@
     <Compile Include="Forms\FormMain.Designer.cs">
       <DependentUpon>FormMain.cs</DependentUpon>
     </Compile>
-    <Compile Include="Helpers\AutotextRuleExecution.cs" />
     <Compile Include="Helpers\Configuration\ConfigHelper.cs" />
     <Compile Include="Helpers\Extensions\Common.cs" />
+    <Compile Include="Helpers\Extensions\Configuration.cs" />
     <Compile Include="Helpers\GUIHelper.cs" />
     <Compile Include="Helpers\TextHelper.cs" />
     <Compile Include="Helpers\WinAPI.cs" />
@@ -156,6 +161,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="favicon.ico" />
+    <None Include="packages.config" />
     <None Include="Resources\1451757124_calender.png" />
     <None Include="Resources\keys-combo 30 30.png" />
     <None Include="Resources\keycode_small.png" />

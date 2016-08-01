@@ -6,6 +6,7 @@ using System.Text;
 using System.Xml.Linq;
 using System.Xml.Serialization;
 using AutoText.Model.Configuration;
+using KellermanSoftware.CompareNetObjects;
 
 namespace AutoText.Helpers.Configuration
 {
@@ -32,23 +33,36 @@ namespace AutoText.Helpers.Configuration
 			return _autotextConfig;
 		}
 
-		private static TRes DeserailizeXml<TRes>(string xmlFilePath)
+		public static TRes DeserailizeXml<TRes>(string xmlFilePath)
 		{
-			Stream textReader = new FileStream(xmlFilePath, FileMode.Open, FileAccess.Read);
+			using (Stream textReader = new FileStream(xmlFilePath, FileMode.Open, FileAccess.Read))
+			{
+				return DeserailizeXml<TRes>(textReader);
+			}
+		}
 
-			try
+		public static TRes DeserailizeXmlFromString<TRes>(string xmlString)
+		{
+			using (MemoryStream ms = new MemoryStream())
 			{
-				XmlSerializer deserializer = new XmlSerializer(typeof(TRes));
-				deserializer.UnknownAttribute += new XmlAttributeEventHandler(deserializer_UnknownAttribute);
-				deserializer.UnknownElement += new XmlElementEventHandler(deserializer_UnknownElement);
-				deserializer.UnknownNode += new XmlNodeEventHandler(deserializer_UnknownNode);
-				deserializer.UnreferencedObject += new UnreferencedObjectEventHandler(deserializer_UnreferencedObject);
-				return (TRes)deserializer.Deserialize(textReader);
+				using (StreamWriter sw = new StreamWriter(ms))
+				{
+					sw.Write(xmlString);
+					sw.Flush();
+					ms.Position = 0;
+					return DeserailizeXml<TRes>(ms);
+				}
 			}
-			finally
-			{
-				textReader.Close();
-			}
+		}
+
+		public static TRes DeserailizeXml<TRes>(Stream stream)
+		{
+			XmlSerializer deserializer = new XmlSerializer(typeof(TRes));
+			deserializer.UnknownAttribute += new XmlAttributeEventHandler(deserializer_UnknownAttribute);
+			deserializer.UnknownElement += new XmlElementEventHandler(deserializer_UnknownElement);
+			deserializer.UnknownNode += new XmlNodeEventHandler(deserializer_UnknownNode);
+			deserializer.UnreferencedObject += new UnreferencedObjectEventHandler(deserializer_UnreferencedObject);
+			return (TRes)deserializer.Deserialize(stream);
 		}
 
 		static void deserializer_UnreferencedObject(object sender, UnreferencedObjectEventArgs e)

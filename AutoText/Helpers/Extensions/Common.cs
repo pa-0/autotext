@@ -14,7 +14,5 @@ namespace AutoText.Helpers.Extensions
 		{
 			return string.Concat(input.Select(p => p.CharToInput));
 		}
-		
 	}
-
 }
