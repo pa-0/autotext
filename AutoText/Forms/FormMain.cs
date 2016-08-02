@@ -388,6 +388,7 @@ namespace AutoText
 
             AutotextRuleConfiguration ruleToSave = GetCurrentPhrase();
             _rulesBindingList[phraseIndex] = ruleToSave;
+            dataGridViewPhrases.Refresh();
             SaveConfiguration();
         }
 
