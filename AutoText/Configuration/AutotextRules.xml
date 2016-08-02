@@ -1,18 +1,63 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <autotextRules xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <rules>
     <rule>
-      <abbreviation caseSensitive="false">
-        <value><![CDATA[<autotext>assa]]></value>
+      <abbreviation caseSensitive="false" type="Text">
+        <value>&lt;autotext1&gt;</value>
       </abbreviation>
       <removeAbbr>true</removeAbbr>
-      <phrase><![CDATA[<phrase content>asdasd]]></phrase>
-      <phraseCompiled><![CDATA[<phrase content>asdasd]]></phraseCompiled>
+      <phrase>&lt;phrase content&gt;</phrase>
       <macros mode="Execute" />
-      <description><![CDATA[dasdasd]]></description>
+      <phraseCompiled>&lt;phrase content&gt;</phraseCompiled>
+      <description>&lt;phrase description&gt;</description>
       <triggers>
         <item caseSensitive="false">
-          <value><![CDATA[{Tab}]]></value>
+          <value>{Tab}</value>
+        </item>
+      </triggers>
+    </rule>
+    <rule>
+      <abbreviation caseSensitive="false" type="Text">
+        <value>&lt;autotext3&gt;</value>
+      </abbreviation>
+      <removeAbbr>true</removeAbbr>
+      <phrase>&lt;phrase content&gt;</phrase>
+      <macros mode="Execute" />
+      <phraseCompiled>&lt;phrase content&gt;</phraseCompiled>
+      <description>&lt;phrase description&gt;asasasas</description>
+      <triggers>
+        <item caseSensitive="false">
+          <value>{Tab}</value>
+        </item>
+      </triggers>
+    </rule>
+    <rule>
+      <abbreviation caseSensitive="false" type="Text">
+        <value>&lt;autotext5&gt;</value>
+      </abbreviation>
+      <removeAbbr>true</removeAbbr>
+      <phrase>&lt;phrase content&gt;</phrase>
+      <macros mode="Execute" />
+      <phraseCompiled>&lt;phrase content&gt;</phraseCompiled>
+      <description>&lt;phrase description&gt;</description>
+      <triggers>
+        <item caseSensitive="false">
+          <value>{Tab}</value>
+        </item>
+      </triggers>
+    </rule>
+    <rule>
+      <abbreviation caseSensitive="false" type="Text">
+        <value>&lt;autotext6&gt;</value>
+      </abbreviation>
+      <removeAbbr>true</removeAbbr>
+      <phrase>&lt;phrase content&gt;</phrase>
+      <macros mode="Execute" />
+      <phraseCompiled>&lt;phrase content&gt;</phraseCompiled>
+      <description>&lt;phrase description&gt;saassaas</description>
+      <triggers>
+        <item caseSensitive="false">
+          <value>{Tab}</value>
         </item>
       </triggers>
     </rule>
