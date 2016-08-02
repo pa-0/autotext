@@ -3,58 +3,13 @@
   <rules>
     <rule>
       <abbreviation caseSensitive="false" type="Text">
-        <value>&lt;autotext1&gt;</value>
+        <value>hw</value>
       </abbreviation>
       <removeAbbr>true</removeAbbr>
-      <phrase>&lt;phrase content&gt;</phrase>
+      <phrase>Hello world</phrase>
       <macros mode="Execute" />
-      <phraseCompiled>&lt;phrase content&gt;</phraseCompiled>
-      <description>&lt;phrase description&gt;</description>
-      <triggers>
-        <item caseSensitive="false">
-          <value>{Tab}</value>
-        </item>
-      </triggers>
-    </rule>
-    <rule>
-      <abbreviation caseSensitive="false" type="Text">
-        <value>&lt;autotext3&gt;</value>
-      </abbreviation>
-      <removeAbbr>true</removeAbbr>
-      <phrase>&lt;phrase content&gt;</phrase>
-      <macros mode="Execute" />
-      <phraseCompiled>&lt;phrase content&gt;</phraseCompiled>
-      <description>&lt;phrase description&gt;asasasas</description>
-      <triggers>
-        <item caseSensitive="false">
-          <value>{Tab}</value>
-        </item>
-      </triggers>
-    </rule>
-    <rule>
-      <abbreviation caseSensitive="false" type="Text">
-        <value>&lt;autotext5&gt;</value>
-      </abbreviation>
-      <removeAbbr>true</removeAbbr>
-      <phrase>&lt;phrase content&gt;</phrase>
-      <macros mode="Execute" />
-      <phraseCompiled>&lt;phrase content&gt;</phraseCompiled>
-      <description>&lt;phrase description&gt;</description>
-      <triggers>
-        <item caseSensitive="false">
-          <value>{Tab}</value>
-        </item>
-      </triggers>
-    </rule>
-    <rule>
-      <abbreviation caseSensitive="false" type="Text">
-        <value>&lt;autotext6&gt;</value>
-      </abbreviation>
-      <removeAbbr>true</removeAbbr>
-      <phrase>&lt;phrase content&gt;</phrase>
-      <macros mode="Execute" />
-      <phraseCompiled>&lt;phrase content&gt;</phraseCompiled>
-      <description>&lt;phrase description&gt;saassaas</description>
+      <phraseCompiled>Hello world</phraseCompiled>
+      <description>Hello world phrase</description>
       <triggers>
         <item caseSensitive="false">
           <value>{Tab}</value>

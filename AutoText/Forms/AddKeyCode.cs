@@ -15,29 +15,31 @@ namespace AutoText
 		public AddKeyCode()
 		{
 			InitializeComponent();
+			comboBoxAction.Width = 172;
 		}
 
 		private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			if (comboBoxAction.SelectedItem.ToString() == "Press number of times")
+			if (comboBoxAction.SelectedItem.ToString() == "Press")
 			{
 				numericUpDownQuantity.Show();
+				labelTimes.Show();
+				comboBoxAction.Width = 119;
 			}
 			else
 			{
 				numericUpDownQuantity.Hide();
+				labelTimes.Hide();
+				comboBoxAction.Width = 172;
 			}
 		}
 
 		private void AddKeyCode_Load(object sender, EventArgs e)
 		{
-			List<string> keys =
-				ConfigHelper.GetKeycodesConfiguration().Keycodes.SelectMany(p => p.Names.Select(j => j.Value)).ToList();
+			List<string> keys = ConfigHelper.GetKeycodesConfiguration().Keycodes.Select(p => string.Join(" | ", p.Names.Select(g => g.Value))).ToList();
 			keys.RemoveAt(0);
-
 			comboBoxKey.Items.AddRange(keys.ToArray());
 			comboBoxKey.SelectedIndex = 0;
-
 			comboBoxAction.SelectedIndex = 0;
 		}
 
@@ -62,7 +64,7 @@ namespace AutoText
 				case "Toggle":
 					action = "toggle";
 					break;
-				case "Press number of times":
+				case "Press":
 					action = numericUpDownQuantity.Value.ToString();
 					break;
 			}
@@ -70,7 +72,7 @@ namespace AutoText
 
 			TextBox tb = ((FormMain)Owner).PhraseTextBox;
 			int selStart = tb.SelectionStart;
-			string selStr = string.Format("{{k:{0} {1}}}", comboBoxKey.SelectedItem.ToString(), action);
+			string selStr = string.Format("{{k:{0} {1}}}", comboBoxKey.SelectedItem.ToString().Split('|').First().Trim(), action);
 			tb.Text = tb.Text.Insert(tb.SelectionStart, selStr);
 			tb.SelectionStart = selStart + selStr.Length;
 		}

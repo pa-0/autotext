@@ -105,7 +105,7 @@
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
 			this.Name = "AddDateMacros";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
-			this.Text = "Add date macros";
+			this.Text = "Add Date Macros";
 			this.Load += new System.EventHandler(this.AddDateMacros_Load);
 			this.Shown += new System.EventHandler(this.AddDateMacros_Shown);
 			this.ResumeLayout(false);

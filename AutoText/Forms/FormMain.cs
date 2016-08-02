@@ -347,6 +347,25 @@ namespace AutoText
 
         private void buttonAddPhrase_Click(object sender, EventArgs e)
         {
+			if (dataGridViewPhrases.RowCount > 0 && IsCurrentPhraseDirty())
+			{
+				DialogResult dl = MessageBox.Show(this, "Currently selected phrase has unsaved changes. Save changes?", "Confirmation",
+					MessageBoxButtons.YesNoCancel,
+					MessageBoxIcon.Question);
+
+				switch (dl)
+				{
+					case DialogResult.Cancel:
+						return;
+						break;
+					case DialogResult.Yes:
+						SavePhrase(_curSelectedPhraseIndex);
+						break;
+					case DialogResult.No:
+						break;
+				}
+			}
+
             IEnumerable<string> availPhraseAbbreviations = _rules.Select(p => p.Abbreviation.AbbreviationText);
             IEnumerable<string> matchedToDefNameAbbr =
                 availPhraseAbbreviations.Where(p => Regex.IsMatch(p, Constants.Common.NewPhraseDefaultAutotextRegex));
@@ -378,18 +397,32 @@ namespace AutoText
             SaveConfiguration();
         }
 
-        private void SavePhrase(int phraseIndex)
+        private bool SavePhrase(int phraseIndex)
         {
+			if (string.IsNullOrEmpty(textBoxAutotext.Text))
+	        {
+				MessageBox.Show(this, "Phrase autotext can't be empty", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+		        return false;
+	        }
+
             if (_rules.Where((p, i) => i != phraseIndex).Any(p => p.Abbreviation.AbbreviationText == textBoxAutotext.Text))
             {
                 MessageBox.Show(this, "Phrase with specified autotext is already exists", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Stop);
-                return;
+                return false;
             }
 
             AutotextRuleConfiguration ruleToSave = GetCurrentPhrase();
+
+	        if (ruleToSave.Triggers.Any(p => string.IsNullOrEmpty(p.Value)))
+	        {
+				MessageBox.Show(this, "Character trigger field can't be empty", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+		        return false;
+	        }
+
             _rulesBindingList[phraseIndex] = ruleToSave;
             dataGridViewPhrases.Refresh();
             SaveConfiguration();
+	        return true;
         }
 
         private void SaveConfiguration()
@@ -429,7 +462,7 @@ namespace AutoText
 
             if (selRowsIndeces.Count == 0)
             {
-                MessageBox.Show(this, "Please select item first", "Attention");
+                MessageBox.Show(this, "Please select item first", "Attention",MessageBoxButtons.OK,MessageBoxIcon.Stop);
             }
             else
             {
@@ -440,29 +473,35 @@ namespace AutoText
 
         private void buttonRemovePhrase_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show(this, "Are you sure that you want to delete selected phrase?", "Please confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-            {
-                _rulesBindingList.RemoveAt(_curSelectedPhraseIndex);
+	        if (_rules.Any())
+	        {
+				if (MessageBox.Show(this, "Are you sure that you want to delete selected phrase?", "Please confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+				{
+					_rulesBindingList.RemoveAt(_curSelectedPhraseIndex);
 
-                int selIndex = -1;
+					int selIndex = -1;
 
-                if (dataGridViewPhrases.Rows.Count > 0)
-                {
-                    if (_curSelectedPhraseIndex <= (dataGridViewPhrases.Rows.Count - 1))
-                    {
-                        selIndex = _curSelectedPhraseIndex;
-                    }
-                    else
-                    {
-                        selIndex = dataGridViewPhrases.Rows.Count - 1;
-                    }
-                }
+					if (dataGridViewPhrases.Rows.Count > 0)
+					{
+						if (_curSelectedPhraseIndex <= (dataGridViewPhrases.Rows.Count - 1))
+						{
+							selIndex = _curSelectedPhraseIndex;
+						}
+						else
+						{
+							selIndex = dataGridViewPhrases.Rows.Count - 1;
+						}
+					}
 
-                SaveConfiguration();
+					SaveConfiguration();
 
-                dataGridViewPhrases.Rows.Cast<DataGridViewRow>().ToList().ForEach(p => p.Selected = false);
-                dataGridViewPhrases.Rows.Cast<DataGridViewRow>().ElementAt(selIndex).Selected = true;
-            }
+					if (selIndex != -1)
+					{
+						dataGridViewPhrases.Rows.Cast<DataGridViewRow>().ToList().ForEach(p => p.Selected = false);
+						dataGridViewPhrases.Rows.Cast<DataGridViewRow>().ElementAt(selIndex).Selected = true;
+					}
+				}
+	        }
         }
 
         private void FormMain_Activated(object sender, EventArgs e)
@@ -762,7 +801,7 @@ namespace AutoText
 
                 foreach (AutotextRuleTrigger trigger in config.Triggers)
                 {
-                    if (kKodes.Contains(trigger.Value.Trim('{', '}')))
+                    if (kKodes.Count(p => "{" + p + "}" == trigger.Value) > 0)
                     {
                         AddTriggerControls(null, (Keys)Enum.Parse(typeof(Keys), trigger.Value.Trim('{', '}')), trigger.CaseSensitive);
                     }
@@ -808,17 +847,43 @@ namespace AutoText
 
             if (column.DataPropertyName.Contains("."))
             {
-                object data = dataGridViewPhrases.Rows[e.RowIndex].DataBoundItem;
+				if (dataGridViewPhrases.Rows[e.RowIndex] != null)
+	            {
+					object data = dataGridViewPhrases.Rows[e.RowIndex].DataBoundItem;
 
-                string[] properties = column.DataPropertyName.Split('.');
+					string[] properties = column.DataPropertyName.Split('.');
 
-                for (int i = 0; i < properties.Length && data != null; i++)
-                {
-                    data = data.GetType().GetProperty(properties[i]).GetValue(data, null);
-                }
+					for (int i = 0; i < properties.Length && data != null; i++)
+					{
+						data = data.GetType().GetProperty(properties[i]).GetValue(data, null);
+					}
 
-                dataGridViewPhrases.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = data;
+					dataGridViewPhrases.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = data;
+	            }
             }
         }
+
+		private void FormMain_FormClosing(object sender, FormClosingEventArgs e)
+		{
+			if (dataGridViewPhrases.RowCount > 0 && IsCurrentPhraseDirty())
+			{
+				DialogResult dl = MessageBox.Show(this, "Currently selected phrase has unsaved changes. Save changes?", "Confirmation",
+					MessageBoxButtons.YesNoCancel,
+					MessageBoxIcon.Question);
+
+				switch (dl)
+				{
+					case DialogResult.Cancel:
+						e.Cancel = true;
+						return;
+						break;
+					case DialogResult.Yes:
+						e.Cancel = !SavePhrase(_curSelectedPhraseIndex);
+						break;
+					case DialogResult.No:
+						break;
+				}
+			}
+		}
     }
 }

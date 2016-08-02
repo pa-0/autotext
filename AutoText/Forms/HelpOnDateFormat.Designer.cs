@@ -53,7 +53,7 @@
 			this.MaximizeBox = false;
 			this.Name = "HelpOnDateFormat";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
-			this.Text = "Help on date formatting";
+			this.Text = "Help On Date Formatting";
 			this.ResumeLayout(false);
 			this.PerformLayout();
 

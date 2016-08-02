@@ -197,7 +197,7 @@
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
 			this.Name = "AddShortcutKeys";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
-			this.Text = "Add key combo macros";
+			this.Text = "Add Key Combo Macros";
 			this.Load += new System.EventHandler(this.AddShortcutKeys_Load);
 			this.groupBox1.ResumeLayout(false);
 			this.groupBox1.PerformLayout();

@@ -72,7 +72,7 @@ namespace AutoText
 
 			foreach (string item in listBoxKeysToPress.Items)
 			{
-				macros += string.Format("{{{0}}}", item);
+				macros += string.Format("{{{0}}}", item.Split('|').First().Trim());
 			}
 
 			foreach (string modifier in modifiers)
@@ -88,10 +88,8 @@ namespace AutoText
 
 		private void AddShortcutKeys_Load(object sender, EventArgs e)
 		{
-			List<string> keys =
-				ConfigHelper.GetKeycodesConfiguration().Keycodes.SelectMany(p => p.Names.Select(j => j.Value)).ToList();
+			List<string> keys = ConfigHelper.GetKeycodesConfiguration().Keycodes.Select(p => string.Join(" | ", p.Names.Select(g => g.Value))).ToList();
 			keys.RemoveAt(0);
-
 			comboBoxKeys.Items.AddRange(keys.ToArray());
 			comboBoxKeys.SelectedIndex = 0;
 

@@ -97,7 +97,7 @@
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
 			this.Name = "AddPauseMacros";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
-			this.Text = "Add pause macros";
+			this.Text = "Add Pause Macros";
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDownPuseDuration)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();

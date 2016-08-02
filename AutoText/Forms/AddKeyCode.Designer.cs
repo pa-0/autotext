@@ -34,6 +34,7 @@
 			this.comboBoxAction = new System.Windows.Forms.ComboBox();
 			this.buttonAdd = new System.Windows.Forms.Button();
 			this.numericUpDownQuantity = new System.Windows.Forms.NumericUpDown();
+			this.labelTimes = new System.Windows.Forms.Label();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDownQuantity)).BeginInit();
 			this.SuspendLayout();
 			// 
@@ -52,7 +53,7 @@
 			this.comboBoxKey.FormattingEnabled = true;
 			this.comboBoxKey.Location = new System.Drawing.Point(55, 24);
 			this.comboBoxKey.Name = "comboBoxKey";
-			this.comboBoxKey.Size = new System.Drawing.Size(132, 21);
+			this.comboBoxKey.Size = new System.Drawing.Size(172, 21);
 			this.comboBoxKey.TabIndex = 1;
 			// 
 			// label2
@@ -69,21 +70,21 @@
 			this.comboBoxAction.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.comboBoxAction.FormattingEnabled = true;
 			this.comboBoxAction.Items.AddRange(new object[] {
+            "Press",
             "Down",
             "Up",
             "On",
             "Off",
-            "Toggle",
-            "Press number of times"});
+            "Toggle"});
 			this.comboBoxAction.Location = new System.Drawing.Point(55, 57);
 			this.comboBoxAction.Name = "comboBoxAction";
-			this.comboBoxAction.Size = new System.Drawing.Size(132, 21);
+			this.comboBoxAction.Size = new System.Drawing.Size(119, 21);
 			this.comboBoxAction.TabIndex = 3;
 			this.comboBoxAction.SelectedIndexChanged += new System.EventHandler(this.comboBox2_SelectedIndexChanged);
 			// 
 			// buttonAdd
 			// 
-			this.buttonAdd.Location = new System.Drawing.Point(112, 84);
+			this.buttonAdd.Location = new System.Drawing.Point(106, 86);
 			this.buttonAdd.Name = "buttonAdd";
 			this.buttonAdd.Size = new System.Drawing.Size(75, 23);
 			this.buttonAdd.TabIndex = 4;
@@ -93,7 +94,7 @@
 			// 
 			// numericUpDownQuantity
 			// 
-			this.numericUpDownQuantity.Location = new System.Drawing.Point(193, 58);
+			this.numericUpDownQuantity.Location = new System.Drawing.Point(180, 58);
 			this.numericUpDownQuantity.Maximum = new decimal(new int[] {
             1000000,
             0,
@@ -114,11 +115,22 @@
             0});
 			this.numericUpDownQuantity.Visible = false;
 			// 
+			// labelTimes
+			// 
+			this.labelTimes.AutoSize = true;
+			this.labelTimes.Location = new System.Drawing.Point(233, 60);
+			this.labelTimes.Name = "labelTimes";
+			this.labelTimes.Size = new System.Drawing.Size(41, 13);
+			this.labelTimes.TabIndex = 6;
+			this.labelTimes.Text = "Time(s)";
+			this.labelTimes.Visible = false;
+			// 
 			// AddKeyCode
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(250, 121);
+			this.ClientSize = new System.Drawing.Size(275, 121);
+			this.Controls.Add(this.labelTimes);
 			this.Controls.Add(this.numericUpDownQuantity);
 			this.Controls.Add(this.buttonAdd);
 			this.Controls.Add(this.comboBoxAction);
@@ -128,7 +140,7 @@
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
 			this.Name = "AddKeyCode";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
-			this.Text = "Add key macros";
+			this.Text = "Add Key Macros";
 			this.Load += new System.EventHandler(this.AddKeyCode_Load);
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDownQuantity)).EndInit();
 			this.ResumeLayout(false);
@@ -144,5 +156,6 @@
 		private System.Windows.Forms.ComboBox comboBoxAction;
 		private System.Windows.Forms.Button buttonAdd;
 		private System.Windows.Forms.NumericUpDown numericUpDownQuantity;
+		private System.Windows.Forms.Label labelTimes;
 	}
 }

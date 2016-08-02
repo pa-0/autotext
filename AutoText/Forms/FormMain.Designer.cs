@@ -69,10 +69,10 @@ namespace AutoText
 			this.label1 = new System.Windows.Forms.Label();
 			this.notifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
 			this.dataGridViewPhrases = new System.Windows.Forms.DataGridView();
-			this.columnHeaderAutotext = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-			this.columnHeaderDescripton = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.AutotextColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.ColumnDescription = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.columnHeaderAutotext = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+			this.columnHeaderDescripton = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.contextMenuStripPhraseContentEdit.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.dataGridViewPhrases)).BeginInit();
 			this.SuspendLayout();
@@ -436,6 +436,7 @@ namespace AutoText
 			this.Text = "AutoText";
 			this.Activated += new System.EventHandler(this.FormMain_Activated);
 			this.Deactivate += new System.EventHandler(this.FormMain_Deactivate);
+			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormMain_FormClosing);
 			this.Load += new System.EventHandler(this.FormMain_Load);
 			this.Shown += new System.EventHandler(this.FormMain_Shown);
 			this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FormMain_KeyDown);
