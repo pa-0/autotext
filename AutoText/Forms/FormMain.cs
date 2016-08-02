@@ -49,7 +49,14 @@ namespace AutoText
 
         private void LoadPhrasesToDataGridView()
         {
-            dataGridViewPhrases.DataSource = _rulesBindingList;
+	        try
+	        {
+				dataGridViewPhrases.DataSource = _rulesBindingList;
+	        }
+	        catch (Exception ex)
+	        {
+				//TODO catch that floating bug
+	        }
         }
 
         private void FormMain_Load(object sender, EventArgs e)
@@ -748,7 +755,7 @@ namespace AutoText
 
         private void dataGridViewPhrases_RowValidating(object sender, DataGridViewCellCancelEventArgs e)
         {
-            if (dataGridViewPhrases.ClientRectangle.Contains(PointToClient(Control.MousePosition)) && IsCurrentPhraseDirty())
+			if (dataGridViewPhrases.RowCount > 0 && GetDataGridViewSelectedRowIndeces().Any() && dataGridViewPhrases.ClientRectangle.Contains(PointToClient(Control.MousePosition)) && IsCurrentPhraseDirty())
             {
                 DialogResult dl = MessageBox.Show(this, "Currently selected phrase has unsaved changes. Save changes?", "Confirmation",
                     MessageBoxButtons.YesNoCancel,
