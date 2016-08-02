@@ -13,8 +13,8 @@ namespace AutoText.Engine
 		public event EventHandler<AutotextMatchEventArgs> MatchFound;
 
 
-		private List<AutotextRuleConfig> _rules;
-		public List<AutotextRuleConfig> Rules
+		private List<AutotextRuleConfiguration> _rules;
+		public List<AutotextRuleConfiguration> Rules
 		{
 			get
 			{
@@ -44,7 +44,7 @@ namespace AutoText.Engine
 			if (handler != null) handler(this, e);
 		}
 
-		public AutotextMatcher(List<AutotextRuleConfig> rules)
+		public AutotextMatcher(List<AutotextRuleConfiguration> rules)
 		{
 			_rules = rules;
 		}
@@ -57,7 +57,7 @@ namespace AutoText.Engine
 			}
 
 
-			AutotextRuleConfig config =
+			AutotextRuleConfiguration config =
 				_rules.SingleOrDefault(p => _bufferString.ToString().EndsWith(p.Abbreviation.AbbreviationText, !p.Abbreviation.CaseSensitive,null) );
 
 			if (config != null)

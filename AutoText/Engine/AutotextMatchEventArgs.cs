@@ -5,10 +5,10 @@ namespace AutoText.Engine
 {
 	public class AutotextMatchEventArgs : EventArgs
 	{
-		public AutotextRuleConfig MatchedRule { get; private set; }
+		public AutotextRuleConfiguration MatchedRule { get; private set; }
 		public AutotextRuleTrigger Trigger { get; private set; }
 
-		public AutotextMatchEventArgs(AutotextRuleConfig matchedRule, AutotextRuleTrigger trigger)
+		public AutotextMatchEventArgs(AutotextRuleConfiguration matchedRule, AutotextRuleTrigger trigger)
 		{
 			MatchedRule = matchedRule;
 			Trigger = trigger;

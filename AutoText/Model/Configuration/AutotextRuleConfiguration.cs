@@ -3,7 +3,7 @@ using System.Xml.Serialization;
 
 namespace AutoText.Model.Configuration
 {
-	public class AutotextRuleConfig
+	public class AutotextRuleConfiguration
 	{
 		[XmlElement("abbreviation")]
 		public AutotextRuleAbbreviation Abbreviation { get;  set; }

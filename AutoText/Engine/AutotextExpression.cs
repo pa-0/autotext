@@ -33,9 +33,9 @@ namespace AutoText.Engine
 		{
 			string abbrRemoveText = "";
 
-			if (autotextRuleMatchParams != null && autotextRuleMatchParams.AutotextRuleConfig.RemoveAbbr)
+			if (autotextRuleMatchParams != null && autotextRuleMatchParams.AutotextRuleConfiguration.RemoveAbbr)
 			{
-				for (int i = 0; i < autotextRuleMatchParams.AutotextRuleConfig.Abbreviation.AbbreviationText.Length; i++)
+				for (int i = 0; i < autotextRuleMatchParams.AutotextRuleConfiguration.Abbreviation.AbbreviationText.Length; i++)
 				{
 					abbrRemoveText += "{Back}";
 				}
@@ -48,10 +48,10 @@ namespace AutoText.Engine
 				}
 			}
 
-			string phraseText = autotextRuleMatchParams.AutotextRuleConfig.PhraseCompiled;
+			string phraseText = autotextRuleMatchParams.AutotextRuleConfiguration.PhraseCompiled;
 
 
-			if (autotextRuleMatchParams.AutotextRuleConfig.Macros.Mode == MacrosMode.Skip)
+			if (autotextRuleMatchParams.AutotextRuleConfiguration.Macros.Mode == MacrosMode.Skip)
 			{
 				for (int i = 0; i < phraseText.Length; i++)
 				{
@@ -133,10 +133,10 @@ namespace AutoText.Engine
 
 
 
-			if (autotextRuleMatchParams.AutotextRuleConfig.Abbreviation.Type == Abbriviationtype.Regex && autotextRuleMatchParams.AutotextRuleConfig.MatchedString != null)
+			if (autotextRuleMatchParams.AutotextRuleConfiguration.Abbreviation.Type == Abbriviationtype.Regex && autotextRuleMatchParams.AutotextRuleConfiguration.MatchedString != null)
 			{
-				Regex reg = new Regex(autotextRuleMatchParams.AutotextRuleConfig.Abbreviation.AbbreviationText);
-				MatchCollection matches = reg.Matches(autotextRuleMatchParams.AutotextRuleConfig.MatchedString);
+				Regex reg = new Regex(autotextRuleMatchParams.AutotextRuleConfiguration.Abbreviation.AbbreviationText);
+				MatchCollection matches = reg.Matches(autotextRuleMatchParams.AutotextRuleConfiguration.MatchedString);
 
 				string[] groupNames = reg.GetGroupNames();
 

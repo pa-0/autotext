@@ -33,7 +33,7 @@ namespace AutoText
 	public partial class FormMain : Form
 	{
 
-		private List<AutotextRuleConfig> _rules;
+		private List<AutotextRuleConfiguration> _rules;
 		private AutotextMatcher _matcher;
 		private KeyLogger _keylogger = new KeyLogger();
 		int _shift;
@@ -50,7 +50,8 @@ namespace AutoText
 		{
 			InitializeComponent();
 
-			LoadRules();
+			dataGridViewPhrases.AutoGenerateColumns = false;
+			_rules = ConfigHelper.GetAutotextRulesConfiguration();
 			_matcher = new AutotextMatcher(_rules);
 			_matcher.MatchFound += _matcher_MatchFound;
 			_keylogger.KeyCaptured += _testKeylogger_KeyCaptured;
@@ -58,26 +59,16 @@ namespace AutoText
 
 		}
 
-		private void LoadPhrasesToListView()
+		private void LoadPhrasesToDataGridView()
 		{
-			dataGridViewPhrases.Rows.Clear();
-
-			foreach (AutotextRuleConfig ruleConfig in _rules)
-			{
-				dataGridViewPhrases.Rows.Add(ruleConfig.Abbreviation.AbbreviationText, ruleConfig.Description);
-			}
+			dataGridViewPhrases.DataSource = null;
+			dataGridViewPhrases.DataSource = _rules;
 		}
 
 		private void FormMain_Load(object sender, EventArgs e)
 		{
-			LoadPhrasesToListView();
 			comboBoxProcessMacros.SelectedIndex = 0;
 			contextMenuStripPhraseContentEdit.Opening += contextMenuStripPhraseContentEdit_Opening;
-		}
-
-		public void LoadRules()
-		{
-			_rules = ConfigHelper.GetAutotextRules();
 		}
 
 		void _testKeylogger_KeyCaptured(object sender, KeyCapturedEventArgs e)
@@ -103,7 +94,6 @@ namespace AutoText
 				_matcher.ClearBuffer();
 				return;
 			}
-
 
 			if (e.CapturedKeys[0] == "Back")
 			{
@@ -398,6 +388,7 @@ namespace AutoText
 			AddNewPhrase(nextNewPhraseAutotext);
 			dataGridViewPhrases.Rows.Cast<DataGridViewRow>().ToList().ForEach(p => p.Selected = false);
 			dataGridViewPhrases.Rows.Cast<DataGridViewRow>().Last().Selected = true;
+			SaveConfiguration();
 		}
 
 		private void SavePhrase(int phraseIndex)
@@ -408,44 +399,41 @@ namespace AutoText
 				return;
 			}
 
-			XElement ruleToSave = GetCurrentPhrase();
-			XDocument config = XDocument.Parse(File.ReadAllText(Constants.Common.AutotextRulesConfigFileFullPath), LoadOptions.PreserveWhitespace);
-			XElement ruleToRewrite = config.Descendants("rule").ElementAt(phraseIndex);
-			ruleToRewrite.RemoveAll();
-			ruleToRewrite.Add(ruleToSave.XPathSelectElements("/*"));
+			AutotextRuleConfiguration ruleToSave = GetCurrentPhrase();
+			_rules[phraseIndex] = ruleToSave;
+			SaveConfiguration();
+			LoadPhrasesToDataGridView();
+		}
 
-			File.Delete(Constants.Common.AutotextRulesConfigFileFullPath);
-
-			using (FileStream fs = File.OpenWrite(Constants.Common.AutotextRulesConfigFileFullPath))
-			{
-				config.Save(fs);
-			}
-
-			LoadRules();
-			LoadPhrasesToListView();
-			_matcher.Rules = ConfigHelper.GetAutotextRules();
+		private void SaveConfiguration()
+		{
+			ConfigHelper.SaveAutotextRulesConfiguration(_rules);
 		}
 
 		private void AddNewPhrase(string abbreviationText)
 		{
-			XElement triggerItem = new XElement("triggers");
-			triggerItem.Add(new XElement("item", new XAttribute("caseSensitive", false), new XElement("value", new XCData("{Tab}"))));
-
-			XElement ruleToSave = new XElement("rule", new XElement("abbreviation", new XAttribute("caseSensitive", false), new XElement("value", new XCData(abbreviationText))), new XElement("removeAbbr", true), new XElement("phrase", new XCData("<phrase content>")), new XElement("phraseCompiled", new XCData("<phrase content>")), new XElement("macros", new XAttribute("mode", "Execute")), new XElement("description", new XCData("<phrase description>")), triggerItem);
-
-			XDocument config = XDocument.Parse(File.ReadAllText(Constants.Common.AutotextRulesConfigFileFullPath), LoadOptions.PreserveWhitespace);
-			config.Descendants("rules").First().Add(ruleToSave);
-
-			File.Delete(Constants.Common.AutotextRulesConfigFileFullPath);
-
-			using (FileStream fs = File.OpenWrite(Constants.Common.AutotextRulesConfigFileFullPath))
+			AutotextRuleConfiguration newConfig = new AutotextRuleConfiguration();
+			newConfig.Triggers = new List<AutotextRuleTrigger>();
+			newConfig.Triggers.Add(new AutotextRuleTrigger()
 			{
-				config.Save(fs);
-			}
+				CaseSensitive = false,
+				Value = "{Tab}"
+			});
 
-			LoadRules();
-			LoadPhrasesToListView();
-			_matcher.Rules = ConfigHelper.GetAutotextRules();
+			newConfig.Abbreviation = new AutotextRuleAbbreviation()
+			{
+				AbbreviationText = abbreviationText,
+				CaseSensitive = false,
+			};
+
+			newConfig.RemoveAbbr = true;
+			newConfig.Phrase = "<phrase content>";
+			newConfig.PhraseCompiled = "<phrase content>";
+			newConfig.Macros = new AutotextRuleMacrosMode(){Mode = MacrosMode.Execute};
+			newConfig.Description = "<phrase description>";
+
+			_rules.Add(newConfig);
+			LoadPhrasesToDataGridView();
 		}
 
 		private void buttonSavePhrase_Click(object sender, EventArgs e)
@@ -469,7 +457,7 @@ namespace AutoText
 		{
 			if (MessageBox.Show(this, "Are you sure that you want to delete selected phrase?", "Please confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
 			{
-				_rules = ConfigHelper.GetAutotextRules();
+				_rules = ConfigHelper.GetAutotextRulesConfiguration();
 
 				dataGridViewPhrases.Rows.RemoveAt(_curSelectedPhraseIndex);
 				dataGridViewPhrases.Rows.Cast<DataGridViewRow>().ToList().ForEach(p => p.Selected = false);
@@ -499,8 +487,8 @@ namespace AutoText
 					xd.Save(fs);
 				}
 
-				LoadRules();
-				_matcher.Rules = ConfigHelper.GetAutotextRules();
+//				LoadRules();
+				_matcher.Rules = ConfigHelper.GetAutotextRulesConfiguration();
 
 			}
 		}
@@ -517,6 +505,7 @@ namespace AutoText
 
 		private void FormMain_Shown(object sender, EventArgs e)
 		{
+			LoadPhrasesToDataGridView();
 		}
 
 		private void FormMain_Resize(object sender, EventArgs e)
@@ -674,20 +663,33 @@ namespace AutoText
 			{
 				int selIndex = GetDataGridViewSelectedRowIndeces().First();
 				SavePhrase(selIndex);
-				dataGridViewPhrases.Rows.Cast<DataGridViewRow>().ToList().ForEach(p => p.Selected = false);
-				dataGridViewPhrases.Rows.Cast<DataGridViewRow>().ElementAt(selIndex).Selected = true;
+//				dataGridViewPhrases.Rows.Cast<DataGridViewRow>().ToList().ForEach(p => p.Selected = false);
+//				dataGridViewPhrases.Rows.Cast<DataGridViewRow>().ElementAt(selIndex).Selected = true;
 				e.Handled = true;
 			}
 		}
 
-		private XElement GetCurrentPhrase()
+		private AutotextRuleConfiguration GetCurrentPhrase()
 		{
-			List<Panel> triggersPanels = groupBoxTriggers.Controls.Cast<Panel>().ToList();
+			AutotextRuleConfiguration currentPhrase = new AutotextRuleConfiguration();
+			currentPhrase.Triggers = new List<AutotextRuleTrigger>();
 
-			XElement triggerItem = new XElement("triggers");
+			currentPhrase.Abbreviation = new AutotextRuleAbbreviation()
+			{
+				AbbreviationText = textBoxAutotext.Text,
+				CaseSensitive = checkBoxAutotextCaseSensetive.Checked,
+			};
+
+			currentPhrase.RemoveAbbr = checkBoxSubstitute.Checked;
+			currentPhrase.Phrase = textBoxPhraseContent.Text;
+			currentPhrase.PhraseCompiled = textBoxPhraseContent.Text;
+			currentPhrase.Macros = new AutotextRuleMacrosMode() { Mode = (MacrosMode) Enum.Parse(typeof(MacrosMode), comboBoxProcessMacros.SelectedItem.ToString()) };
+			currentPhrase.Description = textBoxDescription.Text;
+			List<Panel> triggersPanels = groupBoxTriggers.Controls.Cast<Panel>().ToList();
 
 			foreach (Panel panel in triggersPanels)
 			{
+
 				string triggerType = ((ComboBox)panel.Controls.Find("comboBoxTriggerType", false)[0]).SelectedItem.ToString();
 				string triggerChar = ((TextBox)panel.Controls.Find("textBoxTriggerChar", false)[0]).Text;
 				string triggerKey = ((ComboBox)panel.Controls.Find("comboBoxTriggerKey", false)[0]).SelectedItem.ToString().Split('|').Select(p => p.Trim()).First();
@@ -695,32 +697,50 @@ namespace AutoText
 
 				if (triggerType == "Character")
 				{
-					triggerItem.Add(new XElement("item", new XAttribute("caseSensitive", triggerCaseSen), new XElement("value", new XCData(triggerChar))));
+					currentPhrase.Triggers.Add(new AutotextRuleTrigger()
+					{
+						CaseSensitive = triggerCaseSen,
+						 Value = triggerChar
+					});
 				}
 				else if (triggerType == "Key")
 				{
-					triggerItem.Add(new XElement("item", new XAttribute("caseSensitive", triggerCaseSen), new XElement("value", new XCData("{" + triggerKey + "}"))));
+					currentPhrase.Triggers.Add(new AutotextRuleTrigger()
+					{
+						CaseSensitive = triggerCaseSen,
+						Value = "{" + triggerKey + "}"
+					});
+
 				}
 			}
 
-			XElement resRule = new XElement("rule", new XElement("abbreviation", new XAttribute("caseSensitive", checkBoxAutotextCaseSensetive.Checked), new XElement("value", new XCData(textBoxAutotext.Text))), new XElement("removeAbbr", checkBoxSubstitute.Checked ? "true" : "false"), new XElement("phrase", new XCData(textBoxPhraseContent.Text)), new XElement("phraseCompiled", new XCData(textBoxPhraseContent.Text)), new XElement("macros", new XAttribute("mode", comboBoxProcessMacros.SelectedItem.ToString())), new XElement("description", new XCData(textBoxDescription.Text)), triggerItem);
+			/*XElement resRule = new XElement("rule", 
+				new XElement("abbreviation", 
+					new XAttribute("caseSensitive", 
+						checkBoxAutotextCaseSensetive.Checked), 
+						new XElement("value", 
+							new XCData(textBoxAutotext.Text))),
+							new XElement("removeAbbr",checkBoxSubstitute.Checked ? "true" : "false"), 
+							new XElement("phrase", 
+								new XCData(textBoxPhraseContent.Text)), 
+								new XElement("phraseCompiled", 
+									new XCData(textBoxPhraseContent.Text)), 
+									new XElement("macros", 
+										new XAttribute("mode", comboBoxProcessMacros.SelectedItem.ToString())),
+										new XElement("description", 
+											new XCData(textBoxDescription.Text)), triggerItem);*/
 
-			return resRule;
+			return currentPhrase;
 		}
 
 		private bool IsCurrentPhraseDirty()
 		{
-			AutotextRuleConfig ruleToRewrite = _rules[_curSelectedPhraseIndex];
-
-			XElement curRuleState = GetCurrentPhrase();
-			XDocument doc = new XDocument(new XElement("autotextRules", new XElement("rules", curRuleState)));
-
-			string xmlDocStr = doc.ToXmlString();
-			AutotextRulesRoot root = ConfigHelper.DeserailizeXmlFromString<AutotextRulesRoot>(xmlDocStr);
-
+			AutotextRuleConfiguration ruleToRewrite = _rules[_curSelectedPhraseIndex];
+			AutotextRuleConfiguration curRuleState = GetCurrentPhrase();
 			CompareLogic basicComparison = new CompareLogic();
+			ComparisonResult comparisonResult = basicComparison.Compare(curRuleState, ruleToRewrite);
 
-			if (!basicComparison.Compare(root.AutotextRulesList.First(), ruleToRewrite).AreEqual)
+			if (!comparisonResult.AreEqual)
 			{
 				return true;
 			}
@@ -735,12 +755,29 @@ namespace AutoText
 
 		private void dataGridViewPhrases_RowValidating(object sender, DataGridViewCellCancelEventArgs e)
 		{
-			List<int> selIndeces = dataGridViewPhrases.SelectedRows.Cast<DataGridViewRow>().Select(p => p.Index).ToList();
+			if (dataGridViewPhrases.ClientRectangle.Contains(PointToClient(Control.MousePosition)) && IsCurrentPhraseDirty())
+			{
+				DialogResult dl = MessageBox.Show(this, "Currently selected phrase has unsaved changes. Save changes?", "Confirmation",
+					MessageBoxButtons.YesNoCancel,
+					MessageBoxIcon.Question);
+
+				switch (dl)
+				{
+					case DialogResult.Cancel:
+						e.Cancel = true;
+						break;
+					case DialogResult.Yes:
+						SavePhrase(_curSelectedPhraseIndex);
+						break;
+					case DialogResult.No:
+						break;
+				}
+			}
 		}
 
 		private void dataGridViewPhrases_SelectionChanged(object sender, EventArgs e)
 		{
-			List<int> selIndeces = dataGridViewPhrases.SelectedRows.Cast<DataGridViewRow>().Select(p => p.Index).ToList();
+			List<int> selIndeces = GetDataGridViewSelectedRowIndeces();
 
 			if (selIndeces.Count > 0)
 			{
@@ -749,7 +786,7 @@ namespace AutoText
 				_shift = 0;
 				groupBoxTriggers.Controls.Clear();
 
-				AutotextRuleConfig config = _rules[selIndeces.First()];
+				AutotextRuleConfiguration config = _rules[selIndeces.First()];
 
 				textBoxDescription.Text = config.Description;
 				textBoxPhraseContent.Text = config.Phrase;
@@ -794,23 +831,6 @@ namespace AutoText
 			}
 			else
 			{
-				if (IsCurrentPhraseDirty())
-				{
-					DialogResult dl = MessageBox.Show(this, "Currently selected phrase has unsaved changes. Save changes?", "Confirmation",
-						MessageBoxButtons.YesNoCancel,
-						MessageBoxIcon.Question);
-
-					switch (dl)
-					{
-						case DialogResult.Cancel:
-							break;
-						case DialogResult.Yes:
-							break;
-						case DialogResult.No:
-							break;
-					}
-				}
-
 				groupBoxTriggers.Controls.Clear();
 
 				textBoxDescription.Text = "";
@@ -825,6 +845,25 @@ namespace AutoText
 				checkBoxSubstitute.Enabled = false;
 				checkBoxAutotextCaseSensetive.Enabled = false;
 				textBoxPhraseContent.Enabled = false;
+			}
+		}
+
+		private void dataGridViewPhrases_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+		{
+			DataGridViewColumn column = dataGridViewPhrases.Columns[e.ColumnIndex];
+
+			if (column.DataPropertyName.Contains("."))
+			{
+				object data = dataGridViewPhrases.Rows[e.RowIndex].DataBoundItem;
+
+				string[] properties = column.DataPropertyName.Split('.');
+
+				for (int i = 0; i < properties.Length && data != null; i++)
+				{
+					data = data.GetType().GetProperty(properties[i]).GetValue(data,null);
+				}
+					
+				dataGridViewPhrases.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = data;
 			}
 		}
 	}

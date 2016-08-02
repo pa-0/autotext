@@ -4,12 +4,12 @@ namespace AutoText.Engine
 {
 	public class AutotextRuleMatchParameters
 	{
-		public AutotextRuleConfig AutotextRuleConfig { get; set; }
+		public AutotextRuleConfiguration AutotextRuleConfiguration { get; set; }
 		public AutotextRuleTrigger MatchTrigger { get; set; }
 
-		public AutotextRuleMatchParameters(AutotextRuleConfig autotextRuleConfig, AutotextRuleTrigger matchTrigger)
+		public AutotextRuleMatchParameters(AutotextRuleConfiguration autotextRuleConfiguration, AutotextRuleTrigger matchTrigger)
 		{
-			AutotextRuleConfig = autotextRuleConfig;
+			AutotextRuleConfiguration = autotextRuleConfiguration;
 			MatchTrigger = matchTrigger;
 		}
 	}

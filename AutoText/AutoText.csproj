@@ -138,7 +138,7 @@
       <DependentUpon>HelpOnDateFormat.cs</DependentUpon>
     </Compile>
     <Compile Include="Model\Configuration\AutotextRuleAbbreviation.cs" />
-    <Compile Include="Model\Configuration\AutotextRuleConfig.cs" />
+    <Compile Include="Model\Configuration\AutotextRuleConfiguration.cs" />
     <Compile Include="Model\Configuration\AutotextRuleMacrosMode.cs" />
     <Compile Include="Model\Configuration\AutotextRulesRoot.cs" />
     <Compile Include="Model\Configuration\AutotextRuleTrigger.cs" />

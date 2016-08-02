@@ -18,9 +18,5 @@ namespace AutoText.Model.Configuration
 
 		[XmlAttribute("type")]
 		public Abbriviationtype Type { get; set; }
-
-		[XmlAttribute("lastCharsCount")]
-		public int LastCharsCount { get; set; }
-
 	}
 }

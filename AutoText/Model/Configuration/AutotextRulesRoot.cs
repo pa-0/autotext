@@ -7,6 +7,6 @@ namespace AutoText.Model.Configuration
 	public class AutotextRulesRoot
 	{
 		[XmlArray("rules"), XmlArrayItem("rule")]
-		public List<AutotextRuleConfig> AutotextRulesList { get; set; }
+		public List<AutotextRuleConfiguration> AutotextRulesList { get; set; }
 	}
 }

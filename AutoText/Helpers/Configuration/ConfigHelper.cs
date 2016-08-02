@@ -14,23 +14,36 @@ namespace AutoText.Helpers.Configuration
 	{
 		private static ExpressionConfiguration _expressionConfiguration;
 		private static KeycodesConfiguration _keycodesConfig;
-		private static List<AutotextRuleConfig> _autotextConfig;
+		private static List<AutotextRuleConfiguration> _autotextConfig;
 
-		public static List<AutotextRuleConfig> GetAutotextRules()
+		public static List<AutotextRuleConfiguration> GetAutotextRulesConfiguration()
 		{
 			_autotextConfig = DeserailizeXml<AutotextRulesRoot>(Constants.Common.AutotextRulesConfigFileFullPath).AutotextRulesList;
 
-			foreach (AutotextRuleConfig config in _autotextConfig)
+			foreach (AutotextRuleConfiguration config in _autotextConfig)
 			{
 				config.Phrase = config.Phrase.Replace("\n", "\r\n");
 			}
 
-			foreach (AutotextRuleConfig config in _autotextConfig)
+
+			foreach (AutotextRuleConfiguration config in _autotextConfig)
 			{
 				config.PhraseCompiled = config.PhraseCompiled.Replace("\n", "\r\n");
 			}
 
+
 			return _autotextConfig;
+		}
+
+		public static void SaveAutotextRulesConfiguration(List<AutotextRuleConfiguration> configuration)
+		{
+			AutotextRulesRoot root = new AutotextRulesRoot {AutotextRulesList = configuration};
+			XmlSerializer serializer = new XmlSerializer(typeof(AutotextRulesRoot));
+
+			using (TextWriter writer = new StreamWriter(Constants.Common.AutotextRulesConfigFileFullPath))
+			{
+				serializer.Serialize(writer, root);
+			} 
 		}
 
 		public static TRes DeserailizeXml<TRes>(string xmlFilePath)

@@ -69,10 +69,10 @@ namespace AutoText
 			this.label1 = new System.Windows.Forms.Label();
 			this.notifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
 			this.dataGridViewPhrases = new System.Windows.Forms.DataGridView();
-			this.AutotextColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.ColumnDescription = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.columnHeaderAutotext = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.columnHeaderDescripton = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+			this.AutotextColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.ColumnDescription = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.contextMenuStripPhraseContentEdit.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.dataGridViewPhrases)).BeginInit();
 			this.SuspendLayout();
@@ -386,11 +386,13 @@ namespace AutoText
 			this.dataGridViewPhrases.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
 			this.dataGridViewPhrases.Size = new System.Drawing.Size(307, 517);
 			this.dataGridViewPhrases.TabIndex = 28;
+			this.dataGridViewPhrases.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.dataGridViewPhrases_CellFormatting);
 			this.dataGridViewPhrases.RowValidating += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dataGridViewPhrases_RowValidating);
 			this.dataGridViewPhrases.SelectionChanged += new System.EventHandler(this.dataGridViewPhrases_SelectionChanged);
 			// 
 			// AutotextColumn
 			// 
+			this.AutotextColumn.DataPropertyName = "Abbreviation.AbbreviationText";
 			this.AutotextColumn.HeaderText = "Autotext";
 			this.AutotextColumn.Name = "AutotextColumn";
 			this.AutotextColumn.ReadOnly = true;
@@ -399,6 +401,7 @@ namespace AutoText
 			// 
 			// ColumnDescription
 			// 
+			this.ColumnDescription.DataPropertyName = "Description";
 			this.ColumnDescription.HeaderText = "Description";
 			this.ColumnDescription.Name = "ColumnDescription";
 			this.ColumnDescription.ReadOnly = true;
