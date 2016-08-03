@@ -874,27 +874,48 @@ namespace AutoText
             }
         }
 
+		private bool CheckSaveOnClose()
+		{
+			if (dataGridViewPhrases.RowCount > 0 && IsCurrentPhraseDirty())
+			{
+				DialogResult dl = MessageBox.Show(this, "Currently selected phrase has unsaved changes. Save changes?", "Confirmation",
+					MessageBoxButtons.YesNoCancel,
+					MessageBoxIcon.Question);
+
+				switch (dl)
+				{
+					case DialogResult.Cancel:
+						return false;
+						break;
+					case DialogResult.Yes:
+						return  SavePhrase(_curSelectedPhraseIndex);
+						break;
+					case DialogResult.No:
+						return true;
+						break;
+				}
+			}
+
+			return true;
+		}
+
         private void FormMain_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (dataGridViewPhrases.RowCount > 0 && IsCurrentPhraseDirty())
-            {
-                DialogResult dl = MessageBox.Show(this, "Currently selected phrase has unsaved changes. Save changes?", "Confirmation",
-                    MessageBoxButtons.YesNoCancel,
-                    MessageBoxIcon.Question);
-
-                switch (dl)
-                {
-                    case DialogResult.Cancel:
-                        e.Cancel = true;
-                        return;
-                        break;
-                    case DialogResult.Yes:
-                        e.Cancel = !SavePhrase(_curSelectedPhraseIndex);
-                        break;
-                    case DialogResult.No:
-                        break;
-                }
-            }
+	        if (!CheckSaveOnClose())
+	        {
+		        e.Cancel = true;
+	        }
         }
+
+		private void closeToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			Application.Exit();
+		}
+
+		private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			FormAbout formAbout = new FormAbout();
+			formAbout.ShowDialog(this);
+		}
     }
 }
