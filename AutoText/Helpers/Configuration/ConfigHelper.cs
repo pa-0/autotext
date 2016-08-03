@@ -1,124 +1,134 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Xml.Linq;
 using System.Xml.Serialization;
 using AutoText.Model.Configuration;
-using KellermanSoftware.CompareNetObjects;
 
 namespace AutoText.Helpers.Configuration
 {
-	public class ConfigHelper
-	{
-		private static ExpressionConfiguration _expressionConfiguration;
-		private static KeycodesConfiguration _keycodesConfig;
-		private static List<AutotextRuleConfiguration> _autotextConfig;
+    public class ConfigHelper
+    {
+        private static ExpressionConfiguration _expressionConfiguration;
+        private static KeycodesConfiguration _keycodesConfig;
+        private static List<AutotextRuleConfiguration> _autotextConfig;
 
-		public static List<AutotextRuleConfiguration> GetAutotextRulesConfiguration()
-		{
-			_autotextConfig = DeserailizeXml<AutotextRulesRoot>(Constants.Common.AutotextRulesConfigFileFullPath).AutotextRulesList;
+        public static List<AutotextRuleConfiguration> GetAutotextRulesConfiguration()
+        {
+            if (!File.Exists(Constants.Common.AutotextRulesConfigFileFullPath))
+            {
+                SaveAutotextRulesConfiguration(new List<AutotextRuleConfiguration>());
+            }
 
-			foreach (AutotextRuleConfiguration config in _autotextConfig)
-			{
-				config.Phrase = config.Phrase.Replace("\n", "\r\n");
-			}
+            _autotextConfig = DeserailizeXml<AutotextRulesRoot>(Constants.Common.AutotextRulesConfigFileFullPath).AutotextRulesList;
+
+            foreach (AutotextRuleConfiguration config in _autotextConfig)
+            {
+                config.Phrase = config.Phrase.Replace("\n", "\r\n");
+            }
 
 
-			foreach (AutotextRuleConfiguration config in _autotextConfig)
-			{
-				config.PhraseCompiled = config.PhraseCompiled.Replace("\n", "\r\n");
-			}
+            foreach (AutotextRuleConfiguration config in _autotextConfig)
+            {
+                config.PhraseCompiled = config.PhraseCompiled.Replace("\n", "\r\n");
+            }
+
+            return _autotextConfig;
+        }
 
 
-			return _autotextConfig;
-		}
+        public static void SaveAutotextRulesConfiguration(List<AutotextRuleConfiguration> configuration)
+        {
+            AutotextRulesRoot root = new AutotextRulesRoot { AutotextRulesList = configuration };
+            XmlSerializer serializer = new XmlSerializer(typeof(AutotextRulesRoot));
 
-		public static void SaveAutotextRulesConfiguration(List<AutotextRuleConfiguration> configuration)
-		{
-			AutotextRulesRoot root = new AutotextRulesRoot {AutotextRulesList = configuration};
-			XmlSerializer serializer = new XmlSerializer(typeof(AutotextRulesRoot));
+            using (TextWriter writer = new StreamWriter(Constants.Common.AutotextRulesConfigFileFullPath))
+            {
+                serializer.Serialize(writer, root);
+            }
+        }
 
-			using (TextWriter writer = new StreamWriter(Constants.Common.AutotextRulesConfigFileFullPath))
-			{
-				serializer.Serialize(writer, root);
-			} 
-		}
+        public static TRes DeserailizeXml<TRes>(string xmlFilePath)
+        {
+            using (Stream textReader = new FileStream(xmlFilePath, FileMode.Open, FileAccess.Read))
+            {
+                return DeserailizeXml<TRes>(textReader);
+            }
+        }
 
-		public static TRes DeserailizeXml<TRes>(string xmlFilePath)
-		{
-			using (Stream textReader = new FileStream(xmlFilePath, FileMode.Open, FileAccess.Read))
-			{
-				return DeserailizeXml<TRes>(textReader);
-			}
-		}
+        public static TRes DeserailizeXmlFromString<TRes>(string xmlString)
+        {
+            using (MemoryStream ms = new MemoryStream())
+            {
+                using (StreamWriter sw = new StreamWriter(ms))
+                {
+                    sw.Write(xmlString);
+                    sw.Flush();
+                    ms.Position = 0;
+                    return DeserailizeXml<TRes>(ms);
+                }
+            }
+        }
 
-		public static TRes DeserailizeXmlFromString<TRes>(string xmlString)
-		{
-			using (MemoryStream ms = new MemoryStream())
-			{
-				using (StreamWriter sw = new StreamWriter(ms))
-				{
-					sw.Write(xmlString);
-					sw.Flush();
-					ms.Position = 0;
-					return DeserailizeXml<TRes>(ms);
-				}
-			}
-		}
+        public static TRes DeserailizeXml<TRes>(Stream stream)
+        {
+            XmlSerializer deserializer = new XmlSerializer(typeof(TRes));
+            deserializer.UnknownAttribute += new XmlAttributeEventHandler(deserializer_UnknownAttribute);
+            deserializer.UnknownElement += new XmlElementEventHandler(deserializer_UnknownElement);
+            deserializer.UnknownNode += new XmlNodeEventHandler(deserializer_UnknownNode);
+            deserializer.UnreferencedObject += new UnreferencedObjectEventHandler(deserializer_UnreferencedObject);
+            return (TRes)deserializer.Deserialize(stream);
+        }
 
-		public static TRes DeserailizeXml<TRes>(Stream stream)
-		{
-			XmlSerializer deserializer = new XmlSerializer(typeof(TRes));
-			deserializer.UnknownAttribute += new XmlAttributeEventHandler(deserializer_UnknownAttribute);
-			deserializer.UnknownElement += new XmlElementEventHandler(deserializer_UnknownElement);
-			deserializer.UnknownNode += new XmlNodeEventHandler(deserializer_UnknownNode);
-			deserializer.UnreferencedObject += new UnreferencedObjectEventHandler(deserializer_UnreferencedObject);
-			return (TRes)deserializer.Deserialize(stream);
-		}
+        static void deserializer_UnreferencedObject(object sender, UnreferencedObjectEventArgs e)
+        {
+            { }
+        }
 
-		static void deserializer_UnreferencedObject(object sender, UnreferencedObjectEventArgs e)
-		{
-			{ }
-		}
+        static void deserializer_UnknownNode(object sender, XmlNodeEventArgs e)
+        {
+            { }
+        }
 
-		static void deserializer_UnknownNode(object sender, XmlNodeEventArgs e)
-		{
-			{ }
-		}
+        static void deserializer_UnknownElement(object sender, XmlElementEventArgs e)
+        {
+            { }
+        }
 
-		static void deserializer_UnknownElement(object sender, XmlElementEventArgs e)
-		{
-			{ }
-		}
+        static void deserializer_UnknownAttribute(object sender, XmlAttributeEventArgs e)
+        {
+            { }
+        }
 
-		static void deserializer_UnknownAttribute(object sender, XmlAttributeEventArgs e)
-		{
-			{ }
-		}
+        public static KeycodesConfiguration GetKeycodesConfiguration()
+        {
+            if (_keycodesConfig != null)
+            {
+                return _keycodesConfig;
+            }
 
-		public static KeycodesConfiguration GetKeycodesConfiguration()
-		{
-			if (_keycodesConfig != null)
-			{
-				return _keycodesConfig;
-			}
+            _keycodesConfig = DeserailizeXml<KeycodesConfiguration>(Constants.Common.KeycodesConfigFileFullPath);
+            return _keycodesConfig;
 
-			_keycodesConfig = DeserailizeXml<KeycodesConfiguration>(Constants.Common.KeycodesConfigFileFullPath);
-			return _keycodesConfig;
+        }
 
-		}
+        public static bool IsKeycodesConfigurationOk()
+        {
+            return File.Exists(Constants.Common.KeycodesConfigFileFullPath);
+        }
 
-		public static ExpressionConfiguration GetExpressionsConfiguration()
-		{
-			if (_expressionConfiguration != null)
-			{
-				return _expressionConfiguration;
-			}
+        public static bool IsExpressionsConfigurationOk()
+        {
+            return File.Exists(Constants.Common.KeycodesConfigFileFullPath);
+        }
 
-			_expressionConfiguration = DeserailizeXml<ExpressionConfiguration>(Constants.Common.ExpressionDefinitionsConfigFileFullPath);
-			return _expressionConfiguration;
-		}
-	}
+        public static ExpressionConfiguration GetExpressionsConfiguration()
+        {
+            if (_expressionConfiguration != null)
+            {
+                return _expressionConfiguration;
+            }
+
+            _expressionConfiguration = DeserailizeXml<ExpressionConfiguration>(Constants.Common.ExpressionDefinitionsConfigFileFullPath);
+            return _expressionConfiguration;
+        }
+    }
 }
