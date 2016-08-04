@@ -9,7 +9,7 @@ namespace AutoText.Constants
 {
 	public static class Common
 	{
-		public const string ApplicationVersion = "1.4.1b1";
+		public const string ApplicationVersion = "1.4.1b2";
 		public const string ApplicationAuthor = "Alexander Litvinov";
 		public static readonly string ApplicationRootDir = Application.StartupPath;
 		public const string NewPhraseDefaultDescription = "<description>";

@@ -87,7 +87,7 @@ namespace AutoText
 			// 
 			this.label2.AutoSize = true;
 			this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			this.label2.Location = new System.Drawing.Point(13, 13);
+			this.label2.Location = new System.Drawing.Point(12, 24);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(52, 13);
 			this.label2.TabIndex = 6;
@@ -97,7 +97,7 @@ namespace AutoText
 			// 
 			this.label3.AutoSize = true;
 			this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			this.label3.Location = new System.Drawing.Point(325, 13);
+			this.label3.Location = new System.Drawing.Point(325, 40);
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(112, 13);
 			this.label3.TabIndex = 7;
@@ -107,7 +107,7 @@ namespace AutoText
 			// 
 			this.textBoxDescription.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.textBoxDescription.Location = new System.Drawing.Point(327, 29);
+			this.textBoxDescription.Location = new System.Drawing.Point(325, 58);
 			this.textBoxDescription.Name = "textBoxDescription";
 			this.textBoxDescription.Size = new System.Drawing.Size(535, 20);
 			this.textBoxDescription.TabIndex = 8;
@@ -116,7 +116,7 @@ namespace AutoText
 			// 
 			this.label4.AutoSize = true;
 			this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			this.label4.Location = new System.Drawing.Point(325, 75);
+			this.label4.Location = new System.Drawing.Point(325, 95);
 			this.label4.Name = "label4";
 			this.label4.Size = new System.Drawing.Size(251, 13);
 			this.label4.TabIndex = 9;
@@ -128,10 +128,10 @@ namespace AutoText
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.textBoxPhraseContent.ContextMenuStrip = this.contextMenuStripPhraseContentEdit;
 			this.textBoxPhraseContent.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			this.textBoxPhraseContent.Location = new System.Drawing.Point(328, 104);
+			this.textBoxPhraseContent.Location = new System.Drawing.Point(328, 111);
 			this.textBoxPhraseContent.Multiline = true;
 			this.textBoxPhraseContent.Name = "textBoxPhraseContent";
-			this.textBoxPhraseContent.Size = new System.Drawing.Size(535, 173);
+			this.textBoxPhraseContent.Size = new System.Drawing.Size(535, 166);
 			this.textBoxPhraseContent.TabIndex = 10;
 			this.textBoxPhraseContent.TextChanged += new System.EventHandler(this.textBoxPhraseContent_TextChanged);
 			this.textBoxPhraseContent.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBoxPhraseContent_KeyDown);
@@ -353,7 +353,7 @@ namespace AutoText
 			this.comboBoxProcessMacros.Items.AddRange(new object[] {
             "Execute",
             "Skip"});
-			this.comboBoxProcessMacros.Location = new System.Drawing.Point(741, 64);
+			this.comboBoxProcessMacros.Location = new System.Drawing.Point(741, 84);
 			this.comboBoxProcessMacros.Name = "comboBoxProcessMacros";
 			this.comboBoxProcessMacros.Size = new System.Drawing.Size(121, 21);
 			this.comboBoxProcessMacros.TabIndex = 26;
@@ -362,7 +362,7 @@ namespace AutoText
 			// 
 			this.label1.AutoSize = true;
 			this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			this.label1.Location = new System.Drawing.Point(611, 67);
+			this.label1.Location = new System.Drawing.Point(611, 87);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(124, 13);
 			this.label1.TabIndex = 27;
@@ -384,13 +384,13 @@ namespace AutoText
 			this.dataGridViewPhrases.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.AutotextColumn,
             this.ColumnDescription});
-			this.dataGridViewPhrases.Location = new System.Drawing.Point(12, 29);
+			this.dataGridViewPhrases.Location = new System.Drawing.Point(12, 40);
 			this.dataGridViewPhrases.MultiSelect = false;
 			this.dataGridViewPhrases.Name = "dataGridViewPhrases";
 			this.dataGridViewPhrases.ReadOnly = true;
 			this.dataGridViewPhrases.RowHeadersVisible = false;
 			this.dataGridViewPhrases.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-			this.dataGridViewPhrases.Size = new System.Drawing.Size(307, 517);
+			this.dataGridViewPhrases.Size = new System.Drawing.Size(307, 506);
 			this.dataGridViewPhrases.TabIndex = 28;
 			this.dataGridViewPhrases.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.dataGridViewPhrases_CellFormatting);
 			this.dataGridViewPhrases.RowValidating += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dataGridViewPhrases_RowValidating);
@@ -436,7 +436,7 @@ namespace AutoText
 			// closeToolStripMenuItem
 			// 
 			this.closeToolStripMenuItem.Name = "closeToolStripMenuItem";
-			this.closeToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.closeToolStripMenuItem.Size = new System.Drawing.Size(92, 22);
 			this.closeToolStripMenuItem.Text = "Exit";
 			this.closeToolStripMenuItem.Click += new System.EventHandler(this.closeToolStripMenuItem_Click);
 			// 
@@ -451,7 +451,7 @@ namespace AutoText
 			// aboutToolStripMenuItem
 			// 
 			this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-			this.aboutToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.aboutToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
 			this.aboutToolStripMenuItem.Text = "About";
 			this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
 			// 
