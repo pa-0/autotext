@@ -486,6 +486,7 @@ namespace AutoText
 			this.Activated += new System.EventHandler(this.FormMain_Activated);
 			this.Deactivate += new System.EventHandler(this.FormMain_Deactivate);
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormMain_FormClosing);
+			this.Load += new System.EventHandler(this.FormMain_Load);
 			this.Shown += new System.EventHandler(this.FormMain_Shown);
 			this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FormMain_KeyDown);
 			this.Resize += new System.EventHandler(this.FormMain_Resize);

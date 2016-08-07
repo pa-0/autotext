@@ -937,5 +937,11 @@ namespace AutoText
 			FormAbout formAbout = new FormAbout();
 			formAbout.ShowDialog(this);
 		}
+
+		private void FormMain_Load(object sender, EventArgs e)
+		{
+			string d = DateTime.Now.ToString("yyyy/MM");
+			{ }
+		}
     }
 }

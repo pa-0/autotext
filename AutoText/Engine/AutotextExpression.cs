@@ -622,7 +622,7 @@ namespace AutoText.Engine
 
 				case "d":
 					{
-						string dateFormat = expressionParameters["format"].ConcatToString();
+						string dateFormat = expressionParameters["format"].ConcatToString().Replace("\\","\\\\").Replace("/","\\/");
 						DateTime now = DateTime.Now;
 						string resDateStr;
 
