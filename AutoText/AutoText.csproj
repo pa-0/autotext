@@ -13,7 +13,7 @@
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
     <IsWebBootstrapper>false</IsWebBootstrapper>
-    <PublishUrl>publish\</PublishUrl>
+    <PublishUrl>d:\Downloads\1\publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
     <UpdateEnabled>false</UpdateEnabled>
@@ -23,8 +23,8 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <ApplicationRevision>1</ApplicationRevision>
-    <ApplicationVersion>1.4.0.%2a</ApplicationVersion>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.4.2.0</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
@@ -157,6 +157,9 @@
     <Compile Include="Model\Configuration\KeycodesConfiguration.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Content Include="changelog.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Configuration\AutotextRules.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -169,6 +172,12 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="favicon.ico" />
+    <Content Include="license.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="readme.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="Resources\Autotext_icon.ico" />
     <None Include="Resources\Autotext_icon.png" />
     <None Include="packages.config" />

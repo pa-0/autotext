@@ -49,9 +49,9 @@
 			this.labelAuthor.AutoSize = true;
 			this.labelAuthor.Location = new System.Drawing.Point(124, 67);
 			this.labelAuthor.Name = "labelAuthor";
-			this.labelAuthor.Size = new System.Drawing.Size(58, 13);
+			this.labelAuthor.Size = new System.Drawing.Size(13, 13);
 			this.labelAuthor.TabIndex = 2;
-			this.labelAuthor.Text = "Author: {0}";
+			this.labelAuthor.Text = "--";
 			// 
 			// pictureBox1
 			// 
@@ -67,7 +67,7 @@
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(283, 138);
+			this.ClientSize = new System.Drawing.Size(317, 138);
 			this.Controls.Add(this.pictureBox1);
 			this.Controls.Add(this.labelAuthor);
 			this.Controls.Add(this.labelVersion);
