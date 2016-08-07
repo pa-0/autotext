@@ -1,1 +1,3 @@
-﻿
+﻿AutoText 1.4.3
+----------------------------
+Fixed: date formatting in macros using '/' character
