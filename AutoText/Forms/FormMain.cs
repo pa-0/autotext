@@ -940,8 +940,6 @@ namespace AutoText
 
 		private void FormMain_Load(object sender, EventArgs e)
 		{
-			string d = DateTime.Now.ToString("yyyy/MM");
-			{ }
 		}
     }
 }
