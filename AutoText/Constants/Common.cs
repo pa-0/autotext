@@ -42,6 +42,9 @@ namespace AutoText.Constants
 		public static readonly string AutotextRulesConfigFileFullPath = Path.Combine(ConfigFolderFullPath, AutotextRulesConfigFileName);
 		public static readonly string KeycodesConfigFileFullPath = Path.Combine(ConfigFolderFullPath, KeycodesConfigFileName);
 		public static readonly string ExpressionDefinitionsConfigFileFullPath = Path.Combine(ConfigFolderFullPath, ExpressionDefinitionsConfigFileName);
-
+		public const string LowercaseLetters = "abcdefghijklmnopqrstuvwxyz";
+		public const string UppercaseLetters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+		public const string Digits = "1234567890";
+		public const string SpecialChars = "!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~";
 	}
 }

@@ -109,6 +109,12 @@
     <Compile Include="Forms\AddPauseMacros.Designer.cs">
       <DependentUpon>AddPauseMacros.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\AddRandomStringMacros.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\AddRandomStringMacros.Designer.cs">
+      <DependentUpon>AddRandomStringMacros.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\AddShortcutKeys.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -189,6 +195,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\AddPauseMacros.resx">
       <DependentUpon>AddPauseMacros.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\AddRandomStringMacros.resx">
+      <DependentUpon>AddRandomStringMacros.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\AddShortcutKeys.resx">
       <DependentUpon>AddShortcutKeys.cs</DependentUpon>

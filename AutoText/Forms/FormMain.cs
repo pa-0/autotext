@@ -958,5 +958,12 @@ namespace AutoText
 			debugToolsWindow.CenterTo(this);
 			debugToolsWindow.Show();
 		}
+
+		private void randomStringMacrosToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			AddRandomStringMacros addRandomStringMacros = new AddRandomStringMacros();
+			addRandomStringMacros.CenterTo(this);
+			addRandomStringMacros.Show();
+		}
 	}
 }
