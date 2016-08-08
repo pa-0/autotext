@@ -519,12 +519,12 @@ namespace AutoText
 
 		private void FormMain_Activated(object sender, EventArgs e)
 		{
-			//_keylogger.PauseCapture();
+			_keylogger.PauseCapture();
 		}
 
 		private void FormMain_Deactivate(object sender, EventArgs e)
 		{
-			//_keylogger.ResumeCapture();
+			_keylogger.ResumeCapture();
 		}
 
 		private void FormMain_Shown(object sender, EventArgs e)
