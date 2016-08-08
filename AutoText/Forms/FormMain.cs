@@ -940,6 +940,16 @@ namespace AutoText
 
 		private void FormMain_Load(object sender, EventArgs e)
 		{
+			//Process[] processlist = Process.GetProcesses();
+			//processlist = processlist.Where(p => ((int)p.MainWindowHandle) != 0).ToArray();
+
+			//foreach (Process process in processlist)
+			//{
+			//	if (!String.IsNullOrEmpty(process.MainWindowTitle))
+			//	{
+			//		Console.WriteLine("Process: {0} ID: {1} Window title: {2}", process.ProcessName, process.Id, process.MainWindowTitle);
+			//	}
+			//}
 		}
 
 		private void keyLogWindowToolStripMenuItem_Click(object sender, EventArgs e)
