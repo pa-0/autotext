@@ -54,9 +54,6 @@ namespace AutoText
 			this.selectAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.undoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-			this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.debugWindowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.label5 = new System.Windows.Forms.Label();
 			this.textBoxAutotext = new System.Windows.Forms.TextBox();
 			this.checkBoxAutotextCaseSensetive = new System.Windows.Forms.CheckBox();
@@ -78,6 +75,8 @@ namespace AutoText
 			this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolsToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+			this.keyLogWindowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.contextMenuStripPhraseContentEdit.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.dataGridViewPhrases)).BeginInit();
 			this.menuStripMain.SuspendLayout();
@@ -146,11 +145,9 @@ namespace AutoText
             this.cutToolStripMenuItem,
             this.selectAllToolStripMenuItem,
             this.deleteToolStripMenuItem,
-            this.undoToolStripMenuItem,
-            this.toolStripSeparator2,
-            this.toolsToolStripMenuItem});
+            this.undoToolStripMenuItem});
 			this.contextMenuStripPhraseContentEdit.Name = "contextMenuStripPhraseContentEdit";
-			this.contextMenuStripPhraseContentEdit.Size = new System.Drawing.Size(123, 192);
+			this.contextMenuStripPhraseContentEdit.Size = new System.Drawing.Size(123, 164);
 			// 
 			// macrosToolStripMenuItem
 			// 
@@ -160,7 +157,7 @@ namespace AutoText
             this.pauseMacrosToolStripMenuItem,
             this.dateAndTimeMacrosToolStripMenuItem});
 			this.macrosToolStripMenuItem.Name = "macrosToolStripMenuItem";
-			this.macrosToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
+			this.macrosToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
 			this.macrosToolStripMenuItem.Text = "Macros";
 			// 
 			// keyPressMacrosToolStripMenuItem
@@ -194,69 +191,49 @@ namespace AutoText
 			// toolStripSeparator1
 			// 
 			this.toolStripSeparator1.Name = "toolStripSeparator1";
-			this.toolStripSeparator1.Size = new System.Drawing.Size(119, 6);
+			this.toolStripSeparator1.Size = new System.Drawing.Size(149, 6);
 			// 
 			// copyToolStripMenuItem
 			// 
 			this.copyToolStripMenuItem.Name = "copyToolStripMenuItem";
-			this.copyToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
+			this.copyToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
 			this.copyToolStripMenuItem.Text = "Copy";
 			this.copyToolStripMenuItem.Click += new System.EventHandler(this.copyToolStripMenuItem_Click);
 			// 
 			// pasteToolStripMenuItem
 			// 
 			this.pasteToolStripMenuItem.Name = "pasteToolStripMenuItem";
-			this.pasteToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
+			this.pasteToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
 			this.pasteToolStripMenuItem.Text = "Paste";
 			this.pasteToolStripMenuItem.Click += new System.EventHandler(this.pasteToolStripMenuItem_Click);
 			// 
 			// cutToolStripMenuItem
 			// 
 			this.cutToolStripMenuItem.Name = "cutToolStripMenuItem";
-			this.cutToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
+			this.cutToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
 			this.cutToolStripMenuItem.Text = "Cut";
 			this.cutToolStripMenuItem.Click += new System.EventHandler(this.cutToolStripMenuItem_Click);
 			// 
 			// selectAllToolStripMenuItem
 			// 
 			this.selectAllToolStripMenuItem.Name = "selectAllToolStripMenuItem";
-			this.selectAllToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
+			this.selectAllToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
 			this.selectAllToolStripMenuItem.Text = "Select All";
 			this.selectAllToolStripMenuItem.Click += new System.EventHandler(this.selectAllToolStripMenuItem_Click);
 			// 
 			// deleteToolStripMenuItem
 			// 
 			this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
-			this.deleteToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
+			this.deleteToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
 			this.deleteToolStripMenuItem.Text = "Delete";
 			this.deleteToolStripMenuItem.Click += new System.EventHandler(this.deleteToolStripMenuItem_Click);
 			// 
 			// undoToolStripMenuItem
 			// 
 			this.undoToolStripMenuItem.Name = "undoToolStripMenuItem";
-			this.undoToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
+			this.undoToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
 			this.undoToolStripMenuItem.Text = "Undo";
 			this.undoToolStripMenuItem.Click += new System.EventHandler(this.toolStripMenuItem2_Click);
-			// 
-			// toolStripSeparator2
-			// 
-			this.toolStripSeparator2.Name = "toolStripSeparator2";
-			this.toolStripSeparator2.Size = new System.Drawing.Size(119, 6);
-			// 
-			// toolsToolStripMenuItem
-			// 
-			this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.debugWindowToolStripMenuItem});
-			this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
-			this.toolsToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
-			this.toolsToolStripMenuItem.Text = "Tools";
-			// 
-			// debugWindowToolStripMenuItem
-			// 
-			this.debugWindowToolStripMenuItem.Name = "debugWindowToolStripMenuItem";
-			this.debugWindowToolStripMenuItem.Size = new System.Drawing.Size(156, 22);
-			this.debugWindowToolStripMenuItem.Text = "Debug Window";
-			this.debugWindowToolStripMenuItem.Click += new System.EventHandler(this.debugWindowToolStripMenuItem_Click);
 			// 
 			// label5
 			// 
@@ -418,6 +395,7 @@ namespace AutoText
 			// 
 			this.menuStripMain.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
+            this.toolsToolStripMenuItem1,
             this.helpToolStripMenuItem});
 			this.menuStripMain.Location = new System.Drawing.Point(0, 0);
 			this.menuStripMain.Name = "menuStripMain";
@@ -436,7 +414,7 @@ namespace AutoText
 			// closeToolStripMenuItem
 			// 
 			this.closeToolStripMenuItem.Name = "closeToolStripMenuItem";
-			this.closeToolStripMenuItem.Size = new System.Drawing.Size(92, 22);
+			this.closeToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
 			this.closeToolStripMenuItem.Text = "Exit";
 			this.closeToolStripMenuItem.Click += new System.EventHandler(this.closeToolStripMenuItem_Click);
 			// 
@@ -451,9 +429,24 @@ namespace AutoText
 			// aboutToolStripMenuItem
 			// 
 			this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-			this.aboutToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
+			this.aboutToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
 			this.aboutToolStripMenuItem.Text = "About";
 			this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
+			// 
+			// toolsToolStripMenuItem1
+			// 
+			this.toolsToolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.keyLogWindowToolStripMenuItem});
+			this.toolsToolStripMenuItem1.Name = "toolsToolStripMenuItem1";
+			this.toolsToolStripMenuItem1.Size = new System.Drawing.Size(48, 20);
+			this.toolsToolStripMenuItem1.Text = "Tools";
+			// 
+			// keyLogWindowToolStripMenuItem
+			// 
+			this.keyLogWindowToolStripMenuItem.Name = "keyLogWindowToolStripMenuItem";
+			this.keyLogWindowToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
+			this.keyLogWindowToolStripMenuItem.Text = "Key Log Window";
+			this.keyLogWindowToolStripMenuItem.Click += new System.EventHandler(this.keyLogWindowToolStripMenuItem_Click);
 			// 
 			// FormMain
 			// 
@@ -529,9 +522,6 @@ namespace AutoText
 		private ToolStripMenuItem keyComboMacrosToolStripMenuItem;
 		private ToolStripMenuItem pauseMacrosToolStripMenuItem;
 		private ToolStripMenuItem dateAndTimeMacrosToolStripMenuItem;
-		private ToolStripMenuItem toolsToolStripMenuItem;
-		private ToolStripMenuItem debugWindowToolStripMenuItem;
-		private ToolStripSeparator toolStripSeparator2;
 		private ToolStripMenuItem undoToolStripMenuItem;
 		private ColumnHeader columnHeaderAutotext;
 		private ColumnHeader columnHeaderDescripton;
@@ -543,6 +533,8 @@ namespace AutoText
 		private ToolStripMenuItem closeToolStripMenuItem;
 		private ToolStripMenuItem helpToolStripMenuItem;
 		private ToolStripMenuItem aboutToolStripMenuItem;
+		private ToolStripMenuItem toolsToolStripMenuItem1;
+		private ToolStripMenuItem keyLogWindowToolStripMenuItem;
 	}
 }
 

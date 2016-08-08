@@ -941,5 +941,12 @@ namespace AutoText
 		private void FormMain_Load(object sender, EventArgs e)
 		{
 		}
+
+		private void keyLogWindowToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			DebugTools debugToolsWindow = new DebugTools(_keylogger);
+			debugToolsWindow.CenterTo(this);
+			debugToolsWindow.Show();
+		}
 	}
 }
