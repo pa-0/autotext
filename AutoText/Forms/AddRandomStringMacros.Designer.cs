@@ -29,12 +29,12 @@
 		private void InitializeComponent()
 		{
 			this.groupBox1 = new System.Windows.Forms.GroupBox();
-			this.checkBoxUppercaseLetters = new System.Windows.Forms.CheckBox();
-			this.checkBoxLowercaseLetters = new System.Windows.Forms.CheckBox();
-			this.checkBoxDigits = new System.Windows.Forms.CheckBox();
-			this.checkBoxSpecialCharacters = new System.Windows.Forms.CheckBox();
-			this.checkBoxContainFollowingChars = new System.Windows.Forms.CheckBox();
 			this.textBoxCharsToContain = new System.Windows.Forms.TextBox();
+			this.checkBoxContainFollowingChars = new System.Windows.Forms.CheckBox();
+			this.checkBoxSpecialCharacters = new System.Windows.Forms.CheckBox();
+			this.checkBoxDigits = new System.Windows.Forms.CheckBox();
+			this.checkBoxLowercaseLetters = new System.Windows.Forms.CheckBox();
+			this.checkBoxUppercaseLetters = new System.Windows.Forms.CheckBox();
 			this.numericUpDownMinStringLength = new System.Windows.Forms.NumericUpDown();
 			this.label1 = new System.Windows.Forms.Label();
 			this.label2 = new System.Windows.Forms.Label();
@@ -61,35 +61,24 @@
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "String should contain";
 			// 
-			// checkBoxUppercaseLetters
+			// textBoxCharsToContain
 			// 
-			this.checkBoxUppercaseLetters.AutoSize = true;
-			this.checkBoxUppercaseLetters.Location = new System.Drawing.Point(174, 19);
-			this.checkBoxUppercaseLetters.Name = "checkBoxUppercaseLetters";
-			this.checkBoxUppercaseLetters.Size = new System.Drawing.Size(109, 17);
-			this.checkBoxUppercaseLetters.TabIndex = 0;
-			this.checkBoxUppercaseLetters.Text = "Uppercase letters";
-			this.checkBoxUppercaseLetters.UseVisualStyleBackColor = true;
+			this.textBoxCharsToContain.Enabled = false;
+			this.textBoxCharsToContain.Location = new System.Drawing.Point(174, 63);
+			this.textBoxCharsToContain.Name = "textBoxCharsToContain";
+			this.textBoxCharsToContain.Size = new System.Drawing.Size(251, 20);
+			this.textBoxCharsToContain.TabIndex = 5;
 			// 
-			// checkBoxLowercaseLetters
+			// checkBoxContainFollowingChars
 			// 
-			this.checkBoxLowercaseLetters.AutoSize = true;
-			this.checkBoxLowercaseLetters.Location = new System.Drawing.Point(6, 19);
-			this.checkBoxLowercaseLetters.Name = "checkBoxLowercaseLetters";
-			this.checkBoxLowercaseLetters.Size = new System.Drawing.Size(109, 17);
-			this.checkBoxLowercaseLetters.TabIndex = 1;
-			this.checkBoxLowercaseLetters.Text = "Lowercase letters";
-			this.checkBoxLowercaseLetters.UseVisualStyleBackColor = true;
-			// 
-			// checkBoxDigits
-			// 
-			this.checkBoxDigits.AutoSize = true;
-			this.checkBoxDigits.Location = new System.Drawing.Point(6, 42);
-			this.checkBoxDigits.Name = "checkBoxDigits";
-			this.checkBoxDigits.Size = new System.Drawing.Size(52, 17);
-			this.checkBoxDigits.TabIndex = 2;
-			this.checkBoxDigits.Text = "Digits";
-			this.checkBoxDigits.UseVisualStyleBackColor = true;
+			this.checkBoxContainFollowingChars.AutoSize = true;
+			this.checkBoxContainFollowingChars.Location = new System.Drawing.Point(6, 65);
+			this.checkBoxContainFollowingChars.Name = "checkBoxContainFollowingChars";
+			this.checkBoxContainFollowingChars.Size = new System.Drawing.Size(162, 17);
+			this.checkBoxContainFollowingChars.TabIndex = 4;
+			this.checkBoxContainFollowingChars.Text = "Contain following characters:";
+			this.checkBoxContainFollowingChars.UseVisualStyleBackColor = true;
+			this.checkBoxContainFollowingChars.CheckedChanged += new System.EventHandler(this.checkBoxContainFollowingChars_CheckedChanged);
 			// 
 			// checkBoxSpecialCharacters
 			// 
@@ -101,22 +90,35 @@
 			this.checkBoxSpecialCharacters.Text = "Special characters(!, @, #, etc.)";
 			this.checkBoxSpecialCharacters.UseVisualStyleBackColor = true;
 			// 
-			// checkBoxContainFollowingChars
+			// checkBoxDigits
 			// 
-			this.checkBoxContainFollowingChars.AutoSize = true;
-			this.checkBoxContainFollowingChars.Location = new System.Drawing.Point(6, 65);
-			this.checkBoxContainFollowingChars.Name = "checkBoxContainFollowingChars";
-			this.checkBoxContainFollowingChars.Size = new System.Drawing.Size(162, 17);
-			this.checkBoxContainFollowingChars.TabIndex = 4;
-			this.checkBoxContainFollowingChars.Text = "Contain following characters:";
-			this.checkBoxContainFollowingChars.UseVisualStyleBackColor = true;
+			this.checkBoxDigits.AutoSize = true;
+			this.checkBoxDigits.Location = new System.Drawing.Point(6, 42);
+			this.checkBoxDigits.Name = "checkBoxDigits";
+			this.checkBoxDigits.Size = new System.Drawing.Size(52, 17);
+			this.checkBoxDigits.TabIndex = 2;
+			this.checkBoxDigits.Text = "Digits";
+			this.checkBoxDigits.UseVisualStyleBackColor = true;
 			// 
-			// textBoxCharsToContain
+			// checkBoxLowercaseLetters
 			// 
-			this.textBoxCharsToContain.Location = new System.Drawing.Point(174, 63);
-			this.textBoxCharsToContain.Name = "textBoxCharsToContain";
-			this.textBoxCharsToContain.Size = new System.Drawing.Size(251, 20);
-			this.textBoxCharsToContain.TabIndex = 5;
+			this.checkBoxLowercaseLetters.AutoSize = true;
+			this.checkBoxLowercaseLetters.Location = new System.Drawing.Point(6, 19);
+			this.checkBoxLowercaseLetters.Name = "checkBoxLowercaseLetters";
+			this.checkBoxLowercaseLetters.Size = new System.Drawing.Size(109, 17);
+			this.checkBoxLowercaseLetters.TabIndex = 1;
+			this.checkBoxLowercaseLetters.Text = "Lowercase letters";
+			this.checkBoxLowercaseLetters.UseVisualStyleBackColor = true;
+			// 
+			// checkBoxUppercaseLetters
+			// 
+			this.checkBoxUppercaseLetters.AutoSize = true;
+			this.checkBoxUppercaseLetters.Location = new System.Drawing.Point(174, 19);
+			this.checkBoxUppercaseLetters.Name = "checkBoxUppercaseLetters";
+			this.checkBoxUppercaseLetters.Size = new System.Drawing.Size(109, 17);
+			this.checkBoxUppercaseLetters.TabIndex = 0;
+			this.checkBoxUppercaseLetters.Text = "Uppercase letters";
+			this.checkBoxUppercaseLetters.UseVisualStyleBackColor = true;
 			// 
 			// numericUpDownMinStringLength
 			// 
@@ -203,7 +205,7 @@
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(465, 183);
+			this.ClientSize = new System.Drawing.Size(465, 175);
 			this.Controls.Add(this.buttonAddMacros);
 			this.Controls.Add(this.label3);
 			this.Controls.Add(this.numericUpDownMaxStringLenth);
