@@ -32,11 +32,14 @@ namespace AutoText.Engine
 {
 	public class AutotextExpression
 	{
-		private const string OpenBraceEscapeSeq = "{{}";
-		private const string ClosingBraceEscapeSeq = "{}}";
+		private const string OpenCurlyBraceEscapeSeq = "{{}";
+		private const string ClosingCurlyBraceEscapeSeq = "{}}";
+		private const string OpenSquareBraceEscapeSeq = "{[}";
+		private const string ClosingSquareBraceEscapeSeq = "{]}";
 		private readonly string ShortcutsRegexTemplate;
 		private const string ShortcutsEscapeRegexTemplate = @"{{{0}}}";
-		private static readonly Regex _bracketsRegex = new Regex(@"{{}|{}}", RegexOptions.Compiled);
+		private static readonly Regex _escapedCurlyBracketsRegex = new Regex(@"{{}|{}}", RegexOptions.Compiled);
+		private static readonly Regex _escapedSquareBracketsRegex = new Regex(@"{\[}|{\]}", RegexOptions.Compiled);
 
 		public string ExpressionText { get; private set; }
 		private string _parsedExpressionText;
@@ -57,14 +60,14 @@ namespace AutoText.Engine
 			{
 				for (int i = 0; i < autotextRuleMatchParams.AutotextRuleConfiguration.Abbreviation.AbbreviationText.Length; i++)
 				{
-					abbrRemoveText += "{Back}";
+					abbrRemoveText += "{k [Back] }";
 				}
 
 
-				string[] nonPrintableTriggers = ConfigHelper.GetExpressionsConfiguration().NonPrintableTriggers.Split(',').Select(p => "{" + p + "}").ToArray();
+				string[] nonPrintableTriggers = ConfigHelper.GetExpressionsConfiguration().NonPrintableTriggers.Split(',').Select(p => "{k [" + p + "]}").ToArray();
 				if (!nonPrintableTriggers.Contains(autotextRuleMatchParams.MatchTrigger.Value))
 				{
-					abbrRemoveText += "{Back}";
+					abbrRemoveText += "{k [Back] }";
 				}
 			}
 
@@ -113,7 +116,7 @@ namespace AutoText.Engine
 			}
 
 
-			ExpressionText = string.Format("{{s:{0} 1}}", abbrRemoveText + phraseText);
+			ExpressionText = string.Format("{{s v[{0}] c[1]}}", abbrRemoveText + phraseText);
 			ShortcutsRegexTemplate = ConfigHelper.GetExpressionsConfiguration().ShortcutRegexTemplate;
 			RelativeStartIndex = 0;
 			Length = ExpressionText.Length;
@@ -291,8 +294,8 @@ namespace AutoText.Engine
 
 		private void BuildEscapedBracesList()
 		{
-			MatchCollection matches = _bracketsRegex.Matches(ExpressionText);
-			string[] splitted = _bracketsRegex.Split(ExpressionText);
+			MatchCollection matches = _escapedCurlyBracketsRegex.Matches(ExpressionText);
+			string[] splitted = _escapedCurlyBracketsRegex.Split(ExpressionText);
 			StringBuilder resStr = new StringBuilder(1000);
 
 			Stack<string> splittedStr = new Stack<string>(splitted.Reverse());
@@ -306,12 +309,12 @@ namespace AutoText.Engine
 				{
 					string escapedBrace = braces.Pop();
 
-					if (escapedBrace == OpenBraceEscapeSeq)
+					if (escapedBrace == OpenCurlyBraceEscapeSeq)
 					{
 						resStr.Append("{");
 					}
 
-					if (escapedBrace == ClosingBraceEscapeSeq)
+					if (escapedBrace == ClosingCurlyBraceEscapeSeq)
 					{
 						resStr.Append("}");
 					}
@@ -427,102 +430,6 @@ namespace AutoText.Engine
 			#region New parameters parsing system
 
 
-			StringBuilder sb = new StringBuilder();
-			StringBuilder sbMacrosName = new StringBuilder();
-			StringBuilder sbParamName = new StringBuilder();
-			bool macrosNameFound = false;
-			bool paramNameFound = false;
-			bool paramValFound = false;
-
-			for (int i = 1; i < expressionText.Length - 1; i++)
-			{
-				AutotextExpression nestedExp = NestedExpressions.SingleOrDefault(p => p.RelativeStartIndex == i);
-
-				if (nestedExp != null)
-				{
-					i = nestedExp.RelativeStartIndex + nestedExp.Length - 1;
-					continue;
-				}
-
-				if (!macrosNameFound)
-				{
-					if (char.IsLetter(expressionText[i]))
-					{
-						sbMacrosName.Append(expressionText[i]);
-						continue;
-					}
-					else if (expressionText[i] == ' ')
-					{
-						if (sbMacrosName.Length > 0)
-						{
-							macrosNameFound = true;
-						}
-						else
-						{
-							throw new MacrosParseException("Failed to parse macros name");
-						}
-					}
-					else
-					{
-						throw new MacrosParseException("Failed to parse macros name");
-					}
-				}
-				else
-				{
-					if (paramNameFound)
-					{
-						if (!char.IsLetter(expressionText[i]))
-						{
-							if (expressionText[i] == '[')
-							{
-								paramValFound = true;
-								paramNameFound = false;
-								continue;
-							}
-							else
-							{
-								throw new MacrosParseException("Failed to parse macros parameter name");
-							}
-						}
-						else
-						{
-							sbParamName.Append(expressionText[i]);
-							continue;
-						}
-					}
-					else
-					{
-						if (paramValFound)
-						{
-							if (true)
-							{
-
-							}
-						}
-						else
-						{
-							if (expressionText[i] == ' ')
-							{
-								continue;
-							}
-							else if (char.IsLetter(expressionText[i]))
-							{
-								sbParamName.Append(expressionText[i]);
-								paramNameFound = true;
-								continue;
-							}
-							else
-							{
-								throw new MacrosParseException("Failed to parse macros parameter name");
-							}
-						}
-					}
-				}
-
-				sb.Append(expressionText[i]);
-			}
-
-			{ }
 			#endregion
 		}
 
