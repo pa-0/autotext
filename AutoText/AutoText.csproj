@@ -91,6 +91,7 @@
     <Compile Include="Engine\ExpressionEvaluationException.cs" />
     <Compile Include="Engine\KeyCapturedEventArgs.cs" />
     <Compile Include="Engine\KeyLogger.cs" />
+    <Compile Include="Engine\MacrosParsingException.cs" />
     <Compile Include="Forms\AddDateMacros.cs">
       <SubType>Form</SubType>
     </Compile>

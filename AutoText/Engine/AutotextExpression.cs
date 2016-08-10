@@ -172,20 +172,20 @@ namespace AutoText.Engine
 			}
 		}
 
-/*
-		private void GetAllExpressionBraceIndeces(AutotextExpression expr, List<int> res)
-		{
-			res.Add(expr.GetAbsoluteStartIndex());
-			res.Add(expr.GetAbsoluteStartIndex() + expr.Length);
+		/*
+				private void GetAllExpressionBraceIndeces(AutotextExpression expr, List<int> res)
+				{
+					res.Add(expr.GetAbsoluteStartIndex());
+					res.Add(expr.GetAbsoluteStartIndex() + expr.Length);
 
-			foreach (AutotextExpression expression in expr.NestedExpressions)
-			{
-				GetAllExpressionBraceIndeces(expression, res);
-			}
+					foreach (AutotextExpression expression in expr.NestedExpressions)
+					{
+						GetAllExpressionBraceIndeces(expression, res);
+					}
 
-		}
+				}
 
-*/
+		*/
 		private AutotextExpression(string expressionText, int startIndex, int length, List<int> escapedBraces, AutotextExpression parentExpression, Dictionary<string, string> userVars)
 		{
 			_userVariables = userVars;
@@ -260,7 +260,7 @@ namespace AutoText.Engine
 					{
 						foreach (KeycodeConfigName name in keycode.Names)
 						{
-							if (target.Contains("{"+ name.Value + "}"))
+							if (target.Contains("{" + name.Value + "}"))
 							{
 								string kkToAd = "{k:" + name.Value + " 1}";
 								expandedKeys += kkToAd;
@@ -421,7 +421,108 @@ namespace AutoText.Engine
 				}
 			}
 
-			
+
+			#endregion
+
+			#region New parameters parsing system
+
+
+			StringBuilder sb = new StringBuilder();
+			StringBuilder sbMacrosName = new StringBuilder();
+			StringBuilder sbParamName = new StringBuilder();
+			bool macrosNameFound = false;
+			bool paramNameFound = false;
+			bool paramValFound = false;
+
+			for (int i = 1; i < expressionText.Length - 1; i++)
+			{
+				AutotextExpression nestedExp = NestedExpressions.SingleOrDefault(p => p.RelativeStartIndex == i);
+
+				if (nestedExp != null)
+				{
+					i = nestedExp.RelativeStartIndex + nestedExp.Length - 1;
+					continue;
+				}
+
+				if (!macrosNameFound)
+				{
+					if (char.IsLetter(expressionText[i]))
+					{
+						sbMacrosName.Append(expressionText[i]);
+						continue;
+					}
+					else if (expressionText[i] == ' ')
+					{
+						if (sbMacrosName.Length > 0)
+						{
+							macrosNameFound = true;
+						}
+						else
+						{
+							throw new MacrosParseException("Failed to parse macros name");
+						}
+					}
+					else
+					{
+						throw new MacrosParseException("Failed to parse macros name");
+					}
+				}
+				else
+				{
+					if (paramNameFound)
+					{
+						if (!char.IsLetter(expressionText[i]))
+						{
+							if (expressionText[i] == '[')
+							{
+								paramValFound = true;
+								paramNameFound = false;
+								continue;
+							}
+							else
+							{
+								throw new MacrosParseException("Failed to parse macros parameter name");
+							}
+						}
+						else
+						{
+							sbParamName.Append(expressionText[i]);
+							continue;
+						}
+					}
+					else
+					{
+						if (paramValFound)
+						{
+							if (true)
+							{
+
+							}
+						}
+						else
+						{
+							if (expressionText[i] == ' ')
+							{
+								continue;
+							}
+							else if (char.IsLetter(expressionText[i]))
+							{
+								sbParamName.Append(expressionText[i]);
+								paramNameFound = true;
+								continue;
+							}
+							else
+							{
+								throw new MacrosParseException("Failed to parse macros parameter name");
+							}
+						}
+					}
+				}
+
+				sb.Append(expressionText[i]);
+			}
+
+			{ }
 			#endregion
 		}
 
@@ -622,7 +723,7 @@ namespace AutoText.Engine
 
 				case "d":
 					{
-						string dateFormat = expressionParameters["format"].ConcatToString().Replace("\\","\\\\").Replace("/","\\/");
+						string dateFormat = expressionParameters["format"].ConcatToString().Replace("\\", "\\\\").Replace("/", "\\/");
 						DateTime now = DateTime.Now;
 						string resDateStr;
 
@@ -643,12 +744,12 @@ namespace AutoText.Engine
 					}
 
 				case "p":
-				{
-					int sleepTime = int.Parse(expressionParameters["duration"].ConcatToString());
-					return new List<AutotextInput>() { new AutotextInput(InputType.KeyCode, InputActionType.Press, Keys.None) { Sleep = sleepTime } };
-					break;
+					{
+						int sleepTime = int.Parse(expressionParameters["duration"].ConcatToString());
+						return new List<AutotextInput>() { new AutotextInput(InputType.KeyCode, InputActionType.Press, Keys.None) { Sleep = sleepTime } };
+						break;
 
-				}
+					}
 
 				default:
 					{
@@ -697,5 +798,9 @@ namespace AutoText.Engine
 			return res.ToString();
 		}
 
+		public override string ToString()
+		{
+			return ExpressionText;
+		}
 	}
 }
