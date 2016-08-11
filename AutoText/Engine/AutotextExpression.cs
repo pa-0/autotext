@@ -46,7 +46,8 @@ namespace AutoText.Engine
 		public int RelativeStartIndex { get; private set; }
 		public int Length { get; private set; }
 		public List<AutotextExpression> NestedExpressions { get; private set; }
-		private List<int> EscapedBraces { get; set; }
+		private List<int> EscapedCurlyBracesIndeces { get; set; }
+		private List<int> EscapedSquareBracesIndeces { get; set; }
 		public string ExpressionName { get; private set; }
 		public List<AutotextExpressionParameter> Parameters { get; private set; }
 		public AutotextExpression ParentExpression { get; private set; }
@@ -60,14 +61,14 @@ namespace AutoText.Engine
 			{
 				for (int i = 0; i < autotextRuleMatchParams.AutotextRuleConfiguration.Abbreviation.AbbreviationText.Length; i++)
 				{
-					abbrRemoveText += "{k [Back] }";
+					abbrRemoveText += "{k [Back]}";
 				}
 
 
 				string[] nonPrintableTriggers = ConfigHelper.GetExpressionsConfiguration().NonPrintableTriggers.Split(',').Select(p => "{k [" + p + "]}").ToArray();
 				if (!nonPrintableTriggers.Contains(autotextRuleMatchParams.MatchTrigger.Value))
 				{
-					abbrRemoveText += "{k [Back] }";
+					abbrRemoveText += "{k [Back]}";
 				}
 			}
 
@@ -120,12 +121,14 @@ namespace AutoText.Engine
 			ShortcutsRegexTemplate = ConfigHelper.GetExpressionsConfiguration().ShortcutRegexTemplate;
 			RelativeStartIndex = 0;
 			Length = ExpressionText.Length;
-			EscapedBraces = new List<int>(100);
+			EscapedCurlyBracesIndeces = new List<int>(100);
+			EscapedSquareBracesIndeces = new List<int>(100);
 			NestedExpressions = new List<AutotextExpression>(100);
 			Parameters = new List<AutotextExpressionParameter>(20);
 
 			ProcessShortcuts();
-			BuildEscapedBracesList();
+			BuildEscapedCurlyBracesList();
+			BuildEscapedSquareBracesList();
 			ParseExpression(_parsedExpressionText);
 
 
@@ -189,7 +192,7 @@ namespace AutoText.Engine
 				}
 
 		*/
-		private AutotextExpression(string expressionText, int startIndex, int length, List<int> escapedBraces, AutotextExpression parentExpression, Dictionary<string, string> userVars)
+		private AutotextExpression(string expressionText, int startIndex, int length, List<int> escapedCurlyBracesIndeces, List<int> escapedSquareBracesIndeces, AutotextExpression parentExpression, Dictionary<string, string> userVars)
 		{
 			_userVariables = userVars;
 			ParentExpression = parentExpression;
@@ -198,7 +201,8 @@ namespace AutoText.Engine
 			Length = length;
 			NestedExpressions = new List<AutotextExpression>(100);
 			Parameters = new List<AutotextExpressionParameter>(20);
-			EscapedBraces = escapedBraces;
+			EscapedCurlyBracesIndeces = escapedCurlyBracesIndeces;
+			EscapedSquareBracesIndeces = escapedSquareBracesIndeces;
 			ParseExpression(ExpressionText);
 		}
 
@@ -292,7 +296,7 @@ namespace AutoText.Engine
 			ExpressionText = sbRes.ToString();
 		}
 
-		private void BuildEscapedBracesList()
+		private void BuildEscapedCurlyBracesList()
 		{
 			MatchCollection matches = _escapedCurlyBracketsRegex.Matches(ExpressionText);
 			string[] splitted = _escapedCurlyBracketsRegex.Split(ExpressionText);
@@ -319,7 +323,48 @@ namespace AutoText.Engine
 						resStr.Append("}");
 					}
 
-					EscapedBraces.Add(resStr.Length - 1);
+					EscapedCurlyBracesIndeces.Add(resStr.Length - 1);
+				}
+			}
+
+			if (resStr.Length > 0)
+			{
+				_parsedExpressionText = resStr.ToString();
+			}
+			else
+			{
+				_parsedExpressionText = ExpressionText;
+			}
+		}
+
+		private void BuildEscapedSquareBracesList()
+		{
+			MatchCollection matches = _escapedSquareBracketsRegex.Matches(ExpressionText);
+			string[] splitted = _escapedSquareBracketsRegex.Split(ExpressionText);
+			StringBuilder resStr = new StringBuilder(1000);
+
+			Stack<string> splittedStr = new Stack<string>(splitted.Reverse());
+			Stack<string> braces = new Stack<string>(matches.Cast<Match>().Select(p => p.Value).Reverse());
+
+			while (splittedStr.Count > 0)
+			{
+				resStr.Append(splittedStr.Pop());
+
+				if (braces.Count > 0)
+				{
+					string escapedBrace = braces.Pop();
+
+					if (escapedBrace == OpenSquareBraceEscapeSeq)
+					{
+						resStr.Append("[");
+					}
+
+					if (escapedBrace == ClosingSquareBraceEscapeSeq)
+					{
+						resStr.Append("]");
+					}
+
+					EscapedSquareBracesIndeces.Add(resStr.Length - 1);
 				}
 			}
 
@@ -335,8 +380,12 @@ namespace AutoText.Engine
 
 		private void ParseExpression(string expressionText)
 		{
+			int absStartIndex = GetAbsoluteStartIndex();
+
+
 			#region Parameters parsing
 
+			/*
 			ExpressionConfiguration expressionConfig = ConfigHelper.GetExpressionsConfiguration();
 			ExpressionConfigDefinition matchedConfig = null;
 			string regex = null;
@@ -361,6 +410,65 @@ namespace AutoText.Engine
 				Parameters.Add(new AutotextExpressionParameter(parameter.Name, expressionParameters[0].Groups[parameter.Name].Value,
 					expressionParameters[0].Groups[parameter.Name].Index, expressionParameters[0].Groups[parameter.Name].Length));
 			}
+			*/
+
+			int expressionParameterOpenBraceCounter = 0;
+			int expressionParameterClosingBraceCounter = 0;
+			int parameterStartIndex = -1;
+			int parameterEndIndex = 0;
+
+
+			for (int i = 1; i < expressionText.Length - 1; i++)
+			{
+				if (expressionText[i] == '[' && !EscapedSquareBracesIndeces.Contains(absStartIndex + i))
+				{
+					expressionParameterOpenBraceCounter++;
+
+					if (parameterStartIndex == -1)
+					{
+						parameterStartIndex = i;
+					}
+				}
+
+				if (expressionText[i] == ']' && !EscapedSquareBracesIndeces.Contains(absStartIndex + i))
+				{
+					expressionParameterClosingBraceCounter++;
+					parameterEndIndex = i;
+				}
+
+				if (expressionParameterOpenBraceCounter != 0 && expressionParameterClosingBraceCounter != 0 && expressionParameterOpenBraceCounter == expressionParameterClosingBraceCounter)
+				{
+					int parameterLength = (parameterEndIndex + 1) - parameterStartIndex;
+
+					StringBuilder sbParameterName = new StringBuilder();
+
+					for (int j = parameterStartIndex - 1; char.IsLetter(expressionText[j]); j--)
+					{
+						sbParameterName.Append(expressionText[j]);
+					}
+
+					Parameters.Add(new AutotextExpressionParameter(new string(sbParameterName.ToString().Reverse().ToArray()), expressionText.Substring(parameterStartIndex + 1, parameterLength - 2),
+					parameterStartIndex, parameterLength));
+
+					parameterStartIndex = -1;
+					parameterEndIndex = 0;
+					expressionParameterOpenBraceCounter = 0;
+					expressionParameterClosingBraceCounter = 0;
+				}
+			}
+
+			if (expressionParameterOpenBraceCounter != expressionParameterClosingBraceCounter)
+			{
+				if (expressionParameterClosingBraceCounter > 0)
+				{
+					throw new InvalidOperationException("Parameter open brace not found");
+				}
+
+				if (expressionParameterOpenBraceCounter > 0)
+				{
+					throw new InvalidOperationException("Parameter closing brace not found");
+				}
+			}
 
 			#endregion
 
@@ -371,12 +479,11 @@ namespace AutoText.Engine
 			int closingBraceCounter = 0;
 			int nestedExpressionStartIndex = -1;
 			int exprEndIndex = 0;
-			int absStartIndex = GetAbsoluteStartIndex();
 
 
 			for (int i = 1; i < expressionText.Length - 1; i++)
 			{
-				if (expressionText[i] == '{' && !EscapedBraces.Contains(absStartIndex + i))
+				if (expressionText[i] == '{' && !EscapedCurlyBracesIndeces.Contains(absStartIndex + i))
 				{
 					openBraceCounter++;
 
@@ -386,7 +493,7 @@ namespace AutoText.Engine
 					}
 				}
 
-				if (expressionText[i] == '}' && !EscapedBraces.Contains(absStartIndex + i))
+				if (expressionText[i] == '}' && !EscapedCurlyBracesIndeces.Contains(absStartIndex + i))
 				{
 					closingBraceCounter++;
 					exprEndIndex = i;
@@ -399,7 +506,8 @@ namespace AutoText.Engine
 						new AutotextExpression(expressionText.Substring(nestedExpressionStartIndex, nestedExpressionLength),
 							nestedExpressionStartIndex,
 							nestedExpressionLength,
-							EscapedBraces,
+							EscapedCurlyBracesIndeces,
+							EscapedSquareBracesIndeces,
 							this,
 							_userVariables);
 
@@ -423,11 +531,6 @@ namespace AutoText.Engine
 					throw new InvalidOperationException("Closing brace not found");
 				}
 			}
-
-
-			#endregion
-
-			#region New parameters parsing system
 
 
 			#endregion
