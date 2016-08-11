@@ -38,16 +38,14 @@ namespace AutoText.Engine
 		private const string ClosingSquareBraceEscapeSeq = "{]}";
 		private readonly string ShortcutsRegexTemplate;
 		private const string ShortcutsEscapeRegexTemplate = @"{{{0}}}";
-		private static readonly Regex _escapedCurlyBracketsRegex = new Regex(@"{{}|{}}", RegexOptions.Compiled);
-		private static readonly Regex _escapedSquareBracketsRegex = new Regex(@"{\[}|{\]}", RegexOptions.Compiled);
+		private static readonly Regex _escapedCurlyBracketsRegex = new Regex(@"{{}|{}}|{\[}|{\]}", RegexOptions.Compiled);
 
 		public string ExpressionText { get; private set; }
 		private string _parsedExpressionText;
 		public int RelativeStartIndex { get; private set; }
 		public int Length { get; private set; }
 		public List<AutotextExpression> NestedExpressions { get; private set; }
-		private List<int> EscapedCurlyBracesIndeces { get; set; }
-		private List<int> EscapedSquareBracesIndeces { get; set; }
+		private List<int> EscapedBracesIndeces { get; set; }
 		public string ExpressionName { get; private set; }
 		public List<AutotextExpressionParameter> Parameters { get; private set; }
 		public AutotextExpression ParentExpression { get; private set; }
@@ -121,15 +119,13 @@ namespace AutoText.Engine
 			ShortcutsRegexTemplate = ConfigHelper.GetExpressionsConfiguration().ShortcutRegexTemplate;
 			RelativeStartIndex = 0;
 			Length = ExpressionText.Length;
-			EscapedCurlyBracesIndeces = new List<int>(100);
-			EscapedSquareBracesIndeces = new List<int>(100);
+			EscapedBracesIndeces = new List<int>(100);
 			NestedExpressions = new List<AutotextExpression>(100);
 			Parameters = new List<AutotextExpressionParameter>(20);
 
 			ProcessShortcuts();
-			BuildEscapedCurlyBracesList();
-			BuildEscapedSquareBracesList();
-			ParseExpression(_parsedExpressionText);
+			string exprTextEscBrackets = BuildEscapedBracesList(ExpressionText);
+			ParseExpression(exprTextEscBrackets);
 
 
 			/*List<int> indeces = new List<int>(100);
@@ -192,7 +188,7 @@ namespace AutoText.Engine
 				}
 
 		*/
-		private AutotextExpression(string expressionText, int startIndex, int length, List<int> escapedCurlyBracesIndeces, List<int> escapedSquareBracesIndeces, AutotextExpression parentExpression, Dictionary<string, string> userVars)
+		private AutotextExpression(string expressionText, int startIndex, int length, List<int> escapedBracesIndeces, AutotextExpression parentExpression, Dictionary<string, string> userVars)
 		{
 			_userVariables = userVars;
 			ParentExpression = parentExpression;
@@ -201,8 +197,7 @@ namespace AutoText.Engine
 			Length = length;
 			NestedExpressions = new List<AutotextExpression>(100);
 			Parameters = new List<AutotextExpressionParameter>(20);
-			EscapedCurlyBracesIndeces = escapedCurlyBracesIndeces;
-			EscapedSquareBracesIndeces = escapedSquareBracesIndeces;
+			EscapedBracesIndeces = escapedBracesIndeces;
 			ParseExpression(ExpressionText);
 		}
 
@@ -296,10 +291,10 @@ namespace AutoText.Engine
 			ExpressionText = sbRes.ToString();
 		}
 
-		private void BuildEscapedCurlyBracesList()
+		private string BuildEscapedBracesList(string expressionText)
 		{
-			MatchCollection matches = _escapedCurlyBracketsRegex.Matches(ExpressionText);
-			string[] splitted = _escapedCurlyBracketsRegex.Split(ExpressionText);
+			MatchCollection matches = _escapedCurlyBracketsRegex.Matches(expressionText);
+			string[] splitted = _escapedCurlyBracketsRegex.Split(expressionText);
 			StringBuilder resStr = new StringBuilder(1000);
 
 			Stack<string> splittedStr = new Stack<string>(splitted.Reverse());
@@ -323,37 +318,6 @@ namespace AutoText.Engine
 						resStr.Append("}");
 					}
 
-					EscapedCurlyBracesIndeces.Add(resStr.Length - 1);
-				}
-			}
-
-			if (resStr.Length > 0)
-			{
-				_parsedExpressionText = resStr.ToString();
-			}
-			else
-			{
-				_parsedExpressionText = ExpressionText;
-			}
-		}
-
-		private void BuildEscapedSquareBracesList()
-		{
-			MatchCollection matches = _escapedSquareBracketsRegex.Matches(ExpressionText);
-			string[] splitted = _escapedSquareBracketsRegex.Split(ExpressionText);
-			StringBuilder resStr = new StringBuilder(1000);
-
-			Stack<string> splittedStr = new Stack<string>(splitted.Reverse());
-			Stack<string> braces = new Stack<string>(matches.Cast<Match>().Select(p => p.Value).Reverse());
-
-			while (splittedStr.Count > 0)
-			{
-				resStr.Append(splittedStr.Pop());
-
-				if (braces.Count > 0)
-				{
-					string escapedBrace = braces.Pop();
-
 					if (escapedBrace == OpenSquareBraceEscapeSeq)
 					{
 						resStr.Append("[");
@@ -364,19 +328,20 @@ namespace AutoText.Engine
 						resStr.Append("]");
 					}
 
-					EscapedSquareBracesIndeces.Add(resStr.Length - 1);
+					EscapedBracesIndeces.Add(resStr.Length - 1);
 				}
 			}
 
 			if (resStr.Length > 0)
 			{
-				_parsedExpressionText = resStr.ToString();
+				return resStr.ToString();
 			}
 			else
 			{
-				_parsedExpressionText = ExpressionText;
+				return expressionText;
 			}
 		}
+
 
 		private void ParseExpression(string expressionText)
 		{
@@ -384,33 +349,6 @@ namespace AutoText.Engine
 
 
 			#region Parameters parsing
-
-			/*
-			ExpressionConfiguration expressionConfig = ConfigHelper.GetExpressionsConfiguration();
-			ExpressionConfigDefinition matchedConfig = null;
-			string regex = null;
-
-			foreach (ExpressionConfigDefinition expressionConfigDefinition in expressionConfig.ExpressionDefinitions)
-			{
-				if (Regex.IsMatch(expressionText, expressionConfigDefinition.ImplicitParametersRegex, RegexOptions.IgnoreCase | RegexOptions.Compiled | RegexOptions.Singleline))
-				{
-					matchedConfig = expressionConfigDefinition;
-					regex = expressionConfigDefinition.ImplicitParametersRegex;
-					break;
-				}
-			}
-
-			ExpressionName = matchedConfig.ShortName;
-
-			MatchCollection expressionParameters = Regex.Matches(expressionText, regex, RegexOptions.Singleline | RegexOptions.IgnoreCase);
-
-			for (int i = 0; i < matchedConfig.ExpessionParametrers.Count; i++)
-			{
-				ExpressionConfigParameter parameter = matchedConfig.ExpessionParametrers[i];
-				Parameters.Add(new AutotextExpressionParameter(parameter.Name, expressionParameters[0].Groups[parameter.Name].Value,
-					expressionParameters[0].Groups[parameter.Name].Index, expressionParameters[0].Groups[parameter.Name].Length));
-			}
-			*/
 
 			StringBuilder sbMacrosName = new StringBuilder();
 
@@ -429,7 +367,7 @@ namespace AutoText.Engine
 
 			for (int i = 1; i < expressionText.Length - 1; i++)
 			{
-				if (expressionText[i] == '[' && !EscapedSquareBracesIndeces.Contains(absStartIndex + i))
+				if (expressionText[i] == '[' && !EscapedBracesIndeces.Contains(absStartIndex + i))
 				{
 					expressionParameterOpenBraceCounter++;
 
@@ -439,7 +377,7 @@ namespace AutoText.Engine
 					}
 				}
 
-				if (expressionText[i] == ']' && !EscapedSquareBracesIndeces.Contains(absStartIndex + i))
+				if (expressionText[i] == ']' && !EscapedBracesIndeces.Contains(absStartIndex + i))
 				{
 					expressionParameterClosingBraceCounter++;
 					parameterEndIndex = i;
@@ -456,8 +394,11 @@ namespace AutoText.Engine
 						sbParameterName.Append(expressionText[j]);
 					}
 
-					Parameters.Add(new AutotextExpressionParameter(new string(sbParameterName.ToString().Reverse().ToArray()), expressionText.Substring(parameterStartIndex + 1, parameterLength - 2),
-					parameterStartIndex, parameterLength));
+					Parameters.Add(new AutotextExpressionParameter(
+						new string(sbParameterName.ToString().Reverse().ToArray()), 
+						expressionText.Substring(parameterStartIndex + 1, parameterLength - 2),
+						parameterStartIndex + 1,
+						parameterLength - 2));
 
 					parameterStartIndex = -1;
 					parameterEndIndex = 0;
@@ -492,7 +433,7 @@ namespace AutoText.Engine
 
 			for (int i = 1; i < expressionText.Length - 1; i++)
 			{
-				if (expressionText[i] == '{' && !EscapedCurlyBracesIndeces.Contains(absStartIndex + i))
+				if (expressionText[i] == '{' && !EscapedBracesIndeces.Contains(absStartIndex + i))
 				{
 					openBraceCounter++;
 
@@ -502,7 +443,7 @@ namespace AutoText.Engine
 					}
 				}
 
-				if (expressionText[i] == '}' && !EscapedCurlyBracesIndeces.Contains(absStartIndex + i))
+				if (expressionText[i] == '}' && !EscapedBracesIndeces.Contains(absStartIndex + i))
 				{
 					closingBraceCounter++;
 					exprEndIndex = i;
@@ -515,8 +456,7 @@ namespace AutoText.Engine
 						new AutotextExpression(expressionText.Substring(nestedExpressionStartIndex, nestedExpressionLength),
 							nestedExpressionStartIndex,
 							nestedExpressionLength,
-							EscapedCurlyBracesIndeces,
-							EscapedSquareBracesIndeces,
+							EscapedBracesIndeces,
 							this,
 							_userVariables);
 
@@ -582,7 +522,7 @@ namespace AutoText.Engine
 					}
 				}
 
-				parameters.Add(param.Name, paramInputs);
+				parameters.Add(string.IsNullOrEmpty(param.Name) ? (i + 1).ToString() : param.Name, paramInputs);
 			}
 
 
@@ -596,20 +536,48 @@ namespace AutoText.Engine
 			switch (expressionName.ToLower())
 			{
 				case "s":
-					{
-						string count = String.Concat(expressionParameters["count"].Select(p => p.CharToInput));
+				{
+						string count = "";
 
-						if (count == "")
+						if (expressionParameters.ContainsKey("2"))
+						{
+							count = String.Concat(expressionParameters["2"].Select(p => p.CharToInput));
+						}
+						else if (expressionParameters.ContainsKey("count"))
+						{
+							count = String.Concat(expressionParameters["count"].Select(p => p.CharToInput));
+						}
+						else
 						{
 							count = "1";
 						}
 
 						int repeatCount = Int32.Parse(count);
-						List<AutotextInput> res = new List<AutotextInput>(repeatCount * expressionParameters["text"].Count);
 
-						for (int i = 0; i < repeatCount; i++)
+						List<AutotextInput> res;
+
+						if (expressionParameters.ContainsKey("1"))
 						{
-							res.AddRange(expressionParameters["text"]);
+							res = new List<AutotextInput>(repeatCount * expressionParameters["1"].Count);
+
+							for (int i = 0; i < repeatCount; i++)
+							{
+								res.AddRange(expressionParameters["1"]);
+							}
+
+						}
+						else if (expressionParameters.ContainsKey("text"))
+						{
+							res = new List<AutotextInput>(repeatCount * expressionParameters["text"].Count);
+
+							for (int i = 0; i < repeatCount; i++)
+							{
+								res.AddRange(expressionParameters["text"]);
+							}
+						}
+						else
+						{
+							throw new ExpressionEvaluationException("Text parameter is not found");
 						}
 
 						return res;
@@ -625,7 +593,7 @@ namespace AutoText.Engine
 
 						if (keycodeToProcess == null)
 						{
-							throw new ExpressionEvaluationException("No keycode name is not recognized in given expression");
+							throw new ExpressionEvaluationException("No keycode name is recognized in given expression");
 						}
 
 						//Keys keycode = (Keys)Enum.Parse(typeof(Keys), keycodeToProcess.Name, true);
