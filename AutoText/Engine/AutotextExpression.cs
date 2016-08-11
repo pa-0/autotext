@@ -541,11 +541,11 @@ namespace AutoText.Engine
 
 						if (expressionParameters.ContainsKey("2"))
 						{
-							count = String.Concat(expressionParameters["2"].Select(p => p.CharToInput));
+							count = new string(expressionParameters["2"].Select(p => p.CharToInput).ToArray());
 						}
 						else if (expressionParameters.ContainsKey("count"))
 						{
-							count = String.Concat(expressionParameters["count"].Select(p => p.CharToInput));
+							count = new string(expressionParameters["count"].Select(p => p.CharToInput).ToArray());
 						}
 						else
 						{
