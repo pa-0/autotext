@@ -117,7 +117,7 @@ namespace AutoText.Engine
 			}
 
 
-			ExpressionText = string.Format("{{s v[{0}] c[1]}}", abbrRemoveText + phraseText);
+			ExpressionText = string.Format("{{s text[{0}] count[1]}}", abbrRemoveText + phraseText);
 			ShortcutsRegexTemplate = ConfigHelper.GetExpressionsConfiguration().ShortcutRegexTemplate;
 			RelativeStartIndex = 0;
 			Length = ExpressionText.Length;
@@ -411,6 +411,15 @@ namespace AutoText.Engine
 					expressionParameters[0].Groups[parameter.Name].Index, expressionParameters[0].Groups[parameter.Name].Length));
 			}
 			*/
+
+			StringBuilder sbMacrosName = new StringBuilder();
+
+			for (int i = 1; char.IsLetter(expressionText[i]); i++)
+			{
+				sbMacrosName.Append(expressionText[i]);
+			}
+
+			ExpressionName = sbMacrosName.ToString();
 
 			int expressionParameterOpenBraceCounter = 0;
 			int expressionParameterClosingBraceCounter = 0;
