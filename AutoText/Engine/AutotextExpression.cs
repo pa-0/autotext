@@ -794,6 +794,65 @@ namespace AutoText.Engine
 
 					}
 
+				case "r":
+					{
+						if (!expressionParameters.ContainsKey("palette") && !expressionParameters.ContainsKey("chars"))
+						{
+							throw new ExpressionEvaluationException("No palette or user character set found in parameters");
+						}
+
+						StringBuilder resPalette = new StringBuilder();
+
+						if (expressionParameters.ContainsKey("palette"))
+						{
+							string palette = new string(expressionParameters["palette"].Select(p => p.CharToInput).ToArray());
+
+							if (palette.Contains("l"))
+							{
+								resPalette.Append(Constants.Common.LowercaseLetters);
+							}
+
+							if (palette.Contains("L"))
+							{
+								resPalette.Append(Constants.Common.UppercaseLetters);
+							}
+
+							if (palette.Contains("d"))
+							{
+								resPalette.Append(Constants.Common.Digits);
+							}
+
+							if (palette.Contains("s"))
+							{
+								resPalette.Append(Constants.Common.SpecialChars);
+							}
+						}
+
+						if (expressionParameters.ContainsKey("chars"))
+						{
+							resPalette.Append(new string(expressionParameters["chars"].Select(p => p.CharToInput).ToArray()));
+						}
+
+						string[] range = new string(expressionParameters["count"].Select(p => p.CharToInput).ToArray()).Split('-');
+
+						int minLength = int.Parse(range[0]);
+						int maxLength = int.Parse(range[1]);
+						int actualRange = new Random(DateTime.Now.Millisecond).Next(minLength, maxLength + 1);
+
+						char[] resChars = new char[actualRange];
+						Random random = new Random(DateTime.Now.Millisecond);
+
+						for (int i = 0; i < resChars.Length; i++)
+						{
+							resChars[i] = resPalette[random.Next(resPalette.Length)];
+						}
+
+						string finalString = new string(resChars);
+						return AutotextInput.FromString(finalString);
+						break;
+
+					}
+
 				default:
 					{
 						throw new ArgumentOutOfRangeException("expressionName");
