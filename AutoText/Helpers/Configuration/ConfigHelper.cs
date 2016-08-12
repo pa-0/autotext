@@ -27,7 +27,7 @@ namespace AutoText.Helpers.Configuration
 {
 	public class ConfigHelper
 	{
-		private static ExpressionConfiguration _expressionConfiguration;
+		private static CommonConfiguration _commonConfiguration;
 		private static KeycodesConfiguration _keycodesConfig;
 		private static List<AutotextRuleConfiguration> _autotextConfig;
 
@@ -135,20 +135,20 @@ namespace AutoText.Helpers.Configuration
 			return File.Exists(Constants.Common.KeycodesConfigFileFullPath);
 		}
 
-		public static bool IsExpressionsConfigurationOk()
+		public static bool IsCommonConfigurationOk()
 		{
-			return File.Exists(Constants.Common.KeycodesConfigFileFullPath);
+			return File.Exists(Constants.Common.CommonConfigurationFileFullPath);
 		}
 
-		public static ExpressionConfiguration GetExpressionsConfiguration()
+		public static CommonConfiguration GetCommonConfiguration()
 		{
-			if (_expressionConfiguration != null)
+			if (_commonConfiguration != null)
 			{
-				return _expressionConfiguration;
+				return _commonConfiguration;
 			}
 
-			_expressionConfiguration = DeserailizeXml<ExpressionConfiguration>(Constants.Common.ExpressionDefinitionsConfigFileFullPath);
-			return _expressionConfiguration;
+			_commonConfiguration = DeserailizeXml<CommonConfiguration>(Constants.Common.CommonConfigurationFileFullPath);
+			return _commonConfiguration;
 		}
 	}
 }

@@ -531,7 +531,7 @@ namespace AutoText
 		private void FormMain_Shown(object sender, EventArgs e)
 		{
 			if (!ConfigHelper.IsKeycodesConfigurationOk() ||
-				!ConfigHelper.IsExpressionsConfigurationOk())
+				!ConfigHelper.IsCommonConfigurationOk())
 			{
 				MessageBox.Show(this, "Failed to load program configuration files. Program will exit", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				Application.Exit();

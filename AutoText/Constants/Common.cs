@@ -36,12 +36,12 @@ namespace AutoText.Constants
 		public const string NewPhraseDefaultAutotextRegex = @"^<autotext(\d+)?>$";
 		public const string AutotextRulesConfigFileName = "AutotextRules.xml";
 		public const string KeycodesConfigFileName = "Keycodes.xml";
-		public const string ExpressionDefinitionsConfigFileName = "ExpressionDefinitions.xml";
+		public const string CommonConfigurationFileName = "CommonConfiguration.xml";
 		public const string ConfigFolderName = "Configuration";
 		public static readonly string ConfigFolderFullPath = Path.Combine(ApplicationRootDir, ConfigFolderName);
 		public static readonly string AutotextRulesConfigFileFullPath = Path.Combine(ConfigFolderFullPath, AutotextRulesConfigFileName);
 		public static readonly string KeycodesConfigFileFullPath = Path.Combine(ConfigFolderFullPath, KeycodesConfigFileName);
-		public static readonly string ExpressionDefinitionsConfigFileFullPath = Path.Combine(ConfigFolderFullPath, ExpressionDefinitionsConfigFileName);
+		public static readonly string CommonConfigurationFileFullPath = Path.Combine(ConfigFolderFullPath, CommonConfigurationFileName);
 		public const string LowercaseLetters = "abcdefghijklmnopqrstuvwxyz";
 		public const string UppercaseLetters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 		public const string Digits = "1234567890";

@@ -63,7 +63,7 @@ namespace AutoText.Engine
 				}
 
 
-				string[] nonPrintableTriggers = ConfigHelper.GetExpressionsConfiguration().NonPrintableTriggers.Split(',').Select(p => "{k [" + p + "]}").ToArray();
+				string[] nonPrintableTriggers = ConfigHelper.GetCommonConfiguration().NonPrintableTriggers.Split(',').Select(p => "{k [" + p + "]}").ToArray();
 				if (!nonPrintableTriggers.Contains(autotextRuleMatchParams.MatchTrigger.Value))
 				{
 					abbrRemoveText += "{k [Back]}";
@@ -116,7 +116,7 @@ namespace AutoText.Engine
 
 
 			ExpressionText = string.Format("{{s text[{0}] count[1]}}", abbrRemoveText + phraseText);
-			ShortcutsRegexTemplate = ConfigHelper.GetExpressionsConfiguration().ShortcutRegexTemplate;
+			ShortcutsRegexTemplate = ConfigHelper.GetCommonConfiguration().ShortcutRegexTemplate;
 			RelativeStartIndex = 0;
 			Length = ExpressionText.Length;
 			EscapedBracesIndeces = new List<int>(100);
@@ -819,6 +819,7 @@ namespace AutoText.Engine
 
 							if (palette.Contains("d"))
 							{
+								resPalette.Append(Constants.Common.Digits);
 								resPalette.Append(Constants.Common.Digits);
 							}
 

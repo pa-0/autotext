@@ -157,9 +157,8 @@
     <Compile Include="Model\Configuration\AutotextRuleMacrosMode.cs" />
     <Compile Include="Model\Configuration\AutotextRulesRoot.cs" />
     <Compile Include="Model\Configuration\AutotextRuleTrigger.cs" />
-    <Compile Include="Model\Configuration\ExpressionConfigDefinition.cs" />
     <Compile Include="Model\Configuration\ExpressionConfigParameter.cs" />
-    <Compile Include="Model\Configuration\ExpressionConfiguration.cs" />
+    <Compile Include="Model\Configuration\CommonConfiguration.cs" />
     <Compile Include="Model\Configuration\KeycodeConfig.cs" />
     <Compile Include="Model\Configuration\KeycodesConfiguration.cs" />
     <Compile Include="Program.cs" />
@@ -170,7 +169,7 @@
     <Content Include="Configuration\AutotextRules.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Configuration\ExpressionDefinitions.xml">
+    <Content Include="Configuration\CommonConfiguration.xml">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

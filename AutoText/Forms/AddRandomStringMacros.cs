@@ -71,7 +71,7 @@ namespace AutoText.Forms
 
 			if (!hasPalette && !hasUserChars)
 			{
-				MessageBox.Show(this, "No character sets selected", "Attention", MessageBoxButtons.OK, MessageBoxIcon.Hand);
+				MessageBox.Show(this, "No character sets selected", "AutoText", MessageBoxButtons.OK, MessageBoxIcon.Hand);
 				return;
 			}
 
