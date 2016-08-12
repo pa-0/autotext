@@ -19,12 +19,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using AutoText.Helpers;
 
@@ -46,7 +40,7 @@ namespace AutoText
 		{
 			TextBox tb = ((FormMain)Owner).PhraseTextBox;
 			int selStart = tb.SelectionStart;
-			string macros = string.Format("{{d:{0}}}", textBoxFormat.Text.ToString());
+			string macros = string.Format("{{d [{0}]}}", textBoxFormat.Text.ToString());
 			tb.Text = tb.Text.Insert(tb.SelectionStart, macros);
 			tb.SelectionStart = selStart + macros.Length;
 		}

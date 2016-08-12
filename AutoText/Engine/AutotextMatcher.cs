@@ -27,8 +27,6 @@ namespace AutoText.Engine
 {
 	public class AutotextMatcher
 	{
-		private const string AcceptablePrintableCharsRegex = @"[\p{L}\p{M}\p{N}\p{P}\p{S} ]{1}";
-
 		public event EventHandler<AutotextMatchEventArgs> MatchFound;
 
 
@@ -77,7 +75,7 @@ namespace AutoText.Engine
 
 
 			AutotextRuleConfiguration config =
-				_rules.SingleOrDefault(p => _bufferString.ToString().EndsWith(p.Abbreviation.AbbreviationText, !p.Abbreviation.CaseSensitive,null) );
+				_rules.SingleOrDefault(p => _bufferString.ToString().EndsWith(p.Abbreviation.AbbreviationText, !p.Abbreviation.CaseSensitive, null));
 
 			if (config != null)
 			{
@@ -97,7 +95,7 @@ namespace AutoText.Engine
 					{
 						foreach (AutotextRuleTrigger ruleTrigger in config.Triggers)
 						{
-							if ("{" + capturedKey + "}" == ruleTrigger.Value)
+							if (capturedKey == ruleTrigger.Value)
 							{
 								OnMatchFound(new AutotextMatchEventArgs(config, ruleTrigger));
 								_bufferString.Clear();

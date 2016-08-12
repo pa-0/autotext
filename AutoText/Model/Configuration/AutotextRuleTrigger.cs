@@ -25,8 +25,18 @@ namespace AutoText.Model.Configuration
 	public class AutotextRuleTrigger
 	{
 		[XmlElement("value")]
-		public string Value { get;  set; }
+		public string Value { get; set; }
 		[XmlAttribute("caseSensitive")]
 		public bool CaseSensitive { get; set; }
+		[XmlAttribute("triggerType")]
+		public AutotextRuleTriggerType TriggerType { get; set; }
+
 	}
+
+	public enum AutotextRuleTriggerType
+	{
+		Character,
+		Key
+	}
+
 }

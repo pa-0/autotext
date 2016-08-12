@@ -20,11 +20,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using AutoText.Helpers.Configuration;
 
@@ -87,17 +84,17 @@ namespace AutoText
 
 			foreach (string modifier in modifiers)
 			{
-				macros += string.Format("{{k:{0} +}}", modifier);
+				macros += string.Format("{{k [{0}] [+]}}", modifier);
 			}
 
 			foreach (string item in listBoxKeysToPress.Items)
 			{
-				macros += string.Format("{{{0}}}", item.Split('|').First().Trim());
+				macros += string.Format("{{k [{0}]}}", item.Split('|').First().Trim());
 			}
 
 			foreach (string modifier in modifiers)
 			{
-				macros += string.Format("{{k:{0} -}}", modifier);
+				macros += string.Format("{{k [{0}] [-]}}", modifier);
 			}
 
 			TextBox tb = ((FormMain)Owner).PhraseTextBox;

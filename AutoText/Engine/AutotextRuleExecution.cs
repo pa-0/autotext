@@ -23,7 +23,6 @@ using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
 using WindowsInput;
-using InputType = AutoText.Engine.InputType;
 
 namespace AutoText.Engine
 {
@@ -32,27 +31,22 @@ namespace AutoText.Engine
 	{
 		public static void ProcessRule(AutotextRuleMatchParameters rule)
 		{
-			AutotextExpression expression = null;
 			try
 			{
-				expression = new AutotextExpression(rule);
-			}
-			catch (Exception ex)
-			{
-				MessageBox.Show("Failed to execute phrase. Please check phrase syntax and fix contradictory phrase settings.",
-					"Faled to execute phrase",
-					MessageBoxButtons.OK);
-			}
-
-			if (expression != null)
-			{
+				AutotextExpression expression = new AutotextExpression(rule);
 				List<AutotextInput> input = expression.GetInput();
 				DoInput(input);
 			}
-
+			catch (Exception ex)
+			{
+				MessageBox.Show("Failed to execute phrase. If phrase contains macros please check macros syntax and fix contradictory phrase settings.",
+					"AutoText",
+					MessageBoxButtons.OK,
+					MessageBoxIcon.Error);
+			}
 		}
 
-		private static INPUT [] ConverInput(List<AutotextInput> input)
+		private static INPUT[] ConverInput(List<AutotextInput> input)
 		{
 			INPUT[] inputSimulationArr = input.SelectMany(p =>
 			{
@@ -62,16 +56,16 @@ namespace AutoText.Engine
 				{
 					if (p.ActionType == InputActionType.Press)
 					{
-						res.Add(InputSimulator.GetInput((char) p.CharToInput, ActionType.KeyDown));
-						res.Add(InputSimulator.GetInput((char) p.CharToInput, ActionType.KeyUp));
+						res.Add(InputSimulator.GetInput((char)p.CharToInput, ActionType.KeyDown));
+						res.Add(InputSimulator.GetInput((char)p.CharToInput, ActionType.KeyUp));
 					}
 					else if (p.ActionType == InputActionType.KeyDown)
 					{
-						res.Add(InputSimulator.GetInput((char) p.CharToInput, ActionType.KeyDown));
+						res.Add(InputSimulator.GetInput((char)p.CharToInput, ActionType.KeyDown));
 					}
 					else if (p.ActionType == InputActionType.KeyUp)
 					{
-						res.Add(InputSimulator.GetInput((char) p.CharToInput, ActionType.KeyUp));
+						res.Add(InputSimulator.GetInput((char)p.CharToInput, ActionType.KeyUp));
 					}
 					else
 					{
@@ -82,16 +76,16 @@ namespace AutoText.Engine
 				{
 					if (p.ActionType == InputActionType.Press)
 					{
-						res.Add(InputSimulator.GetInput((Keys) p.KeyCodeToInput, ActionType.KeyDown));
-						res.Add(InputSimulator.GetInput((Keys) p.KeyCodeToInput, ActionType.KeyUp));
+						res.Add(InputSimulator.GetInput((Keys)p.KeyCodeToInput, ActionType.KeyDown));
+						res.Add(InputSimulator.GetInput((Keys)p.KeyCodeToInput, ActionType.KeyUp));
 					}
 					else if (p.ActionType == InputActionType.KeyDown)
 					{
-						res.Add(InputSimulator.GetInput((Keys) p.KeyCodeToInput, ActionType.KeyDown));
+						res.Add(InputSimulator.GetInput((Keys)p.KeyCodeToInput, ActionType.KeyDown));
 					}
 					else if (p.ActionType == InputActionType.KeyUp)
 					{
-						res.Add(InputSimulator.GetInput((Keys) p.KeyCodeToInput, ActionType.KeyUp));
+						res.Add(InputSimulator.GetInput((Keys)p.KeyCodeToInput, ActionType.KeyUp));
 					}
 					else
 					{
@@ -120,7 +114,7 @@ namespace AutoText.Engine
 				}
 				else
 				{
-					INPUT[] inputSim = ConverInput(new List<AutotextInput>(){ autotextInput});
+					INPUT[] inputSim = ConverInput(new List<AutotextInput>() { autotextInput });
 					InputSimulator.SimulateInputSequence(inputSim);
 				}
 			}

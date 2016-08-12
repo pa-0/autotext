@@ -20,11 +20,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using AutoText.Helpers.Configuration;
 
@@ -92,7 +89,7 @@ namespace AutoText
 
 			TextBox tb = ((FormMain)Owner).PhraseTextBox;
 			int selStart = tb.SelectionStart;
-			string selStr = string.Format("{{k:{0} {1}}}", comboBoxKey.SelectedItem.ToString().Split('|').First().Trim(), action);
+			string selStr = string.Format("{{k [{0}] [{1}]}}", comboBoxKey.SelectedItem.ToString().Split('|').First().Trim(), action);
 			tb.Text = tb.Text.Insert(tb.SelectionStart, selStr);
 			tb.SelectionStart = selStart + selStr.Length;
 		}

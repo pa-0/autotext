@@ -395,7 +395,7 @@ namespace AutoText.Engine
 					}
 
 					Parameters.Add(new AutotextExpressionParameter(
-						new string(sbParameterName.ToString().Reverse().ToArray()), 
+						new string(sbParameterName.ToString().Reverse().ToArray()),
 						expressionText.Substring(parameterStartIndex + 1, parameterLength - 2),
 						parameterStartIndex + 1,
 						parameterLength - 2));
@@ -536,7 +536,7 @@ namespace AutoText.Engine
 			switch (expressionName.ToLower())
 			{
 				case "s":
-				{
+					{
 						string count = "";
 
 						if (expressionParameters.ContainsKey("2"))
@@ -577,7 +577,7 @@ namespace AutoText.Engine
 						}
 						else
 						{
-							throw new ExpressionEvaluationException("Text parameter is not found");
+							throw new ExpressionEvaluationException("Failed to find text parameter");
 						}
 
 						return res;
@@ -585,8 +585,34 @@ namespace AutoText.Engine
 					}
 				case "k":
 					{
-						string keycodeStr = String.Concat(expressionParameters["keycode"].Select(p => p.CharToInput));
-						string action = String.Concat(expressionParameters["action"].Select(p => p.CharToInput));
+						string action = "";
+						string keycodeStr = "";
+
+						if (expressionParameters.ContainsKey("action"))
+						{
+							action = new string(expressionParameters["action"].Select(p => p.CharToInput).ToArray());
+						}
+						else if (expressionParameters.ContainsKey("2"))
+						{
+							action = new string(expressionParameters["2"].Select(p => p.CharToInput).ToArray());
+						}
+						else
+						{
+							action = "press";
+						}
+
+						if (expressionParameters.ContainsKey("keycode"))
+						{
+							keycodeStr = new string(expressionParameters["keycode"].Select(p => p.CharToInput).ToArray());
+						}
+						else if (expressionParameters.ContainsKey("1"))
+						{
+							keycodeStr = new string(expressionParameters["1"].Select(p => p.CharToInput).ToArray());
+						}
+						else
+						{
+							throw new ExpressionEvaluationException("Failed to find keycode parameter");
+						}
 
 						KeycodesConfiguration keycodesConfiguration = ConfigHelper.GetKeycodesConfiguration();
 						KeycodeConfig keycodeToProcess = keycodesConfiguration.Keycodes.SingleOrDefault(p => p.Names.Any(g => String.Equals(g.Value, keycodeStr, StringComparison.CurrentCultureIgnoreCase)));
@@ -605,7 +631,7 @@ namespace AutoText.Engine
 
 						switch (action.ToLower())
 						{
-							case "":
+							case "press":
 								{
 									actionType = InputActionType.Press;
 									break;
@@ -710,7 +736,23 @@ namespace AutoText.Engine
 
 				case "d":
 					{
-						string dateFormat = expressionParameters["format"].ConcatToString().Replace("\\", "\\\\").Replace("/", "\\/");
+						string dateFormat;
+
+						if (expressionParameters.ContainsKey("format"))
+						{
+							dateFormat = expressionParameters["format"].ConcatToString();
+						}
+						else if (expressionParameters.ContainsKey("1"))
+						{
+							dateFormat = expressionParameters["1"].ConcatToString();
+						}
+						else
+						{
+							throw new ExpressionEvaluationException("Failed to find date format parameter");
+						}
+
+						dateFormat = dateFormat.Replace("\\", "\\\\").Replace("/", "\\/");
+
 						DateTime now = DateTime.Now;
 						string resDateStr;
 
@@ -732,7 +774,21 @@ namespace AutoText.Engine
 
 				case "p":
 					{
-						int sleepTime = int.Parse(expressionParameters["duration"].ConcatToString());
+						int sleepTime;
+
+						if (expressionParameters.ContainsKey("duration"))
+						{
+							sleepTime = int.Parse(expressionParameters["duration"].ConcatToString());
+						}
+						else if (expressionParameters.ContainsKey("1"))
+						{
+							sleepTime = int.Parse(expressionParameters["1"].ConcatToString());
+						}
+						else
+						{
+							throw new ExpressionEvaluationException("Failed to find pause duration parameter");
+						}
+
 						return new List<AutotextInput>() { new AutotextInput(InputType.KeyCode, InputActionType.Press, Keys.None) { Sleep = sleepTime } };
 						break;
 

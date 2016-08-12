@@ -18,12 +18,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
 
-using AutoText.Engine;
-using AutoText.Forms;
-using AutoText.Helpers;
-using AutoText.Helpers.Configuration;
-using AutoText.Model.Configuration;
-using KellermanSoftware.CompareNetObjects;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -33,6 +27,12 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
+using AutoText.Engine;
+using AutoText.Forms;
+using AutoText.Helpers;
+using AutoText.Helpers.Configuration;
+using AutoText.Model.Configuration;
+using KellermanSoftware.CompareNetObjects;
 
 
 namespace AutoText
@@ -187,7 +187,7 @@ namespace AutoText
 			{
 				foreach (var item in comboBoxTriggerKey.Items)
 				{
-					if (triggerKey != null && item.ToString().Split('|').Select(p => p.Trim()).ToList().Contains(triggerKey.ToString()))
+					if (item.ToString().Split('|').Select(p => p.Trim()).Contains(triggerKey.ToString()))
 					{
 						comboBoxTriggerKey.SelectedItem = item;
 						break;
@@ -450,7 +450,8 @@ namespace AutoText
 			newConfig.Triggers.Add(new AutotextRuleTrigger()
 			{
 				CaseSensitive = false,
-				Value = "{Tab}"
+				Value = "Tab",
+				TriggerType = AutotextRuleTriggerType.Key
 			});
 
 			newConfig.Abbreviation = new AutotextRuleAbbreviation()
@@ -740,7 +741,8 @@ namespace AutoText
 					currentPhrase.Triggers.Add(new AutotextRuleTrigger()
 					{
 						CaseSensitive = triggerCaseSen,
-						Value = triggerChar
+						Value = triggerChar,
+						TriggerType = AutotextRuleTriggerType.Character
 					});
 				}
 				else if (triggerType == "Key")
@@ -748,7 +750,8 @@ namespace AutoText
 					currentPhrase.Triggers.Add(new AutotextRuleTrigger()
 					{
 						CaseSensitive = triggerCaseSen,
-						Value = "{" + triggerKey + "}"
+						Value = triggerKey,
+						TriggerType = AutotextRuleTriggerType.Key
 					});
 
 				}
@@ -826,15 +829,11 @@ namespace AutoText
 				textBoxPhraseContent.Enabled = true;
 
 
-				KeycodesConfiguration kcConfig = ConfigHelper.GetKeycodesConfiguration();
-
-				List<string> kKodes = kcConfig.Keycodes.SelectMany(p => p.Names.Select(j => j.Value)).ToList();
-
 				foreach (AutotextRuleTrigger trigger in config.Triggers)
 				{
-					if (kKodes.Count(p => "{" + p + "}" == trigger.Value) > 0)
+					if (trigger.TriggerType == AutotextRuleTriggerType.Key)
 					{
-						AddTriggerControls(null, (Keys)Enum.Parse(typeof(Keys), trigger.Value.Trim('{', '}')), trigger.CaseSensitive);
+						AddTriggerControls(null, (Keys)Enum.Parse(typeof(Keys), trigger.Value), trigger.CaseSensitive);
 					}
 					else
 					{
