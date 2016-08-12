@@ -141,6 +141,7 @@
             0,
             0,
             0});
+			this.numericUpDownMinStringLength.ValueChanged += new System.EventHandler(this.numericUpDownMinStringLength_ValueChanged);
 			// 
 			// label1
 			// 
@@ -181,6 +182,7 @@
             0,
             0,
             0});
+			this.numericUpDownMaxStringLenth.ValueChanged += new System.EventHandler(this.numericUpDownMaxStringLenth_ValueChanged);
 			// 
 			// label3
 			// 

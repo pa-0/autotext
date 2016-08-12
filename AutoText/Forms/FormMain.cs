@@ -963,7 +963,7 @@ namespace AutoText
 		{
 			AddRandomStringMacros addRandomStringMacros = new AddRandomStringMacros();
 			addRandomStringMacros.CenterTo(this);
-			addRandomStringMacros.Show();
+			addRandomStringMacros.Show(this);
 		}
 	}
 }

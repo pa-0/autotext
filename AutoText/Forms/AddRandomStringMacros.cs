@@ -31,37 +31,80 @@ namespace AutoText.Forms
 
 		private void buttonAddMacros_Click(object sender, EventArgs e)
 		{
-			string randomSourceString = "";
+			string param = "palette[";
+			bool hasPalette = false;
+			bool hasUserChars = false;
 
 			if (checkBoxLowercaseLetters.Checked)
 			{
-				randomSourceString += Constants.Common.LowercaseLetters;
+				param += "l";
+				hasPalette = true;
 			}
 
 			if (checkBoxUppercaseLetters.Checked)
 			{
-				randomSourceString += Constants.Common.UppercaseLetters;
+				param += "L";
+				hasPalette = true;
 			}
 
 			if (checkBoxDigits.Checked)
 			{
-				randomSourceString += Constants.Common.Digits;
+				param += "d";
+				hasPalette = true;
 			}
 
 			if (checkBoxSpecialCharacters.Checked)
 			{
-				randomSourceString += Constants.Common.SpecialChars;
+				param += "s";
+				hasPalette = true;
 			}
 
-			if (checkBoxContainFollowingChars.Checked)
+			param += "]";
+
+			string userChars = "";
+
+			if (checkBoxContainFollowingChars.Checked && !string.IsNullOrEmpty(textBoxCharsToContain.Text))
 			{
-				randomSourceString += textBoxCharsToContain.Text;
+				userChars += "chars[" + textBoxCharsToContain.Text + "]";
+				hasUserChars = true;
 			}
+
+			if (!hasPalette && !hasUserChars)
+			{
+				MessageBox.Show(this, "No character sets selected", "Attention", MessageBoxButtons.OK, MessageBoxIcon.Hand);
+				return;
+			}
+
+
+			string count = numericUpDownMinStringLength.Value + "-" + numericUpDownMaxStringLenth.Value;
+
+			string macros = string.Format("{{r {0} {1} count[{2}]}}", hasPalette ? param : "", hasUserChars ? userChars : "", count);
+
+			TextBox tb = ((FormMain)Owner).PhraseTextBox;
+			int selStart = tb.SelectionStart;
+			tb.Text = tb.Text.Insert(tb.SelectionStart, macros);
+			tb.SelectionStart = selStart + macros.Length;
 		}
 
 		private void checkBoxContainFollowingChars_CheckedChanged(object sender, EventArgs e)
 		{
 			textBoxCharsToContain.Enabled = checkBoxContainFollowingChars.Checked;
+		}
+
+		private void numericUpDownMinStringLength_ValueChanged(object sender, EventArgs e)
+		{
+			if (numericUpDownMinStringLength.Value > numericUpDownMaxStringLenth.Value)
+			{
+				numericUpDownMaxStringLenth.Value = numericUpDownMinStringLength.Value;
+			}
+		}
+
+		private void numericUpDownMaxStringLenth_ValueChanged(object sender, EventArgs e)
+		{
+			if (numericUpDownMinStringLength.Value > numericUpDownMaxStringLenth.Value)
+			{
+				numericUpDownMinStringLength.Value = numericUpDownMaxStringLenth.Value;
+			}
 		}
 	}
 }
