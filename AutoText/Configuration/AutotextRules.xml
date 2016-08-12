@@ -11,8 +11,8 @@
       <phraseCompiled>Hello world</phraseCompiled>
       <description>Hello world phrase</description>
       <triggers>
-        <item caseSensitive="false">
-          <value>{Tab}</value>
+        <item caseSensitive="false" triggerType="Key">
+          <value>Tab</value>
         </item>
       </triggers>
     </rule>
