@@ -71,6 +71,17 @@
 		</expression>
 
 
+		<expression name="PrintRandomString" shortName="r" >
+			<description>Prints string with random characters</description>
+
+			<implicitParamsRegex><![CDATA[^{r:(?<params>.+?) {1}(?<count>([1-9][0-9]*)|(\{.+\}))? *}$]]></implicitParamsRegex>
+			<parameters>
+				<parameter name="params" />
+				<parameter name="count"/>
+			</parameters>
+
+		</expression>
+
 
 	</expressionDefinitions>
 
