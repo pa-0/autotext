@@ -80,6 +80,7 @@ namespace AutoText
 			this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.insertFileContentsMacrosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.insertEnvironmentVariableValueMacrosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.contextMenuStripPhraseContentEdit.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.dataGridViewPhrases)).BeginInit();
 			this.menuStripMain.SuspendLayout();
@@ -161,7 +162,8 @@ namespace AutoText
             this.dateAndTimeMacrosToolStripMenuItem,
             this.randomStringMacrosToolStripMenuItem,
             this.randomNumberMacrosToolStripMenuItem,
-            this.insertFileContentsMacrosToolStripMenuItem});
+            this.insertFileContentsMacrosToolStripMenuItem,
+            this.insertEnvironmentVariableValueMacrosToolStripMenuItem});
 			this.macrosToolStripMenuItem.Name = "macrosToolStripMenuItem";
 			this.macrosToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
 			this.macrosToolStripMenuItem.Text = "Macros";
@@ -475,6 +477,13 @@ namespace AutoText
 			this.insertFileContentsMacrosToolStripMenuItem.Text = "Insert File Contents Macros";
 			this.insertFileContentsMacrosToolStripMenuItem.Click += new System.EventHandler(this.insertFileContentsMacrosToolStripMenuItem_Click);
 			// 
+			// insertEnvironmentVariableValueMacrosToolStripMenuItem
+			// 
+			this.insertEnvironmentVariableValueMacrosToolStripMenuItem.Name = "insertEnvironmentVariableValueMacrosToolStripMenuItem";
+			this.insertEnvironmentVariableValueMacrosToolStripMenuItem.Size = new System.Drawing.Size(229, 22);
+			this.insertEnvironmentVariableValueMacrosToolStripMenuItem.Text = "Environment Variable Macros";
+			this.insertEnvironmentVariableValueMacrosToolStripMenuItem.Click += new System.EventHandler(this.insertEnvironmentVariableValueMacrosToolStripMenuItem_Click);
+			// 
 			// FormMain
 			// 
 			this.ClientSize = new System.Drawing.Size(874, 583);
@@ -565,6 +574,7 @@ namespace AutoText
 		private ToolStripMenuItem randomStringMacrosToolStripMenuItem;
 		private ToolStripMenuItem randomNumberMacrosToolStripMenuItem;
 		private ToolStripMenuItem insertFileContentsMacrosToolStripMenuItem;
+		private ToolStripMenuItem insertEnvironmentVariableValueMacrosToolStripMenuItem;
 	}
 }
 

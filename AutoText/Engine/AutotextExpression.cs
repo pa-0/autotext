@@ -921,7 +921,26 @@ namespace AutoText.Engine
 						return AutotextInput.FromString(File.ReadAllText(path, enc));
 						break;
 					}
+				case "e":
+					{
+						string name;
 
+						if (expressionParameters.ContainsKey("name"))
+						{
+							name = expressionParameters["name"].ConcatToString();
+						}
+						else if (expressionParameters.ContainsKey("1"))
+						{
+							name = expressionParameters["1"].ConcatToString();
+						}
+						else
+						{
+							throw new ExpressionEvaluationException("No environment variable parameter found");
+						}
+
+						return AutotextInput.FromString(Environment.GetEnvironmentVariable(name));
+						break;
+					}
 				default:
 					{
 						throw new ArgumentOutOfRangeException("expressionName");

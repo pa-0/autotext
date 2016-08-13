@@ -942,7 +942,8 @@ namespace AutoText
 
 		private void FormMain_Load(object sender, EventArgs e)
 		{
-
+			{}
+			
 /*
 			try
 			{
@@ -1005,6 +1006,13 @@ namespace AutoText
 			AddInsertFileContentsMacros addInsertFileContentsMacros = new AddInsertFileContentsMacros();
 			addInsertFileContentsMacros.CenterTo(this);
 			addInsertFileContentsMacros.Show(this);
+		}
+
+		private void insertEnvironmentVariableValueMacrosToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			AddEnvironmentVariableMacros addEnvironmentVariableMacros = new AddEnvironmentVariableMacros();
+			addEnvironmentVariableMacros.CenterTo(this);
+			addEnvironmentVariableMacros.Show(this);
 		}
 	}
 }

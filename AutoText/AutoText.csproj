@@ -98,6 +98,12 @@
     <Compile Include="Forms\AddDateMacros.Designer.cs">
       <DependentUpon>AddDateMacros.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\AddEnvironmentVariableMacros.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\AddEnvironmentVariableMacros.Designer.cs">
+      <DependentUpon>AddEnvironmentVariableMacros.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\AddInsertFileContentsMacros.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -202,6 +208,9 @@
     <None Include="packages.config" />
     <EmbeddedResource Include="Forms\AddDateMacros.resx">
       <DependentUpon>AddDateMacros.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\AddEnvironmentVariableMacros.resx">
+      <DependentUpon>AddEnvironmentVariableMacros.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\AddInsertFileContentsMacros.resx">
       <DependentUpon>AddInsertFileContentsMacros.cs</DependentUpon>
