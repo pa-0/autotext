@@ -21,6 +21,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 using System;
 using System.Windows.Forms;
 using AutoText.Helpers;
+using AutoText.Helpers.Extensions;
 
 namespace AutoText
 {
@@ -40,7 +41,7 @@ namespace AutoText
 		{
 			TextBox tb = ((FormMain)Owner).PhraseTextBox;
 			int selStart = tb.SelectionStart;
-			string macros = string.Format("{{d [{0}]}}", textBoxFormat.Text.ToString());
+			string macros = string.Format("{{d [{0}]}}", textBoxFormat.Text.EscapeSpecialExpressionChars());
 			tb.Text = tb.Text.Insert(tb.SelectionStart, macros);
 			tb.SelectionStart = selStart + macros.Length;
 		}

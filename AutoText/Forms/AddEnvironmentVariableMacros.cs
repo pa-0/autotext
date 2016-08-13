@@ -7,6 +7,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using AutoText.Helpers.Extensions;
 
 namespace AutoText.Forms
 {
@@ -19,7 +20,7 @@ namespace AutoText.Forms
 
 		private void buttonAdd_Click(object sender, EventArgs e)
 		{
-			string macros = string.Format("{{e [{0}]}}", comboBoxEnvVraNames.Text.Trim('%'));
+			string macros = string.Format("{{e [{0}]}}", comboBoxEnvVraNames.Text.Trim('%').EscapeSpecialExpressionChars());
 
 			TextBox tb = ((FormMain)Owner).PhraseTextBox;
 			int selStart = tb.SelectionStart;

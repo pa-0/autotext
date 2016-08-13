@@ -19,6 +19,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 using System;
 using System.Windows.Forms;
+using AutoText.Helpers.Extensions;
 
 namespace AutoText.Forms
 {
@@ -65,7 +66,7 @@ namespace AutoText.Forms
 
 			if (checkBoxContainFollowingChars.Checked && !string.IsNullOrEmpty(textBoxCharsToContain.Text))
 			{
-				userChars += "chars[" + textBoxCharsToContain.Text + "]";
+				userChars += "chars[" + textBoxCharsToContain.Text.EscapeSpecialExpressionChars() + "]";
 				hasUserChars = true;
 			}
 

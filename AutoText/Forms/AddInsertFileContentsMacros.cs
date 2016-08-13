@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using AutoText.Helpers.Extensions;
 
 namespace AutoText.Forms
 {
@@ -52,7 +53,9 @@ namespace AutoText.Forms
 				encoding = "[" + encoding + "]";
 			}
 
-			string macros = string.Format("{{f [{0}] {1}}}", textBoxPathToFile.Text, encoding);
+			string macros = string.Format("{{f [{0}] {1}}}", 
+				textBoxPathToFile.Text.EscapeSpecialExpressionChars(),
+				encoding);
 
 			TextBox tb = ((FormMain)Owner).PhraseTextBox;
 			int selStart = tb.SelectionStart;

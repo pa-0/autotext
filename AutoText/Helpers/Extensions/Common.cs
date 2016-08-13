@@ -34,5 +34,47 @@ namespace AutoText.Helpers.Extensions
 		{
 			return new string(input.Select(p => p.CharToInput).ToArray());
 		}
+
+		public static string EscapeSpecialExpressionChars(this string str)
+		{
+			StringBuilder sb = new StringBuilder(str);
+
+			for (int i = 0; i < sb.Length; i++)
+			{
+				if (sb[i] == '{')
+				{
+					sb = sb.Remove(i, 1);
+					sb = sb.Insert(i, "{{}");
+					i += 2;
+					continue;
+				}
+
+				if (sb[i] == '}')
+				{
+					sb = sb.Remove(i, 1);
+					sb = sb.Insert(i, "{}}");
+					i += 2;
+					continue;
+				}
+
+				if (sb[i] == '[')
+				{
+					sb = sb.Remove(i, 1);
+					sb = sb.Insert(i, "{[}");
+					i += 2;
+					continue;
+				}
+
+				if (sb[i] == ']')
+				{
+					sb = sb.Remove(i, 1);
+					sb = sb.Insert(i, "{]}");
+					i += 2;
+					continue;
+				}
+			}
+
+			return sb.ToString();
+		}
 	}
 }
