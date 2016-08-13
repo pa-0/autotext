@@ -20,6 +20,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
@@ -884,6 +885,43 @@ namespace AutoText.Engine
 						return AutotextInput.FromString(RandomNumberGeneration.RandomLong(min, max + 1).ToString());
 						break;
 					}
+				case "f":
+					{
+						string path;
+
+						if (expressionParameters.ContainsKey("path"))
+						{
+							path = expressionParameters["path"].ConcatToString();
+						}
+						else if (expressionParameters.ContainsKey("1"))
+						{
+							path = expressionParameters["1"].ConcatToString();
+						}
+						else
+						{
+							throw new ExpressionEvaluationException("No path parameter found");
+						}
+
+
+						Encoding enc;
+
+						if (expressionParameters.ContainsKey("encoding"))
+						{
+							enc = Encoding.GetEncoding(expressionParameters["encoding"].ConcatToString());
+						}
+						else if (expressionParameters.ContainsKey("2"))
+						{
+							enc = Encoding.GetEncoding(expressionParameters["2"].ConcatToString());
+						}
+						else
+						{
+							enc = Encoding.Default;
+						}
+
+						return AutotextInput.FromString(File.ReadAllText(path, enc));
+						break;
+					}
+
 				default:
 					{
 						throw new ArgumentOutOfRangeException("expressionName");

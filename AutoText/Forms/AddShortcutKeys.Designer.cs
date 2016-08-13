@@ -28,6 +28,7 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AddShortcutKeys));
 			this.label2 = new System.Windows.Forms.Label();
 			this.comboBoxKeys = new System.Windows.Forms.ComboBox();
 			this.checkBoxControl = new System.Windows.Forms.CheckBox();
@@ -195,6 +196,7 @@
 			this.Controls.Add(this.comboBoxKeys);
 			this.Controls.Add(this.label2);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.Name = "AddShortcutKeys";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
 			this.Text = "Add Key Combo Macros";

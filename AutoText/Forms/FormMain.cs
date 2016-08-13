@@ -25,6 +25,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Security.Cryptography;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
@@ -997,6 +998,13 @@ namespace AutoText
 			AddRandomNumberMacros addRandomNumberMacros = new AddRandomNumberMacros();
 			addRandomNumberMacros.CenterTo(this);
 			addRandomNumberMacros.Show(this);
+		}
+
+		private void insertFileContentsMacrosToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			AddInsertFileContentsMacros addInsertFileContentsMacros = new AddInsertFileContentsMacros();
+			addInsertFileContentsMacros.CenterTo(this);
+			addInsertFileContentsMacros.Show(this);
 		}
 	}
 }

@@ -28,6 +28,7 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AddPauseMacros));
 			this.numericUpDownPuseDuration = new System.Windows.Forms.NumericUpDown();
 			this.buttonAdd = new System.Windows.Forms.Button();
 			this.label1 = new System.Windows.Forms.Label();
@@ -95,6 +96,7 @@
 			this.Controls.Add(this.buttonAdd);
 			this.Controls.Add(this.numericUpDownPuseDuration);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.Name = "AddPauseMacros";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
 			this.Text = "Add Pause Macros";

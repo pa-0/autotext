@@ -28,6 +28,7 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AddRandomNumberMacros));
 			this.label1 = new System.Windows.Forms.Label();
 			this.label2 = new System.Windows.Forms.Label();
 			this.buttonAdd = new System.Windows.Forms.Button();
@@ -79,11 +80,6 @@
 			this.numericUpDownMaximum.Name = "numericUpDownMaximum";
 			this.numericUpDownMaximum.Size = new System.Drawing.Size(164, 20);
 			this.numericUpDownMaximum.TabIndex = 6;
-			this.numericUpDownMaximum.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
 			this.numericUpDownMaximum.ValueChanged += new System.EventHandler(this.numericUpDownMaximum_ValueChanged);
 			// 
 			// AddRandomNumberMacros
@@ -97,6 +93,7 @@
 			this.Controls.Add(this.label2);
 			this.Controls.Add(this.label1);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.Name = "AddRandomNumberMacros";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
 			this.Text = "Random Number Macros";

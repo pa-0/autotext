@@ -28,6 +28,7 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AddRandomStringMacros));
 			this.groupBox1 = new System.Windows.Forms.GroupBox();
 			this.textBoxCharsToContain = new System.Windows.Forms.TextBox();
 			this.checkBoxContainFollowingChars = new System.Windows.Forms.CheckBox();
@@ -216,9 +217,10 @@
 			this.Controls.Add(this.numericUpDownMinStringLength);
 			this.Controls.Add(this.groupBox1);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.Name = "AddRandomStringMacros";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
-			this.Text = "Add Random String Macros";
+			this.Text = "Add Random Text Macros";
 			this.groupBox1.ResumeLayout(false);
 			this.groupBox1.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDownMinStringLength)).EndInit();
