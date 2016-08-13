@@ -47,6 +47,7 @@ namespace AutoText
 			this.keyComboMacrosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.pauseMacrosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.dateAndTimeMacrosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.randomStringMacrosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
 			this.copyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.pasteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -77,7 +78,7 @@ namespace AutoText
 			this.keyLogWindowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.randomStringMacrosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.randomNumberMacrosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.contextMenuStripPhraseContentEdit.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.dataGridViewPhrases)).BeginInit();
 			this.menuStripMain.SuspendLayout();
@@ -148,7 +149,7 @@ namespace AutoText
             this.deleteToolStripMenuItem,
             this.undoToolStripMenuItem});
 			this.contextMenuStripPhraseContentEdit.Name = "contextMenuStripPhraseContentEdit";
-			this.contextMenuStripPhraseContentEdit.Size = new System.Drawing.Size(153, 186);
+			this.contextMenuStripPhraseContentEdit.Size = new System.Drawing.Size(123, 164);
 			// 
 			// macrosToolStripMenuItem
 			// 
@@ -157,7 +158,8 @@ namespace AutoText
             this.keyComboMacrosToolStripMenuItem,
             this.pauseMacrosToolStripMenuItem,
             this.dateAndTimeMacrosToolStripMenuItem,
-            this.randomStringMacrosToolStripMenuItem});
+            this.randomStringMacrosToolStripMenuItem,
+            this.randomNumberMacrosToolStripMenuItem});
 			this.macrosToolStripMenuItem.Name = "macrosToolStripMenuItem";
 			this.macrosToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
 			this.macrosToolStripMenuItem.Text = "Macros";
@@ -165,30 +167,37 @@ namespace AutoText
 			// keyPressMacrosToolStripMenuItem
 			// 
 			this.keyPressMacrosToolStripMenuItem.Name = "keyPressMacrosToolStripMenuItem";
-			this.keyPressMacrosToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
+			this.keyPressMacrosToolStripMenuItem.Size = new System.Drawing.Size(208, 22);
 			this.keyPressMacrosToolStripMenuItem.Text = "Key Action Macros";
 			this.keyPressMacrosToolStripMenuItem.Click += new System.EventHandler(this.keyActionMacrosToolStripMenuItem_Click);
 			// 
 			// keyComboMacrosToolStripMenuItem
 			// 
 			this.keyComboMacrosToolStripMenuItem.Name = "keyComboMacrosToolStripMenuItem";
-			this.keyComboMacrosToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
+			this.keyComboMacrosToolStripMenuItem.Size = new System.Drawing.Size(208, 22);
 			this.keyComboMacrosToolStripMenuItem.Text = "Key Combo Macros";
 			this.keyComboMacrosToolStripMenuItem.Click += new System.EventHandler(this.keyComboMacrosToolStripMenuItem_Click);
 			// 
 			// pauseMacrosToolStripMenuItem
 			// 
 			this.pauseMacrosToolStripMenuItem.Name = "pauseMacrosToolStripMenuItem";
-			this.pauseMacrosToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
+			this.pauseMacrosToolStripMenuItem.Size = new System.Drawing.Size(208, 22);
 			this.pauseMacrosToolStripMenuItem.Text = "Pause Macros";
 			this.pauseMacrosToolStripMenuItem.Click += new System.EventHandler(this.pauseMacrosToolStripMenuItem_Click);
 			// 
 			// dateAndTimeMacrosToolStripMenuItem
 			// 
 			this.dateAndTimeMacrosToolStripMenuItem.Name = "dateAndTimeMacrosToolStripMenuItem";
-			this.dateAndTimeMacrosToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
+			this.dateAndTimeMacrosToolStripMenuItem.Size = new System.Drawing.Size(208, 22);
 			this.dateAndTimeMacrosToolStripMenuItem.Text = "Date And Time Macros";
 			this.dateAndTimeMacrosToolStripMenuItem.Click += new System.EventHandler(this.dateAndTimeMacrosToolStripMenuItem_Click);
+			// 
+			// randomStringMacrosToolStripMenuItem
+			// 
+			this.randomStringMacrosToolStripMenuItem.Name = "randomStringMacrosToolStripMenuItem";
+			this.randomStringMacrosToolStripMenuItem.Size = new System.Drawing.Size(208, 22);
+			this.randomStringMacrosToolStripMenuItem.Text = "Random Text Macros";
+			this.randomStringMacrosToolStripMenuItem.Click += new System.EventHandler(this.randomStringMacrosToolStripMenuItem_Click);
 			// 
 			// toolStripSeparator1
 			// 
@@ -450,12 +459,12 @@ namespace AutoText
 			this.aboutToolStripMenuItem.Text = "About";
 			this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
 			// 
-			// randomStringMacrosToolStripMenuItem
+			// randomNumberMacrosToolStripMenuItem
 			// 
-			this.randomStringMacrosToolStripMenuItem.Name = "randomStringMacrosToolStripMenuItem";
-			this.randomStringMacrosToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
-			this.randomStringMacrosToolStripMenuItem.Text = "Random String Macros";
-			this.randomStringMacrosToolStripMenuItem.Click += new System.EventHandler(this.randomStringMacrosToolStripMenuItem_Click);
+			this.randomNumberMacrosToolStripMenuItem.Name = "randomNumberMacrosToolStripMenuItem";
+			this.randomNumberMacrosToolStripMenuItem.Size = new System.Drawing.Size(208, 22);
+			this.randomNumberMacrosToolStripMenuItem.Text = "Random Number Macros";
+			this.randomNumberMacrosToolStripMenuItem.Click += new System.EventHandler(this.randomNumberMacrosToolStripMenuItem_Click);
 			// 
 			// FormMain
 			// 
@@ -545,6 +554,7 @@ namespace AutoText
 		private ToolStripMenuItem toolsToolStripMenuItem1;
 		private ToolStripMenuItem keyLogWindowToolStripMenuItem;
 		private ToolStripMenuItem randomStringMacrosToolStripMenuItem;
+		private ToolStripMenuItem randomNumberMacrosToolStripMenuItem;
 	}
 }
 

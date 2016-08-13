@@ -110,6 +110,12 @@
     <Compile Include="Forms\AddPauseMacros.Designer.cs">
       <DependentUpon>AddPauseMacros.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\AddRandomNumberMacros.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\AddRandomNumberMacros.Designer.cs">
+      <DependentUpon>AddRandomNumberMacros.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\AddRandomStringMacros.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -144,6 +150,7 @@
     <Compile Include="Helpers\Extensions\Common.cs" />
     <Compile Include="Helpers\Extensions\Configuration.cs" />
     <Compile Include="Helpers\GUIHelper.cs" />
+    <Compile Include="Helpers\RandomNumberGeneration.cs" />
     <Compile Include="Helpers\TextHelper.cs" />
     <Compile Include="Helpers\WinAPI.cs" />
     <Compile Include="Forms\HelpOnDateFormat.cs">
@@ -195,6 +202,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\AddPauseMacros.resx">
       <DependentUpon>AddPauseMacros.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\AddRandomNumberMacros.resx">
+      <DependentUpon>AddRandomNumberMacros.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\AddRandomStringMacros.resx">
       <DependentUpon>AddRandomStringMacros.cs</DependentUpon>

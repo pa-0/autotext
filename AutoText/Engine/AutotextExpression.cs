@@ -21,9 +21,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
+using AutoText.Helpers;
 using AutoText.Helpers.Configuration;
 using AutoText.Helpers.Extensions;
 using AutoText.Model.Configuration;
@@ -541,11 +543,11 @@ namespace AutoText.Engine
 
 						if (expressionParameters.ContainsKey("2"))
 						{
-							count = new string(expressionParameters["2"].Select(p => p.CharToInput).ToArray());
+							count = expressionParameters["2"].ConcatToString();
 						}
 						else if (expressionParameters.ContainsKey("count"))
 						{
-							count = new string(expressionParameters["count"].Select(p => p.CharToInput).ToArray());
+							count = expressionParameters["count"].ConcatToString();
 						}
 						else
 						{
@@ -590,11 +592,11 @@ namespace AutoText.Engine
 
 						if (expressionParameters.ContainsKey("action"))
 						{
-							action = new string(expressionParameters["action"].Select(p => p.CharToInput).ToArray());
+							action = expressionParameters["action"].ConcatToString();
 						}
 						else if (expressionParameters.ContainsKey("2"))
 						{
-							action = new string(expressionParameters["2"].Select(p => p.CharToInput).ToArray());
+							action = expressionParameters["2"].ConcatToString();
 						}
 						else
 						{
@@ -603,11 +605,11 @@ namespace AutoText.Engine
 
 						if (expressionParameters.ContainsKey("keycode"))
 						{
-							keycodeStr = new string(expressionParameters["keycode"].Select(p => p.CharToInput).ToArray());
+							keycodeStr = expressionParameters["keycode"].ConcatToString();
 						}
 						else if (expressionParameters.ContainsKey("1"))
 						{
-							keycodeStr = new string(expressionParameters["1"].Select(p => p.CharToInput).ToArray());
+							keycodeStr = expressionParameters["1"].ConcatToString();
 						}
 						else
 						{
@@ -721,8 +723,8 @@ namespace AutoText.Engine
 						break;
 					}
 				case "v":
-					{
-						string userVarName = String.Concat(expressionParameters["name"].Select(p => p.CharToInput));
+				{
+						string userVarName = expressionParameters["name"].ConcatToString();
 
 						if (!userVariables.ContainsKey(userVarName))
 						{
@@ -805,7 +807,7 @@ namespace AutoText.Engine
 
 						if (expressionParameters.ContainsKey("palette"))
 						{
-							string palette = new string(expressionParameters["palette"].Select(p => p.CharToInput).ToArray());
+							string palette = expressionParameters["palette"].ConcatToString();
 
 							if (palette.Contains("l"))
 							{
@@ -831,21 +833,20 @@ namespace AutoText.Engine
 
 						if (expressionParameters.ContainsKey("chars"))
 						{
-							resPalette.Append(new string(expressionParameters["chars"].Select(p => p.CharToInput).ToArray()));
+							resPalette.Append(expressionParameters["chars"].ConcatToString());
 						}
 
-						string[] range = new string(expressionParameters["count"].Select(p => p.CharToInput).ToArray()).Split('-');
+						string[] range = expressionParameters["count"].ConcatToString().Split('-');
 
 						int minLength = int.Parse(range[0]);
 						int maxLength = int.Parse(range[1]);
-						int actualRange = new Random(DateTime.Now.Millisecond).Next(minLength, maxLength + 1);
+						long actualRange = RandomNumberGeneration.RandomLong(minLength, maxLength + 1);
 
 						char[] resChars = new char[actualRange];
-						Random random = new Random(DateTime.Now.Millisecond);
 
 						for (int i = 0; i < resChars.Length; i++)
 						{
-							resChars[i] = resPalette[random.Next(resPalette.Length)];
+							resChars[i] = resPalette[(int) RandomNumberGeneration.RandomLong(resPalette.Length)];
 						}
 
 						string finalString = new string(resChars);
@@ -853,7 +854,36 @@ namespace AutoText.Engine
 						break;
 
 					}
+				case "n":
+					{
+						string range;
 
+						if (expressionParameters.ContainsKey("range"))
+						{
+							range = expressionParameters["range"].ConcatToString();
+						}
+						else if (expressionParameters.ContainsKey("1"))
+						{
+							range = expressionParameters["1"].ConcatToString();
+						}
+						else
+						{
+							throw new ExpressionEvaluationException("No range parameter found");
+						}
+
+						string[] split = range.Split('|');
+
+						long min = long.Parse(split[0]);
+						long max = long.Parse(split[1]);
+
+						if (min > max)
+						{
+							throw new ExpressionEvaluationException("Min value can't be greater than max value");
+						}
+
+						return AutotextInput.FromString(RandomNumberGeneration.RandomLong(min, max + 1).ToString());
+						break;
+					}
 				default:
 					{
 						throw new ArgumentOutOfRangeException("expressionName");

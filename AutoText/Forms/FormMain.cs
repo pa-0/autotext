@@ -24,6 +24,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
@@ -31,6 +32,7 @@ using AutoText.Engine;
 using AutoText.Forms;
 using AutoText.Helpers;
 using AutoText.Helpers.Configuration;
+using AutoText.Helpers.Extensions;
 using AutoText.Model.Configuration;
 using KellermanSoftware.CompareNetObjects;
 
@@ -939,6 +941,31 @@ namespace AutoText
 
 		private void FormMain_Load(object sender, EventArgs e)
 		{
+
+/*
+			try
+			{
+				List<long> randoms = new List<long>();
+
+
+				for (int i = 0; i < 100000; i++)
+				{
+					randoms.Add(RandomNumberGeneration.RandomLong(0, 10));
+				}
+
+				long max = randoms.Max();
+				double avg = randoms.Average(p => p);
+
+				
+				{ }
+			}
+			catch (Exception ex)
+			{
+				
+				throw;
+			}
+*/
+
 			//Process[] processlist = Process.GetProcesses();
 			//processlist = processlist.Where(p => ((int)p.MainWindowHandle) != 0).ToArray();
 
@@ -963,6 +990,13 @@ namespace AutoText
 			AddRandomStringMacros addRandomStringMacros = new AddRandomStringMacros();
 			addRandomStringMacros.CenterTo(this);
 			addRandomStringMacros.Show(this);
+		}
+
+		private void randomNumberMacrosToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			AddRandomNumberMacros addRandomNumberMacros = new AddRandomNumberMacros();
+			addRandomNumberMacros.CenterTo(this);
+			addRandomNumberMacros.Show(this);
 		}
 	}
 }

@@ -32,7 +32,7 @@ namespace AutoText.Helpers.Extensions
 	{
 		public static string ConcatToString(this List<AutotextInput> input)
 		{
-			return string.Concat(input.Select(p => p.CharToInput));
+			return new string(input.Select(p => p.CharToInput).ToArray());
 		}
 	}
 }
