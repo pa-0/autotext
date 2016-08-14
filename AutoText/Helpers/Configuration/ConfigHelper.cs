@@ -46,11 +46,6 @@ namespace AutoText.Helpers.Configuration
 			}
 
 
-			foreach (AutotextRuleConfiguration config in _autotextConfig)
-			{
-				config.PhraseCompiled = config.PhraseCompiled.Replace("\n", "\r\n");
-			}
-
 			return _autotextConfig;
 		}
 

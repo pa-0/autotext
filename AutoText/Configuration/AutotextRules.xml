@@ -8,7 +8,6 @@
       <removeAbbr>true</removeAbbr>
       <phrase>Hello world</phrase>
       <macros mode="Execute" />
-      <phraseCompiled>Hello world</phraseCompiled>
       <description>Hello world phrase</description>
       <triggers>
         <item caseSensitive="false" triggerType="Key">

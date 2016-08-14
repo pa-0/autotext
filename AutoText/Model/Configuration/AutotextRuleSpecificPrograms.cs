@@ -17,14 +17,29 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using System.Xml.Serialization;
 
 namespace AutoText.Model.Configuration
 {
-	public class ExpressionConfigParameter
+	[Serializable]
+	public enum SpecificProgramsListtype
 	{
-		[XmlAttribute("name")]
-		public string Name { get; set; }
+		Whitelist,
+		Blacklist
+	}
+
+	[Serializable]
+	public class AutotextRuleSpecificPrograms
+	{
+		[XmlAttribute("listType")]
+		public SpecificProgramsListtype ProgramsListType { get; set; }
+
+		[XmlArray("programs")]
+		[XmlArrayItem("item", typeof(AutotextRuleSpecificProgram))]
+		public List<AutotextRuleSpecificProgram> Programs { get; set; }
 	}
 }

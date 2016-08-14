@@ -17,16 +17,32 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Xml;
 using System.Xml.Serialization;
 
 namespace AutoText.Model.Configuration
 {
-	public class AutotextRuleAbbreviation
+	[Serializable]
+	public enum TitleCondition
 	{
-		[XmlElement("value")]
-		public string AbbreviationText { get;  set; }
+		Exact,
+		StartsWith,
+		EndsWith,
+		Contains
+	}
 
-		[XmlAttribute("caseSensitive")]
-		public bool CaseSensitive { get;  set; }
+	[Serializable]
+	public class AutotextRuleSpecificProgram
+	{
+		[XmlElement("programId")]
+		public string ProgramId { get; set; }
+		[XmlAttribute("titleMatchCondition")]
+		public TitleCondition TitelMatchCondition { get; set; }
+		[XmlElement("titleText")]
+		public string TitleText { get; set; }
 	}
 }

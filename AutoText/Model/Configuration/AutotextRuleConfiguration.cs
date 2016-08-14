@@ -32,11 +32,10 @@ namespace AutoText.Model.Configuration
 		public string Phrase { get;  set; }
 		[XmlElement("macros")]
 		public AutotextRuleMacrosMode Macros { get; set; }
-		[XmlElement("phraseCompiled")]
-		public string PhraseCompiled { get; set; }
 		[XmlElement("description")]
 		public string Description { get;  set; }
-		public string MatchedString { get; set; }
+		[XmlElement("specificPrograms")]
+		public AutotextRuleSpecificPrograms SpecificPrograms { get; set; }
 
 		[XmlArray("triggers")]
 		[XmlArrayItem("item", typeof(AutotextRuleTrigger))]

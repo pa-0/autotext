@@ -73,50 +73,12 @@ namespace AutoText.Engine
 				}
 			}
 
-			string phraseText = autotextRuleMatchParams.AutotextRuleConfiguration.PhraseCompiled;
-
+			string phraseText = autotextRuleMatchParams.AutotextRuleConfiguration.Phrase;
 
 			if (autotextRuleMatchParams.AutotextRuleConfiguration.Macros.Mode == MacrosMode.Skip)
 			{
-				for (int i = 0; i < phraseText.Length; i++)
-				{
-					if (phraseText[i] == '{')
-					{
-						phraseText = phraseText.Remove(i, 1);
-						phraseText = phraseText.Insert(i, "{{}");
-						i += 2;
-						continue;
-					}
-
-					if (phraseText[i] == '}')
-					{
-						phraseText = phraseText.Remove(i, 1);
-						phraseText = phraseText.Insert(i, "{}}");
-						i += 2;
-						continue;
-
-					}
-
-					if (phraseText[i] == '(')
-					{
-						phraseText = phraseText.Remove(i, 1);
-						phraseText = phraseText.Insert(i, "{(}");
-						i += 2;
-						continue;
-
-					}
-
-					if (phraseText[i] == ')')
-					{
-						phraseText = phraseText.Remove(i, 1);
-						phraseText = phraseText.Insert(i, "{)}");
-						i += 2;
-						continue;
-
-					}
-				}
+				phraseText = phraseText.EscapeSpecialExpressionChars();
 			}
-
 
 			ExpressionText = string.Format("{{s text[{0}] count[1]}}", abbrRemoveText + phraseText);
 			ShortcutsRegexTemplate = ConfigHelper.GetCommonConfiguration().ShortcutRegexTemplate;
@@ -126,71 +88,12 @@ namespace AutoText.Engine
 			NestedExpressions = new List<AutotextExpression>(100);
 			Parameters = new List<AutotextExpressionParameter>(20);
 
-			ProcessShortcuts();
+			//ProcessShortcuts();
 			string exprTextEscBrackets = BuildEscapedBracesList(ExpressionText);
 			ParseExpression(exprTextEscBrackets);
-
-
-			/*List<int> indeces = new List<int>(100);
-			GetAllExpressionBraceIndeces(this, indeces);
-
-			for (int i = 0; i < ExpressionText.Length; i++)
-			{
-				if (indeces.Contains(i))
-				{
-					continue;
-				}
-				else
-				{
-					if (ExpressionText[i] == '{')
-					{
-						ExpressionText.Insert(i, "{{}");
-						i += 2;
-					}
-
-					if (ExpressionText[i] == '}')
-					{
-						ExpressionText.Insert(i, "{}}");
-						i += 2;
-					}
-				}
-			}*/
-
-
-
-			if (autotextRuleMatchParams.AutotextRuleConfiguration.Abbreviation.Type == Abbriviationtype.Regex && autotextRuleMatchParams.AutotextRuleConfiguration.MatchedString != null)
-			{
-				Regex reg = new Regex(autotextRuleMatchParams.AutotextRuleConfiguration.Abbreviation.AbbreviationText);
-				MatchCollection matches = reg.Matches(autotextRuleMatchParams.AutotextRuleConfiguration.MatchedString);
-
-				string[] groupNames = reg.GetGroupNames();
-
-				if (matches.Count == 0)
-				{
-					throw new InvalidOperationException("Error in regex abbreviation parsing");
-				}
-
-				foreach (string groupName in groupNames)
-				{
-					_userVariables.Add(groupName, matches.Cast<Match>().Last().Groups[groupName].Value);
-				}
-			}
 		}
 
-		/*
-				private void GetAllExpressionBraceIndeces(AutotextExpression expr, List<int> res)
-				{
-					res.Add(expr.GetAbsoluteStartIndex());
-					res.Add(expr.GetAbsoluteStartIndex() + expr.Length);
 
-					foreach (AutotextExpression expression in expr.NestedExpressions)
-					{
-						GetAllExpressionBraceIndeces(expression, res);
-					}
-
-				}
-
-		*/
 		private AutotextExpression(string expressionText, int startIndex, int length, List<int> escapedBracesIndeces, AutotextExpression parentExpression, Dictionary<string, string> userVars)
 		{
 			_userVariables = userVars;
@@ -214,84 +117,6 @@ namespace AutoText.Engine
 			}
 
 			return index;
-		}
-
-		private void ProcessShortcuts()
-		{
-			List<string> shortcutsList = ConfigHelper.GetKeycodesConfiguration().Keycodes.Where(p => p.Shortcut != "none").Select(p => p.Shortcut).ToList();
-			List<string> shortcutsListEscaped = shortcutsList.Select(p => string.Format(ShortcutsEscapeRegexTemplate, p)).ToList();
-			string shortcuts = Regex.Escape(string.Concat(shortcutsList));
-			Regex shortcutsRegex = new Regex(ShortcutsRegexTemplate.Replace("#shortcutsPlaceholder#", shortcuts), RegexOptions.Multiline | RegexOptions.IgnoreCase | RegexOptions.Singleline);
-			MatchCollection matches = shortcutsRegex.Matches(ExpressionText);
-			Stack<string> splStack;
-			Stack<Match> splStringsStack = new Stack<Match>(matches.Cast<Match>().Select(p => p).Reverse());
-			StringBuilder sbRes = new StringBuilder(1000);
-			List<string> split = new List<string>();
-
-			int startIndex = 0;
-
-			//Determine shortcuts index for extraction
-			for (int i = 0; i < matches.Count; i++)
-			{
-				Match m = matches[i];
-
-				split.Add(ExpressionText.Substring(startIndex, m.Index - startIndex));
-				startIndex = m.Index + m.Length;
-			}
-
-			split.Add(ExpressionText.Substring(startIndex));
-
-			split.Reverse();
-			splStack = new Stack<string>(split);
-
-			string target = null;
-
-			//Expanding shortcuts to their corresponding macroses
-			while (splStack.Count > 0)
-			{
-				string expandedKeys = "";
-
-
-				sbRes.Append(splStack.Pop());
-
-				if (splStringsStack.Count > 0)
-				{
-					Match spMatch = splStringsStack.Pop();
-					target = spMatch.Groups["target"].Value;
-					string keycodes = "";
-
-					//Keycodes in key combination
-					foreach (KeycodeConfig keycode in ConfigHelper.GetKeycodesConfiguration().Keycodes)
-					{
-						foreach (KeycodeConfigName name in keycode.Names)
-						{
-							if (target.Contains("{" + name.Value + "}"))
-							{
-								string kkToAd = "{k:" + name.Value + " 1}";
-								expandedKeys += kkToAd;
-								target = target.Replace("{" + name.Value + "}", "");
-							}
-						}
-					}
-
-					//Simple keys
-					foreach (char c in target)
-					{
-						expandedKeys += string.Format("{{k:{0} 1}}", c);
-					}
-
-					string strToInput = ExpandShortcuts(string.Concat(spMatch.Groups["shortcuts"].Value.Distinct()), expandedKeys);
-					sbRes.Append(strToInput);
-				}
-			}
-
-			//Replace escaped shortcuts with their symbols
-			shortcutsListEscaped.ForEach(p => sbRes = sbRes.Replace(p, p.Trim('{', '}')));
-			//Replace escaped parentheses with their symbols
-			sbRes = sbRes.Replace("{(}", "(");
-			sbRes = sbRes.Replace("{)}", ")");
-
-			ExpressionText = sbRes.ToString();
 		}
 
 		private string BuildEscapedBracesList(string expressionText)
@@ -540,7 +365,7 @@ namespace AutoText.Engine
 			{
 				case "s":
 					{
-						string count = "";
+						string count;
 
 						if (expressionParameters.ContainsKey("2"))
 						{
@@ -949,6 +774,85 @@ namespace AutoText.Engine
 
 			throw new InvalidOperationException();
 		}
+
+		private void ProcessShortcuts()
+		{
+			List<string> shortcutsList = ConfigHelper.GetKeycodesConfiguration().Keycodes.Where(p => p.Shortcut != "none").Select(p => p.Shortcut).ToList();
+			List<string> shortcutsListEscaped = shortcutsList.Select(p => string.Format(ShortcutsEscapeRegexTemplate, p)).ToList();
+			string shortcuts = Regex.Escape(string.Concat(shortcutsList));
+			Regex shortcutsRegex = new Regex(ShortcutsRegexTemplate.Replace("#shortcutsPlaceholder#", shortcuts), RegexOptions.Multiline | RegexOptions.IgnoreCase | RegexOptions.Singleline);
+			MatchCollection matches = shortcutsRegex.Matches(ExpressionText);
+			Stack<string> splStack;
+			Stack<Match> splStringsStack = new Stack<Match>(matches.Cast<Match>().Select(p => p).Reverse());
+			StringBuilder sbRes = new StringBuilder(1000);
+			List<string> split = new List<string>();
+
+			int startIndex = 0;
+
+			//Determine shortcuts index for extraction
+			for (int i = 0; i < matches.Count; i++)
+			{
+				Match m = matches[i];
+
+				split.Add(ExpressionText.Substring(startIndex, m.Index - startIndex));
+				startIndex = m.Index + m.Length;
+			}
+
+			split.Add(ExpressionText.Substring(startIndex));
+
+			split.Reverse();
+			splStack = new Stack<string>(split);
+
+			string target = null;
+
+			//Expanding shortcuts to their corresponding macroses
+			while (splStack.Count > 0)
+			{
+				string expandedKeys = "";
+
+
+				sbRes.Append(splStack.Pop());
+
+				if (splStringsStack.Count > 0)
+				{
+					Match spMatch = splStringsStack.Pop();
+					target = spMatch.Groups["target"].Value;
+					string keycodes = "";
+
+					//Keycodes in key combination
+					foreach (KeycodeConfig keycode in ConfigHelper.GetKeycodesConfiguration().Keycodes)
+					{
+						foreach (KeycodeConfigName name in keycode.Names)
+						{
+							if (target.Contains("{" + name.Value + "}"))
+							{
+								string kkToAd = "{k:" + name.Value + " 1}";
+								expandedKeys += kkToAd;
+								target = target.Replace("{" + name.Value + "}", "");
+							}
+						}
+					}
+
+					//Simple keys
+					foreach (char c in target)
+					{
+						expandedKeys += string.Format("{{k:{0} 1}}", c);
+					}
+
+					string strToInput = ExpandShortcuts(string.Concat(spMatch.Groups["shortcuts"].Value.Distinct()), expandedKeys);
+					sbRes.Append(strToInput);
+				}
+			}
+
+			//Replace escaped shortcuts with their symbols
+			shortcutsListEscaped.ForEach(p => sbRes = sbRes.Replace(p, p.Trim('{', '}')));
+			//Replace escaped parentheses with their symbols
+			sbRes = sbRes.Replace("{(}", "(");
+			sbRes = sbRes.Replace("{)}", ")");
+
+			ExpressionText = sbRes.ToString();
+		}
+
 
 		private static string ExpandShortcuts(string shortcuts, string target)
 		{

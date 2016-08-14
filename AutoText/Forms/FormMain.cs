@@ -60,6 +60,59 @@ namespace AutoText
 		public FormMain()
 		{
 			InitializeComponent();
+
+			return;
+
+			AutotextRulesRoot root = new AutotextRulesRoot()
+			{
+				AutotextRulesList = new List<AutotextRuleConfiguration>()
+				{
+					new AutotextRuleConfiguration()
+					{
+						Abbreviation = new AutotextRuleAbbreviation()
+						{
+							AbbreviationText = "asdasdasd",
+							CaseSensitive = false
+						},
+						Description = "asdasdasdads",
+						Phrase = "asdasdasdasd",
+						RemoveAbbr = true,
+						Macros = new AutotextRuleMacrosMode()
+						{
+							Mode = MacrosMode.Execute
+						},
+						Triggers = new List<AutotextRuleTrigger>()
+						{
+							{
+								new AutotextRuleTrigger()
+								{
+									CaseSensitive = false,
+									Value = "a",
+									TriggerType = AutotextRuleTriggerType.Character
+								}
+							}
+						},
+						SpecificPrograms = new AutotextRuleSpecificPrograms()
+						{
+							ProgramsListType = SpecificProgramsListtype.Blacklist,
+							Programs = new List<AutotextRuleSpecificProgram>()
+							{
+								{
+									new AutotextRuleSpecificProgram()
+									{
+										TitelMatchCondition = TitleCondition.Exact,
+										ProgramId = "notepad.exe",
+										TitleText = "Title text"
+									}
+								}
+							}
+						}
+					}
+				}
+			};
+
+			ConfigHelper.SaveAutotextRulesConfiguration(root.AutotextRulesList);
+			{ }
 		}
 
 		private void LoadPhrasesToDataGridView()
@@ -465,12 +518,10 @@ namespace AutoText
 
 			newConfig.RemoveAbbr = true;
 			newConfig.Phrase = "<phrase content>";
-			newConfig.PhraseCompiled = "<phrase content>";
 			newConfig.Macros = new AutotextRuleMacrosMode() { Mode = MacrosMode.Execute };
 			newConfig.Description = "<phrase description>";
 
 			_rulesBindingList.Add(newConfig);
-			SaveConfiguration();
 		}
 
 		private void buttonSavePhrase_Click(object sender, EventArgs e)
@@ -726,7 +777,6 @@ namespace AutoText
 
 			currentPhrase.RemoveAbbr = checkBoxSubstitute.Checked;
 			currentPhrase.Phrase = textBoxPhraseContent.Text;
-			currentPhrase.PhraseCompiled = textBoxPhraseContent.Text;
 			currentPhrase.Macros = new AutotextRuleMacrosMode() { Mode = (MacrosMode)Enum.Parse(typeof(MacrosMode), comboBoxProcessMacros.SelectedItem.ToString()) };
 			currentPhrase.Description = textBoxDescription.Text;
 			List<Panel> triggersPanels = groupBoxTriggers.Controls.Cast<Panel>().ToList();
@@ -759,6 +809,9 @@ namespace AutoText
 
 				}
 			}
+
+			AutotextRuleSpecificPrograms copyOfSpecificPrograms = _rules[_curSelectedPhraseIndex].SpecificPrograms.Clone();
+			currentPhrase.SpecificPrograms = copyOfSpecificPrograms;
 
 			return currentPhrase;
 		}
@@ -942,42 +995,6 @@ namespace AutoText
 
 		private void FormMain_Load(object sender, EventArgs e)
 		{
-			{}
-			
-/*
-			try
-			{
-				List<long> randoms = new List<long>();
-
-
-				for (int i = 0; i < 100000; i++)
-				{
-					randoms.Add(RandomNumberGeneration.RandomLong(0, 10));
-				}
-
-				long max = randoms.Max();
-				double avg = randoms.Average(p => p);
-
-				
-				{ }
-			}
-			catch (Exception ex)
-			{
-				
-				throw;
-			}
-*/
-
-			//Process[] processlist = Process.GetProcesses();
-			//processlist = processlist.Where(p => ((int)p.MainWindowHandle) != 0).ToArray();
-
-			//foreach (Process process in processlist)
-			//{
-			//	if (!String.IsNullOrEmpty(process.MainWindowTitle))
-			//	{
-			//		Console.WriteLine("Process: {0} ID: {1} Window title: {2}", process.ProcessName, process.Id, process.MainWindowTitle);
-			//	}
-			//}
 		}
 
 		private void keyLogWindowToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1013,6 +1030,12 @@ namespace AutoText
 			AddEnvironmentVariableMacros addEnvironmentVariableMacros = new AddEnvironmentVariableMacros();
 			addEnvironmentVariableMacros.CenterTo(this);
 			addEnvironmentVariableMacros.Show(this);
+		}
+
+		private void buttonAllowedDisallowedPrograms_Click(object sender, EventArgs e)
+		{
+			EditAllowedDisallowedPrograms allowedDisallowedPrograms = new EditAllowedDisallowedPrograms();
+			allowedDisallowedPrograms.ShowDialog(this);
 		}
 	}
 }
