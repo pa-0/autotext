@@ -22,8 +22,11 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Linq;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
@@ -162,6 +165,26 @@ namespace AutoText
 
 		void _matcher_MatchFound(object sender, AutotextMatchEventArgs e)
 		{
+			if (e.MatchedRule.SpecificPrograms != null && 
+				e.MatchedRule.SpecificPrograms.Programs != null 
+				&& e.MatchedRule.SpecificPrograms.Programs.Count > 0)
+			{
+				IntPtr hwnd = WinAPI.GetForegroundWindow();
+				IntPtr pid;
+				WinAPI.GetWindowThreadProcessId(hwnd, out pid);
+				Process process = Process.GetProcessById((int)pid);
+				List<AutotextRuleSpecificProgram> programs = e.MatchedRule.SpecificPrograms.Programs.Where(p => p.ProgramModuleName == Path.GetFileName(process.MainModule.FileName)).ToList();
+
+				if (programs.Count > 0)
+				{
+					string foregroundWindowTitle = GUIHelper.GetForegroundWindowTitle();
+
+					{ }
+				}
+			}
+
+			{ }
+
 			_keylogger.PauseCapture();
 			Thread.Sleep(20);
 			AutotextRuleExecution.ProcessRule(new AutotextRuleMatchParameters(e.MatchedRule, e.Trigger));

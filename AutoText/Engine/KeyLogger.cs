@@ -74,8 +74,9 @@ namespace AutoText.Engine
 						{
 							capturedKeyCodes.Add(keysValues[i]);
 
+							IntPtr pid;
 							keyChar = TextHelper.GetCharsFromKeys(keysValues[i], Control.ModifierKeys.HasFlag(Keys.Shift), Control.ModifierKeys.HasFlag(Keys.Alt),Control.IsKeyLocked(Keys.CapsLock),
-								WinAPI.GetKeyboardLayout(WinAPI.GetWindowThreadProcessId(WinAPI.GetForegroundWindow(), IntPtr.Zero)));
+								WinAPI.GetKeyboardLayout(WinAPI.GetWindowThreadProcessId(WinAPI.GetForegroundWindow(), out pid)));
 						}
 					}
 

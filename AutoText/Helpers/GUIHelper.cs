@@ -22,6 +22,7 @@ using System;
 using System.Drawing;
 using System.Linq.Expressions;
 using System.Reflection;
+using System.Text;
 using System.Windows.Forms;
 
 namespace AutoText.Helpers
@@ -55,6 +56,14 @@ namespace AutoText.Helpers
 		public static void CenterTo(this Control @this, Control centerToControl)
 		{
 			@this.Location = new Point(centerToControl.Location.X + (centerToControl.Width - @this.Width) / 2, centerToControl.Location.Y + (centerToControl.Height - @this.Height) / 2);
+		}
+
+		public static string GetForegroundWindowTitle()
+		{
+			IntPtr hwnd = WinAPI.GetForegroundWindow();
+			StringBuilder buff = new StringBuilder(1000);
+			WinAPI.GetWindowText(hwnd, buff, buff.Capacity);
+			return buff.ToString();
 		}
 	}
 }
