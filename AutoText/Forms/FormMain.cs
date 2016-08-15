@@ -24,8 +24,6 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
@@ -101,7 +99,8 @@ namespace AutoText
 									new AutotextRuleSpecificProgram()
 									{
 										TitelMatchCondition = TitleCondition.Exact,
-										ProgramId = "notepad.exe",
+										ProgramModuleName = "notepad.exe",
+										ProgramDescription = "Notepad editor",
 										TitleText = "Title text"
 									}
 								}
@@ -494,7 +493,7 @@ namespace AutoText
 			return true;
 		}
 
-		private void SaveConfiguration()
+		public void SaveConfiguration()
 		{
 			ConfigHelper.SaveAutotextRulesConfiguration(_rules);
 		}
@@ -1034,7 +1033,7 @@ namespace AutoText
 
 		private void buttonAllowedDisallowedPrograms_Click(object sender, EventArgs e)
 		{
-			EditAllowedDisallowedPrograms allowedDisallowedPrograms = new EditAllowedDisallowedPrograms();
+			EditAllowedDisallowedPrograms allowedDisallowedPrograms = new EditAllowedDisallowedPrograms(_rules[_curSelectedPhraseIndex].SpecificPrograms);
 			allowedDisallowedPrograms.ShowDialog(this);
 		}
 	}

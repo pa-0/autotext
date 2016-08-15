@@ -31,7 +31,7 @@
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EditAllowedDisallowedPrograms));
 			this.radioButtonAllow = new System.Windows.Forms.RadioButton();
 			this.radioButtonDisallow = new System.Windows.Forms.RadioButton();
-			this.dataGridView1 = new System.Windows.Forms.DataGridView();
+			this.dataGridViewPrograms = new System.Windows.Forms.DataGridView();
 			this.ColumnProgram = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.ColumnCondition = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.ColumnWindowTitle = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -40,7 +40,11 @@
 			this.label2 = new System.Windows.Forms.Label();
 			this.comboBoxConditionsList = new System.Windows.Forms.ComboBox();
 			this.textBoxWindowTitle = new System.Windows.Forms.TextBox();
-			((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+			this.openFileDialogSelectProgram = new System.Windows.Forms.OpenFileDialog();
+			this.buttonAdd = new System.Windows.Forms.Button();
+			this.buttonDelete = new System.Windows.Forms.Button();
+			this.buttonSave = new System.Windows.Forms.Button();
+			((System.ComponentModel.ISupportInitialize)(this.dataGridViewPrograms)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// radioButtonAllow
@@ -53,6 +57,7 @@
 			this.radioButtonAllow.TabStop = true;
 			this.radioButtonAllow.Text = "Allow only in following programs";
 			this.radioButtonAllow.UseVisualStyleBackColor = true;
+			this.radioButtonAllow.CheckedChanged += new System.EventHandler(this.radioButtonAllowDisallow_CheckedChanged);
 			// 
 			// radioButtonDisallow
 			// 
@@ -64,30 +69,33 @@
 			this.radioButtonDisallow.TabStop = true;
 			this.radioButtonDisallow.Text = "Disallow only in following programs";
 			this.radioButtonDisallow.UseVisualStyleBackColor = true;
+			this.radioButtonDisallow.CheckedChanged += new System.EventHandler(this.radioButtonAllowDisallow_CheckedChanged);
 			// 
-			// dataGridView1
+			// dataGridViewPrograms
 			// 
-			this.dataGridView1.AllowUserToAddRows = false;
-			this.dataGridView1.AllowUserToDeleteRows = false;
-			this.dataGridView1.AllowUserToResizeRows = false;
-			this.dataGridView1.BackgroundColor = System.Drawing.SystemColors.Window;
-			this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-			this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+			this.dataGridViewPrograms.AllowUserToAddRows = false;
+			this.dataGridViewPrograms.AllowUserToDeleteRows = false;
+			this.dataGridViewPrograms.AllowUserToResizeRows = false;
+			this.dataGridViewPrograms.BackgroundColor = System.Drawing.SystemColors.Window;
+			this.dataGridViewPrograms.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+			this.dataGridViewPrograms.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.ColumnProgram,
             this.ColumnCondition,
             this.ColumnWindowTitle});
-			this.dataGridView1.GridColor = System.Drawing.SystemColors.Window;
-			this.dataGridView1.Location = new System.Drawing.Point(23, 35);
-			this.dataGridView1.MultiSelect = false;
-			this.dataGridView1.Name = "dataGridView1";
-			this.dataGridView1.ReadOnly = true;
-			this.dataGridView1.RowHeadersVisible = false;
-			this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-			this.dataGridView1.Size = new System.Drawing.Size(605, 221);
-			this.dataGridView1.TabIndex = 2;
+			this.dataGridViewPrograms.GridColor = System.Drawing.SystemColors.Window;
+			this.dataGridViewPrograms.Location = new System.Drawing.Point(23, 35);
+			this.dataGridViewPrograms.MultiSelect = false;
+			this.dataGridViewPrograms.Name = "dataGridViewPrograms";
+			this.dataGridViewPrograms.ReadOnly = true;
+			this.dataGridViewPrograms.RowHeadersVisible = false;
+			this.dataGridViewPrograms.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+			this.dataGridViewPrograms.Size = new System.Drawing.Size(605, 221);
+			this.dataGridViewPrograms.TabIndex = 2;
+			this.dataGridViewPrograms.SelectionChanged += new System.EventHandler(this.dataGridViewPrograms_SelectionChanged);
 			// 
 			// ColumnProgram
 			// 
+			this.ColumnProgram.DataPropertyName = "ProgramIdFormatted";
 			this.ColumnProgram.HeaderText = "Program";
 			this.ColumnProgram.Name = "ColumnProgram";
 			this.ColumnProgram.ReadOnly = true;
@@ -97,6 +105,7 @@
 			// 
 			// ColumnCondition
 			// 
+			this.ColumnCondition.DataPropertyName = "TitelMatchConditionFormatted";
 			this.ColumnCondition.HeaderText = "Condition";
 			this.ColumnCondition.Name = "ColumnCondition";
 			this.ColumnCondition.ReadOnly = true;
@@ -105,6 +114,7 @@
 			// 
 			// ColumnWindowTitle
 			// 
+			this.ColumnWindowTitle.DataPropertyName = "TitleText";
 			this.ColumnWindowTitle.HeaderText = "Title";
 			this.ColumnWindowTitle.Name = "ColumnWindowTitle";
 			this.ColumnWindowTitle.ReadOnly = true;
@@ -116,7 +126,7 @@
 			this.comboBoxProgramsList.FormattingEnabled = true;
 			this.comboBoxProgramsList.Location = new System.Drawing.Point(71, 262);
 			this.comboBoxProgramsList.Name = "comboBoxProgramsList";
-			this.comboBoxProgramsList.Size = new System.Drawing.Size(191, 21);
+			this.comboBoxProgramsList.Size = new System.Drawing.Size(461, 21);
 			this.comboBoxProgramsList.TabIndex = 3;
 			this.comboBoxProgramsList.SelectedIndexChanged += new System.EventHandler(this.comboBoxProgramsList_SelectedIndexChanged);
 			// 
@@ -132,7 +142,7 @@
 			// label2
 			// 
 			this.label2.AutoSize = true;
-			this.label2.Location = new System.Drawing.Point(268, 265);
+			this.label2.Location = new System.Drawing.Point(272, 286);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(26, 13);
 			this.label2.TabIndex = 5;
@@ -148,7 +158,7 @@
             "window title that starts with",
             "window title that ends with",
             "window title that contain"});
-			this.comboBoxConditionsList.Location = new System.Drawing.Point(300, 262);
+			this.comboBoxConditionsList.Location = new System.Drawing.Point(71, 301);
 			this.comboBoxConditionsList.Name = "comboBoxConditionsList";
 			this.comboBoxConditionsList.Size = new System.Drawing.Size(184, 21);
 			this.comboBoxConditionsList.TabIndex = 6;
@@ -156,22 +166,64 @@
 			// 
 			// textBoxWindowTitle
 			// 
-			this.textBoxWindowTitle.Location = new System.Drawing.Point(490, 262);
+			this.textBoxWindowTitle.Location = new System.Drawing.Point(261, 301);
 			this.textBoxWindowTitle.Name = "textBoxWindowTitle";
-			this.textBoxWindowTitle.Size = new System.Drawing.Size(138, 20);
+			this.textBoxWindowTitle.Size = new System.Drawing.Size(271, 20);
 			this.textBoxWindowTitle.TabIndex = 7;
+			// 
+			// openFileDialogSelectProgram
+			// 
+			this.openFileDialogSelectProgram.CheckFileExists = false;
+			this.openFileDialogSelectProgram.CheckPathExists = false;
+			this.openFileDialogSelectProgram.DefaultExt = "exe";
+			this.openFileDialogSelectProgram.Filter = "Executable files|*.exe";
+			this.openFileDialogSelectProgram.SupportMultiDottedExtensions = true;
+			this.openFileDialogSelectProgram.FileOk += new System.ComponentModel.CancelEventHandler(this.openFileDialogSelectProgram_FileOk);
+			// 
+			// buttonAdd
+			// 
+			this.buttonAdd.Location = new System.Drawing.Point(538, 299);
+			this.buttonAdd.Name = "buttonAdd";
+			this.buttonAdd.Size = new System.Drawing.Size(90, 23);
+			this.buttonAdd.TabIndex = 8;
+			this.buttonAdd.Text = "Add";
+			this.buttonAdd.UseVisualStyleBackColor = true;
+			this.buttonAdd.Click += new System.EventHandler(this.buttonAdd_Click);
+			// 
+			// buttonDelete
+			// 
+			this.buttonDelete.Location = new System.Drawing.Point(538, 262);
+			this.buttonDelete.Name = "buttonDelete";
+			this.buttonDelete.Size = new System.Drawing.Size(90, 23);
+			this.buttonDelete.TabIndex = 9;
+			this.buttonDelete.Text = "Delete";
+			this.buttonDelete.UseVisualStyleBackColor = true;
+			this.buttonDelete.Click += new System.EventHandler(this.buttonDelete_Click);
+			// 
+			// buttonSave
+			// 
+			this.buttonSave.Location = new System.Drawing.Point(538, 338);
+			this.buttonSave.Name = "buttonSave";
+			this.buttonSave.Size = new System.Drawing.Size(90, 23);
+			this.buttonSave.TabIndex = 10;
+			this.buttonSave.Text = "Save";
+			this.buttonSave.UseVisualStyleBackColor = true;
+			this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
 			// 
 			// EditAllowedDisallowedPrograms
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(834, 547);
+			this.ClientSize = new System.Drawing.Size(654, 377);
+			this.Controls.Add(this.buttonSave);
+			this.Controls.Add(this.buttonDelete);
+			this.Controls.Add(this.buttonAdd);
 			this.Controls.Add(this.textBoxWindowTitle);
 			this.Controls.Add(this.comboBoxConditionsList);
 			this.Controls.Add(this.label2);
 			this.Controls.Add(this.label1);
 			this.Controls.Add(this.comboBoxProgramsList);
-			this.Controls.Add(this.dataGridView1);
+			this.Controls.Add(this.dataGridViewPrograms);
 			this.Controls.Add(this.radioButtonDisallow);
 			this.Controls.Add(this.radioButtonAllow);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
@@ -181,7 +233,7 @@
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
 			this.Text = "Allowed/Disallowed Programs";
 			this.Load += new System.EventHandler(this.EditAllowedDisallowedPrograms_Load);
-			((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.dataGridViewPrograms)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -191,14 +243,18 @@
 
 		private System.Windows.Forms.RadioButton radioButtonAllow;
 		private System.Windows.Forms.RadioButton radioButtonDisallow;
-		private System.Windows.Forms.DataGridView dataGridView1;
-		private System.Windows.Forms.DataGridViewTextBoxColumn ColumnProgram;
-		private System.Windows.Forms.DataGridViewTextBoxColumn ColumnCondition;
-		private System.Windows.Forms.DataGridViewTextBoxColumn ColumnWindowTitle;
+		private System.Windows.Forms.DataGridView dataGridViewPrograms;
 		private System.Windows.Forms.ComboBox comboBoxProgramsList;
 		private System.Windows.Forms.Label label1;
 		private System.Windows.Forms.Label label2;
 		private System.Windows.Forms.ComboBox comboBoxConditionsList;
 		private System.Windows.Forms.TextBox textBoxWindowTitle;
+		private System.Windows.Forms.OpenFileDialog openFileDialogSelectProgram;
+		private System.Windows.Forms.Button buttonAdd;
+		private System.Windows.Forms.DataGridViewTextBoxColumn ColumnProgram;
+		private System.Windows.Forms.DataGridViewTextBoxColumn ColumnCondition;
+		private System.Windows.Forms.DataGridViewTextBoxColumn ColumnWindowTitle;
+		private System.Windows.Forms.Button buttonDelete;
+		private System.Windows.Forms.Button buttonSave;
 	}
 }

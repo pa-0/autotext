@@ -18,9 +18,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
 
@@ -32,17 +29,63 @@ namespace AutoText.Model.Configuration
 		Exact,
 		StartsWith,
 		EndsWith,
-		Contains
+		Contains,
+		Any
 	}
 
 	[Serializable]
 	public class AutotextRuleSpecificProgram
 	{
 		[XmlElement("programId")]
-		public string ProgramId { get; set; }
+		public string ProgramModuleName { get; set; }
+		[XmlElement("programDescription")]
+		public string ProgramDescription { get; set; }
 		[XmlAttribute("titleMatchCondition")]
 		public TitleCondition TitelMatchCondition { get; set; }
 		[XmlElement("titleText")]
 		public string TitleText { get; set; }
+
+		public string TitelMatchConditionFormatted
+		{
+			get
+			{
+				switch (TitelMatchCondition)
+				{
+					case TitleCondition.Exact:
+						return "with window title that exactly matches";
+						break;
+					case TitleCondition.StartsWith:
+						return "with window title that starts with";
+						break;
+					case TitleCondition.EndsWith:
+						return "with window title that ends with";
+						break;
+					case TitleCondition.Contains:
+						return "with window title that contain";
+						break;
+					case TitleCondition.Any:
+						return "with any window title";
+						break;
+					default:
+						throw new InvalidOperationException("Enum value not recognized");
+						break;
+				}
+			}
+		}
+
+		public string ProgramIdFormatted
+		{
+			get
+			{
+				if (string.IsNullOrEmpty(ProgramDescription) || string.IsNullOrWhiteSpace(ProgramDescription))
+				{
+					return ProgramModuleName;
+				}
+				else
+				{
+					return ProgramDescription + " (" + ProgramModuleName + ")";
+				}
+			}
+		}
 	}
 }

@@ -23,30 +23,53 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
-using System.Drawing;
+using System.IO;
 using System.Linq;
-using System.Text;
 using System.Windows.Forms;
-using AutoText.Utility;
+using AutoText.Model.Configuration;
+using MoreLinq;
 
 namespace AutoText.Forms
 {
 	public partial class EditAllowedDisallowedPrograms : Form
 	{
-		public EditAllowedDisallowedPrograms()
+		private bool _fileSelected = false;
+		private AutotextRuleSpecificPrograms _programs;
+		private BindingList<AutotextRuleSpecificProgram> _programsBindingList;
+
+
+		public EditAllowedDisallowedPrograms(AutotextRuleSpecificPrograms programsToEdit)
 		{
 			InitializeComponent();
+			_programs = programsToEdit;
+			_programsBindingList = new BindingList<AutotextRuleSpecificProgram>(_programs.Programs);
+			dataGridViewPrograms.AutoGenerateColumns = false;
+			dataGridViewPrograms.DataSource = _programsBindingList;
+
+			radioButtonAllow.Checked = programsToEdit.ProgramsListType == SpecificProgramsListtype.Whitelist;
+			radioButtonDisallow.Checked = programsToEdit.ProgramsListType == SpecificProgramsListtype.Blacklist;
 		}
 
 		private void EditAllowedDisallowedPrograms_Load(object sender, EventArgs e)
 		{
 			comboBoxConditionsList.SelectedIndex = 0;
 
-			comboBoxProgramsList.Items.Add("Select file...");
+			comboBoxProgramsList.Items.Add(new ProgramEntry()
+			{
+				ProgramDescription = "Select file...",
+				ProgramModuleName = ""
+			});
 
 			Process[] processlist = Process.GetProcesses();
 			processlist = processlist.Where(p => ((int)p.MainWindowHandle) != 0).ToArray();
-			comboBoxProgramsList.Items.AddRange( processlist.Select(p => p.MainModule.FileVersionInfo.FileDescription).Distinct().ToArray());
+
+			ProgramEntry[] programs = processlist.Select(p => new ProgramEntry()
+			{
+				ProgramModuleName = Path.GetFileName(p.MainModule.FileVersionInfo.FileName),
+				ProgramDescription = p.MainModule.FileVersionInfo.FileDescription
+			}).DistinctBy(p => p.ProgramDescription).ToArray();
+
+			comboBoxProgramsList.Items.AddRange(programs);
 		}
 
 		private void comboBoxConditionsList_SelectedIndexChanged(object sender, EventArgs e)
@@ -56,7 +79,142 @@ namespace AutoText.Forms
 
 		private void comboBoxProgramsList_SelectedIndexChanged(object sender, EventArgs e)
 		{
+			if (comboBoxProgramsList.SelectedIndex == 0)
+			{
+				openFileDialogSelectProgram.ShowDialog(this);
 
+				if (!_fileSelected)
+				{
+					comboBoxProgramsList.SelectedIndex = 1;
+				}
+				else
+				{
+					_fileSelected = false;
+				}
+			}
+		}
+
+		private void openFileDialogSelectProgram_FileOk(object sender, System.ComponentModel.CancelEventArgs e)
+		{
+			_fileSelected = true;
+
+			FileVersionInfo fvi = FileVersionInfo.GetVersionInfo(openFileDialogSelectProgram.FileName);
+
+			if (comboBoxProgramsList.Items.Cast<ProgramEntry>().Any(p => p.ProgramModuleName == Path.GetFileName(fvi.FileName)))
+			{
+				comboBoxProgramsList.SelectedItem = comboBoxProgramsList.Items.Cast<ProgramEntry>().Single(p => p.ProgramModuleName == Path.GetFileName(fvi.FileName));
+			}
+			else
+			{
+				comboBoxProgramsList.Items.Insert(1, new ProgramEntry()
+				{
+					ProgramDescription = fvi.FileDescription,
+					ProgramModuleName = Path.GetFileName(fvi.FileName)
+				});
+
+				comboBoxProgramsList.SelectedIndex = 1;
+			}
+			{ }
+		}
+
+		private void buttonAdd_Click(object sender, EventArgs e)
+		{
+			if (comboBoxProgramsList.SelectedIndex == -1)
+			{
+				MessageBox.Show(this, "Please select program to add", "AutoText", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+				return;
+			}
+
+			TitleCondition titleMatchCondition;
+
+			switch (comboBoxConditionsList.SelectedItem.ToString())
+			{
+				case "any window title":
+					titleMatchCondition = TitleCondition.Any;
+					break;
+				case "window title that exactly matches":
+					titleMatchCondition = TitleCondition.Exact;
+					break;
+				case "window title that starts with":
+					titleMatchCondition = TitleCondition.StartsWith;
+					break;
+				case "window title that ends with":
+					titleMatchCondition = TitleCondition.EndsWith;
+					break;
+				case "window title that contain":
+					titleMatchCondition = TitleCondition.Contains;
+					break;
+
+				default:
+					throw new InvalidOperationException("Can't resolve title match condition");
+			}
+
+			ProgramEntry selEntry = (ProgramEntry)comboBoxProgramsList.SelectedItem;
+
+			AutotextRuleSpecificProgram newProgram = new AutotextRuleSpecificProgram()
+			{
+				ProgramDescription = selEntry.ProgramDescription,
+				ProgramModuleName = selEntry.ProgramModuleName,
+				TitelMatchCondition = titleMatchCondition,
+				TitleText = textBoxWindowTitle.Text
+			};
+
+			_programsBindingList.Add(newProgram);
+		}
+
+		private void radioButtonAllowDisallow_CheckedChanged(object sender, EventArgs e)
+		{
+			_programs.ProgramsListType = radioButtonAllow.Checked ? SpecificProgramsListtype.Whitelist : SpecificProgramsListtype.Blacklist;
+		}
+
+		private void buttonDelete_Click(object sender, EventArgs e)
+		{
+			List<int> selIndeces = dataGridViewPrograms.SelectedRows.Cast<DataGridViewRow>().Select(p => p.Index).ToList();
+
+			if (selIndeces.Any())
+			{
+				_programsBindingList.RemoveAt(selIndeces.First());
+			}
+		}
+
+		private void buttonSave_Click(object sender, EventArgs e)
+		{
+
+		}
+
+		private void dataGridViewPrograms_SelectionChanged(object sender, EventArgs e)
+		{
+			List<int> selIndeces = dataGridViewPrograms.SelectedRows.Cast<DataGridViewRow>().Select(p => p.Index).ToList();
+
+			if (selIndeces.Any())
+			{
+
+			}
+
+			//AutotextRuleSpecificProgram program = _
+		}
+	}
+
+	public class ProgramEntry
+	{
+		public string ProgramModuleName { get; set; }
+		public string ProgramDescription { get; set; }
+
+		public override string ToString()
+		{
+			if (ProgramDescription == "Select file...")
+			{
+				return ProgramDescription;
+			}
+
+			if (string.IsNullOrEmpty(ProgramDescription) || string.IsNullOrWhiteSpace(ProgramDescription))
+			{
+				return ProgramModuleName;
+			}
+			else
+			{
+				return ProgramDescription + " (" + ProgramModuleName + ")";
+			}
 		}
 	}
 }
