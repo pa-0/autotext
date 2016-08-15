@@ -91,6 +91,7 @@
 			this.dataGridViewPrograms.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
 			this.dataGridViewPrograms.Size = new System.Drawing.Size(605, 221);
 			this.dataGridViewPrograms.TabIndex = 2;
+			this.dataGridViewPrograms.RowValidating += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dataGridViewPrograms_RowValidating);
 			this.dataGridViewPrograms.SelectionChanged += new System.EventHandler(this.dataGridViewPrograms_SelectionChanged);
 			// 
 			// ColumnProgram
@@ -126,7 +127,7 @@
 			this.comboBoxProgramsList.FormattingEnabled = true;
 			this.comboBoxProgramsList.Location = new System.Drawing.Point(71, 262);
 			this.comboBoxProgramsList.Name = "comboBoxProgramsList";
-			this.comboBoxProgramsList.Size = new System.Drawing.Size(461, 21);
+			this.comboBoxProgramsList.Size = new System.Drawing.Size(557, 21);
 			this.comboBoxProgramsList.TabIndex = 3;
 			this.comboBoxProgramsList.SelectedIndexChanged += new System.EventHandler(this.comboBoxProgramsList_SelectedIndexChanged);
 			// 
@@ -142,7 +143,7 @@
 			// label2
 			// 
 			this.label2.AutoSize = true;
-			this.label2.Location = new System.Drawing.Point(272, 286);
+			this.label2.Location = new System.Drawing.Point(325, 285);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(26, 13);
 			this.label2.TabIndex = 5;
@@ -160,15 +161,15 @@
             "window title that contain"});
 			this.comboBoxConditionsList.Location = new System.Drawing.Point(71, 301);
 			this.comboBoxConditionsList.Name = "comboBoxConditionsList";
-			this.comboBoxConditionsList.Size = new System.Drawing.Size(184, 21);
+			this.comboBoxConditionsList.Size = new System.Drawing.Size(213, 21);
 			this.comboBoxConditionsList.TabIndex = 6;
 			this.comboBoxConditionsList.SelectedIndexChanged += new System.EventHandler(this.comboBoxConditionsList_SelectedIndexChanged);
 			// 
 			// textBoxWindowTitle
 			// 
-			this.textBoxWindowTitle.Location = new System.Drawing.Point(261, 301);
+			this.textBoxWindowTitle.Location = new System.Drawing.Point(290, 301);
 			this.textBoxWindowTitle.Name = "textBoxWindowTitle";
-			this.textBoxWindowTitle.Size = new System.Drawing.Size(271, 20);
+			this.textBoxWindowTitle.Size = new System.Drawing.Size(338, 20);
 			this.textBoxWindowTitle.TabIndex = 7;
 			// 
 			// openFileDialogSelectProgram
@@ -182,7 +183,7 @@
 			// 
 			// buttonAdd
 			// 
-			this.buttonAdd.Location = new System.Drawing.Point(538, 299);
+			this.buttonAdd.Location = new System.Drawing.Point(346, 327);
 			this.buttonAdd.Name = "buttonAdd";
 			this.buttonAdd.Size = new System.Drawing.Size(90, 23);
 			this.buttonAdd.TabIndex = 8;
@@ -192,7 +193,7 @@
 			// 
 			// buttonDelete
 			// 
-			this.buttonDelete.Location = new System.Drawing.Point(538, 262);
+			this.buttonDelete.Location = new System.Drawing.Point(442, 327);
 			this.buttonDelete.Name = "buttonDelete";
 			this.buttonDelete.Size = new System.Drawing.Size(90, 23);
 			this.buttonDelete.TabIndex = 9;
@@ -202,7 +203,7 @@
 			// 
 			// buttonSave
 			// 
-			this.buttonSave.Location = new System.Drawing.Point(538, 338);
+			this.buttonSave.Location = new System.Drawing.Point(538, 327);
 			this.buttonSave.Name = "buttonSave";
 			this.buttonSave.Size = new System.Drawing.Size(90, 23);
 			this.buttonSave.TabIndex = 10;
@@ -214,7 +215,7 @@
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(654, 377);
+			this.ClientSize = new System.Drawing.Size(654, 365);
 			this.Controls.Add(this.buttonSave);
 			this.Controls.Add(this.buttonDelete);
 			this.Controls.Add(this.buttonAdd);
@@ -232,6 +233,7 @@
 			this.Name = "EditAllowedDisallowedPrograms";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
 			this.Text = "Allowed/Disallowed Programs";
+			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.EditAllowedDisallowedPrograms_FormClosing);
 			this.Load += new System.EventHandler(this.EditAllowedDisallowedPrograms_Load);
 			((System.ComponentModel.ISupportInitialize)(this.dataGridViewPrograms)).EndInit();
 			this.ResumeLayout(false);

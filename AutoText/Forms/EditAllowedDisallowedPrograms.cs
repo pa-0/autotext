@@ -33,25 +33,34 @@ namespace AutoText.Forms
 {
 	public partial class EditAllowedDisallowedPrograms : Form
 	{
-		private bool _fileSelected = false;
+		private bool _fileSelected;
 		private AutotextRuleSpecificPrograms _programs;
 		private BindingList<AutotextRuleSpecificProgram> _programsBindingList;
+		private AutotextRuleConfiguration _autotextRule;
+		private int _curSelDataGridViewRowIndex = -1;
 
 
-		public EditAllowedDisallowedPrograms(AutotextRuleSpecificPrograms programsToEdit)
+		public EditAllowedDisallowedPrograms(AutotextRuleConfiguration autotextRule)
 		{
 			InitializeComponent();
-			_programs = programsToEdit;
+			_autotextRule = autotextRule;
+
+			if (_autotextRule.SpecificPrograms == null)
+			{
+				_autotextRule.SpecificPrograms = new AutotextRuleSpecificPrograms()
+				{
+					Programs =  new List<AutotextRuleSpecificProgram>()
+				};
+			}
+
+			_programs = _autotextRule.SpecificPrograms;
 			_programsBindingList = new BindingList<AutotextRuleSpecificProgram>(_programs.Programs);
 			dataGridViewPrograms.AutoGenerateColumns = false;
 			dataGridViewPrograms.DataSource = _programsBindingList;
 
-			radioButtonAllow.Checked = programsToEdit.ProgramsListType == SpecificProgramsListtype.Whitelist;
-			radioButtonDisallow.Checked = programsToEdit.ProgramsListType == SpecificProgramsListtype.Blacklist;
-		}
+			radioButtonAllow.Checked = _programs.ProgramsListType == SpecificProgramsListtype.Whitelist;
+			radioButtonDisallow.Checked = _programs.ProgramsListType == SpecificProgramsListtype.Blacklist;
 
-		private void EditAllowedDisallowedPrograms_Load(object sender, EventArgs e)
-		{
 			comboBoxConditionsList.SelectedIndex = 0;
 
 			comboBoxProgramsList.Items.Add(new ProgramEntry()
@@ -70,6 +79,11 @@ namespace AutoText.Forms
 			}).DistinctBy(p => p.ProgramDescription).ToArray();
 
 			comboBoxProgramsList.Items.AddRange(programs);
+		}
+
+		private void EditAllowedDisallowedPrograms_Load(object sender, EventArgs e)
+		{
+			
 		}
 
 		private void comboBoxConditionsList_SelectedIndexChanged(object sender, EventArgs e)
@@ -165,21 +179,75 @@ namespace AutoText.Forms
 		private void radioButtonAllowDisallow_CheckedChanged(object sender, EventArgs e)
 		{
 			_programs.ProgramsListType = radioButtonAllow.Checked ? SpecificProgramsListtype.Whitelist : SpecificProgramsListtype.Blacklist;
+
+			if (Owner != null)
+			{
+				((FormMain)Owner).SaveConfiguration();
+			}
 		}
 
 		private void buttonDelete_Click(object sender, EventArgs e)
+		{
+			if (_curSelDataGridViewRowIndex != -1)
+			{
+				_programsBindingList.RemoveAt(_curSelDataGridViewRowIndex);
+
+				if (_programsBindingList.Count > 0 && _curSelDataGridViewRowIndex == -1)
+				{
+					dataGridViewPrograms.Rows[dataGridViewPrograms.Rows.Count - 1].Selected = true;
+				}
+
+				((FormMain)Owner).SaveConfiguration();
+			}
+		}
+
+		private void SaveProgramEntry()
 		{
 			List<int> selIndeces = dataGridViewPrograms.SelectedRows.Cast<DataGridViewRow>().Select(p => p.Index).ToList();
 
 			if (selIndeces.Any())
 			{
-				_programsBindingList.RemoveAt(selIndeces.First());
+				AutotextRuleSpecificProgram selectedProgram = _programsBindingList[selIndeces.First()];
+				ProgramEntry programEntry = (ProgramEntry)comboBoxProgramsList.SelectedItem;
+				selectedProgram.ProgramModuleName = programEntry.ProgramModuleName;
+				selectedProgram.ProgramDescription = programEntry.ProgramDescription;
+				selectedProgram.TitleText = textBoxWindowTitle.Text;
+
+				TitleCondition titleCondition;
+
+				switch (comboBoxConditionsList.SelectedItem.ToString())
+				{
+					case "any window title":
+						titleCondition = TitleCondition.Any;
+						selectedProgram.TitleText = "";
+						break;
+					case "window title that exactly matches":
+						titleCondition = TitleCondition.Exact;
+						break;
+					case "window title that starts with":
+						titleCondition = TitleCondition.StartsWith;
+						break;
+					case "window title that ends with":
+						titleCondition = TitleCondition.EndsWith;
+						break;
+					case "window title that contain":
+						titleCondition = TitleCondition.Contains;
+						break;
+
+					default:
+						throw new InvalidOperationException("Can't resolve title match condition");
+				}
+
+				selectedProgram.TitelMatchCondition = titleCondition;
+				dataGridViewPrograms.Refresh();
 			}
+
+			((FormMain)Owner).SaveConfiguration();
 		}
 
 		private void buttonSave_Click(object sender, EventArgs e)
 		{
-
+			SaveProgramEntry();
 		}
 
 		private void dataGridViewPrograms_SelectionChanged(object sender, EventArgs e)
@@ -188,33 +256,117 @@ namespace AutoText.Forms
 
 			if (selIndeces.Any())
 			{
+				_curSelDataGridViewRowIndex = selIndeces.First();
+				AutotextRuleSpecificProgram selectedProgram = _programsBindingList[_curSelDataGridViewRowIndex];
+				ProgramEntry programEntry = comboBoxProgramsList.Items.Cast<ProgramEntry>().SingleOrDefault(p => p.ProgramModuleName == selectedProgram.ProgramModuleName);
 
-			}
+				if (programEntry != null)
+				{
+					comboBoxProgramsList.SelectedItem = programEntry;
+				}
+				else
+				{
+					comboBoxProgramsList.Items.Add(new ProgramEntry()
+					{
+						ProgramModuleName = selectedProgram.ProgramModuleName,
+						ProgramDescription = selectedProgram.ProgramDescription
+					});
+				}
 
-			//AutotextRuleSpecificProgram program = _
-		}
-	}
-
-	public class ProgramEntry
-	{
-		public string ProgramModuleName { get; set; }
-		public string ProgramDescription { get; set; }
-
-		public override string ToString()
-		{
-			if (ProgramDescription == "Select file...")
-			{
-				return ProgramDescription;
-			}
-
-			if (string.IsNullOrEmpty(ProgramDescription) || string.IsNullOrWhiteSpace(ProgramDescription))
-			{
-				return ProgramModuleName;
+				string cond = comboBoxConditionsList.Items.Cast<string>().Single(p => p == selectedProgram.TitelMatchConditionFormatted.Substring(5));
+				comboBoxConditionsList.SelectedItem = cond;
+				textBoxWindowTitle.Text = selectedProgram.TitleText;
 			}
 			else
 			{
-				return ProgramDescription + " (" + ProgramModuleName + ")";
+				_curSelDataGridViewRowIndex = -1;
+			}
+		}
+
+		private void dataGridViewPrograms_RowValidating(object sender, DataGridViewCellCancelEventArgs e)
+		{
+			if (dataGridViewPrograms.RowCount > 0 && _curSelDataGridViewRowIndex != -1 && dataGridViewPrograms.ClientRectangle.Contains(PointToClient(Control.MousePosition)) && IsCurrentEntryDirty())
+			{
+				DialogResult dl = MessageBox.Show(this, "Currently selected program entry has unsaved changes. Save changes?", "Confirmation",
+					MessageBoxButtons.YesNoCancel,
+					MessageBoxIcon.Question);
+
+				switch (dl)
+				{
+					case DialogResult.Cancel:
+						e.Cancel = true;
+						break;
+					case DialogResult.Yes:
+						SaveProgramEntry();
+						break;
+					case DialogResult.No:
+						break;
+				}
+			}
+		}
+
+		private bool IsCurrentEntryDirty()
+		{
+			AutotextRuleSpecificProgram selectedProgram = _programsBindingList[_curSelDataGridViewRowIndex];
+			ProgramEntry programEntry = (ProgramEntry) comboBoxProgramsList.SelectedItem;
+
+			if (selectedProgram.ProgramModuleName != programEntry.ProgramModuleName ||
+				textBoxWindowTitle.Text != selectedProgram.TitleText ||
+				comboBoxConditionsList.SelectedItem.ToString() != selectedProgram.TitelMatchConditionFormatted.Substring(5))
+			{
+
+				return true;
+			}
+
+			return false;
+		}
+
+		private void EditAllowedDisallowedPrograms_FormClosing(object sender, FormClosingEventArgs e)
+		{
+			if (dataGridViewPrograms.RowCount > 0 && _curSelDataGridViewRowIndex != -1  && IsCurrentEntryDirty())
+			{
+				DialogResult dl = MessageBox.Show(this, "Currently selected program entry has unsaved changes. Save changes?", "Confirmation",
+					MessageBoxButtons.YesNoCancel,
+					MessageBoxIcon.Question);
+
+				switch (dl)
+				{
+					case DialogResult.Cancel:
+						e.Cancel = true;
+						break;
+					case DialogResult.Yes:
+						SaveProgramEntry();
+						break;
+					case DialogResult.No:
+						break;
+				}
+			}
+		}
+
+		private class ProgramEntry
+		{
+			public string ProgramModuleName { get; set; }
+			public string ProgramDescription { get; set; }
+
+			public override string ToString()
+			{
+				if (ProgramDescription == "Select file...")
+				{
+					return ProgramDescription;
+				}
+
+				if (string.IsNullOrEmpty(ProgramDescription) || string.IsNullOrWhiteSpace(ProgramDescription))
+				{
+					return ProgramModuleName;
+				}
+				else
+				{
+					return ProgramDescription + " (" + ProgramModuleName + ")";
+				}
 			}
 		}
 	}
+
+
+	
 }

@@ -60,7 +60,6 @@ namespace AutoText
 			InitializeComponent();
 
 			return;
-
 			AutotextRulesRoot root = new AutotextRulesRoot()
 			{
 				AutotextRulesList = new List<AutotextRuleConfiguration>()
@@ -102,6 +101,7 @@ namespace AutoText
 										ProgramModuleName = "notepad.exe",
 										ProgramDescription = "Notepad editor",
 										TitleText = "Title text"
+										
 									}
 								}
 							}
@@ -1033,7 +1033,7 @@ namespace AutoText
 
 		private void buttonAllowedDisallowedPrograms_Click(object sender, EventArgs e)
 		{
-			EditAllowedDisallowedPrograms allowedDisallowedPrograms = new EditAllowedDisallowedPrograms(_rules[_curSelectedPhraseIndex].SpecificPrograms);
+			EditAllowedDisallowedPrograms allowedDisallowedPrograms = new EditAllowedDisallowedPrograms(_rules[_curSelectedPhraseIndex]);
 			allowedDisallowedPrograms.ShowDialog(this);
 		}
 	}
