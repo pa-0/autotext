@@ -2,13 +2,16 @@
 <autotextRules xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <rules>
     <rule>
-      <abbreviation caseSensitive="false" type="Text">
+      <abbreviation caseSensitive="false">
         <value>hw</value>
       </abbreviation>
       <removeAbbr>true</removeAbbr>
       <phrase>Hello world</phrase>
       <macros mode="Execute" />
       <description>Hello world phrase</description>
+      <specificPrograms listType="Blacklist" listEnabled="false">
+        <programs />
+      </specificPrograms>
       <triggers>
         <item caseSensitive="false" triggerType="Key">
           <value>Tab</value>
