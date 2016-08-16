@@ -18,7 +18,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
 
-using System.Collections.Generic;
 using System.Xml.Serialization;
 
 namespace AutoText.Model.Configuration
@@ -30,5 +29,8 @@ namespace AutoText.Model.Configuration
 		public string ShortcutRegexTemplate { get; set; }
 		[XmlElement("nonPrintableTriggers")]
 		public string NonPrintableTriggers { get; set; }
+
+		[XmlElement("specificPrograms")]
+		public AutotextRuleSpecificPrograms SpecificPrograms { get; set; }
 	}
 }
