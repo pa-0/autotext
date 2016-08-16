@@ -145,5 +145,18 @@ namespace AutoText.Helpers.Configuration
 			_commonConfiguration = DeserailizeXml<CommonConfiguration>(Constants.Common.CommonConfigurationFileFullPath);
 			return _commonConfiguration;
 		}
+
+		public static void SaveCommonConfiguration()
+		{
+			if (_commonConfiguration != null)
+			{
+				XmlSerializer serializer = new XmlSerializer(typeof(CommonConfiguration));
+
+				using (TextWriter writer = new StreamWriter(Constants.Common.CommonConfigurationFileFullPath))
+				{
+					serializer.Serialize(writer, _commonConfiguration);
+				}
+			}
+		}
 	}
 }

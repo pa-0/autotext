@@ -162,11 +162,45 @@ namespace AutoText
 			}
 		}
 
+		private bool IsTitleMatched(TitleCondition titleCondition, string title, string foregroundWindowTitle)
+		{
+			switch (titleCondition)
+			{
+				case TitleCondition.Exact:
+					return foregroundWindowTitle == title;
+					break;
+				case TitleCondition.StartsWith:
+					return foregroundWindowTitle.StartsWith(title);
+					break;
+				case TitleCondition.EndsWith:
+					return  foregroundWindowTitle.EndsWith(title);
+					break;
+				case TitleCondition.Contains:
+					return  foregroundWindowTitle.Contains(title);
+					break;
+				case TitleCondition.Any:
+					return true;
+					break;
+				default:
+					throw new InvalidOperationException("Program match condition not recognized");
+					break;
+			}
+		}
+
 		void _matcher_MatchFound(object sender, AutotextMatchEventArgs e)
 		{
+			IntPtr hwnd = WinAPI.GetForegroundWindow();
+			IntPtr pid;
+			WinAPI.GetWindowThreadProcessId(hwnd, out pid);
+			Process process = Process.GetProcessById((int)pid);
+			string foregroundWindowTitle = GUIHelper.GetForegroundWindowTitle();
+
+
+			#region Process phrase allow/deny programs list
+
 			if (e.MatchedRule.SpecificPrograms != null &&
-				e.MatchedRule.SpecificPrograms.ListEnabled &&
-				e.MatchedRule.SpecificPrograms.Programs != null)
+					e.MatchedRule.SpecificPrograms.ListEnabled &&
+					e.MatchedRule.SpecificPrograms.Programs != null)
 			{
 				if (e.MatchedRule.SpecificPrograms.ProgramsListType == SpecificProgramsListtype.Whitelist &&
 					e.MatchedRule.SpecificPrograms.Programs.Count == 0)
@@ -174,39 +208,12 @@ namespace AutoText
 					return;
 				}
 
-				IntPtr hwnd = WinAPI.GetForegroundWindow();
-				IntPtr pid;
-				WinAPI.GetWindowThreadProcessId(hwnd, out pid);
-				Process process = Process.GetProcessById((int)pid);
 				List<AutotextRuleSpecificProgram> programs = e.MatchedRule.SpecificPrograms.Programs.Where(p => p.ProgramModuleName.ToLower() == Path.GetFileName(process.MainModule.FileName.ToLower())).ToList();
-				List<AutotextRuleSpecificProgram> matchedTitlePrograms = new List<AutotextRuleSpecificProgram>();
-				string foregroundWindowTitle = GUIHelper.GetForegroundWindowTitle();
 				bool titleMatched = false;
-
 
 				foreach (AutotextRuleSpecificProgram program in programs)
 				{
-					switch (program.TitelMatchCondition)
-					{
-						case TitleCondition.Exact:
-							titleMatched = foregroundWindowTitle == program.TitleText;
-							break;
-						case TitleCondition.StartsWith:
-							titleMatched = foregroundWindowTitle.StartsWith(program.TitleText);
-							break;
-						case TitleCondition.EndsWith:
-							titleMatched = foregroundWindowTitle.EndsWith(program.TitleText);
-							break;
-						case TitleCondition.Contains:
-							titleMatched = foregroundWindowTitle.Contains(program.TitleText);
-							break;
-						case TitleCondition.Any:
-							titleMatched = true;
-							break;
-						default:
-							throw new InvalidOperationException("Program match condition not recognized");
-							break;
-					}
+					titleMatched = IsTitleMatched(program.TitelMatchCondition, program.TitleText, foregroundWindowTitle);
 
 					if (titleMatched)
 					{
@@ -227,6 +234,44 @@ namespace AutoText
 				}
 			}
 
+			#endregion
+
+			#region Process global allow/deny programs list
+
+			AutotextRuleSpecificPrograms globalList = ConfigHelper.GetCommonConfiguration().SpecificPrograms;
+
+			if (globalList.ListEnabled)
+			{
+				if (globalList.ProgramsListType == SpecificProgramsListtype.Whitelist && globalList.Programs.Count == 0)
+				{
+					return;
+				}
+
+				List<AutotextRuleSpecificProgram> programs = globalList.Programs.Where(p => p.ProgramModuleName.ToLower() == Path.GetFileName(process.MainModule.FileName.ToLower())).ToList();
+				bool titleMatched = false;
+
+				foreach (AutotextRuleSpecificProgram program in programs)
+				{
+					titleMatched = IsTitleMatched(program.TitelMatchCondition, program.TitleText, foregroundWindowTitle);
+
+					if (titleMatched)
+					{
+						break;
+					}
+				}
+
+				if (globalList.ProgramsListType == SpecificProgramsListtype.Whitelist && !titleMatched)
+				{
+					return;
+				}
+
+				if (globalList.ProgramsListType == SpecificProgramsListtype.Blacklist && titleMatched)
+				{
+					return;
+				}
+			}
+
+			#endregion
 
 			_keylogger.PauseCapture();
 			Thread.Sleep(20);
@@ -953,8 +998,6 @@ namespace AutoText
 				textBoxAutotext.Text = config.Abbreviation.AbbreviationText;
 				checkBoxSubstitute.Checked = config.RemoveAbbr;
 				checkBoxAutotextCaseSensetive.Checked = config.Abbreviation.CaseSensitive;
-				checkBoxPerProgramRestrictions.Checked = config.SpecificPrograms.ListEnabled;
-				buttonAllowedDisallowedPrograms.Enabled = checkBoxPerProgramRestrictions.Checked;
 
 				comboBoxProcessMacros.Enabled = true;
 				textBoxDescription.Enabled = true;
@@ -1121,21 +1164,8 @@ namespace AutoText
 
 		private void buttonAllowedDisallowedPrograms_Click(object sender, EventArgs e)
 		{
-			EditAllowedDisallowedPrograms allowedDisallowedPrograms = new EditAllowedDisallowedPrograms(_rules[_curSelectedPhraseIndex]);
+			EditAllowedDisallowedPrograms allowedDisallowedPrograms = new EditAllowedDisallowedPrograms(_rules[_curSelectedPhraseIndex].SpecificPrograms, ProgramsConfigSource.Phrase);
 			allowedDisallowedPrograms.ShowDialog(this);
-		}
-
-		private void checkBoxPerProgramRestrictions_CheckedChanged(object sender, EventArgs e)
-		{
-			buttonAllowedDisallowedPrograms.Enabled = checkBoxPerProgramRestrictions.Checked;
-
-			List<int> selIndeces = GetDataGridViewSelectedRowIndeces();
-
-			if (selIndeces.Any())
-			{
-				_rulesBindingList[selIndeces.First()].SpecificPrograms.ListEnabled = checkBoxPerProgramRestrictions.Checked;
-				SaveConfiguration();
-			}
 		}
 
 		private void dataGridViewPhrases_KeyDown(object sender, KeyEventArgs e)
@@ -1148,7 +1178,7 @@ namespace AutoText
 
 		private void globalAllowedDisallowedProgramsListToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			EditAllowedDisallowedPrograms allowedDisallowedPrograms = new EditAllowedDisallowedPrograms(_rules[_curSelectedPhraseIndex]);
+			EditAllowedDisallowedPrograms allowedDisallowedPrograms = new EditAllowedDisallowedPrograms(ConfigHelper.GetCommonConfiguration().SpecificPrograms, ProgramsConfigSource.Global);
 			allowedDisallowedPrograms.ShowDialog(this);
 		}
 	}

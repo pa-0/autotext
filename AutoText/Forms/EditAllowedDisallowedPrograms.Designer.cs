@@ -44,13 +44,16 @@
 			this.buttonAdd = new System.Windows.Forms.Button();
 			this.buttonDelete = new System.Windows.Forms.Button();
 			this.buttonSave = new System.Windows.Forms.Button();
+			this.checkBoxPerProgramRestrictions = new System.Windows.Forms.CheckBox();
+			this.panelControls = new System.Windows.Forms.Panel();
 			((System.ComponentModel.ISupportInitialize)(this.dataGridViewPrograms)).BeginInit();
+			this.panelControls.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// radioButtonAllow
 			// 
 			this.radioButtonAllow.AutoSize = true;
-			this.radioButtonAllow.Location = new System.Drawing.Point(23, 12);
+			this.radioButtonAllow.Location = new System.Drawing.Point(3, 3);
 			this.radioButtonAllow.Name = "radioButtonAllow";
 			this.radioButtonAllow.Size = new System.Drawing.Size(173, 17);
 			this.radioButtonAllow.TabIndex = 0;
@@ -62,7 +65,7 @@
 			// radioButtonDisallow
 			// 
 			this.radioButtonDisallow.AutoSize = true;
-			this.radioButtonDisallow.Location = new System.Drawing.Point(202, 12);
+			this.radioButtonDisallow.Location = new System.Drawing.Point(182, 3);
 			this.radioButtonDisallow.Name = "radioButtonDisallow";
 			this.radioButtonDisallow.Size = new System.Drawing.Size(187, 17);
 			this.radioButtonDisallow.TabIndex = 1;
@@ -83,7 +86,7 @@
             this.ColumnCondition,
             this.ColumnWindowTitle});
 			this.dataGridViewPrograms.GridColor = System.Drawing.SystemColors.Window;
-			this.dataGridViewPrograms.Location = new System.Drawing.Point(23, 35);
+			this.dataGridViewPrograms.Location = new System.Drawing.Point(3, 26);
 			this.dataGridViewPrograms.MultiSelect = false;
 			this.dataGridViewPrograms.Name = "dataGridViewPrograms";
 			this.dataGridViewPrograms.ReadOnly = true;
@@ -125,7 +128,7 @@
 			// 
 			this.comboBoxProgramsList.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.comboBoxProgramsList.FormattingEnabled = true;
-			this.comboBoxProgramsList.Location = new System.Drawing.Point(71, 262);
+			this.comboBoxProgramsList.Location = new System.Drawing.Point(51, 253);
 			this.comboBoxProgramsList.Name = "comboBoxProgramsList";
 			this.comboBoxProgramsList.Size = new System.Drawing.Size(557, 21);
 			this.comboBoxProgramsList.TabIndex = 3;
@@ -134,7 +137,7 @@
 			// label1
 			// 
 			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(19, 265);
+			this.label1.Location = new System.Drawing.Point(-1, 256);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(46, 13);
 			this.label1.TabIndex = 4;
@@ -143,7 +146,7 @@
 			// label2
 			// 
 			this.label2.AutoSize = true;
-			this.label2.Location = new System.Drawing.Point(325, 285);
+			this.label2.Location = new System.Drawing.Point(305, 276);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(26, 13);
 			this.label2.TabIndex = 5;
@@ -159,7 +162,7 @@
             "window title that starts with",
             "window title that ends with",
             "window title that contain"});
-			this.comboBoxConditionsList.Location = new System.Drawing.Point(71, 301);
+			this.comboBoxConditionsList.Location = new System.Drawing.Point(51, 292);
 			this.comboBoxConditionsList.Name = "comboBoxConditionsList";
 			this.comboBoxConditionsList.Size = new System.Drawing.Size(213, 21);
 			this.comboBoxConditionsList.TabIndex = 6;
@@ -167,7 +170,7 @@
 			// 
 			// textBoxWindowTitle
 			// 
-			this.textBoxWindowTitle.Location = new System.Drawing.Point(290, 301);
+			this.textBoxWindowTitle.Location = new System.Drawing.Point(270, 292);
 			this.textBoxWindowTitle.Name = "textBoxWindowTitle";
 			this.textBoxWindowTitle.Size = new System.Drawing.Size(338, 20);
 			this.textBoxWindowTitle.TabIndex = 7;
@@ -183,7 +186,7 @@
 			// 
 			// buttonAdd
 			// 
-			this.buttonAdd.Location = new System.Drawing.Point(346, 327);
+			this.buttonAdd.Location = new System.Drawing.Point(326, 318);
 			this.buttonAdd.Name = "buttonAdd";
 			this.buttonAdd.Size = new System.Drawing.Size(90, 23);
 			this.buttonAdd.TabIndex = 8;
@@ -193,7 +196,7 @@
 			// 
 			// buttonDelete
 			// 
-			this.buttonDelete.Location = new System.Drawing.Point(442, 327);
+			this.buttonDelete.Location = new System.Drawing.Point(422, 318);
 			this.buttonDelete.Name = "buttonDelete";
 			this.buttonDelete.Size = new System.Drawing.Size(90, 23);
 			this.buttonDelete.TabIndex = 9;
@@ -203,7 +206,7 @@
 			// 
 			// buttonSave
 			// 
-			this.buttonSave.Location = new System.Drawing.Point(538, 327);
+			this.buttonSave.Location = new System.Drawing.Point(518, 318);
 			this.buttonSave.Name = "buttonSave";
 			this.buttonSave.Size = new System.Drawing.Size(90, 23);
 			this.buttonSave.TabIndex = 10;
@@ -211,22 +214,42 @@
 			this.buttonSave.UseVisualStyleBackColor = true;
 			this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
 			// 
+			// checkBoxPerProgramRestrictions
+			// 
+			this.checkBoxPerProgramRestrictions.AutoSize = true;
+			this.checkBoxPerProgramRestrictions.Location = new System.Drawing.Point(12, 12);
+			this.checkBoxPerProgramRestrictions.Name = "checkBoxPerProgramRestrictions";
+			this.checkBoxPerProgramRestrictions.Size = new System.Drawing.Size(171, 17);
+			this.checkBoxPerProgramRestrictions.TabIndex = 11;
+			this.checkBoxPerProgramRestrictions.Text = "Enable per program restrictions";
+			this.checkBoxPerProgramRestrictions.UseVisualStyleBackColor = true;
+			this.checkBoxPerProgramRestrictions.CheckedChanged += new System.EventHandler(this.checkBoxPerProgramRestrictions_CheckedChanged);
+			// 
+			// panelControls
+			// 
+			this.panelControls.Controls.Add(this.radioButtonAllow);
+			this.panelControls.Controls.Add(this.radioButtonDisallow);
+			this.panelControls.Controls.Add(this.buttonSave);
+			this.panelControls.Controls.Add(this.dataGridViewPrograms);
+			this.panelControls.Controls.Add(this.buttonDelete);
+			this.panelControls.Controls.Add(this.comboBoxProgramsList);
+			this.panelControls.Controls.Add(this.buttonAdd);
+			this.panelControls.Controls.Add(this.label1);
+			this.panelControls.Controls.Add(this.textBoxWindowTitle);
+			this.panelControls.Controls.Add(this.label2);
+			this.panelControls.Controls.Add(this.comboBoxConditionsList);
+			this.panelControls.Location = new System.Drawing.Point(12, 35);
+			this.panelControls.Name = "panelControls";
+			this.panelControls.Size = new System.Drawing.Size(613, 346);
+			this.panelControls.TabIndex = 12;
+			// 
 			// EditAllowedDisallowedPrograms
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(654, 365);
-			this.Controls.Add(this.buttonSave);
-			this.Controls.Add(this.buttonDelete);
-			this.Controls.Add(this.buttonAdd);
-			this.Controls.Add(this.textBoxWindowTitle);
-			this.Controls.Add(this.comboBoxConditionsList);
-			this.Controls.Add(this.label2);
-			this.Controls.Add(this.label1);
-			this.Controls.Add(this.comboBoxProgramsList);
-			this.Controls.Add(this.dataGridViewPrograms);
-			this.Controls.Add(this.radioButtonDisallow);
-			this.Controls.Add(this.radioButtonAllow);
+			this.ClientSize = new System.Drawing.Size(636, 386);
+			this.Controls.Add(this.panelControls);
+			this.Controls.Add(this.checkBoxPerProgramRestrictions);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.MaximizeBox = false;
@@ -236,6 +259,8 @@
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.EditAllowedDisallowedPrograms_FormClosing);
 			this.Load += new System.EventHandler(this.EditAllowedDisallowedPrograms_Load);
 			((System.ComponentModel.ISupportInitialize)(this.dataGridViewPrograms)).EndInit();
+			this.panelControls.ResumeLayout(false);
+			this.panelControls.PerformLayout();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -258,5 +283,7 @@
 		private System.Windows.Forms.DataGridViewTextBoxColumn ColumnWindowTitle;
 		private System.Windows.Forms.Button buttonDelete;
 		private System.Windows.Forms.Button buttonSave;
+		private System.Windows.Forms.CheckBox checkBoxPerProgramRestrictions;
+		private System.Windows.Forms.Panel panelControls;
 	}
 }

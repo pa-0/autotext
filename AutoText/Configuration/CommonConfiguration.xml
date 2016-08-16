@@ -1,7 +1,8 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-<commonConfiguration xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" >
-
-	<shortcutRegex><![CDATA[(?<shortcuts>[#shortcutsPlaceholder#]+)(\()(?<target>[^\(\)]+)\)]]></shortcutRegex>
-	<nonPrintableTriggers><![CDATA[ShiftKey,ControlKey,Menu,Pause,CapsLock,Capital,Escape,Prior,PageUp,PageDown,Next,End,Home,Snapshot,PrintScreen,Insert,Delete,LWin,RWin,NumLock,LShiftKey,RShiftKey,LControlKey,RControlKey,LMenu,RMenu,Shift,Control,Alt,]]></nonPrintableTriggers>
-	
+<?xml version="1.0" encoding="utf-8"?>
+<commonConfiguration xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <shortcutRegex>(?&lt;shortcuts&gt;[#shortcutsPlaceholder#]+)(\()(?&lt;target&gt;[^\(\)]+)\)</shortcutRegex>
+  <nonPrintableTriggers>ShiftKey,ControlKey,Menu,Pause,CapsLock,Capital,Escape,Prior,PageUp,PageDown,Next,End,Home,Snapshot,PrintScreen,Insert,Delete,LWin,RWin,NumLock,LShiftKey,RShiftKey,LControlKey,RControlKey,LMenu,RMenu,Shift,Control,Alt,</nonPrintableTriggers>
+  <specificPrograms listType="Blacklist" listEnabled="false">
+    <programs />
+  </specificPrograms>
 </commonConfiguration>

@@ -79,16 +79,13 @@ namespace AutoText
 			this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolsToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
 			this.keyLogWindowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.globalAllowedDisallowedProgramsListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.buttonAllowedDisallowedPrograms = new System.Windows.Forms.Button();
-			this.groupBox1 = new System.Windows.Forms.GroupBox();
-			this.checkBoxPerProgramRestrictions = new System.Windows.Forms.CheckBox();
-			this.globalAllowedDisallowedProgramsListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.contextMenuStripPhraseContentEdit.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.dataGridViewPhrases)).BeginInit();
 			this.menuStripMain.SuspendLayout();
-			this.groupBox1.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// label2
@@ -472,9 +469,16 @@ namespace AutoText
 			// keyLogWindowToolStripMenuItem
 			// 
 			this.keyLogWindowToolStripMenuItem.Name = "keyLogWindowToolStripMenuItem";
-			this.keyLogWindowToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
+			this.keyLogWindowToolStripMenuItem.Size = new System.Drawing.Size(291, 22);
 			this.keyLogWindowToolStripMenuItem.Text = "Key Log Window";
 			this.keyLogWindowToolStripMenuItem.Click += new System.EventHandler(this.keyLogWindowToolStripMenuItem_Click);
+			// 
+			// globalAllowedDisallowedProgramsListToolStripMenuItem
+			// 
+			this.globalAllowedDisallowedProgramsListToolStripMenuItem.Name = "globalAllowedDisallowedProgramsListToolStripMenuItem";
+			this.globalAllowedDisallowedProgramsListToolStripMenuItem.Size = new System.Drawing.Size(291, 22);
+			this.globalAllowedDisallowedProgramsListToolStripMenuItem.Text = "Global Allowed/Disallowed Programs List";
+			this.globalAllowedDisallowedProgramsListToolStripMenuItem.Click += new System.EventHandler(this.globalAllowedDisallowedProgramsListToolStripMenuItem_Click);
 			// 
 			// helpToolStripMenuItem
 			// 
@@ -494,7 +498,7 @@ namespace AutoText
 			// buttonAllowedDisallowedPrograms
 			// 
 			this.buttonAllowedDisallowedPrograms.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			this.buttonAllowedDisallowedPrograms.Location = new System.Drawing.Point(6, 42);
+			this.buttonAllowedDisallowedPrograms.Location = new System.Drawing.Point(644, 318);
 			this.buttonAllowedDisallowedPrograms.Name = "buttonAllowedDisallowedPrograms";
 			this.buttonAllowedDisallowedPrograms.Size = new System.Drawing.Size(204, 23);
 			this.buttonAllowedDisallowedPrograms.TabIndex = 30;
@@ -502,41 +506,10 @@ namespace AutoText
 			this.buttonAllowedDisallowedPrograms.UseVisualStyleBackColor = true;
 			this.buttonAllowedDisallowedPrograms.Click += new System.EventHandler(this.buttonAllowedDisallowedPrograms_Click);
 			// 
-			// groupBox1
-			// 
-			this.groupBox1.Controls.Add(this.checkBoxPerProgramRestrictions);
-			this.groupBox1.Controls.Add(this.buttonAllowedDisallowedPrograms);
-			this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			this.groupBox1.Location = new System.Drawing.Point(644, 309);
-			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(216, 80);
-			this.groupBox1.TabIndex = 31;
-			this.groupBox1.TabStop = false;
-			this.groupBox1.Text = "Allowed/Disallowed Programs";
-			// 
-			// checkBoxPerProgramRestrictions
-			// 
-			this.checkBoxPerProgramRestrictions.AutoSize = true;
-			this.checkBoxPerProgramRestrictions.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			this.checkBoxPerProgramRestrictions.Location = new System.Drawing.Point(6, 19);
-			this.checkBoxPerProgramRestrictions.Name = "checkBoxPerProgramRestrictions";
-			this.checkBoxPerProgramRestrictions.Size = new System.Drawing.Size(171, 17);
-			this.checkBoxPerProgramRestrictions.TabIndex = 31;
-			this.checkBoxPerProgramRestrictions.Text = "Enable per program restrictions";
-			this.checkBoxPerProgramRestrictions.UseVisualStyleBackColor = true;
-			this.checkBoxPerProgramRestrictions.CheckedChanged += new System.EventHandler(this.checkBoxPerProgramRestrictions_CheckedChanged);
-			// 
-			// globalAllowedDisallowedProgramsListToolStripMenuItem
-			// 
-			this.globalAllowedDisallowedProgramsListToolStripMenuItem.Name = "globalAllowedDisallowedProgramsListToolStripMenuItem";
-			this.globalAllowedDisallowedProgramsListToolStripMenuItem.Size = new System.Drawing.Size(291, 22);
-			this.globalAllowedDisallowedProgramsListToolStripMenuItem.Text = "Global Allowed/Disallowed Programs List";
-			this.globalAllowedDisallowedProgramsListToolStripMenuItem.Click += new System.EventHandler(this.globalAllowedDisallowedProgramsListToolStripMenuItem_Click);
-			// 
 			// FormMain
 			// 
 			this.ClientSize = new System.Drawing.Size(874, 583);
-			this.Controls.Add(this.groupBox1);
+			this.Controls.Add(this.buttonAllowedDisallowedPrograms);
 			this.Controls.Add(this.menuStripMain);
 			this.Controls.Add(this.dataGridViewPhrases);
 			this.Controls.Add(this.label1);
@@ -573,8 +546,6 @@ namespace AutoText
 			((System.ComponentModel.ISupportInitialize)(this.dataGridViewPhrases)).EndInit();
 			this.menuStripMain.ResumeLayout(false);
 			this.menuStripMain.PerformLayout();
-			this.groupBox1.ResumeLayout(false);
-			this.groupBox1.PerformLayout();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -628,8 +599,6 @@ namespace AutoText
 		private ToolStripMenuItem insertFileContentsMacrosToolStripMenuItem;
 		private ToolStripMenuItem insertEnvironmentVariableValueMacrosToolStripMenuItem;
 		private Button buttonAllowedDisallowedPrograms;
-		private GroupBox groupBox1;
-		private CheckBox checkBoxPerProgramRestrictions;
 		private ToolStripMenuItem globalAllowedDisallowedProgramsListToolStripMenuItem;
 	}
 }

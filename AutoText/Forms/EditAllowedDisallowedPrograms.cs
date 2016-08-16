@@ -26,6 +26,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using AutoText.Helpers.Configuration;
 using AutoText.Model.Configuration;
 using MoreLinq;
 
@@ -36,30 +37,24 @@ namespace AutoText.Forms
 		private bool _fileSelected;
 		private AutotextRuleSpecificPrograms _programs;
 		private BindingList<AutotextRuleSpecificProgram> _programsBindingList;
-		private AutotextRuleConfiguration _autotextRule;
 		private int _curSelDataGridViewRowIndex = -1;
+		private ProgramsConfigSource _configSource;
 
 
-		public EditAllowedDisallowedPrograms(AutotextRuleConfiguration autotextRule)
+		public EditAllowedDisallowedPrograms(AutotextRuleSpecificPrograms autotextRuleSpecificPrograms, ProgramsConfigSource configSource)
 		{
 			InitializeComponent();
-			_autotextRule = autotextRule;
 
-			if (_autotextRule.SpecificPrograms == null)
-			{
-				_autotextRule.SpecificPrograms = new AutotextRuleSpecificPrograms()
-				{
-					Programs = new List<AutotextRuleSpecificProgram>()
-				};
-			}
-
-			_programs = _autotextRule.SpecificPrograms;
+			_configSource = configSource;
+			_programs = autotextRuleSpecificPrograms;
 			_programsBindingList = new BindingList<AutotextRuleSpecificProgram>(_programs.Programs);
 			dataGridViewPrograms.AutoGenerateColumns = false;
 			dataGridViewPrograms.DataSource = _programsBindingList;
 
 			radioButtonAllow.Checked = _programs.ProgramsListType == SpecificProgramsListtype.Whitelist;
 			radioButtonDisallow.Checked = _programs.ProgramsListType == SpecificProgramsListtype.Blacklist;
+			checkBoxPerProgramRestrictions.Checked = _programs.ListEnabled;
+			panelControls.Enabled = checkBoxPerProgramRestrictions.Checked;
 
 			comboBoxConditionsList.SelectedIndex = 0;
 
@@ -79,6 +74,11 @@ namespace AutoText.Forms
 			}).DistinctBy(p => p.ProgramDescription).ToArray();
 
 			comboBoxProgramsList.Items.AddRange(programs);
+
+			if (_configSource == ProgramsConfigSource.Global)
+			{
+				Text += " (Global)";
+			}
 		}
 
 		private void EditAllowedDisallowedPrograms_Load(object sender, EventArgs e)
@@ -108,7 +108,7 @@ namespace AutoText.Forms
 			}
 		}
 
-		private void openFileDialogSelectProgram_FileOk(object sender, System.ComponentModel.CancelEventArgs e)
+		private void openFileDialogSelectProgram_FileOk(object sender, CancelEventArgs e)
 		{
 			_fileSelected = true;
 
@@ -128,7 +128,6 @@ namespace AutoText.Forms
 
 				comboBoxProgramsList.SelectedIndex = 1;
 			}
-			{ }
 		}
 
 		private void buttonAdd_Click(object sender, EventArgs e)
@@ -174,18 +173,14 @@ namespace AutoText.Forms
 			};
 
 			_programsBindingList.Add(newProgram);
-			((FormMain)Owner).SaveConfiguration();
+			SaveConfig();
 			dataGridViewPrograms.Rows[dataGridViewPrograms.Rows.Count - 1].Selected = true;
 		}
 
 		private void radioButtonAllowDisallow_CheckedChanged(object sender, EventArgs e)
 		{
 			_programs.ProgramsListType = radioButtonAllow.Checked ? SpecificProgramsListtype.Whitelist : SpecificProgramsListtype.Blacklist;
-
-			if (Owner != null)
-			{
-				((FormMain)Owner).SaveConfiguration();
-			}
+			SaveConfig();
 		}
 
 		private void buttonDelete_Click(object sender, EventArgs e)
@@ -199,7 +194,7 @@ namespace AutoText.Forms
 					dataGridViewPrograms.Rows[dataGridViewPrograms.Rows.Count - 1].Selected = true;
 				}
 
-				((FormMain)Owner).SaveConfiguration();
+				SaveConfig();
 			}
 		}
 
@@ -244,7 +239,22 @@ namespace AutoText.Forms
 				dataGridViewPrograms.Refresh();
 			}
 
-			((FormMain)Owner).SaveConfiguration();
+			SaveConfig();
+		}
+
+		private void SaveConfig()
+		{
+			if (_configSource == ProgramsConfigSource.Phrase)
+			{
+				if (Owner != null)
+				{
+					((FormMain)Owner).SaveConfiguration();
+				}
+			}
+			else if (_configSource == ProgramsConfigSource.Global)
+			{
+				ConfigHelper.SaveCommonConfiguration();
+			}
 		}
 
 		private void buttonSave_Click(object sender, EventArgs e)
@@ -367,8 +377,18 @@ namespace AutoText.Forms
 				}
 			}
 		}
+
+		private void checkBoxPerProgramRestrictions_CheckedChanged(object sender, EventArgs e)
+		{
+			panelControls.Enabled = checkBoxPerProgramRestrictions.Checked;
+			_programs.ListEnabled = checkBoxPerProgramRestrictions.Checked;
+			SaveConfig();
+		}
 	}
 
-
-
+	public enum ProgramsConfigSource
+	{
+		Global,
+		Phrase
+	}
 }
