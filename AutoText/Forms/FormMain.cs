@@ -26,7 +26,6 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
@@ -104,7 +103,7 @@ namespace AutoText
 										ProgramModuleName = "notepad.exe",
 										ProgramDescription = "Notepad editor",
 										TitleText = "Title text"
-										
+
 									}
 								}
 							}
@@ -165,25 +164,69 @@ namespace AutoText
 
 		void _matcher_MatchFound(object sender, AutotextMatchEventArgs e)
 		{
-			if (e.MatchedRule.SpecificPrograms != null && 
-				e.MatchedRule.SpecificPrograms.Programs != null 
-				&& e.MatchedRule.SpecificPrograms.Programs.Count > 0)
+			if (e.MatchedRule.SpecificPrograms != null &&
+				e.MatchedRule.SpecificPrograms.ListEnabled &&
+				e.MatchedRule.SpecificPrograms.Programs != null)
 			{
+				if (e.MatchedRule.SpecificPrograms.ProgramsListType == SpecificProgramsListtype.Whitelist &&
+					e.MatchedRule.SpecificPrograms.Programs.Count == 0)
+				{
+					return;
+				}
+
 				IntPtr hwnd = WinAPI.GetForegroundWindow();
 				IntPtr pid;
 				WinAPI.GetWindowThreadProcessId(hwnd, out pid);
 				Process process = Process.GetProcessById((int)pid);
-				List<AutotextRuleSpecificProgram> programs = e.MatchedRule.SpecificPrograms.Programs.Where(p => p.ProgramModuleName == Path.GetFileName(process.MainModule.FileName)).ToList();
+				List<AutotextRuleSpecificProgram> programs = e.MatchedRule.SpecificPrograms.Programs.Where(p => p.ProgramModuleName.ToLower() == Path.GetFileName(process.MainModule.FileName.ToLower())).ToList();
+				List<AutotextRuleSpecificProgram> matchedTitlePrograms = new List<AutotextRuleSpecificProgram>();
+				string foregroundWindowTitle = GUIHelper.GetForegroundWindowTitle();
+				bool titleMatched = false;
 
-				if (programs.Count > 0)
+
+				foreach (AutotextRuleSpecificProgram program in programs)
 				{
-					string foregroundWindowTitle = GUIHelper.GetForegroundWindowTitle();
+					switch (program.TitelMatchCondition)
+					{
+						case TitleCondition.Exact:
+							titleMatched = foregroundWindowTitle == program.TitleText;
+							break;
+						case TitleCondition.StartsWith:
+							titleMatched = foregroundWindowTitle.StartsWith(program.TitleText);
+							break;
+						case TitleCondition.EndsWith:
+							titleMatched = foregroundWindowTitle.EndsWith(program.TitleText);
+							break;
+						case TitleCondition.Contains:
+							titleMatched = foregroundWindowTitle.Contains(program.TitleText);
+							break;
+						case TitleCondition.Any:
+							titleMatched = true;
+							break;
+						default:
+							throw new InvalidOperationException("Program match condition not recognized");
+							break;
+					}
 
-					{ }
+					if (titleMatched)
+					{
+						break;
+					}
+				}
+
+				if (e.MatchedRule.SpecificPrograms.ProgramsListType == SpecificProgramsListtype.Whitelist &&
+					!titleMatched)
+				{
+					return;
+				}
+
+				if (e.MatchedRule.SpecificPrograms.ProgramsListType == SpecificProgramsListtype.Blacklist &&
+				titleMatched)
+				{
+					return;
 				}
 			}
 
-			{ }
 
 			_keylogger.PauseCapture();
 			Thread.Sleep(20);
@@ -542,6 +585,10 @@ namespace AutoText
 			newConfig.Phrase = "<phrase content>";
 			newConfig.Macros = new AutotextRuleMacrosMode() { Mode = MacrosMode.Execute };
 			newConfig.Description = "<phrase description>";
+			newConfig.SpecificPrograms = new AutotextRuleSpecificPrograms()
+			{
+				Programs = new List<AutotextRuleSpecificProgram>()
+			};
 
 			_rulesBindingList.Add(newConfig);
 		}
@@ -561,7 +608,7 @@ namespace AutoText
 			}
 		}
 
-		private void buttonRemovePhrase_Click(object sender, EventArgs e)
+		private void RemovePhrase()
 		{
 			if (_rules.Any())
 			{
@@ -592,6 +639,11 @@ namespace AutoText
 					}
 				}
 			}
+		}
+
+		private void buttonRemovePhrase_Click(object sender, EventArgs e)
+		{
+			RemovePhrase();
 		}
 
 		private void FormMain_Activated(object sender, EventArgs e)
@@ -840,14 +892,17 @@ namespace AutoText
 
 		private bool IsCurrentPhraseDirty()
 		{
-			AutotextRuleConfiguration ruleToRewrite = _rules[_curSelectedPhraseIndex];
-			AutotextRuleConfiguration curRuleState = GetCurrentPhrase();
-			CompareLogic basicComparison = new CompareLogic();
-			ComparisonResult comparisonResult = basicComparison.Compare(curRuleState, ruleToRewrite);
-
-			if (!comparisonResult.AreEqual)
+			if (_rules.Count > _curSelectedPhraseIndex)
 			{
-				return true;
+				AutotextRuleConfiguration ruleToRewrite = _rules[_curSelectedPhraseIndex];
+				AutotextRuleConfiguration curRuleState = GetCurrentPhrase();
+				CompareLogic basicComparison = new CompareLogic();
+				ComparisonResult comparisonResult = basicComparison.Compare(curRuleState, ruleToRewrite);
+
+				if (!comparisonResult.AreEqual)
+				{
+					return true;
+				}
 			}
 
 			return false;
@@ -898,6 +953,8 @@ namespace AutoText
 				textBoxAutotext.Text = config.Abbreviation.AbbreviationText;
 				checkBoxSubstitute.Checked = config.RemoveAbbr;
 				checkBoxAutotextCaseSensetive.Checked = config.Abbreviation.CaseSensitive;
+				checkBoxPerProgramRestrictions.Checked = config.SpecificPrograms.ListEnabled;
+				buttonAllowedDisallowedPrograms.Enabled = checkBoxPerProgramRestrictions.Checked;
 
 				comboBoxProcessMacros.Enabled = true;
 				textBoxDescription.Enabled = true;
@@ -951,23 +1008,31 @@ namespace AutoText
 
 		private void dataGridViewPhrases_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
 		{
-			DataGridViewColumn column = dataGridViewPhrases.Columns[e.ColumnIndex];
-
-			if (column.DataPropertyName.Contains("."))
+			try
 			{
-				if (dataGridViewPhrases.Rows[e.RowIndex] != null)
+				DataGridViewColumn column = dataGridViewPhrases.Columns[e.ColumnIndex];
+
+				if (column.DataPropertyName.Contains("."))
 				{
-					object data = dataGridViewPhrases.Rows[e.RowIndex].DataBoundItem;
-
-					string[] properties = column.DataPropertyName.Split('.');
-
-					for (int i = 0; i < properties.Length && data != null; i++)
+					if (dataGridViewPhrases.Rows[e.RowIndex] != null)
 					{
-						data = data.GetType().GetProperty(properties[i]).GetValue(data, null);
-					}
+						object data = dataGridViewPhrases.Rows[e.RowIndex].DataBoundItem;
 
-					dataGridViewPhrases.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = data;
+						string[] properties = column.DataPropertyName.Split('.');
+
+						for (int i = 0; i < properties.Length && data != null; i++)
+						{
+							data = data.GetType().GetProperty(properties[i]).GetValue(data, null);
+						}
+
+						dataGridViewPhrases.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = data;
+					}
 				}
+			}
+			catch (Exception ex)
+			{
+				//TODO Catch that floating bug
+				Debug.WriteLine(ex.Message);
 			}
 		}
 
@@ -1055,6 +1120,33 @@ namespace AutoText
 		}
 
 		private void buttonAllowedDisallowedPrograms_Click(object sender, EventArgs e)
+		{
+			EditAllowedDisallowedPrograms allowedDisallowedPrograms = new EditAllowedDisallowedPrograms(_rules[_curSelectedPhraseIndex]);
+			allowedDisallowedPrograms.ShowDialog(this);
+		}
+
+		private void checkBoxPerProgramRestrictions_CheckedChanged(object sender, EventArgs e)
+		{
+			buttonAllowedDisallowedPrograms.Enabled = checkBoxPerProgramRestrictions.Checked;
+
+			List<int> selIndeces = GetDataGridViewSelectedRowIndeces();
+
+			if (selIndeces.Any())
+			{
+				_rulesBindingList[selIndeces.First()].SpecificPrograms.ListEnabled = checkBoxPerProgramRestrictions.Checked;
+				SaveConfiguration();
+			}
+		}
+
+		private void dataGridViewPhrases_KeyDown(object sender, KeyEventArgs e)
+		{
+			if (e.KeyCode == Keys.Delete)
+			{
+				RemovePhrase();
+			}
+		}
+
+		private void globalAllowedDisallowedProgramsListToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			EditAllowedDisallowedPrograms allowedDisallowedPrograms = new EditAllowedDisallowedPrograms(_rules[_curSelectedPhraseIndex]);
 			allowedDisallowedPrograms.ShowDialog(this);

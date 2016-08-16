@@ -49,6 +49,8 @@ namespace AutoText
 			this.dateAndTimeMacrosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.randomStringMacrosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.randomNumberMacrosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.insertFileContentsMacrosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.insertEnvironmentVariableValueMacrosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
 			this.copyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.pasteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -79,12 +81,14 @@ namespace AutoText
 			this.keyLogWindowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.insertFileContentsMacrosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.insertEnvironmentVariableValueMacrosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.buttonAllowedDisallowedPrograms = new System.Windows.Forms.Button();
+			this.groupBox1 = new System.Windows.Forms.GroupBox();
+			this.checkBoxPerProgramRestrictions = new System.Windows.Forms.CheckBox();
+			this.globalAllowedDisallowedProgramsListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.contextMenuStripPhraseContentEdit.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.dataGridViewPhrases)).BeginInit();
 			this.menuStripMain.SuspendLayout();
+			this.groupBox1.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// label2
@@ -210,6 +214,20 @@ namespace AutoText
 			this.randomNumberMacrosToolStripMenuItem.Size = new System.Drawing.Size(229, 22);
 			this.randomNumberMacrosToolStripMenuItem.Text = "Random Number Macros";
 			this.randomNumberMacrosToolStripMenuItem.Click += new System.EventHandler(this.randomNumberMacrosToolStripMenuItem_Click);
+			// 
+			// insertFileContentsMacrosToolStripMenuItem
+			// 
+			this.insertFileContentsMacrosToolStripMenuItem.Name = "insertFileContentsMacrosToolStripMenuItem";
+			this.insertFileContentsMacrosToolStripMenuItem.Size = new System.Drawing.Size(229, 22);
+			this.insertFileContentsMacrosToolStripMenuItem.Text = "Insert File Contents Macros";
+			this.insertFileContentsMacrosToolStripMenuItem.Click += new System.EventHandler(this.insertFileContentsMacrosToolStripMenuItem_Click);
+			// 
+			// insertEnvironmentVariableValueMacrosToolStripMenuItem
+			// 
+			this.insertEnvironmentVariableValueMacrosToolStripMenuItem.Name = "insertEnvironmentVariableValueMacrosToolStripMenuItem";
+			this.insertEnvironmentVariableValueMacrosToolStripMenuItem.Size = new System.Drawing.Size(229, 22);
+			this.insertEnvironmentVariableValueMacrosToolStripMenuItem.Text = "Environment Variable Macros";
+			this.insertEnvironmentVariableValueMacrosToolStripMenuItem.Click += new System.EventHandler(this.insertEnvironmentVariableValueMacrosToolStripMenuItem_Click);
 			// 
 			// toolStripSeparator1
 			// 
@@ -395,6 +413,7 @@ namespace AutoText
 			this.dataGridViewPhrases.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.dataGridViewPhrases_CellFormatting);
 			this.dataGridViewPhrases.RowValidating += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dataGridViewPhrases_RowValidating);
 			this.dataGridViewPhrases.SelectionChanged += new System.EventHandler(this.dataGridViewPhrases_SelectionChanged);
+			this.dataGridViewPhrases.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dataGridViewPhrases_KeyDown);
 			// 
 			// AutotextColumn
 			// 
@@ -444,7 +463,8 @@ namespace AutoText
 			// toolsToolStripMenuItem1
 			// 
 			this.toolsToolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.keyLogWindowToolStripMenuItem});
+            this.keyLogWindowToolStripMenuItem,
+            this.globalAllowedDisallowedProgramsListToolStripMenuItem});
 			this.toolsToolStripMenuItem1.Name = "toolsToolStripMenuItem1";
 			this.toolsToolStripMenuItem1.Size = new System.Drawing.Size(48, 20);
 			this.toolsToolStripMenuItem1.Text = "Tools";
@@ -471,34 +491,52 @@ namespace AutoText
 			this.aboutToolStripMenuItem.Text = "About";
 			this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
 			// 
-			// insertFileContentsMacrosToolStripMenuItem
-			// 
-			this.insertFileContentsMacrosToolStripMenuItem.Name = "insertFileContentsMacrosToolStripMenuItem";
-			this.insertFileContentsMacrosToolStripMenuItem.Size = new System.Drawing.Size(229, 22);
-			this.insertFileContentsMacrosToolStripMenuItem.Text = "Insert File Contents Macros";
-			this.insertFileContentsMacrosToolStripMenuItem.Click += new System.EventHandler(this.insertFileContentsMacrosToolStripMenuItem_Click);
-			// 
-			// insertEnvironmentVariableValueMacrosToolStripMenuItem
-			// 
-			this.insertEnvironmentVariableValueMacrosToolStripMenuItem.Name = "insertEnvironmentVariableValueMacrosToolStripMenuItem";
-			this.insertEnvironmentVariableValueMacrosToolStripMenuItem.Size = new System.Drawing.Size(229, 22);
-			this.insertEnvironmentVariableValueMacrosToolStripMenuItem.Text = "Environment Variable Macros";
-			this.insertEnvironmentVariableValueMacrosToolStripMenuItem.Click += new System.EventHandler(this.insertEnvironmentVariableValueMacrosToolStripMenuItem_Click);
-			// 
 			// buttonAllowedDisallowedPrograms
 			// 
-			this.buttonAllowedDisallowedPrograms.Location = new System.Drawing.Point(644, 309);
+			this.buttonAllowedDisallowedPrograms.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			this.buttonAllowedDisallowedPrograms.Location = new System.Drawing.Point(6, 42);
 			this.buttonAllowedDisallowedPrograms.Name = "buttonAllowedDisallowedPrograms";
-			this.buttonAllowedDisallowedPrograms.Size = new System.Drawing.Size(216, 23);
+			this.buttonAllowedDisallowedPrograms.Size = new System.Drawing.Size(204, 23);
 			this.buttonAllowedDisallowedPrograms.TabIndex = 30;
 			this.buttonAllowedDisallowedPrograms.Text = "Allowed/Disallowed Programs List";
 			this.buttonAllowedDisallowedPrograms.UseVisualStyleBackColor = true;
 			this.buttonAllowedDisallowedPrograms.Click += new System.EventHandler(this.buttonAllowedDisallowedPrograms_Click);
 			// 
+			// groupBox1
+			// 
+			this.groupBox1.Controls.Add(this.checkBoxPerProgramRestrictions);
+			this.groupBox1.Controls.Add(this.buttonAllowedDisallowedPrograms);
+			this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			this.groupBox1.Location = new System.Drawing.Point(644, 309);
+			this.groupBox1.Name = "groupBox1";
+			this.groupBox1.Size = new System.Drawing.Size(216, 80);
+			this.groupBox1.TabIndex = 31;
+			this.groupBox1.TabStop = false;
+			this.groupBox1.Text = "Allowed/Disallowed Programs";
+			// 
+			// checkBoxPerProgramRestrictions
+			// 
+			this.checkBoxPerProgramRestrictions.AutoSize = true;
+			this.checkBoxPerProgramRestrictions.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			this.checkBoxPerProgramRestrictions.Location = new System.Drawing.Point(6, 19);
+			this.checkBoxPerProgramRestrictions.Name = "checkBoxPerProgramRestrictions";
+			this.checkBoxPerProgramRestrictions.Size = new System.Drawing.Size(171, 17);
+			this.checkBoxPerProgramRestrictions.TabIndex = 31;
+			this.checkBoxPerProgramRestrictions.Text = "Enable per program restrictions";
+			this.checkBoxPerProgramRestrictions.UseVisualStyleBackColor = true;
+			this.checkBoxPerProgramRestrictions.CheckedChanged += new System.EventHandler(this.checkBoxPerProgramRestrictions_CheckedChanged);
+			// 
+			// globalAllowedDisallowedProgramsListToolStripMenuItem
+			// 
+			this.globalAllowedDisallowedProgramsListToolStripMenuItem.Name = "globalAllowedDisallowedProgramsListToolStripMenuItem";
+			this.globalAllowedDisallowedProgramsListToolStripMenuItem.Size = new System.Drawing.Size(291, 22);
+			this.globalAllowedDisallowedProgramsListToolStripMenuItem.Text = "Global Allowed/Disallowed Programs List";
+			this.globalAllowedDisallowedProgramsListToolStripMenuItem.Click += new System.EventHandler(this.globalAllowedDisallowedProgramsListToolStripMenuItem_Click);
+			// 
 			// FormMain
 			// 
 			this.ClientSize = new System.Drawing.Size(874, 583);
-			this.Controls.Add(this.buttonAllowedDisallowedPrograms);
+			this.Controls.Add(this.groupBox1);
 			this.Controls.Add(this.menuStripMain);
 			this.Controls.Add(this.dataGridViewPhrases);
 			this.Controls.Add(this.label1);
@@ -535,6 +573,8 @@ namespace AutoText
 			((System.ComponentModel.ISupportInitialize)(this.dataGridViewPhrases)).EndInit();
 			this.menuStripMain.ResumeLayout(false);
 			this.menuStripMain.PerformLayout();
+			this.groupBox1.ResumeLayout(false);
+			this.groupBox1.PerformLayout();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -588,6 +628,9 @@ namespace AutoText
 		private ToolStripMenuItem insertFileContentsMacrosToolStripMenuItem;
 		private ToolStripMenuItem insertEnvironmentVariableValueMacrosToolStripMenuItem;
 		private Button buttonAllowedDisallowedPrograms;
+		private GroupBox groupBox1;
+		private CheckBox checkBoxPerProgramRestrictions;
+		private ToolStripMenuItem globalAllowedDisallowedProgramsListToolStripMenuItem;
 	}
 }
 

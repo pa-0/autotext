@@ -49,7 +49,7 @@ namespace AutoText.Forms
 			{
 				_autotextRule.SpecificPrograms = new AutotextRuleSpecificPrograms()
 				{
-					Programs =  new List<AutotextRuleSpecificProgram>()
+					Programs = new List<AutotextRuleSpecificProgram>()
 				};
 			}
 
@@ -83,7 +83,7 @@ namespace AutoText.Forms
 
 		private void EditAllowedDisallowedPrograms_Load(object sender, EventArgs e)
 		{
-			
+
 		}
 
 		private void comboBoxConditionsList_SelectedIndexChanged(object sender, EventArgs e)
@@ -174,6 +174,8 @@ namespace AutoText.Forms
 			};
 
 			_programsBindingList.Add(newProgram);
+			((FormMain)Owner).SaveConfiguration();
+			dataGridViewPrograms.Rows[dataGridViewPrograms.Rows.Count - 1].Selected = true;
 		}
 
 		private void radioButtonAllowDisallow_CheckedChanged(object sender, EventArgs e)
@@ -308,7 +310,7 @@ namespace AutoText.Forms
 		private bool IsCurrentEntryDirty()
 		{
 			AutotextRuleSpecificProgram selectedProgram = _programsBindingList[_curSelDataGridViewRowIndex];
-			ProgramEntry programEntry = (ProgramEntry) comboBoxProgramsList.SelectedItem;
+			ProgramEntry programEntry = (ProgramEntry)comboBoxProgramsList.SelectedItem;
 
 			if (selectedProgram.ProgramModuleName != programEntry.ProgramModuleName ||
 				textBoxWindowTitle.Text != selectedProgram.TitleText ||
@@ -323,7 +325,7 @@ namespace AutoText.Forms
 
 		private void EditAllowedDisallowedPrograms_FormClosing(object sender, FormClosingEventArgs e)
 		{
-			if (dataGridViewPrograms.RowCount > 0 && _curSelDataGridViewRowIndex != -1  && IsCurrentEntryDirty())
+			if (dataGridViewPrograms.RowCount > 0 && _curSelDataGridViewRowIndex != -1 && IsCurrentEntryDirty())
 			{
 				DialogResult dl = MessageBox.Show(this, "Currently selected program entry has unsaved changes. Save changes?", "Confirmation",
 					MessageBoxButtons.YesNoCancel,
@@ -368,5 +370,5 @@ namespace AutoText.Forms
 	}
 
 
-	
+
 }

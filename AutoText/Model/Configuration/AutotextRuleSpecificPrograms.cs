@@ -19,8 +19,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Xml.Serialization;
 
 namespace AutoText.Model.Configuration
@@ -37,6 +35,8 @@ namespace AutoText.Model.Configuration
 	{
 		[XmlAttribute("listType")]
 		public SpecificProgramsListtype ProgramsListType { get; set; }
+		[XmlAttribute("listEnabled")]
+		public bool ListEnabled { get; set; }
 
 		[XmlArray("programs")]
 		[XmlArrayItem("item", typeof(AutotextRuleSpecificProgram))]
