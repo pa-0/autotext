@@ -19,8 +19,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
 using System.Windows.Forms;
 using WindowsInput;
 
@@ -46,6 +44,7 @@ namespace AutoText.Engine
 			}
 		}
 
+		/*
 		private static INPUT[] ConverInput(List<AutotextInput> input)
 		{
 			INPUT[] inputSimulationArr = input.SelectMany(p =>
@@ -102,11 +101,25 @@ namespace AutoText.Engine
 
 			return inputSimulationArr;
 		}
+		*/
 
 		public static void DoInput(List<AutotextInput> input)
 		{
+			InputSimulator inputSim = new InputSimulator();
+			//inputSim.Keyboard.KeyPress().TextEntry(File.ReadAllText(@"c:\Users\alitvinov\Desktop\Downloads\text test.txt"));
+			//SendKeys.SendWait(File.ReadAllText(@"c:\Users\alitvinov\Desktop\Downloads\text test.txt"));
+			SendKeys.SendWait("asd\r\nasd\r\nasdas\r\nasdasd\r\n");
+			//inputSim.Keyboard.TextEntry()
 
-			foreach (AutotextInput autotextInput in input)
+			//INPUT[] inputSim = ConverInput(input);
+			//InputSimulator.SimulateInputSequence(ConverInput(AutotextInput.FromString("H\nW")));
+			//SendKeys.SendWait("H\r\nW");
+
+			//InputSimulator.SimulateTextEntry("H\r\nW");
+
+			/*
+
+            foreach (AutotextInput autotextInput in input)
 			{
 				if (autotextInput.Sleep > 0)
 				{
@@ -118,6 +131,7 @@ namespace AutoText.Engine
 					InputSimulator.SimulateInputSequence(inputSim);
 				}
 			}
+            */
 
 		}
 	}
