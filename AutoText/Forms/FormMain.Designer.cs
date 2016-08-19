@@ -136,6 +136,7 @@ namespace AutoText
 			this.textBoxPhraseContent.Location = new System.Drawing.Point(328, 111);
 			this.textBoxPhraseContent.Multiline = true;
 			this.textBoxPhraseContent.Name = "textBoxPhraseContent";
+			this.textBoxPhraseContent.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
 			this.textBoxPhraseContent.Size = new System.Drawing.Size(535, 166);
 			this.textBoxPhraseContent.TabIndex = 10;
 			this.textBoxPhraseContent.TextChanged += new System.EventHandler(this.textBoxPhraseContent_TextChanged);

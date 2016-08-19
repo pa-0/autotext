@@ -19,8 +19,12 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 using System.Windows.Forms;
 using WindowsInput;
+using AutoText.Helpers;
+using AutoText.Helpers.Extensions;
 
 namespace AutoText.Engine
 {
@@ -103,12 +107,21 @@ namespace AutoText.Engine
 		}
 		*/
 
+		const int WM_KEYDOWN = 0x100;
+		const int WM_KEYUP = 0x101;
+		const int WM_CHAR = 0x102;
+
+		private static  ProcessStartInfo startInfo;
+		static Process process;
+
 		public static void DoInput(List<AutotextInput> input)
 		{
-			InputSimulator inputSim = new InputSimulator();
-			//inputSim.Keyboard.KeyPress().TextEntry(File.ReadAllText(@"c:\Users\alitvinov\Desktop\Downloads\text test.txt"));
+//			InputSimulator inputSim = new InputSimulator();
+			//inputSim.Keyboard.TextEntry("ASD\r\nasd");
+			//SendKeys.SendWait("A\r\nF");
+//			inputSim.Keyboard.TextEntry("asd");
 			//SendKeys.SendWait(File.ReadAllText(@"c:\Users\alitvinov\Desktop\Downloads\text test.txt"));
-			SendKeys.SendWait("asd\r\nasd\r\nasdas\r\nasdasd\r\n");
+			//SendKeys.SendWait("asd\r\nasd");
 			//inputSim.Keyboard.TextEntry()
 
 			//INPUT[] inputSim = ConverInput(input);
@@ -116,9 +129,33 @@ namespace AutoText.Engine
 			//SendKeys.SendWait("H\r\nW");
 
 			//InputSimulator.SimulateTextEntry("H\r\nW");
+			//IntPtr hwnd = WinAPI.GetForegroundWindow();
+			//WinAPI.SendMessage(hwnd, WM_KEYDOWN, (int)Keys.A, 0);
+			//WinAPI.PostMessage(hwnd, WM_KEYDOWN, (int) Keys.Return, 0);
+			//WinAPI.SendMessage(hwnd, WM_KEYUP, (int)Keys.Return, 0);
+
+			if (startInfo == null)
+			{
+				startInfo = new ProcessStartInfo();
+				startInfo.UseShellExecute = false;
+				startInfo.RedirectStandardInput = true;
+				startInfo.FileName = @"d:\Downloads\test.exe";
+
+				process = new Process();
+				process.StartInfo = startInfo;
+				process.Start();
+			}
+
+			string inpt = input.ConcatToString().Replace("\r\n","\r");
+			process.StandardInput.Write(inpt);
+
+			//process.StandardInput.WriteLine("фыв");
+			//process.WaitForExit();
 
 			/*
-
+			ФЫВфывФЫВфывASDasdASD♪◙asdASD♪◙asdASD♪◙asdASD♪◙asdASDasd
+			 * hw	
+			 * 
             foreach (AutotextInput autotextInput in input)
 			{
 				if (autotextInput.Sleep > 0)
