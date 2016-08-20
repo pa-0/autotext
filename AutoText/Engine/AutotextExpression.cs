@@ -52,7 +52,6 @@ namespace AutoText.Engine
 		public string ExpressionName { get; private set; }
 		public List<AutotextExpressionParameter> Parameters { get; private set; }
 		public AutotextExpression ParentExpression { get; private set; }
-		private Dictionary<string, string> _userVariables = new Dictionary<string, string>();
 
 		public AutotextExpression(AutotextRuleMatchParameters autotextRuleMatchParams)
 		{
@@ -94,9 +93,8 @@ namespace AutoText.Engine
 		}
 
 
-		private AutotextExpression(string expressionText, int startIndex, int length, List<int> escapedBracesIndeces, AutotextExpression parentExpression, Dictionary<string, string> userVars)
+		private AutotextExpression(string expressionText, int startIndex, int length, List<int> escapedBracesIndeces, AutotextExpression parentExpression/*, Dictionary<string, string> userVars*/)
 		{
-			_userVariables = userVars;
 			ParentExpression = parentExpression;
 			ExpressionText = expressionText;
 			RelativeStartIndex = startIndex;
@@ -285,8 +283,7 @@ namespace AutoText.Engine
 							nestedExpressionStartIndex,
 							nestedExpressionLength,
 							EscapedBracesIndeces,
-							this,
-							_userVariables);
+							this);
 
 					NestedExpressions.Add(expressionToAdd);
 					nestedExpressionStartIndex = -1;
@@ -354,12 +351,12 @@ namespace AutoText.Engine
 			}
 
 
-			List<AutotextInput> res = Evaluate(ExpressionName, parameters, _userVariables);
+			List<AutotextInput> res = Evaluate(ExpressionName, parameters);
 
 			return res;
 		}
 
-		private static List<AutotextInput> Evaluate(string expressionName, Dictionary<string, List<AutotextInput>> expressionParameters, Dictionary<string, string> userVariables)
+		private static List<AutotextInput> Evaluate(string expressionName, Dictionary<string, List<AutotextInput>> expressionParameters)
 		{
 			switch (expressionName.ToLower())
 			{
@@ -548,20 +545,7 @@ namespace AutoText.Engine
 						return res;
 						break;
 					}
-				case "v":
-				{
-						string userVarName = expressionParameters["name"].ConcatToString();
-
-						if (!userVariables.ContainsKey(userVarName))
-						{
-							throw new ExpressionEvaluationException(string.Format("User variable with name \"{0}\" is not found in input string", userVarName));
-						}
-
-						return AutotextInput.FromString(userVariables[userVarName]);
-
-						break;
-					}
-
+					//output formatted date
 				case "d":
 					{
 						string dateFormat;
@@ -621,7 +605,7 @@ namespace AutoText.Engine
 						break;
 
 					}
-
+					//output random string
 				case "r":
 					{
 						if (!expressionParameters.ContainsKey("palette") && !expressionParameters.ContainsKey("chars"))
@@ -680,6 +664,7 @@ namespace AutoText.Engine
 						break;
 
 					}
+					//output random number
 				case "n":
 					{
 						string range;
@@ -710,6 +695,7 @@ namespace AutoText.Engine
 						return AutotextInput.FromString(RandomNumberGeneration.RandomLong(min, max + 1).ToString());
 						break;
 					}
+					//output file contents
 				case "f":
 					{
 						string path;
@@ -746,6 +732,7 @@ namespace AutoText.Engine
 						return AutotextInput.FromString(File.ReadAllText(path, enc));
 						break;
 					}
+					//output environment variable
 				case "e":
 					{
 						string name;
