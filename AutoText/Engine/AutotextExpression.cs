@@ -448,7 +448,7 @@ namespace AutoText.Engine
 						}
 
 						//Keys keycode = (Keys)Enum.Parse(typeof(Keys), keycodeToProcess.Name, true);
-						Keys keycode = (Keys)keycodeToProcess.Value;
+						Keys keyToProcess = (Keys)keycodeToProcess.VirtualKeyCode;
 						InputActionType actionType = InputActionType.Press;
 						int pressCount = -1;
 
@@ -475,17 +475,17 @@ namespace AutoText.Engine
 								{
 									if (!keycodeToProcess.CanOn)
 									{
-										throw new ExpressionEvaluationException(string.Format("Specified key({0}) can't be set to On", keycode));
+										throw new ExpressionEvaluationException(string.Format("Specified key({0}) can't be set to On", keyToProcess));
 									}
 
-									if (!Control.IsKeyLocked(keycode))
+									if (!Control.IsKeyLocked(keyToProcess))
 									{
 										actionType = InputActionType.Press;
 									}
 									else
 									{
 										actionType = InputActionType.Press;
-										keycode = Keys.None;
+										keyToProcess = Keys.None;
 									}
 									break;
 								}
@@ -493,29 +493,18 @@ namespace AutoText.Engine
 								{
 									if (!keycodeToProcess.CanOff)
 									{
-										throw new ExpressionEvaluationException(string.Format("Specified key({0}) can't be set to Off", keycode));
+										throw new ExpressionEvaluationException(string.Format("Specified key({0}) can't be set to Off", keyToProcess));
 									}
 
-									if (Control.IsKeyLocked(keycode))
+									if (Control.IsKeyLocked(keyToProcess))
 									{
 										actionType = InputActionType.Press;
 									}
 									else
 									{
 										actionType = InputActionType.Press;
-										keycode = Keys.None;
+										keyToProcess = Keys.None;
 									}
-									break;
-								}
-							case "t":
-							case "toggle":
-								{
-									if (!keycodeToProcess.Toggleable)
-									{
-										throw new ExpressionEvaluationException(string.Format("Specified key({0}) can be toggled", keycode));
-									}
-
-									actionType = InputActionType.Press;
 									break;
 								}
 							default://Numeric, to press multiple times
@@ -534,12 +523,12 @@ namespace AutoText.Engine
 						{
 							for (int i = 0; i < pressCount; i++)
 							{
-								res.Add(new AutotextInput(InputType.KeyCode, actionType, keycode));
+								res.Add(new AutotextInput(InputType.KeyCode, actionType, keyToProcess));
 							}
 						}
 						else
 						{
-							res.Add(new AutotextInput(InputType.KeyCode, actionType, keycode));
+							res.Add(new AutotextInput(InputType.KeyCode, actionType, keyToProcess));
 						}
 
 						return res;

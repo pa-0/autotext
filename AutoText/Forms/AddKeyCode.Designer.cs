@@ -75,8 +75,7 @@
             "Down",
             "Up",
             "On",
-            "Off",
-            "Toggle"});
+            "Off"});
 			this.comboBoxAction.Location = new System.Drawing.Point(55, 57);
 			this.comboBoxAction.Name = "comboBoxAction";
 			this.comboBoxAction.Size = new System.Drawing.Size(119, 21);

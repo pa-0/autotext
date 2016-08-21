@@ -21,6 +21,9 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.IO.Pipes;
+using System.Text;
+using System.Threading;
 using System.Windows.Forms;
 using WindowsInput;
 using AutoText.Helpers;
@@ -107,17 +110,16 @@ namespace AutoText.Engine
 		}
 		*/
 
-		const int WM_KEYDOWN = 0x100;
-		const int WM_KEYUP = 0x101;
-		const int WM_CHAR = 0x102;
 
 		private static  ProcessStartInfo startInfo;
 		static Process process;
+		public static NamedPipeServerStream namedPipeServerStream = new NamedPipeServerStream("autotext");
+		static List<long> reconnectionTimes = new List<long>();
 
 		public static void DoInput(List<AutotextInput> input)
 		{
-//			InputSimulator inputSim = new InputSimulator();
-			//inputSim.Keyboard.TextEntry("ASD\r\nasd");
+			//InputSimulator inputSim = new InputSimulator();
+			//inputSim.Keyboard.TextEntry("ASD\rыфвфывфы۩");
 			//SendKeys.SendWait("A\r\nF");
 //			inputSim.Keyboard.TextEntry("asd");
 			//SendKeys.SendWait(File.ReadAllText(@"c:\Users\alitvinov\Desktop\Downloads\text test.txt"));
@@ -129,32 +131,39 @@ namespace AutoText.Engine
 			//SendKeys.SendWait("H\r\nW");
 
 			//InputSimulator.SimulateTextEntry("H\r\nW");
-			//IntPtr hwnd = WinAPI.GetForegroundWindow();
-			//WinAPI.SendMessage(hwnd, WM_KEYDOWN, (int)Keys.A, 0);
-			//WinAPI.PostMessage(hwnd, WM_KEYDOWN, (int) Keys.Return, 0);
-			//WinAPI.SendMessage(hwnd, WM_KEYUP, (int)Keys.Return, 0);
 
+
+/*
 			if (startInfo == null)
 			{
 				startInfo = new ProcessStartInfo();
 				startInfo.UseShellExecute = false;
 				startInfo.RedirectStandardInput = true;
-				startInfo.FileName = @"d:\Downloads\test.exe";
+				startInfo.FileName = @"d:\Downloads\AutoHotkey test\test.exe";
+//				startInfo.FileName = @"d:\Downloads\test.exe";
 
 				process = new Process();
 				process.StartInfo = startInfo;
 				process.Start();
 			}
+*/
 
 			string inpt = input.ConcatToString().Replace("\r\n","\r");
-			process.StandardInput.Write(inpt);
 
-			//process.StandardInput.WriteLine("фыв");
-			//process.WaitForExit();
+			List<byte> res = new List<byte>();
+			res.Add(255);
+			res.Add(254);
+			res.AddRange(Encoding.Unicode.GetBytes(inpt));
 
+			namedPipeServerStream.WaitForConnection();
+
+			namedPipeServerStream.Write(res.ToArray(), 0, res.Count);
+			namedPipeServerStream.Flush();
+			namedPipeServerStream.Disconnect();
+
+
+			{ }
 			/*
-			ФЫВфывФЫВфывASDasdASD♪◙asdASD♪◙asdASD♪◙asdASD♪◙asdASDasd
-			 * hw	
 			 * 
             foreach (AutotextInput autotextInput in input)
 			{

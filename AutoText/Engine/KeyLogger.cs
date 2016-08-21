@@ -90,7 +90,7 @@ namespace AutoText.Engine
 						{
 							foreach (KeycodeConfig config in kcConfig)
 							{
-								if (config.Value == code)
+								if (config.VirtualKeyCode == code)
 								{
 									capturedKecodes.Add(config.Names.First().Value);
 								}

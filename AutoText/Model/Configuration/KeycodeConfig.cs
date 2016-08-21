@@ -31,10 +31,8 @@ namespace AutoText.Model.Configuration
 
 	public class KeycodeConfig
 	{
-		//[XmlAttribute("name")]
-		//public string Name { get; set; }
-		[XmlAttribute("value")]
-		public int Value { get; set; }
+		[XmlAttribute("virtualKeyCode")]
+		public int VirtualKeyCode { get; set; }
 		[XmlAttribute("toggleable")]
 		public bool Toggleable { get; set; }
 		[XmlAttribute("canOn")]

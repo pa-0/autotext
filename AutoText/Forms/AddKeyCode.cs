@@ -78,9 +78,6 @@ namespace AutoText
 				case "Off":
 					action = "off";
 					break;
-				case "Toggle":
-					action = "toggle";
-					break;
 				case "Press":
 					action = numericUpDownQuantity.Value.ToString();
 					break;
