@@ -23,6 +23,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
+using System.Threading;
+using AutoText.Helpers;
 
 namespace AutoText
 {
@@ -34,20 +36,50 @@ namespace AutoText
 		[STAThread]
 		static void Main()
 		{
-			/*
-			List<string> my = File.ReadAllText(@"c:\Documents and Settings\k304148\Desktop\Downloads\CU pages.txt").Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries).Distinct().ToList();
-			List<string> alexey = File.ReadAllText(@"c:\Documents and Settings\k304148\Desktop\Downloads\Alexey links.txt").Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries).Distinct().ToList();
-			List<string> vpids = File.ReadAllText(@"c:\Documents and Settings\k304148\Desktop\Downloads\vpids.txt").Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries).Distinct().ToList();
+			// Add the event handler for handling UI thread exceptions to the event.
+			Application.ThreadException += Application_ThreadException;
 
-			List<string> res = my.Where(p => !vpids.Contains(p)).ToList();
-			res.Clear();
-			res.AddRange(alexey.Where(p => !vpids.Contains(p)).Distinct().ToList());
+			// Set the unhandled exception mode to force all Windows Forms errors
+			// to go through our handler.
+			Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException);
 
-			string resStr = string.Join("\r\n", res);
-			*/
+			// Add the event handler for handling non-UI thread exceptions to the event. 
+			AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
+
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
 			Application.Run(new FormMain());
+		}
+
+		static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+		{
+			HandleUnhandledException(e, null);
+		}
+
+		static void Application_ThreadException(object sender, ThreadExceptionEventArgs e)
+		{
+			HandleUnhandledException(null, e);
+		}
+
+		private static void HandleUnhandledException(UnhandledExceptionEventArgs e1, ThreadExceptionEventArgs e2)
+		{
+			if (e1 != null && e1.IsTerminating)
+			{
+				MessageBox.Show("Unhanled critical exceptions occur\r\n\r\n" + e1.ExceptionObject.ToString(), "AutoText", MessageBoxButtons.OK,MessageBoxIcon.Error);
+				Sender.StopSender();
+			}
+			else
+			{
+				if (e1 != null)
+				{
+					MessageBox.Show("Unhanled exceptions occur\r\n\r\n" + e1.ExceptionObject.ToString(), "AutoText", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				}
+
+				if (e2 != null)
+				{
+					MessageBox.Show("Unhanled exceptions occur\r\n\r\n" + e2.Exception.ToString(), "AutoText", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				}
+			}
 		}
 	}
 }

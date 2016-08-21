@@ -440,7 +440,7 @@ namespace AutoText.Engine
 						}
 
 						KeycodesConfiguration keycodesConfiguration = ConfigHelper.GetKeycodesConfiguration();
-						KeycodeConfig keycodeToProcess = keycodesConfiguration.Keycodes.SingleOrDefault(p => p.Names.Any(g => String.Equals(g.Value, keycodeStr, StringComparison.CurrentCultureIgnoreCase)));
+						KeycodeConfig keycodeToProcess = keycodesConfiguration.Keycodes.SingleOrDefault(p => p.Names.Where(n => n.KeyRelation == KeyRelation.Native).Any(g => String.Equals(g.Value, keycodeStr, StringComparison.CurrentCultureIgnoreCase)));
 
 						if (keycodeToProcess == null)
 						{

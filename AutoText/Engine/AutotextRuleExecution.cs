@@ -22,12 +22,15 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.IO.Pipes;
+using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 using WindowsInput;
 using AutoText.Helpers;
+using AutoText.Helpers.Configuration;
 using AutoText.Helpers.Extensions;
+using AutoText.Model.Configuration;
 
 namespace AutoText.Engine
 {
@@ -110,11 +113,60 @@ namespace AutoText.Engine
 		}
 		*/
 
+		private static string ConverInput(List<AutotextInput> input)
+		{
+			List<char> specialChars = new List<char>() {'!', '+', '^', '#', '{', '}'};
+			StringBuilder res = new StringBuilder();
 
-		private static  ProcessStartInfo startInfo;
-		static Process process;
-		public static NamedPipeServerStream namedPipeServerStream = new NamedPipeServerStream("autotext");
-		static List<long> reconnectionTimes = new List<long>();
+			for (int i = 0; i < input.Count; i++)
+			{
+				AutotextInput autotextInput = input[i];
+
+				if (autotextInput.Type == InputType.UnicodeChar)
+				{
+					if (specialChars.Contains(autotextInput.CharToInput))
+					{
+						res.Append('{');
+						res.Append(autotextInput.CharToInput);
+						res.Append('}');
+					}
+					else
+					{
+						res.Append(autotextInput.CharToInput);
+					}
+
+				}
+				else if (autotextInput.Type == InputType.KeyCode)
+				{
+					string senderKeyName = ConfigHelper.GetKeycodesConfiguration().
+						Keycodes.Single(p => p.VirtualKeyCode == (int)autotextInput.KeyCodeToInput).
+						Names.Single(p => p.KeyRelation == KeyRelation.Sender).Value;
+
+					string template = "{{{0}{1}}}";
+
+					switch (autotextInput.ActionType)
+					{
+						case InputActionType.KeyDown:
+							res.Append(string.Format(template, senderKeyName, " down"));
+							break;
+						case InputActionType.KeyUp:
+							res.Append(string.Format(template, senderKeyName, " up"));
+							break;
+						case InputActionType.Press:
+							res.Append(string.Format(template, senderKeyName, ""));
+							break;
+						default:
+							throw new ArgumentOutOfRangeException();
+					}
+				}
+				else
+				{
+					throw new InvalidOperationException("Can't recognize input type");
+				}
+			}
+
+			return res.Replace("\r\n","\r").ToString();
+		}
 
 		public static void DoInput(List<AutotextInput> input)
 		{
@@ -148,21 +200,11 @@ namespace AutoText.Engine
 			}
 */
 
-			string inpt = input.ConcatToString().Replace("\r\n","\r");
+			string inpt = ConverInput(input);
+			Sender.Send(inpt);
 
-			List<byte> res = new List<byte>();
-			res.Add(255);
-			res.Add(254);
-			res.AddRange(Encoding.Unicode.GetBytes(inpt));
-
-			namedPipeServerStream.WaitForConnection();
-
-			namedPipeServerStream.Write(res.ToArray(), 0, res.Count);
-			namedPipeServerStream.Flush();
-			namedPipeServerStream.Disconnect();
-
-
-			{ }
+			{
+			}
 			/*
 			 * 
             foreach (AutotextInput autotextInput in input)
@@ -178,7 +220,6 @@ namespace AutoText.Engine
 				}
 			}
             */
-
 		}
 	}
 }

@@ -60,6 +60,7 @@ namespace AutoText
 		public FormMain()
 		{
 			InitializeComponent();
+			Sender.StartSender();
 
 			return;
 			AutotextRulesRoot root = new AutotextRulesRoot()
@@ -1109,6 +1110,10 @@ namespace AutoText
 			if (!CheckSaveOnClose())
 			{
 				e.Cancel = true;
+			}
+			else
+			{
+				Sender.StopSender();
 			}
 		}
 

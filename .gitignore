@@ -30,3 +30,5 @@ _ReSharper*/
 $tf*/
 misc/
 packages/
+!AutoText/Sender/bin/
+!AutoText/Sender/bin/Sender.exe

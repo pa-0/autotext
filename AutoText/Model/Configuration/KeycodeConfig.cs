@@ -23,10 +23,18 @@ using System.Xml.Serialization;
 
 namespace AutoText.Model.Configuration
 {
+	public enum KeyRelation
+	{
+		Native,
+		Sender
+	}
+
 	public class KeycodeConfigName
 	{
 		[XmlAttribute("value")]
 		public string Value { get; set; }
+		[XmlAttribute("rel")]
+		public KeyRelation KeyRelation { get; set; }
 	}
 
 	public class KeycodeConfig
