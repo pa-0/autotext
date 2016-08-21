@@ -36,6 +36,7 @@ using AutoText.Helpers.Configuration;
 using AutoText.Helpers.Extensions;
 using AutoText.Model.Configuration;
 using KellermanSoftware.CompareNetObjects;
+using MoreLinq;
 
 
 namespace AutoText
@@ -281,7 +282,7 @@ namespace AutoText
 			_matcher.ClearBuffer();
 		}
 
-		private void AddTriggerControls(string triggerChar, Keys? triggerKey, bool? charIsKeySensitive)
+		private void AddTriggerControls(string triggerChar, string triggerKey, bool? charIsKeySensitive)
 		{
 			_numberOfTriggers++;
 
@@ -346,15 +347,15 @@ namespace AutoText
 			comboBoxTriggerKey.TabIndex = 17;
 			comboBoxTriggerKey.Visible = triggerChar == null;
 			comboBoxTriggerKey.Font = new Font(comboBoxTriggerKey.Font, FontStyle.Regular);
-			ConfigHelper.GetKeycodesConfiguration().Keycodes.ForEach(p => comboBoxTriggerKey.Items.Add(string.Join(" | ", p.Names.Select(g => g.Value))));
+			ConfigHelper.GetKeycodesConfiguration().Keycodes.Where(p => p.Names.Any(n => n.KeyRelation == KeyRelation.Sender)).ForEach(p => comboBoxTriggerKey.Items.Add(p.Names.Single(s => s.KeyRelation == KeyRelation.Sender).Value));
 			comboBoxTriggerKey.Items.RemoveAt(0);
 			comboBoxTriggerKey.SelectedIndex = 0;
 
-			if (triggerKey != null)
+			if (!string.IsNullOrEmpty(triggerKey))
 			{
 				foreach (var item in comboBoxTriggerKey.Items)
 				{
-					if (item.ToString().Split('|').Select(p => p.Trim()).Contains(triggerKey.ToString()))
+					if (item.ToString() == triggerKey)
 					{
 						comboBoxTriggerKey.SelectedItem = item;
 						break;
@@ -490,7 +491,7 @@ namespace AutoText
 			}
 			else
 			{
-				new InvalidOperationException();
+				throw new InvalidOperationException("Trigger type is not recognized");
 			}
 		}
 
@@ -707,7 +708,7 @@ namespace AutoText
 			if (!ConfigHelper.IsKeycodesConfigurationOk() ||
 				!ConfigHelper.IsCommonConfigurationOk())
 			{
-				MessageBox.Show(this, "Failed to load program configuration files. Program will exit", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				MessageBox.Show(this, "Failed to load program configuration files. Program will exit", "AutoText", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				Application.Exit();
 				return;
 			}
@@ -906,7 +907,7 @@ namespace AutoText
 
 				string triggerType = ((ComboBox)panel.Controls.Find("comboBoxTriggerType", false)[0]).SelectedItem.ToString();
 				string triggerChar = ((TextBox)panel.Controls.Find("textBoxTriggerChar", false)[0]).Text;
-				string triggerKey = ((ComboBox)panel.Controls.Find("comboBoxTriggerKey", false)[0]).SelectedItem.ToString().Split('|').Select(p => p.Trim()).First();
+				string triggerKey = ((ComboBox)panel.Controls.Find("comboBoxTriggerKey", false)[0]).SelectedItem.ToString();
 				bool triggerCaseSen = ((CheckBox)panel.Controls.Find("checkBoxTriggerCaseSensitive", false)[0]).Checked;
 
 				if (triggerType == "Character")
@@ -1012,7 +1013,7 @@ namespace AutoText
 				{
 					if (trigger.TriggerType == AutotextRuleTriggerType.Key)
 					{
-						AddTriggerControls(null, (Keys)Enum.Parse(typeof(Keys), trigger.Value), trigger.CaseSensitive);
+						AddTriggerControls(null, trigger.Value, trigger.CaseSensitive);
 					}
 					else
 					{
