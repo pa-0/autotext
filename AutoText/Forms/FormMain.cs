@@ -29,6 +29,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
+using System.Xml.Linq;
 using AutoText.Engine;
 using AutoText.Forms;
 using AutoText.Helpers;
@@ -62,6 +63,44 @@ namespace AutoText
 		{
 			InitializeComponent();
 			Sender.StartSender();
+
+			return;
+
+			string[] keysFileRows = File.ReadAllText(@"c:\Users\alitvinov\Desktop\Downloads\keys.txt").Split(new[] { "\r\n" }, StringSplitOptions.None).ToArray();
+			Dictionary<int, string> keysEntries = new Dictionary<int, string>();
+
+			foreach (string str in keysFileRows)
+			{
+				string[] split = str.Split(new[] { "~~" }, StringSplitOptions.None);
+				keysEntries.Add(Convert.ToInt32(split[0], 16), split[1].Trim());
+			}
+
+			XDocument doc = XDocument.Load(@"c:\Users\alitvinov\Desktop\Downloads\Development\AutoText\AutoText\Configuration\Keycodes.xml");
+
+			List<XElement> elList = doc.Document.Descendants("keycode").ToList();
+
+			foreach (XElement el in elList)
+			{
+				if (!keysEntries.ContainsKey(int.Parse(el.Attribute("virtualKeyCode").Value)))
+				{
+					continue;
+				}
+
+				string valOfAttr = keysEntries[int.Parse(el.Attribute("virtualKeyCode").Value)];
+
+
+				if (el.Element("names").Elements("name").Count(p => p.Attribute("rel").Value == "Sender") > 0)
+				{
+					XElement nameEl = new XElement("name");
+					nameEl.Add(new XAttribute("rel", "Display"));
+					nameEl.Add(new XAttribute("value", valOfAttr));
+					el.Element("names").Add(nameEl);
+				}
+			}
+
+			doc.Save(@"c:\Users\alitvinov\Desktop\Downloads\keys.xml");
+			{ }
+
 
 			return;
 			AutotextRulesRoot root = new AutotextRulesRoot()
@@ -175,10 +214,10 @@ namespace AutoText
 					return foregroundWindowTitle.StartsWith(title);
 					break;
 				case TitleCondition.EndsWith:
-					return  foregroundWindowTitle.EndsWith(title);
+					return foregroundWindowTitle.EndsWith(title);
 					break;
 				case TitleCondition.Contains:
-					return  foregroundWindowTitle.Contains(title);
+					return foregroundWindowTitle.Contains(title);
 					break;
 				case TitleCondition.Any:
 					return true;
