@@ -20,7 +20,8 @@ namespace AutoText.Helpers
 				ProcessStartInfo startInfo = new ProcessStartInfo
 				{
 					UseShellExecute = false,
-					FileName = "Sender.exe"
+					FileName = "Sender.exe",
+					Arguments = Process.GetCurrentProcess().Id.ToString()
 				};
 
 				process = new Process

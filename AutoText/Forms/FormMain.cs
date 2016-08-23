@@ -1152,7 +1152,7 @@ namespace AutoText
 			}
 			else
 			{
-				Sender.StopSender();
+				//Sender.StopSe nder();
 			}
 		}
 

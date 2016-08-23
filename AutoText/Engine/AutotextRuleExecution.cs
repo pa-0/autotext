@@ -19,18 +19,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.IO.Pipes;
-using System.Linq;
 using System.Text;
-using System.Threading;
 using System.Windows.Forms;
-using WindowsInput;
 using AutoText.Helpers;
 using AutoText.Helpers.Configuration;
-using AutoText.Helpers.Extensions;
-using AutoText.Model.Configuration;
 
 namespace AutoText.Engine
 {
@@ -115,7 +107,7 @@ namespace AutoText.Engine
 
 		private static string ConverInput(List<AutotextInput> input)
 		{
-			List<char> specialChars = new List<char>() {'!', '+', '^', '#', '{', '}'};
+			List<char> specialChars = new List<char>() { '!', '+', '^', '#', '{', '}' };
 			StringBuilder res = new StringBuilder();
 
 			for (int i = 0; i < input.Count; i++)
@@ -138,9 +130,7 @@ namespace AutoText.Engine
 				}
 				else if (autotextInput.Type == InputType.KeyCode)
 				{
-					string senderKeyName = ConfigHelper.GetKeycodesConfiguration().
-						Keycodes.Single(p => p.VirtualKeyCode == (int)autotextInput.KeyCodeToInput).
-						Names.Single(p => p.KeyRelation == KeyRelation.Sender).Value;
+					string senderKeyName = ConfigHelper.GetSenderKeyByNativeKey(autotextInput.KeyCodeToInput.ToString());
 
 					string template = "{{{0}{1}}}";
 
@@ -165,7 +155,7 @@ namespace AutoText.Engine
 				}
 			}
 
-			return res.Replace("\r\n","\r").ToString();
+			return res.Replace("\r\n", "\r").ToString();
 		}
 
 		public static void DoInput(List<AutotextInput> input)
@@ -173,7 +163,7 @@ namespace AutoText.Engine
 			//InputSimulator inputSim = new InputSimulator();
 			//inputSim.Keyboard.TextEntry("ASD\rыфвфывфы۩");
 			//SendKeys.SendWait("A\r\nF");
-//			inputSim.Keyboard.TextEntry("asd");
+			//			inputSim.Keyboard.TextEntry("asd");
 			//SendKeys.SendWait(File.ReadAllText(@"c:\Users\alitvinov\Desktop\Downloads\text test.txt"));
 			//SendKeys.SendWait("asd\r\nasd");
 			//inputSim.Keyboard.TextEntry()
@@ -185,20 +175,20 @@ namespace AutoText.Engine
 			//InputSimulator.SimulateTextEntry("H\r\nW");
 
 
-/*
-			if (startInfo == null)
-			{
-				startInfo = new ProcessStartInfo();
-				startInfo.UseShellExecute = false;
-				startInfo.RedirectStandardInput = true;
-				startInfo.FileName = @"d:\Downloads\AutoHotkey test\test.exe";
-//				startInfo.FileName = @"d:\Downloads\test.exe";
+			/*
+						if (startInfo == null)
+						{
+							startInfo = new ProcessStartInfo();
+							startInfo.UseShellExecute = false;
+							startInfo.RedirectStandardInput = true;
+							startInfo.FileName = @"d:\Downloads\AutoHotkey test\test.exe";
+			//				startInfo.FileName = @"d:\Downloads\test.exe";
 
-				process = new Process();
-				process.StartInfo = startInfo;
-				process.Start();
-			}
-*/
+							process = new Process();
+							process.StartInfo = startInfo;
+							process.Start();
+						}
+			*/
 
 			string inpt = ConverInput(input);
 			Sender.Send(inpt);
