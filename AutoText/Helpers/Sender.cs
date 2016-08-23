@@ -2,16 +2,15 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO.Pipes;
-using System.Linq;
 using System.Text;
-using System.Windows.Forms;
+using System.Threading;
 
 namespace AutoText.Helpers
 {
 	public class Sender
 	{
 		static Process process;
-		static NamedPipeServerStream namedPipeServerStream = new NamedPipeServerStream("autotext");
+		static NamedPipeServerStream namedPipeServerStream;
 
 		public static void StartSender()
 		{
@@ -30,6 +29,8 @@ namespace AutoText.Helpers
 				};
 
 				process.Start();
+
+
 			}
 			else
 			{
@@ -42,6 +43,11 @@ namespace AutoText.Helpers
 			if (process == null || process.HasExited)
 			{
 				throw new InvalidOperationException("Sender module is not started");
+			}
+
+			if (namedPipeServerStream == null)
+			{
+				namedPipeServerStream = new NamedPipeServerStream("autotext");
 			}
 
 			List<byte> res = new List<byte>();
