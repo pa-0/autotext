@@ -26,7 +26,8 @@ namespace AutoText.Model.Configuration
 	public enum KeyRelation
 	{
 		Native,
-		Sender
+		Sender,
+		Display
 	}
 
 	public class KeycodeConfigName
@@ -49,7 +50,7 @@ namespace AutoText.Model.Configuration
 		public bool CanOff { get; set; }
 		[XmlAttribute("shortcut")]
 		public string Shortcut { get; set; }
-		[XmlArray("names"),XmlArrayItem("name")]
+		[XmlArray("names"), XmlArrayItem("name")]
 		public List<KeycodeConfigName> Names { get; set; }
 	}
 }

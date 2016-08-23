@@ -23,6 +23,8 @@
 		<keycode virtualKeyCode="3" canOn="false" canOff="false" shortcut="none">
 			<names>
 				<name rel="Native" value="Cancel" />
+				<name rel="Sender" value="CtrlBreak" />
+				<name rel="Display" value="Break" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="4" canOn="false" canOff="false" shortcut="none">
@@ -84,18 +86,21 @@
 			<names>
 				<name rel="Native" value="ShiftKey" />
 				<name rel="Sender" value="Shift" />
+				<name rel="Display" value="Shift Key" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="17" canOn="false" canOff="false" shortcut="none">
 			<names>
 				<name rel="Native" value="ControlKey" />
 				<name rel="Sender" value="Control" />
+				<name rel="Display" value="Control Key" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="18" canOn="false" canOff="false" shortcut="none">
 			<names>
 				<name rel="Native" value="Menu" />
 				<name rel="Sender" value="Alt" />
+				<name rel="Display" value="Alt Key" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="19" canOn="false" canOff="false" shortcut="none">

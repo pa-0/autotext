@@ -37,7 +37,6 @@ using AutoText.Helpers.Configuration;
 using AutoText.Helpers.Extensions;
 using AutoText.Model.Configuration;
 using KellermanSoftware.CompareNetObjects;
-using MoreLinq;
 
 
 namespace AutoText
@@ -386,7 +385,7 @@ namespace AutoText
 			comboBoxTriggerKey.TabIndex = 17;
 			comboBoxTriggerKey.Visible = triggerChar == null;
 			comboBoxTriggerKey.Font = new Font(comboBoxTriggerKey.Font, FontStyle.Regular);
-			ConfigHelper.GetKeycodesConfiguration().Keycodes.Where(p => p.Names.Any(n => n.KeyRelation == KeyRelation.Sender)).ForEach(p => comboBoxTriggerKey.Items.Add(p.Names.Single(s => s.KeyRelation == KeyRelation.Sender).Value));
+			ConfigHelper.GetAllDisplayKeys().ForEach(p => comboBoxTriggerKey.Items.Add(p));
 			comboBoxTriggerKey.Items.RemoveAt(0);
 			comboBoxTriggerKey.SelectedIndex = 0;
 
@@ -394,7 +393,7 @@ namespace AutoText
 			{
 				foreach (var item in comboBoxTriggerKey.Items)
 				{
-					if (item.ToString() == triggerKey)
+					if (item.ToString() == ConfigHelper.GetDisplayKeyByNativeKey(triggerKey))
 					{
 						comboBoxTriggerKey.SelectedItem = item;
 						break;
@@ -963,7 +962,7 @@ namespace AutoText
 					currentPhrase.Triggers.Add(new AutotextRuleTrigger()
 					{
 						CaseSensitive = triggerCaseSen,
-						Value = triggerKey,
+						Value = ConfigHelper.GetNativeKeyByDisplayKey(triggerKey).First(),
 						TriggerType = AutotextRuleTriggerType.Key
 					});
 

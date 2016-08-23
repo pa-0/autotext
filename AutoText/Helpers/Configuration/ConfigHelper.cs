@@ -18,10 +18,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
 
-using AutoText.Model.Configuration;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Xml.Serialization;
+using AutoText.Model.Configuration;
 
 namespace AutoText.Helpers.Configuration
 {
@@ -157,6 +158,23 @@ namespace AutoText.Helpers.Configuration
 					serializer.Serialize(writer, _commonConfiguration);
 				}
 			}
+		}
+
+		public static List<string> GetNativeKeyByDisplayKey(string diaplayKey)
+		{
+			return GetKeycodesConfiguration().Keycodes.Single(p => p.Names.Any(g => g.KeyRelation == KeyRelation.Display && g.Value == diaplayKey)).
+					   Names.Where(g => g.KeyRelation == KeyRelation.Native).Select(p => p.Value).ToList();
+		}
+
+		public static string GetDisplayKeyByNativeKey(string nativeKey)
+		{
+			return GetKeycodesConfiguration().Keycodes.Single(p => p.Names.Any(g => g.KeyRelation == KeyRelation.Native && g.Value == nativeKey)).
+					   Names.Single(g => g.KeyRelation == KeyRelation.Display).Value;
+		}
+
+		public static List<string> GetAllDisplayKeys()
+		{
+			return GetKeycodesConfiguration().Keycodes.Where(p => p.Names.Any(g => g.KeyRelation == KeyRelation.Display)).Select(p => p.Names.Single(g => g.KeyRelation == KeyRelation.Display).Value).ToList();
 		}
 	}
 }
