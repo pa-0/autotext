@@ -43,7 +43,6 @@ namespace AutoText
 			this.textBoxPhraseContent = new System.Windows.Forms.TextBox();
 			this.contextMenuStripPhraseContentEdit = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.macrosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.keyPressMacrosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.keyComboMacrosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.pauseMacrosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.dateAndTimeMacrosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -154,12 +153,11 @@ namespace AutoText
             this.deleteToolStripMenuItem,
             this.undoToolStripMenuItem});
 			this.contextMenuStripPhraseContentEdit.Name = "contextMenuStripPhraseContentEdit";
-			this.contextMenuStripPhraseContentEdit.Size = new System.Drawing.Size(123, 164);
+			this.contextMenuStripPhraseContentEdit.Size = new System.Drawing.Size(153, 186);
 			// 
 			// macrosToolStripMenuItem
 			// 
 			this.macrosToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.keyPressMacrosToolStripMenuItem,
             this.keyComboMacrosToolStripMenuItem,
             this.pauseMacrosToolStripMenuItem,
             this.dateAndTimeMacrosToolStripMenuItem,
@@ -168,25 +166,19 @@ namespace AutoText
             this.insertFileContentsMacrosToolStripMenuItem,
             this.insertEnvironmentVariableValueMacrosToolStripMenuItem});
 			this.macrosToolStripMenuItem.Name = "macrosToolStripMenuItem";
-			this.macrosToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
+			this.macrosToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
 			this.macrosToolStripMenuItem.Text = "Macros";
-			// 
-			// keyPressMacrosToolStripMenuItem
-			// 
-			this.keyPressMacrosToolStripMenuItem.Name = "keyPressMacrosToolStripMenuItem";
-			this.keyPressMacrosToolStripMenuItem.Size = new System.Drawing.Size(229, 22);
-			this.keyPressMacrosToolStripMenuItem.Text = "Key Action Macros";
-			this.keyPressMacrosToolStripMenuItem.Click += new System.EventHandler(this.keyActionMacrosToolStripMenuItem_Click);
 			// 
 			// keyComboMacrosToolStripMenuItem
 			// 
 			this.keyComboMacrosToolStripMenuItem.Name = "keyComboMacrosToolStripMenuItem";
 			this.keyComboMacrosToolStripMenuItem.Size = new System.Drawing.Size(229, 22);
-			this.keyComboMacrosToolStripMenuItem.Text = "Key Combo Macros";
+			this.keyComboMacrosToolStripMenuItem.Text = "Key Macros";
 			this.keyComboMacrosToolStripMenuItem.Click += new System.EventHandler(this.keyComboMacrosToolStripMenuItem_Click);
 			// 
 			// pauseMacrosToolStripMenuItem
 			// 
+			this.pauseMacrosToolStripMenuItem.Enabled = false;
 			this.pauseMacrosToolStripMenuItem.Name = "pauseMacrosToolStripMenuItem";
 			this.pauseMacrosToolStripMenuItem.Size = new System.Drawing.Size(229, 22);
 			this.pauseMacrosToolStripMenuItem.Text = "Pause Macros";
@@ -230,47 +222,47 @@ namespace AutoText
 			// toolStripSeparator1
 			// 
 			this.toolStripSeparator1.Name = "toolStripSeparator1";
-			this.toolStripSeparator1.Size = new System.Drawing.Size(119, 6);
+			this.toolStripSeparator1.Size = new System.Drawing.Size(149, 6);
 			// 
 			// copyToolStripMenuItem
 			// 
 			this.copyToolStripMenuItem.Name = "copyToolStripMenuItem";
-			this.copyToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
+			this.copyToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
 			this.copyToolStripMenuItem.Text = "Copy";
 			this.copyToolStripMenuItem.Click += new System.EventHandler(this.copyToolStripMenuItem_Click);
 			// 
 			// pasteToolStripMenuItem
 			// 
 			this.pasteToolStripMenuItem.Name = "pasteToolStripMenuItem";
-			this.pasteToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
+			this.pasteToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
 			this.pasteToolStripMenuItem.Text = "Paste";
 			this.pasteToolStripMenuItem.Click += new System.EventHandler(this.pasteToolStripMenuItem_Click);
 			// 
 			// cutToolStripMenuItem
 			// 
 			this.cutToolStripMenuItem.Name = "cutToolStripMenuItem";
-			this.cutToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
+			this.cutToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
 			this.cutToolStripMenuItem.Text = "Cut";
 			this.cutToolStripMenuItem.Click += new System.EventHandler(this.cutToolStripMenuItem_Click);
 			// 
 			// selectAllToolStripMenuItem
 			// 
 			this.selectAllToolStripMenuItem.Name = "selectAllToolStripMenuItem";
-			this.selectAllToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
+			this.selectAllToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
 			this.selectAllToolStripMenuItem.Text = "Select All";
 			this.selectAllToolStripMenuItem.Click += new System.EventHandler(this.selectAllToolStripMenuItem_Click);
 			// 
 			// deleteToolStripMenuItem
 			// 
 			this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
-			this.deleteToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
+			this.deleteToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
 			this.deleteToolStripMenuItem.Text = "Delete";
 			this.deleteToolStripMenuItem.Click += new System.EventHandler(this.deleteToolStripMenuItem_Click);
 			// 
 			// undoToolStripMenuItem
 			// 
 			this.undoToolStripMenuItem.Name = "undoToolStripMenuItem";
-			this.undoToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
+			this.undoToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
 			this.undoToolStripMenuItem.Text = "Undo";
 			this.undoToolStripMenuItem.Click += new System.EventHandler(this.toolStripMenuItem2_Click);
 			// 
@@ -578,7 +570,6 @@ namespace AutoText
 		private ToolStripMenuItem selectAllToolStripMenuItem;
 		private ToolStripMenuItem deleteToolStripMenuItem;
 		private ToolStripSeparator toolStripSeparator1;
-		private ToolStripMenuItem keyPressMacrosToolStripMenuItem;
 		private ToolStripMenuItem keyComboMacrosToolStripMenuItem;
 		private ToolStripMenuItem pauseMacrosToolStripMenuItem;
 		private ToolStripMenuItem dateAndTimeMacrosToolStripMenuItem;

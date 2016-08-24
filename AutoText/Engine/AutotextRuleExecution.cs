@@ -23,6 +23,7 @@ using System.Text;
 using System.Windows.Forms;
 using AutoText.Helpers;
 using AutoText.Helpers.Configuration;
+using AutoText.Helpers.Extensions;
 
 namespace AutoText.Engine
 {
@@ -46,64 +47,6 @@ namespace AutoText.Engine
 			}
 		}
 
-		/*
-		private static INPUT[] ConverInput(List<AutotextInput> input)
-		{
-			INPUT[] inputSimulationArr = input.SelectMany(p =>
-			{
-				List<INPUT> res = new List<INPUT>(500);
-
-				if (p.Type == InputType.UnicodeChar)
-				{
-					if (p.ActionType == InputActionType.Press)
-					{
-						res.Add(InputSimulator.GetInput((char)p.CharToInput, ActionType.KeyDown));
-						res.Add(InputSimulator.GetInput((char)p.CharToInput, ActionType.KeyUp));
-					}
-					else if (p.ActionType == InputActionType.KeyDown)
-					{
-						res.Add(InputSimulator.GetInput((char)p.CharToInput, ActionType.KeyDown));
-					}
-					else if (p.ActionType == InputActionType.KeyUp)
-					{
-						res.Add(InputSimulator.GetInput((char)p.CharToInput, ActionType.KeyUp));
-					}
-					else
-					{
-						throw new ArgumentOutOfRangeException("InputActionType");
-					}
-				}
-				else if (p.Type == InputType.KeyCode)
-				{
-					if (p.ActionType == InputActionType.Press)
-					{
-						res.Add(InputSimulator.GetInput((Keys)p.KeyCodeToInput, ActionType.KeyDown));
-						res.Add(InputSimulator.GetInput((Keys)p.KeyCodeToInput, ActionType.KeyUp));
-					}
-					else if (p.ActionType == InputActionType.KeyDown)
-					{
-						res.Add(InputSimulator.GetInput((Keys)p.KeyCodeToInput, ActionType.KeyDown));
-					}
-					else if (p.ActionType == InputActionType.KeyUp)
-					{
-						res.Add(InputSimulator.GetInput((Keys)p.KeyCodeToInput, ActionType.KeyUp));
-					}
-					else
-					{
-						throw new ArgumentOutOfRangeException("InputActionType");
-					}
-				}
-				else
-				{
-					throw new ArgumentOutOfRangeException("InputActionType");
-				}
-
-				return res;
-			}).ToArray();
-
-			return inputSimulationArr;
-		}
-		*/
 
 		private static string ConverInput(List<AutotextInput> input)
 		{
@@ -124,9 +67,23 @@ namespace AutoText.Engine
 					}
 					else
 					{
-						res.Append(autotextInput.CharToInput);
-					}
+						string template = "{{{0}{1}}}";
 
+						switch (autotextInput.ActionType)
+						{
+							case InputActionType.KeyDown:
+								res.Append(string.Format(template, autotextInput.CharToInput, " down"));
+								break;
+							case InputActionType.KeyUp:
+								res.Append(string.Format(template, autotextInput.CharToInput, " up"));
+								break;
+							case InputActionType.Press:
+								res.Append(autotextInput.CharToInput);
+								break;
+							default:
+								throw new InvalidOperationException("Action is not recognized");
+						}
+					}
 				}
 				else if (autotextInput.Type == InputType.KeyCode)
 				{
@@ -146,7 +103,7 @@ namespace AutoText.Engine
 							res.Append(string.Format(template, senderKeyName, ""));
 							break;
 						default:
-							throw new ArgumentOutOfRangeException();
+							throw new InvalidOperationException("Action is not recognized");
 					}
 				}
 				else
@@ -160,56 +117,8 @@ namespace AutoText.Engine
 
 		public static void DoInput(List<AutotextInput> input)
 		{
-			//InputSimulator inputSim = new InputSimulator();
-			//inputSim.Keyboard.TextEntry("ASD\rыфвфывфы۩");
-			//SendKeys.SendWait("A\r\nF");
-			//			inputSim.Keyboard.TextEntry("asd");
-			//SendKeys.SendWait(File.ReadAllText(@"c:\Users\alitvinov\Desktop\Downloads\text test.txt"));
-			//SendKeys.SendWait("asd\r\nasd");
-			//inputSim.Keyboard.TextEntry()
-
-			//INPUT[] inputSim = ConverInput(input);
-			//InputSimulator.SimulateInputSequence(ConverInput(AutotextInput.FromString("H\nW")));
-			//SendKeys.SendWait("H\r\nW");
-
-			//InputSimulator.SimulateTextEntry("H\r\nW");
-
-
-			/*
-						if (startInfo == null)
-						{
-							startInfo = new ProcessStartInfo();
-							startInfo.UseShellExecute = false;
-							startInfo.RedirectStandardInput = true;
-							startInfo.FileName = @"d:\Downloads\AutoHotkey test\test.exe";
-			//				startInfo.FileName = @"d:\Downloads\test.exe";
-
-							process = new Process();
-							process.StartInfo = startInfo;
-							process.Start();
-						}
-			*/
-
 			string inpt = ConverInput(input);
 			Sender.Send(inpt);
-
-			{
-			}
-			/*
-			 * 
-            foreach (AutotextInput autotextInput in input)
-			{
-				if (autotextInput.Sleep > 0)
-				{
-					Thread.Sleep(autotextInput.Sleep);
-				}
-				else
-				{
-					INPUT[] inputSim = ConverInput(new List<AutotextInput>() { autotextInput });
-					InputSimulator.SimulateInputSequence(inputSim);
-				}
-			}
-            */
 		}
 	}
 }

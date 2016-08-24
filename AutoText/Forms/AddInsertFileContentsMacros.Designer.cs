@@ -58,11 +58,11 @@
 			// 
 			// buttonAddMacros
 			// 
-			this.buttonAddMacros.Location = new System.Drawing.Point(164, 73);
+			this.buttonAddMacros.Location = new System.Drawing.Point(145, 73);
 			this.buttonAddMacros.Name = "buttonAddMacros";
-			this.buttonAddMacros.Size = new System.Drawing.Size(75, 23);
+			this.buttonAddMacros.Size = new System.Drawing.Size(91, 23);
 			this.buttonAddMacros.TabIndex = 2;
-			this.buttonAddMacros.Text = "Add";
+			this.buttonAddMacros.Text = "Insert macros";
 			this.buttonAddMacros.UseVisualStyleBackColor = true;
 			this.buttonAddMacros.Click += new System.EventHandler(this.buttonAddMacros_Click);
 			// 

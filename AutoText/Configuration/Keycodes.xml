@@ -762,14 +762,14 @@
 				<name rel="Display" value="F24" />
 			</names>
 		</keycode>
-		<keycode virtualKeyCode="144" canOn="true" canOff="false" shortcut="none">
+		<keycode virtualKeyCode="144" canOn="true" canOff="true" shortcut="none">
 			<names>
 				<name rel="Native" value="NumLock" />
 				<name rel="Sender" value="NumLock" />
 				<name rel="Display" value="Num Lock" />
 			</names>
 		</keycode>
-		<keycode virtualKeyCode="145" canOn="true" canOff="false" shortcut="none">
+		<keycode virtualKeyCode="145" canOn="true" canOff="true" shortcut="none">
 			<names>
 				<name rel="Native" value="Scroll" />
 				<name rel="Sender" value="ScrollLock" />

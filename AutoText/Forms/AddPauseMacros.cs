@@ -20,6 +20,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 using System;
 using System.Windows.Forms;
+using AutoText.Engine;
 
 namespace AutoText
 {
@@ -32,11 +33,8 @@ namespace AutoText
 
 		private void buttonAdd_Click(object sender, EventArgs e)
 		{
-			TextBox tb = ((FormMain)Owner).PhraseTextBox;
-			int selStart = tb.SelectionStart;
 			string macros = string.Format("{{p [{0}]}}", numericUpDownPuseDuration.Value.ToString());
-			tb.Text = tb.Text.Insert(tb.SelectionStart, macros);
-			tb.SelectionStart = selStart + macros.Length;
+			((FormMain)Owner).InserTextToPhraseEditTextBox(macros);
 		}
 	}
 }

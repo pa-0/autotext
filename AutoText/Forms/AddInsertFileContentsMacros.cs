@@ -76,10 +76,7 @@ namespace AutoText.Forms
 				textBoxPathToFile.Text.EscapeSpecialExpressionChars(),
 				encoding);
 
-			TextBox tb = ((FormMain)Owner).PhraseTextBox;
-			int selStart = tb.SelectionStart;
-			tb.Text = tb.Text.Insert(tb.SelectionStart, macros);
-			tb.SelectionStart = selStart + macros.Length;
+			((FormMain)Owner).InserTextToPhraseEditTextBox(macros);
 		}
 	}
 }

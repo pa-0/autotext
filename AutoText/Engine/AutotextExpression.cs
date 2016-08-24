@@ -410,8 +410,8 @@ namespace AutoText.Engine
 					}
 				case "k":
 					{
-						string action = "";
-						string keycodeStr = "";
+						string action;
+						string keycodeStr;
 
 						if (expressionParameters.ContainsKey("action"))
 						{
@@ -529,6 +529,87 @@ namespace AutoText.Engine
 						else
 						{
 							res.Add(new AutotextInput(InputType.KeyCode, actionType, keyToProcess));
+						}
+
+						return res;
+						break;
+					}
+					//output char
+				case "c":
+					{
+						string action;
+						string charToProcess;
+
+						if (expressionParameters.ContainsKey("action"))
+						{
+							action = expressionParameters["action"].ConcatToString();
+						}
+						else if (expressionParameters.ContainsKey("2"))
+						{
+							action = expressionParameters["2"].ConcatToString();
+						}
+						else
+						{
+							action = "press";
+						}
+
+						if (expressionParameters.ContainsKey("char"))
+						{
+							charToProcess = expressionParameters["char"].ConcatToString();
+						}
+						else if (expressionParameters.ContainsKey("1"))
+						{
+							charToProcess = expressionParameters["1"].ConcatToString();
+						}
+						else
+						{
+							throw new ExpressionEvaluationException("Failed to find char parameter");
+						}
+
+						InputActionType actionType = InputActionType.Press;
+						int pressCount = -1;
+
+						List<AutotextInput> res = new List<AutotextInput>(100);
+
+						switch (action.ToLower())
+						{
+							case "press":
+								{
+									actionType = InputActionType.Press;
+									break;
+								}
+							case "+":
+								{
+									actionType = InputActionType.KeyDown;
+									break;
+								}
+							case "-":
+								{
+									actionType = InputActionType.KeyUp;
+									break;
+								}
+							default://Numeric, to press multiple times
+								{
+									//pressCount Will be 0 if parsing fails
+									if (!int.TryParse(action, out pressCount))
+									{
+										throw new ExpressionEvaluationException("No action is recognized in given expression");
+									}
+
+									break;
+								}
+						}
+
+						if (pressCount > 0)
+						{
+							for (int i = 0; i < pressCount; i++)
+							{
+								res.Add(new AutotextInput(InputType.UnicodeChar, actionType, charToProcess.First()));
+							}
+						}
+						else
+						{
+							res.Add(new AutotextInput(InputType.UnicodeChar, actionType, charToProcess.First()));
 						}
 
 						return res;

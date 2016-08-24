@@ -39,11 +39,8 @@ namespace AutoText
 
 		private void button1_Click(object sender, EventArgs e)
 		{
-			TextBox tb = ((FormMain)Owner).PhraseTextBox;
-			int selStart = tb.SelectionStart;
 			string macros = string.Format("{{d [{0}]}}", textBoxFormat.Text.EscapeSpecialExpressionChars());
-			tb.Text = tb.Text.Insert(tb.SelectionStart, macros);
-			tb.SelectionStart = selStart + macros.Length;
+			((FormMain)Owner).InserTextToPhraseEditTextBox(macros);
 		}
 
 		private void linkLabelHelp_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)

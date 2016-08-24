@@ -57,16 +57,16 @@
 			// 
 			this.button1.Location = new System.Drawing.Point(187, 15);
 			this.button1.Name = "button1";
-			this.button1.Size = new System.Drawing.Size(49, 23);
+			this.button1.Size = new System.Drawing.Size(96, 23);
 			this.button1.TabIndex = 2;
-			this.button1.Text = "Add";
+			this.button1.Text = "Insert macros";
 			this.button1.UseVisualStyleBackColor = true;
 			this.button1.Click += new System.EventHandler(this.button1_Click);
 			// 
 			// linkLabelHelp
 			// 
 			this.linkLabelHelp.AutoSize = true;
-			this.linkLabelHelp.Location = new System.Drawing.Point(119, 41);
+			this.linkLabelHelp.Location = new System.Drawing.Point(166, 41);
 			this.linkLabelHelp.Name = "linkLabelHelp";
 			this.linkLabelHelp.Size = new System.Drawing.Size(117, 13);
 			this.linkLabelHelp.TabIndex = 3;
@@ -77,7 +77,7 @@
 			// label2
 			// 
 			this.label2.AutoSize = true;
-			this.label2.Location = new System.Drawing.Point(12, 68);
+			this.label2.Location = new System.Drawing.Point(63, 66);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(172, 26);
 			this.label2.TabIndex = 4;
@@ -86,7 +86,7 @@
 			// labelExampleDateTime
 			// 
 			this.labelExampleDateTime.AutoSize = true;
-			this.labelExampleDateTime.Location = new System.Drawing.Point(12, 94);
+			this.labelExampleDateTime.Location = new System.Drawing.Point(63, 92);
 			this.labelExampleDateTime.Name = "labelExampleDateTime";
 			this.labelExampleDateTime.Size = new System.Drawing.Size(16, 13);
 			this.labelExampleDateTime.TabIndex = 5;
@@ -96,7 +96,7 @@
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(261, 132);
+			this.ClientSize = new System.Drawing.Size(293, 119);
 			this.Controls.Add(this.labelExampleDateTime);
 			this.Controls.Add(this.label2);
 			this.Controls.Add(this.linkLabelHelp);

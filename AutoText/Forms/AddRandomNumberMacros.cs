@@ -43,11 +43,7 @@ namespace AutoText.Forms
 		private void buttonAdd_Click(object sender, EventArgs e)
 		{
 			string macros = string.Format("{{n [{0}]}}", numericUpDownMinimum.Value + "|" + numericUpDownMaximum.Value);
-
-			TextBox tb = ((FormMain)Owner).PhraseTextBox;
-			int selStart = tb.SelectionStart;
-			tb.Text = tb.Text.Insert(tb.SelectionStart, macros);
-			tb.SelectionStart = selStart + macros.Length;
+			((FormMain)Owner).InserTextToPhraseEditTextBox(macros);
 		}
 
 		private void numericUpDownMinimum_ValueChanged(object sender, EventArgs e)

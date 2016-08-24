@@ -55,6 +55,7 @@
 			this.groupBox1.Controls.Add(this.checkBoxDigits);
 			this.groupBox1.Controls.Add(this.checkBoxLowercaseLetters);
 			this.groupBox1.Controls.Add(this.checkBoxUppercaseLetters);
+			this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
 			this.groupBox1.Location = new System.Drawing.Point(12, 12);
 			this.groupBox1.Name = "groupBox1";
 			this.groupBox1.Size = new System.Drawing.Size(435, 96);
@@ -65,6 +66,7 @@
 			// textBoxCharsToContain
 			// 
 			this.textBoxCharsToContain.Enabled = false;
+			this.textBoxCharsToContain.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
 			this.textBoxCharsToContain.Location = new System.Drawing.Point(174, 63);
 			this.textBoxCharsToContain.Name = "textBoxCharsToContain";
 			this.textBoxCharsToContain.Size = new System.Drawing.Size(251, 20);
@@ -73,6 +75,7 @@
 			// checkBoxContainFollowingChars
 			// 
 			this.checkBoxContainFollowingChars.AutoSize = true;
+			this.checkBoxContainFollowingChars.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
 			this.checkBoxContainFollowingChars.Location = new System.Drawing.Point(6, 65);
 			this.checkBoxContainFollowingChars.Name = "checkBoxContainFollowingChars";
 			this.checkBoxContainFollowingChars.Size = new System.Drawing.Size(162, 17);
@@ -84,6 +87,7 @@
 			// checkBoxSpecialCharacters
 			// 
 			this.checkBoxSpecialCharacters.AutoSize = true;
+			this.checkBoxSpecialCharacters.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
 			this.checkBoxSpecialCharacters.Location = new System.Drawing.Point(174, 42);
 			this.checkBoxSpecialCharacters.Name = "checkBoxSpecialCharacters";
 			this.checkBoxSpecialCharacters.Size = new System.Drawing.Size(177, 17);
@@ -94,6 +98,7 @@
 			// checkBoxDigits
 			// 
 			this.checkBoxDigits.AutoSize = true;
+			this.checkBoxDigits.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
 			this.checkBoxDigits.Location = new System.Drawing.Point(6, 42);
 			this.checkBoxDigits.Name = "checkBoxDigits";
 			this.checkBoxDigits.Size = new System.Drawing.Size(52, 17);
@@ -104,6 +109,7 @@
 			// checkBoxLowercaseLetters
 			// 
 			this.checkBoxLowercaseLetters.AutoSize = true;
+			this.checkBoxLowercaseLetters.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
 			this.checkBoxLowercaseLetters.Location = new System.Drawing.Point(6, 19);
 			this.checkBoxLowercaseLetters.Name = "checkBoxLowercaseLetters";
 			this.checkBoxLowercaseLetters.Size = new System.Drawing.Size(109, 17);
@@ -114,6 +120,7 @@
 			// checkBoxUppercaseLetters
 			// 
 			this.checkBoxUppercaseLetters.AutoSize = true;
+			this.checkBoxUppercaseLetters.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
 			this.checkBoxUppercaseLetters.Location = new System.Drawing.Point(174, 19);
 			this.checkBoxUppercaseLetters.Name = "checkBoxUppercaseLetters";
 			this.checkBoxUppercaseLetters.Size = new System.Drawing.Size(109, 17);
@@ -196,11 +203,11 @@
 			// 
 			// buttonAddMacros
 			// 
-			this.buttonAddMacros.Location = new System.Drawing.Point(372, 144);
+			this.buttonAddMacros.Location = new System.Drawing.Point(349, 144);
 			this.buttonAddMacros.Name = "buttonAddMacros";
-			this.buttonAddMacros.Size = new System.Drawing.Size(75, 23);
+			this.buttonAddMacros.Size = new System.Drawing.Size(98, 23);
 			this.buttonAddMacros.TabIndex = 6;
-			this.buttonAddMacros.Text = "Add";
+			this.buttonAddMacros.Text = "Insert macros";
 			this.buttonAddMacros.UseVisualStyleBackColor = true;
 			this.buttonAddMacros.Click += new System.EventHandler(this.buttonAddMacros_Click);
 			// 

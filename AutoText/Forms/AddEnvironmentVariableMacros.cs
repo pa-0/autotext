@@ -40,11 +40,7 @@ namespace AutoText.Forms
 		private void buttonAdd_Click(object sender, EventArgs e)
 		{
 			string macros = string.Format("{{e [{0}]}}", comboBoxEnvVraNames.Text.Trim('%').EscapeSpecialExpressionChars());
-
-			TextBox tb = ((FormMain)Owner).PhraseTextBox;
-			int selStart = tb.SelectionStart;
-			tb.Text = tb.Text.Insert(tb.SelectionStart, macros);
-			tb.SelectionStart = selStart + macros.Length;
+			((FormMain)Owner).InserTextToPhraseEditTextBox(macros);
 		}
 
 		private void AddEnvironmentVariableMacros_Load(object sender, EventArgs e)

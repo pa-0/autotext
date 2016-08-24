@@ -81,10 +81,7 @@ namespace AutoText.Forms
 
 			string macros = string.Format("{{r {0} {1} count[{2}]}}", hasPalette ? param : "", hasUserChars ? userChars : "", count);
 
-			TextBox tb = ((FormMain)Owner).PhraseTextBox;
-			int selStart = tb.SelectionStart;
-			tb.Text = tb.Text.Insert(tb.SelectionStart, macros);
-			tb.SelectionStart = selStart + macros.Length;
+			((FormMain)Owner).InserTextToPhraseEditTextBox(macros);
 		}
 
 		private void checkBoxContainFollowingChars_CheckedChanged(object sender, EventArgs e)

@@ -84,11 +84,8 @@ namespace AutoText
 			}
 
 
-			TextBox tb = ((FormMain)Owner).PhraseTextBox;
-			int selStart = tb.SelectionStart;
-			string selStr = string.Format("{{k [{0}] [{1}]}}", comboBoxKey.SelectedItem.ToString().Split('|').First().Trim(), action);
-			tb.Text = tb.Text.Insert(tb.SelectionStart, selStr);
-			tb.SelectionStart = selStart + selStr.Length;
+			string macros = string.Format("{{k [{0}] [{1}]}}", comboBoxKey.SelectedItem.ToString().Split('|').First().Trim(), action);
+			((FormMain)Owner).InserTextToPhraseEditTextBox(macros);
 		}
 	}
 }

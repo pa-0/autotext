@@ -52,16 +52,12 @@ namespace AutoText
 		int _numberOfTriggers;
 		private int _curSelectedPhraseIndex = -1;
 
-		public TextBox PhraseTextBox
-		{
-			get { return textBoxPhraseContent; }
-		}
-
 
 		public FormMain()
 		{
 			InitializeComponent();
 			Sender.StartSender();
+			Sender.DataSent += Sender_DataSent;
 
 			return;
 
@@ -154,6 +150,11 @@ namespace AutoText
 
 			ConfigHelper.SaveAutotextRulesConfiguration(root.AutotextRulesList);
 			{ }
+		}
+
+		void Sender_DataSent(object sender, EventArgs e)
+		{
+			_keylogger.ResumeCapture();
 		}
 
 		private void LoadPhrasesToDataGridView()
@@ -316,7 +317,6 @@ namespace AutoText
 			_keylogger.PauseCapture();
 			Thread.Sleep(20);
 			AutotextRuleExecution.ProcessRule(new AutotextRuleMatchParameters(e.MatchedRule, e.Trigger));
-			_keylogger.ResumeCapture();
 			_matcher.ClearBuffer();
 		}
 
@@ -386,7 +386,6 @@ namespace AutoText
 			comboBoxTriggerKey.Visible = triggerChar == null;
 			comboBoxTriggerKey.Font = new Font(comboBoxTriggerKey.Font, FontStyle.Regular);
 			ConfigHelper.GetAllDisplayKeys().ForEach(p => comboBoxTriggerKey.Items.Add(p));
-			comboBoxTriggerKey.Items.RemoveAt(0);
 			comboBoxTriggerKey.SelectedIndex = 0;
 
 			if (!string.IsNullOrEmpty(triggerKey))
@@ -796,6 +795,11 @@ namespace AutoText
 		private void pasteToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			string textToPaste = Clipboard.GetText();
+			InserTextToPhraseEditTextBox(textToPaste);
+		}
+
+		public void InserTextToPhraseEditTextBox(string textToInsert)
+		{
 			int selectionStart = textBoxPhraseContent.SelectionStart;
 			string textBoxText = textBoxPhraseContent.Text;
 
@@ -804,9 +808,9 @@ namespace AutoText
 				textBoxText = textBoxText.Remove(textBoxPhraseContent.SelectionStart, textBoxPhraseContent.SelectionLength);
 			}
 
-			textBoxText = textBoxText.Insert(selectionStart, textToPaste);
+			textBoxText = textBoxText.Insert(selectionStart, textToInsert);
 			textBoxPhraseContent.Text = textBoxText;
-			textBoxPhraseContent.SelectionStart = selectionStart + textToPaste.Length;
+			textBoxPhraseContent.SelectionStart = selectionStart + textToInsert.Length;
 		}
 
 		private void cutToolStripMenuItem_Click(object sender, EventArgs e)
@@ -866,6 +870,8 @@ namespace AutoText
 		private void keyComboMacrosToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			AddShortcutKeys form = new AddShortcutKeys();
+			form.Activated += childForm_Activated;
+			form.Deactivate += childForm_Deactivate;
 			form.CenterTo(this);
 			form.Show(this);
 		}
@@ -883,13 +889,28 @@ namespace AutoText
 		private void pauseMacrosToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			AddPauseMacros addPauseMacrosForm = new AddPauseMacros();
+			addPauseMacrosForm.Activated += childForm_Activated;
+			addPauseMacrosForm.Deactivate += childForm_Deactivate;
 			addPauseMacrosForm.CenterTo(this);
 			addPauseMacrosForm.Show(this);
 		}
 
+		void childForm_Deactivate(object sender, EventArgs e)
+		{
+			_keylogger.StartCapture();
+		}
+
+		void childForm_Activated(object sender, EventArgs e)
+		{
+			_keylogger.StopCapture();
+		}
+
+
 		private void dateAndTimeMacrosToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			AddDateMacros addDateMacrosForm = new AddDateMacros();
+			addDateMacrosForm.Activated += childForm_Activated;
+			addDateMacrosForm.Deactivate += childForm_Deactivate;
 			addDateMacrosForm.CenterTo(this);
 			addDateMacrosForm.Show(this);
 		}
@@ -920,6 +941,10 @@ namespace AutoText
 				int selIndex = GetDataGridViewSelectedRowIndeces().First();
 				SavePhrase(selIndex);
 				e.Handled = true;
+			}
+			else if(e.KeyCode == Keys.Escape)
+			{
+				WindowState = FormWindowState.Minimized;
 			}
 		}
 
@@ -1181,6 +1206,8 @@ namespace AutoText
 		private void randomStringMacrosToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			AddRandomStringMacros addRandomStringMacros = new AddRandomStringMacros();
+			addRandomStringMacros.Activated += childForm_Activated;
+			addRandomStringMacros.Deactivate += childForm_Deactivate;
 			addRandomStringMacros.CenterTo(this);
 			addRandomStringMacros.Show(this);
 		}
@@ -1188,6 +1215,8 @@ namespace AutoText
 		private void randomNumberMacrosToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			AddRandomNumberMacros addRandomNumberMacros = new AddRandomNumberMacros();
+			addRandomNumberMacros.Activated += childForm_Activated;
+			addRandomNumberMacros.Deactivate += childForm_Deactivate;
 			addRandomNumberMacros.CenterTo(this);
 			addRandomNumberMacros.Show(this);
 		}
@@ -1195,6 +1224,8 @@ namespace AutoText
 		private void insertFileContentsMacrosToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			AddInsertFileContentsMacros addInsertFileContentsMacros = new AddInsertFileContentsMacros();
+			addInsertFileContentsMacros.Activated += childForm_Activated;
+			addInsertFileContentsMacros.Deactivate += childForm_Deactivate;
 			addInsertFileContentsMacros.CenterTo(this);
 			addInsertFileContentsMacros.Show(this);
 		}
@@ -1202,6 +1233,8 @@ namespace AutoText
 		private void insertEnvironmentVariableValueMacrosToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			AddEnvironmentVariableMacros addEnvironmentVariableMacros = new AddEnvironmentVariableMacros();
+			addEnvironmentVariableMacros.Activated += childForm_Activated;
+			addEnvironmentVariableMacros.Deactivate += childForm_Deactivate;
 			addEnvironmentVariableMacros.CenterTo(this);
 			addEnvironmentVariableMacros.Show(this);
 		}
