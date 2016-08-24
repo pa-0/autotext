@@ -67,5 +67,15 @@ namespace AutoText.Forms
 				textBoxKeyCaptured.Lines = lines.Skip(1).ToArray();
 			}
 		}
+
+		private void checkBoxStayOnTop_CheckedChanged(object sender, EventArgs e)
+		{
+			TopMost = checkBoxStayOnTop.Checked;
+		}
+
+		private void DebugTools_Load(object sender, EventArgs e)
+		{
+			TopMost = true;
+		}
 	}
 }

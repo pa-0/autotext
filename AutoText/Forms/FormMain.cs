@@ -173,6 +173,7 @@ namespace AutoText
 		{
 			Keys[] notAllowedSymbols =
 			{
+/*
 				Keys.Up,
 				Keys.Right,
 				Keys.Left,
@@ -185,6 +186,7 @@ namespace AutoText
 				Keys.PageDown,
 				Keys.Delete,
 				Keys.PageUp
+*/
 			};
 
 			if (e.CapturedKeys.Any(capturedKey => notAllowedSymbols.Count(p => p.ToString() == capturedKey) > 0))
