@@ -105,11 +105,13 @@
 			this.Controls.Add(this.textBoxFormat);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+			this.KeyPreview = true;
 			this.Name = "AddDateMacros";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
 			this.Text = "Add Date Macros";
 			this.Load += new System.EventHandler(this.AddDateMacros_Load);
 			this.Shown += new System.EventHandler(this.AddDateMacros_Shown);
+			this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.AddDateMacros_KeyDown);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 

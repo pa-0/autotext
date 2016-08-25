@@ -50,11 +50,13 @@
 			this.Controls.Add(this.label1);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+			this.KeyPreview = true;
 			this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
 			this.MaximizeBox = false;
 			this.Name = "HelpOnDateFormat";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
 			this.Text = "Help On Date Formatting";
+			this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.HelpOnDateFormat_KeyDown);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 

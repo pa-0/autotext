@@ -97,9 +97,11 @@
 			this.Controls.Add(this.numericUpDownPuseDuration);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+			this.KeyPreview = true;
 			this.Name = "AddPauseMacros";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
 			this.Text = "Add Pause Macros";
+			this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.AddPauseMacros_KeyDown);
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDownPuseDuration)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();

@@ -626,7 +626,7 @@ namespace AutoText
 				return false;
 			}
 
-			if (_rules.Where((p, i) => i != phraseIndex).Any(p => p.Abbreviation.AbbreviationText == textBoxAutotext.Text))
+			if (_rules.Where((p, i) => i != phraseIndex).Any(p => string.Equals(p.Abbreviation.AbbreviationText, textBoxAutotext.Text, StringComparison.CurrentCultureIgnoreCase)))
 			{
 				MessageBox.Show(this, "Phrase with specified autotext is already exists", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Stop);
 				return false;

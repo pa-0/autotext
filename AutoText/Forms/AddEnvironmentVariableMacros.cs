@@ -57,7 +57,15 @@ namespace AutoText.Forms
 
 		private void comboBoxEnvVraNames_TextChanged(object sender, EventArgs e)
 		{
-			labelExample.Text = Environment.GetEnvironmentVariable(comboBoxEnvVraNames.Text.Trim('%'));
+			textBoxPreviev.Text = Environment.GetEnvironmentVariable(comboBoxEnvVraNames.Text.Trim('%'));
+		}
+
+		private void AddEnvironmentVariableMacros_KeyDown(object sender, KeyEventArgs e)
+		{
+			if (e.KeyCode == Keys.Escape)
+			{
+				Close();
+			}
 		}
 	}
 }

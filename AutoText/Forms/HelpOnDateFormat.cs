@@ -40,5 +40,13 @@ namespace AutoText
 		{
 
 		}
+
+		private void HelpOnDateFormat_KeyDown(object sender, KeyEventArgs e)
+		{
+			if (e.KeyCode == Keys.Escape)
+			{
+				Close();
+			}
+		}
 	}
 }

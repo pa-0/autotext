@@ -42,5 +42,13 @@ namespace AutoText.Forms
 		{
 
 		}
+
+		private void FormAbout_KeyDown(object sender, KeyEventArgs e)
+		{
+			if (e.KeyCode == Keys.Escape)
+			{
+				Close();
+			}
+		}
 	}
 }

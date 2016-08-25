@@ -36,5 +36,13 @@ namespace AutoText
 			string macros = string.Format("{{p [{0}]}}", numericUpDownPuseDuration.Value.ToString());
 			((FormMain)Owner).InserTextToPhraseEditTextBox(macros);
 		}
+
+		private void AddPauseMacros_KeyDown(object sender, KeyEventArgs e)
+		{
+			if (e.KeyCode == Keys.Escape)
+			{
+				Close();
+			}
+		}
 	}
 }

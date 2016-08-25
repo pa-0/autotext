@@ -73,12 +73,14 @@
 			this.Controls.Add(this.labelVersion);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+			this.KeyPreview = true;
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
 			this.Name = "FormAbout";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
 			this.Text = "About AutoText";
 			this.Load += new System.EventHandler(this.FormAbout_Load);
+			this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FormAbout_KeyDown);
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();

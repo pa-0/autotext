@@ -54,5 +54,13 @@ namespace AutoText
 		{
 			textBoxFormat.DeselectAll();
 		}
+
+		private void AddDateMacros_KeyDown(object sender, KeyEventArgs e)
+		{
+			if (e.KeyCode == Keys.Escape)
+			{
+				Close();
+			}
+		}
 	}
 }

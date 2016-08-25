@@ -78,5 +78,13 @@ namespace AutoText.Forms
 
 			((FormMain)Owner).InserTextToPhraseEditTextBox(macros);
 		}
+
+		private void AddInsertFileContentsMacros_KeyDown(object sender, KeyEventArgs e)
+		{
+			if (e.KeyCode == Keys.Escape)
+			{
+				Close();
+			}
+		}
 	}
 }

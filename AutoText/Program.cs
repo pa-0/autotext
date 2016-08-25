@@ -36,6 +36,7 @@ namespace AutoText
 		[STAThread]
 		static void Main()
 		{
+/*
 			// Add the event handler for handling UI thread exceptions to the event.
 			Application.ThreadException += Application_ThreadException;
 
@@ -45,6 +46,7 @@ namespace AutoText
 
 			// Add the event handler for handling non-UI thread exceptions to the event. 
 			AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
+*/
 
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);

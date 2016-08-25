@@ -112,10 +112,12 @@
 			this.Controls.Add(this.label1);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+			this.KeyPreview = true;
 			this.Name = "AddInsertFileContentsMacros";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
 			this.Text = "Insert File Contents Macros";
 			this.Load += new System.EventHandler(this.AddInsertFileContentsMacros_Load);
+			this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.AddInsertFileContentsMacros_KeyDown);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 

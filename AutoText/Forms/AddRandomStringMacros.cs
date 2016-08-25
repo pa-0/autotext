@@ -104,5 +104,13 @@ namespace AutoText.Forms
 				numericUpDownMinStringLength.Value = numericUpDownMaxStringLenth.Value;
 			}
 		}
+
+		private void AddRandomStringMacros_KeyDown(object sender, KeyEventArgs e)
+		{
+			if (e.KeyCode == Keys.Escape)
+			{
+				Close();
+			}
+		}
 	}
 }

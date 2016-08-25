@@ -94,9 +94,11 @@
 			this.Controls.Add(this.label1);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+			this.KeyPreview = true;
 			this.Name = "AddRandomNumberMacros";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
 			this.Text = "Random Number Macros";
+			this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.AddRandomNumberMacros_KeyDown);
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDownMinimum)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDownMaximum)).EndInit();
 			this.ResumeLayout(false);
