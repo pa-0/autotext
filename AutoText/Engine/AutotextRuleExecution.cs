@@ -23,7 +23,6 @@ using System.Text;
 using System.Windows.Forms;
 using AutoText.Helpers;
 using AutoText.Helpers.Configuration;
-using AutoText.Helpers.Extensions;
 
 namespace AutoText.Engine
 {
@@ -87,6 +86,12 @@ namespace AutoText.Engine
 				}
 				else if (autotextInput.Type == InputType.KeyCode)
 				{
+					//in case no action should be performed(Caps Lock is already On and 'On' comman passed)
+					if (autotextInput.KeyCodeToInput == Keys.None)
+					{
+						continue;
+					}
+
 					string senderKeyName = ConfigHelper.GetSenderKeyByNativeKey(autotextInput.KeyCodeToInput.ToString());
 
 					string template = "{{{0}{1}}}";

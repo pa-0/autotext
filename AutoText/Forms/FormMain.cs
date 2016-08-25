@@ -695,7 +695,7 @@ namespace AutoText
 			}
 		}
 
-		private void RemovePhrase()
+		private void RemoveSelectedPhrase()
 		{
 			if (_rules.Any())
 			{
@@ -730,7 +730,7 @@ namespace AutoText
 
 		private void buttonRemovePhrase_Click(object sender, EventArgs e)
 		{
-			RemovePhrase();
+			RemoveSelectedPhrase();
 		}
 
 		private void FormMain_Activated(object sender, EventArgs e)
@@ -1252,7 +1252,7 @@ namespace AutoText
 		{
 			if (e.KeyCode == Keys.Delete)
 			{
-				RemovePhrase();
+				RemoveSelectedPhrase();
 			}
 		}
 

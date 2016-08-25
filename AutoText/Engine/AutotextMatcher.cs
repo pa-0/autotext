@@ -73,43 +73,41 @@ namespace AutoText.Engine
 				_bufferString.Remove(0, 1);
 			}
 
-
 			AutotextRuleConfiguration config =
 				_rules.SingleOrDefault(p => _bufferString.ToString().EndsWith(p.Abbreviation.AbbreviationText, !p.Abbreviation.CaseSensitive, null));
 
 			if (config != null)
 			{
-				AutotextRuleTrigger configMatchTrigger =
-					config.Triggers.SingleOrDefault(p => string.Compare(p.Value, symbol.CapturedCharacter, !p.CaseSensitive) == 0);
-
-				if (configMatchTrigger != null)
+				foreach (AutotextRuleTrigger trigger in config.Triggers)
 				{
-					OnMatchFound(new AutotextMatchEventArgs(config, configMatchTrigger));
-					_bufferString.Clear();
-					return;
-
-				}
-				else
-				{
-					foreach (string capturedKey in symbol.CapturedKeys)
+					if (trigger.TriggerType == AutotextRuleTriggerType.Character)
 					{
-						foreach (AutotextRuleTrigger ruleTrigger in config.Triggers)
+						if (string.Compare(trigger.Value, symbol.CapturedCharacter, !trigger.CaseSensitive) == 0)
 						{
-							if (capturedKey == ruleTrigger.Value)
-							{
-								OnMatchFound(new AutotextMatchEventArgs(config, ruleTrigger));
-								_bufferString.Clear();
-								return;
-							}
+							OnMatchFound(new AutotextMatchEventArgs(config, trigger));
+							_bufferString.Clear();
+							return;
 						}
 					}
-
+					else if (trigger.TriggerType == AutotextRuleTriggerType.Key)
+					{
+						if (symbol.CapturedKeys.Contains(trigger.Value))
+						{
+							OnMatchFound(new AutotextMatchEventArgs(config, trigger));
+							_bufferString.Clear();
+							return;
+						}
+					}
+					else
+					{
+						throw new InvalidCastException("Can't recognize trigger type");
+					}
 				}
 			}
 
-
 			_bufferString.Append(symbol.CapturedCharacter);
 		}
+
 
 		public bool TestForMatch(KeyCapturedEventArgs symbol)
 		{
