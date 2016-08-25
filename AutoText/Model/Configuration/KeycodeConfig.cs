@@ -36,6 +36,8 @@ namespace AutoText.Model.Configuration
 		public string Value { get; set; }
 		[XmlAttribute("rel")]
 		public KeyRelation KeyRelation { get; set; }
+		[XmlAttribute("triggerListVisible")]
+		public bool TriggerListVisible { get; set; }
 	}
 
 	public class KeycodeConfig

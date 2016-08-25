@@ -177,6 +177,13 @@ namespace AutoText.Helpers.Configuration
 			return GetKeycodesConfiguration().Keycodes.Where(p => p.Names.Any(g => g.KeyRelation == KeyRelation.Display)).Select(p => p.Names.Single(g => g.KeyRelation == KeyRelation.Display).Value).ToList();
 		}
 
+		public static List<string> GetDisplayKeysTriggerListVisible()
+		{
+			return GetKeycodesConfiguration().Keycodes.
+				Where(p => p.Names.Any(g => g.KeyRelation == KeyRelation.Display && g.TriggerListVisible)).
+				Select(p => p.Names.Single(g => g.KeyRelation == KeyRelation.Display).Value).ToList();
+		}
+
 		public static string GetSenderKeyByNativeKey(string nativeKey)
 		{
 			return GetKeycodesConfiguration().Keycodes.Single(p => p.Names.Any(g => g.KeyRelation == KeyRelation.Native && g.Value == nativeKey)).

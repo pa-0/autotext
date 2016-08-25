@@ -173,7 +173,6 @@ namespace AutoText
 		{
 			Keys[] notAllowedSymbols =
 			{
-/*
 				Keys.Up,
 				Keys.Right,
 				Keys.Left,
@@ -186,13 +185,15 @@ namespace AutoText
 				Keys.PageDown,
 				Keys.Delete,
 				Keys.PageUp
-*/
 			};
 
 			if (e.CapturedKeys.Any(capturedKey => notAllowedSymbols.Count(p => p.ToString() == capturedKey) > 0))
 			{
-				_matcher.ClearBuffer();
-				return;
+				if (!_matcher.TestForMatch(e))
+				{
+					_matcher.ClearBuffer();
+					return;
+				}
 			}
 
 			if (e.CapturedKeys[0] == "Back")
@@ -387,7 +388,7 @@ namespace AutoText
 			comboBoxTriggerKey.TabIndex = 17;
 			comboBoxTriggerKey.Visible = triggerChar == null;
 			comboBoxTriggerKey.Font = new Font(comboBoxTriggerKey.Font, FontStyle.Regular);
-			ConfigHelper.GetAllDisplayKeys().ForEach(p => comboBoxTriggerKey.Items.Add(p));
+			ConfigHelper.GetDisplayKeysTriggerListVisible().ForEach(p => comboBoxTriggerKey.Items.Add(p));
 			comboBoxTriggerKey.SelectedIndex = 0;
 
 			if (!string.IsNullOrEmpty(triggerKey))
@@ -944,7 +945,7 @@ namespace AutoText
 				SavePhrase(selIndex);
 				e.Handled = true;
 			}
-			else if(e.KeyCode == Keys.Escape)
+			else if (e.KeyCode == Keys.Escape)
 			{
 				WindowState = FormWindowState.Minimized;
 			}

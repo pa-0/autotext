@@ -19,8 +19,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
@@ -28,30 +26,32 @@ namespace AutoText.Helpers
 {
 	public class TextHelper
 	{
-		public static string GetCharsFromKeys(int keyCode, bool shift, bool altGr, bool capsLocked, int keyboardLayout)
+		public static string GetCharsFromKeys(int keyCode)
 		{
 			var buf = new StringBuilder(5);
 			var keyboardState = new byte[256];
 
-			if (shift)
+			if (Control.ModifierKeys.HasFlag(Keys.Shift))
 			{
 				keyboardState[(int)Keys.ShiftKey] = 0xff;
 			}
 
-			if (altGr)
+			if (Control.ModifierKeys.HasFlag(Keys.Alt))
 			{
 				keyboardState[(int)Keys.ControlKey] = 0xff;
 				keyboardState[(int)Keys.Menu] = 0xff;
 			}
 
-			if (capsLocked)
+			if (Control.IsKeyLocked(Keys.CapsLock))
 			{
 				keyboardState[(int)Keys.CapsLock] = 0xff;
 			}
 
+			IntPtr pid;
+			int keyboardLayout = WinAPI.GetKeyboardLayout(WinAPI.GetWindowThreadProcessId(WinAPI.GetForegroundWindow(), out pid));
+
 			WinAPI.ToUnicodeEx(keyCode, 0, keyboardState, buf, 5, 0, keyboardLayout);
 			return buf.ToString();
 		}
-
 	}
 }

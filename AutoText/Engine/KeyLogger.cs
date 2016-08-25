@@ -54,7 +54,7 @@ namespace AutoText.Engine
 
 			_keyCaptureTask = Task.Factory.StartNew(() =>
 			{
-				int[] keysValues = (int[])Enum.GetValues(typeof (Keys));
+				int[] keysValues = (int[])Enum.GetValues(typeof(Keys));
 				List<int> capturedKeyCodes = new List<int>(10);
 				string keyChar = string.Empty;
 
@@ -75,8 +75,7 @@ namespace AutoText.Engine
 							capturedKeyCodes.Add(keysValues[i]);
 
 							IntPtr pid;
-							keyChar = TextHelper.GetCharsFromKeys(keysValues[i], Control.ModifierKeys.HasFlag(Keys.Shift), Control.ModifierKeys.HasFlag(Keys.Alt),Control.IsKeyLocked(Keys.CapsLock),
-								WinAPI.GetKeyboardLayout(WinAPI.GetWindowThreadProcessId(WinAPI.GetForegroundWindow(), out pid)));
+							keyChar = TextHelper.GetCharsFromKeys(keysValues[i]);
 						}
 					}
 

@@ -66,7 +66,7 @@ namespace AutoText.Engine
 			_rules = rules;
 		}
 
-		public void CaptureSymbol(KeyCapturedEventArgs e)
+		public void CaptureSymbol(KeyCapturedEventArgs symbol)
 		{
 			if (_bufferString.Length >= _bufferString.Capacity)
 			{
@@ -80,7 +80,7 @@ namespace AutoText.Engine
 			if (config != null)
 			{
 				AutotextRuleTrigger configMatchTrigger =
-					config.Triggers.SingleOrDefault(p => string.Compare(p.Value, e.CapturedCharacter, !p.CaseSensitive) == 0);
+					config.Triggers.SingleOrDefault(p => string.Compare(p.Value, symbol.CapturedCharacter, !p.CaseSensitive) == 0);
 
 				if (configMatchTrigger != null)
 				{
@@ -91,7 +91,7 @@ namespace AutoText.Engine
 				}
 				else
 				{
-					foreach (string capturedKey in e.CapturedKeys)
+					foreach (string capturedKey in symbol.CapturedKeys)
 					{
 						foreach (AutotextRuleTrigger ruleTrigger in config.Triggers)
 						{
@@ -108,7 +108,41 @@ namespace AutoText.Engine
 			}
 
 
-			_bufferString.Append(e.CapturedCharacter);
+			_bufferString.Append(symbol.CapturedCharacter);
+		}
+
+		public bool TestForMatch(KeyCapturedEventArgs symbol)
+		{
+
+			AutotextRuleConfiguration config =
+				_rules.SingleOrDefault(p => _bufferString.ToString().EndsWith(p.Abbreviation.AbbreviationText, !p.Abbreviation.CaseSensitive, null));
+
+			if (config != null)
+			{
+				AutotextRuleTrigger configMatchTrigger =
+					config.Triggers.SingleOrDefault(p => string.Compare(p.Value, symbol.CapturedCharacter, !p.CaseSensitive) == 0);
+
+				if (configMatchTrigger != null)
+				{
+					return true;
+				}
+				else
+				{
+					foreach (string capturedKey in symbol.CapturedKeys)
+					{
+						foreach (AutotextRuleTrigger ruleTrigger in config.Triggers)
+						{
+							if (capturedKey == ruleTrigger.Value)
+							{
+								return true;
+							}
+						}
+					}
+
+				}
+			}
+
+			return false;
 		}
 
 		public void ClearBuffer()

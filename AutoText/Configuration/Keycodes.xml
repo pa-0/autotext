@@ -3,1098 +3,1098 @@
 	<keycodes>
 		<keycode virtualKeyCode="0" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="None" />
+				<name triggerListVisible="false" rel="Native" value="None" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="1" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="LButton" />
-				<name rel="Sender" value="LButton" />
-				<name rel="Display" value="Left Mouse Button" />
+				<name triggerListVisible="false" rel="Native" value="LButton" />
+				<name triggerListVisible="false" rel="Sender" value="LButton" />
+				<name triggerListVisible="false" rel="Display" value="Left Mouse Button" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="2" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="RButton" />
-				<name rel="Sender" value="RButton" />
-				<name rel="Display" value="Right Mouse Button" />
+				<name triggerListVisible="false" rel="Native" value="RButton" />
+				<name triggerListVisible="false" rel="Sender" value="RButton" />
+				<name triggerListVisible="false" rel="Display" value="Right Mouse Button" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="3" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="Cancel" />
-				<name rel="Sender" value="CtrlBreak" />
-				<name rel="Display" value="Break" />
+				<name triggerListVisible="false" rel="Native" value="Cancel" />
+				<name triggerListVisible="false" rel="Sender" value="CtrlBreak" />
+				<name triggerListVisible="true" rel="Display" value="Break" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="4" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="MButton" />
-				<name rel="Sender" value="MButton" />
-				<name rel="Display" value="Middle Mouse Button" />
+				<name triggerListVisible="false" rel="Native" value="MButton" />
+				<name triggerListVisible="false" rel="Sender" value="MButton" />
+				<name triggerListVisible="false" rel="Display" value="Middle Mouse Button" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="5" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="XButton1" />
-				<name rel="Sender" value="XButton1" />
-				<name rel="Display" value="X Button 1" />
+				<name triggerListVisible="false" rel="Native" value="XButton1" />
+				<name triggerListVisible="false" rel="Sender" value="XButton1" />
+				<name triggerListVisible="false" rel="Display" value="X Button 1" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="6" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="XButton2" />
-				<name rel="Sender" value="XButton2" />
-				<name rel="Display" value="X Button 2" />
+				<name triggerListVisible="false" rel="Native" value="XButton2" />
+				<name triggerListVisible="false" rel="Sender" value="XButton2" />
+				<name triggerListVisible="false" rel="Display" value="X Button 2" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="8" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="Back" />
-				<name rel="Sender" value="Backspace" />
-				<name rel="Display" value="Backspace" />
+				<name triggerListVisible="false" rel="Native" value="Back" />
+				<name triggerListVisible="false" rel="Sender" value="Backspace" />
+				<name triggerListVisible="false" rel="Display" value="Backspace" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="9" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="Tab" />
-				<name rel="Sender" value="Tab" />
-				<name rel="Display" value="Tab" />
+				<name triggerListVisible="false" rel="Native" value="Tab" />
+				<name triggerListVisible="false" rel="Sender" value="Tab" />
+				<name triggerListVisible="true" rel="Display" value="Tab" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="10" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="LineFeed" />
+				<name triggerListVisible="false" rel="Native" value="LineFeed" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="12" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="Clear" />
-				<name rel="Sender" value="NumpadClear" />
-				<name rel="Display" value="Clear" />
+				<name triggerListVisible="false" rel="Native" value="Clear" />
+				<name triggerListVisible="false" rel="Sender" value="NumpadClear" />
+				<name triggerListVisible="true" rel="Display" value="Clear" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="13" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="Enter" />
-				<name rel="Native" value="Return" />
-				<name rel="Sender" value="Enter" />
-				<name rel="Display" value="Enter" />
+				<name triggerListVisible="false" rel="Native" value="Enter" />
+				<name triggerListVisible="false" rel="Native" value="Return" />
+				<name triggerListVisible="false" rel="Sender" value="Enter" />
+				<name triggerListVisible="true" rel="Display" value="Enter" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="16" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="ShiftKey" />
-				<name rel="Sender" value="Shift" />
-				<name rel="Display" value="Shift Key" />
+				<name triggerListVisible="false" rel="Native" value="ShiftKey" />
+				<name triggerListVisible="false" rel="Sender" value="Shift" />
+				<name triggerListVisible="true" rel="Display" value="Shift Key" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="17" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="ControlKey" />
-				<name rel="Sender" value="Control" />
-				<name rel="Display" value="Control Key" />
+				<name triggerListVisible="false" rel="Native" value="ControlKey" />
+				<name triggerListVisible="false" rel="Sender" value="Control" />
+				<name triggerListVisible="true" rel="Display" value="Control Key" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="18" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="Menu" />
-				<name rel="Sender" value="Alt" />
-				<name rel="Display" value="Alt Key" />
+				<name triggerListVisible="false" rel="Native" value="Menu" />
+				<name triggerListVisible="false" rel="Sender" value="Alt" />
+				<name triggerListVisible="true" rel="Display" value="Alt Key" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="19" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="Pause" />
-				<name rel="Sender" value="Pause" />
-				<name rel="Display" value="Pause" />
+				<name triggerListVisible="false" rel="Native" value="Pause" />
+				<name triggerListVisible="false" rel="Sender" value="Pause" />
+				<name triggerListVisible="true" rel="Display" value="Pause" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="20" canOn="true" canOff="true" shortcut="none">
 			<names>
-				<name rel="Native" value="CapsLock" />
-				<name rel="Native" value="Capital" />
-				<name rel="Sender" value="CapsLock" />
-				<name rel="Display" value="Caps Lock" />
+				<name triggerListVisible="false" rel="Native" value="CapsLock" />
+				<name triggerListVisible="false" rel="Native" value="Capital" />
+				<name triggerListVisible="false" rel="Sender" value="CapsLock" />
+				<name triggerListVisible="true" rel="Display" value="Caps Lock" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="21" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="HangulMode" />
-				<name rel="Native" value="HanguelMode" />
-				<name rel="Native" value="KanaMode" />
+				<name triggerListVisible="false" rel="Native" value="HangulMode" />
+				<name triggerListVisible="false" rel="Native" value="HanguelMode" />
+				<name triggerListVisible="false" rel="Native" value="KanaMode" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="23" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="JunjaMode" />
+				<name triggerListVisible="false" rel="Native" value="JunjaMode" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="24" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="FinalMode" />
+				<name triggerListVisible="false" rel="Native" value="FinalMode" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="25" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="KanjiMode" />
-				<name rel="Native" value="HanjaMode" />
+				<name triggerListVisible="false" rel="Native" value="KanjiMode" />
+				<name triggerListVisible="false" rel="Native" value="HanjaMode" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="27" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="Escape" />
-				<name rel="Sender" value="Escape" />
-				<name rel="Display" value="Esc" />
+				<name triggerListVisible="false" rel="Native" value="Escape" />
+				<name triggerListVisible="false" rel="Sender" value="Escape" />
+				<name triggerListVisible="true" rel="Display" value="Esc" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="28" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="IMEConvert" />
+				<name triggerListVisible="false" rel="Native" value="IMEConvert" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="29" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="IMENonconvert" />
+				<name triggerListVisible="false" rel="Native" value="IMENonconvert" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="30" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="IMEAccept" />
-				<name rel="Native" value="IMEAceept" />
+				<name triggerListVisible="false" rel="Native" value="IMEAccept" />
+				<name triggerListVisible="false" rel="Native" value="IMEAceept" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="31" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="IMEModeChange" />
+				<name triggerListVisible="false" rel="Native" value="IMEModeChange" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="32" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="Space" />
-				<name rel="Sender" value="Space" />
-				<name rel="Display" value="Space" />
+				<name triggerListVisible="false" rel="Native" value="Space" />
+				<name triggerListVisible="false" rel="Sender" value="Space" />
+				<name triggerListVisible="true" rel="Display" value="Space" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="33" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="PageUp" />
-				<name rel="Native" value="Prior" />
-				<name rel="Sender" value="PgUp" />
-				<name rel="Display" value="Page Up" />
+				<name triggerListVisible="false" rel="Native" value="PageUp" />
+				<name triggerListVisible="false" rel="Native" value="Prior" />
+				<name triggerListVisible="false" rel="Sender" value="PgUp" />
+				<name triggerListVisible="true" rel="Display" value="Page Up" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="34" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="PageDown" />
-				<name rel="Native" value="Next" />
-				<name rel="Sender" value="PgDn" />
-				<name rel="Display" value="Page Down" />
+				<name triggerListVisible="false" rel="Native" value="PageDown" />
+				<name triggerListVisible="false" rel="Native" value="Next" />
+				<name triggerListVisible="false" rel="Sender" value="PgDn" />
+				<name triggerListVisible="true" rel="Display" value="Page Down" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="35" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="End" />
-				<name rel="Sender" value="End" />
-				<name rel="Display" value="End" />
+				<name triggerListVisible="false" rel="Native" value="End" />
+				<name triggerListVisible="false" rel="Sender" value="End" />
+				<name triggerListVisible="true" rel="Display" value="End" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="36" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="Home" />
-				<name rel="Sender" value="Home" />
-				<name rel="Display" value="Home" />
+				<name triggerListVisible="false" rel="Native" value="Home" />
+				<name triggerListVisible="false" rel="Sender" value="Home" />
+				<name triggerListVisible="true" rel="Display" value="Home" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="37" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="Left" />
-				<name rel="Sender" value="Left" />
-				<name rel="Display" value="Arrow Left" />
+				<name triggerListVisible="false" rel="Native" value="Left" />
+				<name triggerListVisible="false" rel="Sender" value="Left" />
+				<name triggerListVisible="true" rel="Display" value="Arrow Left" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="38" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="Up" />
-				<name rel="Sender" value="Up" />
-				<name rel="Display" value="Arrow Up" />
+				<name triggerListVisible="false" rel="Native" value="Up" />
+				<name triggerListVisible="false" rel="Sender" value="Up" />
+				<name triggerListVisible="true" rel="Display" value="Arrow Up" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="39" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="Right" />
-				<name rel="Sender" value="Right" />
-				<name rel="Display" value="Arrow Right" />
+				<name triggerListVisible="false" rel="Native" value="Right" />
+				<name triggerListVisible="false" rel="Sender" value="Right" />
+				<name triggerListVisible="true" rel="Display" value="Arrow Right" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="40" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="Down" />
-				<name rel="Sender" value="Down" />
-				<name rel="Display" value="Arrow Down" />
+				<name triggerListVisible="false" rel="Native" value="Down" />
+				<name triggerListVisible="false" rel="Sender" value="Down" />
+				<name triggerListVisible="true" rel="Display" value="Arrow Down" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="41" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="Select" />
+				<name triggerListVisible="false" rel="Native" value="Select" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="42" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="Print" />
+				<name triggerListVisible="false" rel="Native" value="Print" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="43" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="Execute" />
+				<name triggerListVisible="false" rel="Native" value="Execute" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="44" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="PrintScreen" />
-				<name rel="Native" value="Snapshot" />
-				<name rel="Sender" value="PrintScreen" />
-				<name rel="Display" value="Print Screen" />
+				<name triggerListVisible="false" rel="Native" value="PrintScreen" />
+				<name triggerListVisible="false" rel="Native" value="Snapshot" />
+				<name triggerListVisible="false" rel="Sender" value="PrintScreen" />
+				<name triggerListVisible="true" rel="Display" value="Print Screen" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="45" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="Insert" />
-				<name rel="Sender" value="Insert" />
-				<name rel="Display" value="Insert" />
+				<name triggerListVisible="false" rel="Native" value="Insert" />
+				<name triggerListVisible="false" rel="Sender" value="Insert" />
+				<name triggerListVisible="true" rel="Display" value="Insert" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="46" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="Delete" />
-				<name rel="Sender" value="Delete" />
-				<name rel="Display" value="Delete" />
+				<name triggerListVisible="false" rel="Native" value="Delete" />
+				<name triggerListVisible="false" rel="Sender" value="Delete" />
+				<name triggerListVisible="true" rel="Display" value="Delete" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="47" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="Help" />
+				<name triggerListVisible="false" rel="Native" value="Help" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="48" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="D0" />
+				<name triggerListVisible="false" rel="Native" value="D0" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="49" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="D1" />
+				<name triggerListVisible="false" rel="Native" value="D1" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="50" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="D2" />
+				<name triggerListVisible="false" rel="Native" value="D2" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="51" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="D3" />
+				<name triggerListVisible="false" rel="Native" value="D3" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="52" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="D4" />
+				<name triggerListVisible="false" rel="Native" value="D4" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="53" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="D5" />
+				<name triggerListVisible="false" rel="Native" value="D5" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="54" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="D6" />
+				<name triggerListVisible="false" rel="Native" value="D6" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="55" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="D7" />
+				<name triggerListVisible="false" rel="Native" value="D7" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="56" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="D8" />
+				<name triggerListVisible="false" rel="Native" value="D8" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="57" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="D9" />
+				<name triggerListVisible="false" rel="Native" value="D9" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="65" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="A" />
+				<name triggerListVisible="false" rel="Native" value="A" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="66" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="B" />
+				<name triggerListVisible="false" rel="Native" value="B" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="67" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="C" />
+				<name triggerListVisible="false" rel="Native" value="C" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="68" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="D" />
+				<name triggerListVisible="false" rel="Native" value="D" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="69" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="E" />
+				<name triggerListVisible="false" rel="Native" value="E" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="70" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="F" />
+				<name triggerListVisible="false" rel="Native" value="F" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="71" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="G" />
+				<name triggerListVisible="false" rel="Native" value="G" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="72" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="H" />
+				<name triggerListVisible="false" rel="Native" value="H" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="73" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="I" />
+				<name triggerListVisible="false" rel="Native" value="I" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="74" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="J" />
+				<name triggerListVisible="false" rel="Native" value="J" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="75" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="K" />
+				<name triggerListVisible="false" rel="Native" value="K" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="76" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="L" />
+				<name triggerListVisible="false" rel="Native" value="L" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="77" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="M" />
+				<name triggerListVisible="false" rel="Native" value="M" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="78" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="N" />
+				<name triggerListVisible="false" rel="Native" value="N" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="79" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="O" />
+				<name triggerListVisible="false" rel="Native" value="O" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="80" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="P" />
+				<name triggerListVisible="false" rel="Native" value="P" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="81" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="Q" />
+				<name triggerListVisible="false" rel="Native" value="Q" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="82" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="R" />
+				<name triggerListVisible="false" rel="Native" value="R" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="83" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="S" />
+				<name triggerListVisible="false" rel="Native" value="S" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="84" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="T" />
+				<name triggerListVisible="false" rel="Native" value="T" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="85" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="U" />
+				<name triggerListVisible="false" rel="Native" value="U" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="86" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="V" />
+				<name triggerListVisible="false" rel="Native" value="V" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="87" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="W" />
+				<name triggerListVisible="false" rel="Native" value="W" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="88" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="X" />
+				<name triggerListVisible="false" rel="Native" value="X" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="89" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="Y" />
+				<name triggerListVisible="false" rel="Native" value="Y" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="90" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="Z" />
+				<name triggerListVisible="false" rel="Native" value="Z" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="91" canOn="false" canOff="false" shortcut="#">
 			<names>
-				<name rel="Native" value="LWin" />
-				<name rel="Sender" value="LWin" />
-				<name rel="Display" value="Left Win" />
+				<name triggerListVisible="false" rel="Native" value="LWin" />
+				<name triggerListVisible="false" rel="Sender" value="LWin" />
+				<name triggerListVisible="true" rel="Display" value="Left Win" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="92" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="RWin" />
-				<name rel="Sender" value="RWin" />
-				<name rel="Display" value="Right Win" />
+				<name triggerListVisible="false" rel="Native" value="RWin" />
+				<name triggerListVisible="false" rel="Sender" value="RWin" />
+				<name triggerListVisible="true" rel="Display" value="Right Win" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="93" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="Apps" />
-				<name rel="Sender" value="AppsKey" />
-				<name rel="Display" value="Context Menu" />
+				<name triggerListVisible="false" rel="Native" value="Apps" />
+				<name triggerListVisible="false" rel="Sender" value="AppsKey" />
+				<name triggerListVisible="true" rel="Display" value="Context Menu" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="95" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="Sleep" />
-				<name rel="Sender" value="Sleep" />
-				<name rel="Display" value="Sleep" />
+				<name triggerListVisible="false" rel="Native" value="Sleep" />
+				<name triggerListVisible="false" rel="Sender" value="Sleep" />
+				<name triggerListVisible="false" rel="Display" value="Sleep" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="96" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="NumPad0" />
-				<name rel="Sender" value="Numpad0" />
-				<name rel="Display" value="Numpad 0" />
+				<name triggerListVisible="false" rel="Native" value="NumPad0" />
+				<name triggerListVisible="false" rel="Sender" value="Numpad0" />
+				<name triggerListVisible="true" rel="Display" value="Numpad 0" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="97" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="NumPad1" />
-				<name rel="Sender" value="Numpad1" />
-				<name rel="Display" value="Numpad 1" />
+				<name triggerListVisible="false" rel="Native" value="NumPad1" />
+				<name triggerListVisible="false" rel="Sender" value="Numpad1" />
+				<name triggerListVisible="true" rel="Display" value="Numpad 1" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="98" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="NumPad2" />
-				<name rel="Sender" value="Numpad2" />
-				<name rel="Display" value="Numpad 2" />
+				<name triggerListVisible="false" rel="Native" value="NumPad2" />
+				<name triggerListVisible="false" rel="Sender" value="Numpad2" />
+				<name triggerListVisible="true" rel="Display" value="Numpad 2" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="99" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="NumPad3" />
-				<name rel="Sender" value="Numpad3" />
-				<name rel="Display" value="Numpad 3" />
+				<name triggerListVisible="false" rel="Native" value="NumPad3" />
+				<name triggerListVisible="false" rel="Sender" value="Numpad3" />
+				<name triggerListVisible="true" rel="Display" value="Numpad 3" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="100" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="NumPad4" />
-				<name rel="Sender" value="Numpad4" />
-				<name rel="Display" value="Numpad 4" />
+				<name triggerListVisible="false" rel="Native" value="NumPad4" />
+				<name triggerListVisible="false" rel="Sender" value="Numpad4" />
+				<name triggerListVisible="true" rel="Display" value="Numpad 4" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="101" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="NumPad5" />
-				<name rel="Sender" value="Numpad5" />
-				<name rel="Display" value="Numpad 5" />
+				<name triggerListVisible="false" rel="Native" value="NumPad5" />
+				<name triggerListVisible="false" rel="Sender" value="Numpad5" />
+				<name triggerListVisible="true" rel="Display" value="Numpad 5" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="102" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="NumPad6" />
-				<name rel="Sender" value="Numpad6" />
-				<name rel="Display" value="Numpad 6" />
+				<name triggerListVisible="false" rel="Native" value="NumPad6" />
+				<name triggerListVisible="false" rel="Sender" value="Numpad6" />
+				<name triggerListVisible="true" rel="Display" value="Numpad 6" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="103" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="NumPad7" />
-				<name rel="Sender" value="Numpad7" />
-				<name rel="Display" value="Numpad 7" />
+				<name triggerListVisible="false" rel="Native" value="NumPad7" />
+				<name triggerListVisible="false" rel="Sender" value="Numpad7" />
+				<name triggerListVisible="true" rel="Display" value="Numpad 7" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="104" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="NumPad8" />
-				<name rel="Sender" value="Numpad8" />
-				<name rel="Display" value="Numpad 8" />
+				<name triggerListVisible="false" rel="Native" value="NumPad8" />
+				<name triggerListVisible="false" rel="Sender" value="Numpad8" />
+				<name triggerListVisible="true" rel="Display" value="Numpad 8" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="105" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="NumPad9" />
-				<name rel="Sender" value="Numpad9" />
-				<name rel="Display" value="Numpad 9" />
+				<name triggerListVisible="false" rel="Native" value="NumPad9" />
+				<name triggerListVisible="false" rel="Sender" value="Numpad9" />
+				<name triggerListVisible="true" rel="Display" value="Numpad 9" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="106" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="Multiply" />
-				<name rel="Sender" value="NumpadMult" />
-				<name rel="Display" value="Numpad *" />
+				<name triggerListVisible="false" rel="Native" value="Multiply" />
+				<name triggerListVisible="false" rel="Sender" value="NumpadMult" />
+				<name triggerListVisible="true" rel="Display" value="Numpad *" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="107" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="Add" />
-				<name rel="Sender" value="NumpadAdd" />
-				<name rel="Display" value="Numpad +" />
+				<name triggerListVisible="false" rel="Native" value="Add" />
+				<name triggerListVisible="false" rel="Sender" value="NumpadAdd" />
+				<name triggerListVisible="true" rel="Display" value="Numpad +" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="108" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="Separator" />
+				<name triggerListVisible="false" rel="Native" value="Separator" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="109" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="Subtract" />
-				<name rel="Sender" value="NumpadSub" />
-				<name rel="Display" value="Num -" />
+				<name triggerListVisible="false" rel="Native" value="Subtract" />
+				<name triggerListVisible="false" rel="Sender" value="NumpadSub" />
+				<name triggerListVisible="true" rel="Display" value="Num -" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="110" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="Decimal" />
-				<name rel="Sender" value="NumpadDot" />
-				<name rel="Display" value="Numpad ." />
+				<name triggerListVisible="false" rel="Native" value="Decimal" />
+				<name triggerListVisible="false" rel="Sender" value="NumpadDot" />
+				<name triggerListVisible="true" rel="Display" value="Numpad ." />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="111" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="Divide" />
-				<name rel="Sender" value="NumpadDiv" />
-				<name rel="Display" value="Numpad /" />
+				<name triggerListVisible="false" rel="Native" value="Divide" />
+				<name triggerListVisible="false" rel="Sender" value="NumpadDiv" />
+				<name triggerListVisible="true" rel="Display" value="Numpad /" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="112" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="F1" />
-				<name rel="Sender" value="F1" />
-				<name rel="Display" value="F1" />
+				<name triggerListVisible="false" rel="Native" value="F1" />
+				<name triggerListVisible="false" rel="Sender" value="F1" />
+				<name triggerListVisible="true" rel="Display" value="F1" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="113" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="F2" />
-				<name rel="Sender" value="F2" />
-				<name rel="Display" value="F2" />
+				<name triggerListVisible="false" rel="Native" value="F2" />
+				<name triggerListVisible="false" rel="Sender" value="F2" />
+				<name triggerListVisible="true" rel="Display" value="F2" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="114" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="F3" />
-				<name rel="Sender" value="F3" />
-				<name rel="Display" value="F3" />
+				<name triggerListVisible="false" rel="Native" value="F3" />
+				<name triggerListVisible="false" rel="Sender" value="F3" />
+				<name triggerListVisible="true" rel="Display" value="F3" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="115" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="F4" />
-				<name rel="Sender" value="F4" />
-				<name rel="Display" value="F4" />
+				<name triggerListVisible="false" rel="Native" value="F4" />
+				<name triggerListVisible="false" rel="Sender" value="F4" />
+				<name triggerListVisible="true" rel="Display" value="F4" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="116" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="F5" />
-				<name rel="Sender" value="F5" />
-				<name rel="Display" value="F5" />
+				<name triggerListVisible="false" rel="Native" value="F5" />
+				<name triggerListVisible="false" rel="Sender" value="F5" />
+				<name triggerListVisible="true" rel="Display" value="F5" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="117" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="F6" />
-				<name rel="Sender" value="F6" />
-				<name rel="Display" value="F6" />
+				<name triggerListVisible="false" rel="Native" value="F6" />
+				<name triggerListVisible="false" rel="Sender" value="F6" />
+				<name triggerListVisible="true" rel="Display" value="F6" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="118" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="F7" />
-				<name rel="Sender" value="F7" />
-				<name rel="Display" value="F7" />
+				<name triggerListVisible="false" rel="Native" value="F7" />
+				<name triggerListVisible="false" rel="Sender" value="F7" />
+				<name triggerListVisible="true" rel="Display" value="F7" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="119" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="F8" />
-				<name rel="Sender" value="F8" />
-				<name rel="Display" value="F8" />
+				<name triggerListVisible="false" rel="Native" value="F8" />
+				<name triggerListVisible="false" rel="Sender" value="F8" />
+				<name triggerListVisible="true" rel="Display" value="F8" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="120" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="F9" />
-				<name rel="Sender" value="F9" />
-				<name rel="Display" value="F9" />
+				<name triggerListVisible="false" rel="Native" value="F9" />
+				<name triggerListVisible="false" rel="Sender" value="F9" />
+				<name triggerListVisible="true" rel="Display" value="F9" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="121" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="F10" />
-				<name rel="Sender" value="F10" />
-				<name rel="Display" value="F10" />
+				<name triggerListVisible="false" rel="Native" value="F10" />
+				<name triggerListVisible="false" rel="Sender" value="F10" />
+				<name triggerListVisible="true" rel="Display" value="F10" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="122" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="F11" />
-				<name rel="Sender" value="F11" />
-				<name rel="Display" value="F11" />
+				<name triggerListVisible="false" rel="Native" value="F11" />
+				<name triggerListVisible="false" rel="Sender" value="F11" />
+				<name triggerListVisible="true" rel="Display" value="F11" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="123" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="F12" />
-				<name rel="Sender" value="F12" />
-				<name rel="Display" value="F12" />
+				<name triggerListVisible="false" rel="Native" value="F12" />
+				<name triggerListVisible="false" rel="Sender" value="F12" />
+				<name triggerListVisible="true" rel="Display" value="F12" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="124" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="F13" />
-				<name rel="Sender" value="F13" />
-				<name rel="Display" value="F13" />
+				<name triggerListVisible="false" rel="Native" value="F13" />
+				<name triggerListVisible="false" rel="Sender" value="F13" />
+				<name triggerListVisible="true" rel="Display" value="F13" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="125" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="F14" />
-				<name rel="Sender" value="F14" />
-				<name rel="Display" value="F14" />
+				<name triggerListVisible="false" rel="Native" value="F14" />
+				<name triggerListVisible="false" rel="Sender" value="F14" />
+				<name triggerListVisible="true" rel="Display" value="F14" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="126" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="F15" />
-				<name rel="Sender" value="F15" />
-				<name rel="Display" value="F15" />
+				<name triggerListVisible="false" rel="Native" value="F15" />
+				<name triggerListVisible="false" rel="Sender" value="F15" />
+				<name triggerListVisible="true" rel="Display" value="F15" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="127" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="F16" />
-				<name rel="Sender" value="F16" />
-				<name rel="Display" value="F16" />
+				<name triggerListVisible="false" rel="Native" value="F16" />
+				<name triggerListVisible="false" rel="Sender" value="F16" />
+				<name triggerListVisible="true" rel="Display" value="F16" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="128" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="F17" />
-				<name rel="Sender" value="F17" />
-				<name rel="Display" value="F17" />
+				<name triggerListVisible="false" rel="Native" value="F17" />
+				<name triggerListVisible="false" rel="Sender" value="F17" />
+				<name triggerListVisible="true" rel="Display" value="F17" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="129" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="F18" />
-				<name rel="Sender" value="F18" />
-				<name rel="Display" value="F18" />
+				<name triggerListVisible="false" rel="Native" value="F18" />
+				<name triggerListVisible="false" rel="Sender" value="F18" />
+				<name triggerListVisible="true" rel="Display" value="F18" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="130" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="F19" />
-				<name rel="Sender" value="F19" />
-				<name rel="Display" value="F19" />
+				<name triggerListVisible="false" rel="Native" value="F19" />
+				<name triggerListVisible="false" rel="Sender" value="F19" />
+				<name triggerListVisible="true" rel="Display" value="F19" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="131" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="F20" />
-				<name rel="Sender" value="F20" />
-				<name rel="Display" value="F20" />
+				<name triggerListVisible="false" rel="Native" value="F20" />
+				<name triggerListVisible="false" rel="Sender" value="F20" />
+				<name triggerListVisible="true" rel="Display" value="F20" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="132" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="F21" />
-				<name rel="Sender" value="F21" />
-				<name rel="Display" value="F21" />
+				<name triggerListVisible="false" rel="Native" value="F21" />
+				<name triggerListVisible="false" rel="Sender" value="F21" />
+				<name triggerListVisible="true" rel="Display" value="F21" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="133" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="F22" />
-				<name rel="Sender" value="F22" />
-				<name rel="Display" value="F22" />
+				<name triggerListVisible="false" rel="Native" value="F22" />
+				<name triggerListVisible="false" rel="Sender" value="F22" />
+				<name triggerListVisible="true" rel="Display" value="F22" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="134" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="F23" />
-				<name rel="Sender" value="F23" />
-				<name rel="Display" value="F23" />
+				<name triggerListVisible="false" rel="Native" value="F23" />
+				<name triggerListVisible="false" rel="Sender" value="F23" />
+				<name triggerListVisible="true" rel="Display" value="F23" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="135" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="F24" />
-				<name rel="Sender" value="F24" />
-				<name rel="Display" value="F24" />
+				<name triggerListVisible="false" rel="Native" value="F24" />
+				<name triggerListVisible="false" rel="Sender" value="F24" />
+				<name triggerListVisible="true" rel="Display" value="F24" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="144" canOn="true" canOff="true" shortcut="none">
 			<names>
-				<name rel="Native" value="NumLock" />
-				<name rel="Sender" value="NumLock" />
-				<name rel="Display" value="Num Lock" />
+				<name triggerListVisible="false" rel="Native" value="NumLock" />
+				<name triggerListVisible="false" rel="Sender" value="NumLock" />
+				<name triggerListVisible="true" rel="Display" value="Num Lock" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="145" canOn="true" canOff="true" shortcut="none">
 			<names>
-				<name rel="Native" value="Scroll" />
-				<name rel="Sender" value="ScrollLock" />
-				<name rel="Display" value="Scrol Lock" />
+				<name triggerListVisible="false" rel="Native" value="Scroll" />
+				<name triggerListVisible="false" rel="Sender" value="ScrollLock" />
+				<name triggerListVisible="true" rel="Display" value="Scrol Lock" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="160" canOn="false" canOff="false" shortcut="+">
 			<names>
-				<name rel="Native" value="LShiftKey" />
-				<name rel="Sender" value="LShift" />
-				<name rel="Display" value="Left Shift" />
+				<name triggerListVisible="false" rel="Native" value="LShiftKey" />
+				<name triggerListVisible="false" rel="Sender" value="LShift" />
+				<name triggerListVisible="true" rel="Display" value="Left Shift" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="161" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="RShiftKey" />
-				<name rel="Sender" value="RShift" />
-				<name rel="Display" value="Right Shift" />
+				<name triggerListVisible="false" rel="Native" value="RShiftKey" />
+				<name triggerListVisible="false" rel="Sender" value="RShift" />
+				<name triggerListVisible="true" rel="Display" value="Right Shift" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="162" canOn="false" canOff="false" shortcut="^">
 			<names>
-				<name rel="Native" value="LControlKey" />
-				<name rel="Sender" value="LControl" />
-				<name rel="Display" value="Left Ctrl" />
+				<name triggerListVisible="false" rel="Native" value="LControlKey" />
+				<name triggerListVisible="false" rel="Sender" value="LControl" />
+				<name triggerListVisible="true" rel="Display" value="Left Ctrl" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="163" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="RControlKey" />
-				<name rel="Sender" value="RControl" />
-				<name rel="Display" value="Right Ctrl" />
+				<name triggerListVisible="false" rel="Native" value="RControlKey" />
+				<name triggerListVisible="false" rel="Sender" value="RControl" />
+				<name triggerListVisible="true" rel="Display" value="Right Ctrl" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="164" canOn="false" canOff="false" shortcut="!">
 			<names>
-				<name rel="Native" value="LMenu" />
-				<name rel="Sender" value="LAlt" />
-				<name rel="Display" value="Left Alt" />
+				<name triggerListVisible="false" rel="Native" value="LMenu" />
+				<name triggerListVisible="false" rel="Sender" value="LAlt" />
+				<name triggerListVisible="true" rel="Display" value="Left Alt" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="165" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="RMenu" />
-				<name rel="Sender" value="RAlt" />
-				<name rel="Display" value="Right Alt" />
+				<name triggerListVisible="false" rel="Native" value="RMenu" />
+				<name triggerListVisible="false" rel="Sender" value="RAlt" />
+				<name triggerListVisible="true" rel="Display" value="Right Alt" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="166" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="BrowserBack" />
-				<name rel="Sender" value="Browser_Back" />
-				<name rel="Display" value="Browser Back" />
+				<name triggerListVisible="false" rel="Native" value="BrowserBack" />
+				<name triggerListVisible="false" rel="Sender" value="Browser_Back" />
+				<name triggerListVisible="true" rel="Display" value="Browser Back" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="167" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="BrowserForward" />
-				<name rel="Sender" value="Browser_Forward" />
-				<name rel="Display" value="Browser Forward" />
+				<name triggerListVisible="false" rel="Native" value="BrowserForward" />
+				<name triggerListVisible="false" rel="Sender" value="Browser_Forward" />
+				<name triggerListVisible="true" rel="Display" value="Browser Forward" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="168" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="BrowserRefresh" />
-				<name rel="Sender" value="Browser_Refresh" />
-				<name rel="Display" value="Browser Refresh" />
+				<name triggerListVisible="false" rel="Native" value="BrowserRefresh" />
+				<name triggerListVisible="false" rel="Sender" value="Browser_Refresh" />
+				<name triggerListVisible="true" rel="Display" value="Browser Refresh" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="169" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="BrowserStop" />
-				<name rel="Sender" value="Browser_Stop" />
-				<name rel="Display" value="Browser Stop" />
+				<name triggerListVisible="false" rel="Native" value="BrowserStop" />
+				<name triggerListVisible="false" rel="Sender" value="Browser_Stop" />
+				<name triggerListVisible="true" rel="Display" value="Browser Stop" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="170" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="BrowserSearch" />
-				<name rel="Sender" value="Browser_Search" />
-				<name rel="Display" value="Browser Search" />
+				<name triggerListVisible="false" rel="Native" value="BrowserSearch" />
+				<name triggerListVisible="false" rel="Sender" value="Browser_Search" />
+				<name triggerListVisible="true" rel="Display" value="Browser Search" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="171" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="BrowserFavorites" />
-				<name rel="Sender" value="Browser_Favorites" />
-				<name rel="Display" value="Browser Favorites" />
+				<name triggerListVisible="false" rel="Native" value="BrowserFavorites" />
+				<name triggerListVisible="false" rel="Sender" value="Browser_Favorites" />
+				<name triggerListVisible="true" rel="Display" value="Browser Favorites" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="172" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="BrowserHome" />
-				<name rel="Sender" value="Browser_Home" />
-				<name rel="Display" value="Browser Home" />
+				<name triggerListVisible="false" rel="Native" value="BrowserHome" />
+				<name triggerListVisible="false" rel="Sender" value="Browser_Home" />
+				<name triggerListVisible="true" rel="Display" value="Browser Home" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="173" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="VolumeMute" />
-				<name rel="Sender" value="Volume_Mute" />
-				<name rel="Display" value="Volume Mute" />
+				<name triggerListVisible="false" rel="Native" value="VolumeMute" />
+				<name triggerListVisible="false" rel="Sender" value="Volume_Mute" />
+				<name triggerListVisible="true" rel="Display" value="Volume Mute" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="174" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="VolumeDown" />
-				<name rel="Sender" value="Volume_Down" />
-				<name rel="Display" value="Volume Down" />
+				<name triggerListVisible="false" rel="Native" value="VolumeDown" />
+				<name triggerListVisible="false" rel="Sender" value="Volume_Down" />
+				<name triggerListVisible="true" rel="Display" value="Volume Down" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="175" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="VolumeUp" />
-				<name rel="Sender" value="Volume_Up" />
-				<name rel="Display" value="Volume Up" />
+				<name triggerListVisible="false" rel="Native" value="VolumeUp" />
+				<name triggerListVisible="false" rel="Sender" value="Volume_Up" />
+				<name triggerListVisible="true" rel="Display" value="Volume Up" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="176" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="MediaNextTrack" />
-				<name rel="Sender" value="Media_Next" />
-				<name rel="Display" value="Next Track" />
+				<name triggerListVisible="false" rel="Native" value="MediaNextTrack" />
+				<name triggerListVisible="false" rel="Sender" value="Media_Next" />
+				<name triggerListVisible="true" rel="Display" value="Next Track" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="177" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="MediaPreviousTrack" />
-				<name rel="Sender" value="Media_Prev" />
-				<name rel="Display" value="Previous Track" />
+				<name triggerListVisible="false" rel="Native" value="MediaPreviousTrack" />
+				<name triggerListVisible="false" rel="Sender" value="Media_Prev" />
+				<name triggerListVisible="true" rel="Display" value="Previous Track" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="178" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="MediaStop" />
-				<name rel="Sender" value="Media_Stop" />
-				<name rel="Display" value="Stop" />
+				<name triggerListVisible="false" rel="Native" value="MediaStop" />
+				<name triggerListVisible="false" rel="Sender" value="Media_Stop" />
+				<name triggerListVisible="true" rel="Display" value="Stop" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="179" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="MediaPlayPause" />
-				<name rel="Sender" value="Media_Play_Pause" />
-				<name rel="Display" value="Play / Pause" />
+				<name triggerListVisible="false" rel="Native" value="MediaPlayPause" />
+				<name triggerListVisible="false" rel="Sender" value="Media_Play_Pause" />
+				<name triggerListVisible="true" rel="Display" value="Play / Pause" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="180" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="LaunchMail" />
-				<name rel="Sender" value="Launch_Mail" />
-				<name rel="Display" value="Mail" />
+				<name triggerListVisible="false" rel="Native" value="LaunchMail" />
+				<name triggerListVisible="false" rel="Sender" value="Launch_Mail" />
+				<name triggerListVisible="true" rel="Display" value="Mail" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="181" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="SelectMedia" />
-				<name rel="Sender" value="Launch_Media" />
-				<name rel="Display" value="Media" />
+				<name triggerListVisible="false" rel="Native" value="SelectMedia" />
+				<name triggerListVisible="false" rel="Sender" value="Launch_Media" />
+				<name triggerListVisible="true" rel="Display" value="Media" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="182" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="LaunchApplication1" />
-				<name rel="Sender" value="Launch_App1" />
-				<name rel="Display" value="App1" />
+				<name triggerListVisible="false" rel="Native" value="LaunchApplication1" />
+				<name triggerListVisible="false" rel="Sender" value="Launch_App1" />
+				<name triggerListVisible="true" rel="Display" value="App1" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="183" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="LaunchApplication2" />
-				<name rel="Sender" value="Launch_App2" />
-				<name rel="Display" value="App2" />
+				<name triggerListVisible="false" rel="Native" value="LaunchApplication2" />
+				<name triggerListVisible="false" rel="Sender" value="Launch_App2" />
+				<name triggerListVisible="true" rel="Display" value="App2" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="186" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="OemSemicolon" />
-				<name rel="Native" value="Oem1" />
+				<name triggerListVisible="false" rel="Native" value="OemSemicolon" />
+				<name triggerListVisible="false" rel="Native" value="Oem1" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="187" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="Oemplus" />
+				<name triggerListVisible="false" rel="Native" value="Oemplus" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="188" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="Oemcomma" />
+				<name triggerListVisible="false" rel="Native" value="Oemcomma" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="189" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="OemMinus" />
+				<name triggerListVisible="false" rel="Native" value="OemMinus" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="190" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="OemPeriod" />
+				<name triggerListVisible="false" rel="Native" value="OemPeriod" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="191" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="Oem2" />
-				<name rel="Native" value="OemQuestion" />
+				<name triggerListVisible="false" rel="Native" value="Oem2" />
+				<name triggerListVisible="false" rel="Native" value="OemQuestion" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="192" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="Oem3" />
-				<name rel="Native" value="Oemtilde" />
+				<name triggerListVisible="false" rel="Native" value="Oem3" />
+				<name triggerListVisible="false" rel="Native" value="Oemtilde" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="219" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="Oem4" />
-				<name rel="Native" value="OemOpenBrackets" />
+				<name triggerListVisible="false" rel="Native" value="Oem4" />
+				<name triggerListVisible="false" rel="Native" value="OemOpenBrackets" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="220" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="OemPipe" />
-				<name rel="Native" value="Oem5" />
+				<name triggerListVisible="false" rel="Native" value="OemPipe" />
+				<name triggerListVisible="false" rel="Native" value="Oem5" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="221" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="OemCloseBrackets" />
-				<name rel="Native" value="Oem6" />
+				<name triggerListVisible="false" rel="Native" value="OemCloseBrackets" />
+				<name triggerListVisible="false" rel="Native" value="Oem6" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="222" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="OemQuotes" />
-				<name rel="Native" value="Oem7" />
+				<name triggerListVisible="false" rel="Native" value="OemQuotes" />
+				<name triggerListVisible="false" rel="Native" value="Oem7" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="223" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="Oem8" />
+				<name triggerListVisible="false" rel="Native" value="Oem8" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="226" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="Oem102" />
-				<name rel="Native" value="OemBackslash" />
+				<name triggerListVisible="false" rel="Native" value="Oem102" />
+				<name triggerListVisible="false" rel="Native" value="OemBackslash" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="229" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="ProcessKey" />
+				<name triggerListVisible="false" rel="Native" value="ProcessKey" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="231" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="Packet" />
+				<name triggerListVisible="false" rel="Native" value="Packet" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="246" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="Attn" />
+				<name triggerListVisible="false" rel="Native" value="Attn" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="247" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="Crsel" />
+				<name triggerListVisible="false" rel="Native" value="Crsel" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="248" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="Exsel" />
+				<name triggerListVisible="false" rel="Native" value="Exsel" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="249" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="EraseEof" />
+				<name triggerListVisible="false" rel="Native" value="EraseEof" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="250" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="Play" />
+				<name triggerListVisible="false" rel="Native" value="Play" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="251" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="Zoom" />
+				<name triggerListVisible="false" rel="Native" value="Zoom" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="252" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="NoName" />
+				<name triggerListVisible="false" rel="Native" value="NoName" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="253" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="Pa1" />
+				<name triggerListVisible="false" rel="Native" value="Pa1" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="254" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="OemClear" />
+				<name triggerListVisible="false" rel="Native" value="OemClear" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="65535" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="KeyCode" />
+				<name triggerListVisible="false" rel="Native" value="KeyCode" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="65536" canOn="false" canOff="false" shortcut="+">
 			<names>
-				<name rel="Native" value="Shift" />
+				<name triggerListVisible="false" rel="Native" value="Shift" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="131072" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="Control" />
+				<name triggerListVisible="false" rel="Native" value="Control" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="262144" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="Alt" />
+				<name triggerListVisible="false" rel="Native" value="Alt" />
 			</names>
 		</keycode>
 		<keycode virtualKeyCode="-65536" canOn="false" canOff="false" shortcut="none">
 			<names>
-				<name rel="Native" value="Modifiers" />
+				<name triggerListVisible="false" rel="Native" value="Modifiers" />
 			</names>
 		</keycode>
 	</keycodes>

@@ -22,7 +22,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
@@ -65,10 +64,20 @@ namespace AutoText.Engine
 				}
 
 
-				string[] nonPrintableTriggers = ConfigHelper.GetCommonConfiguration().NonPrintableTriggers.Split(',').Select(p => "{k [" + p + "]}").ToArray();
-				if (!nonPrintableTriggers.Contains(autotextRuleMatchParams.MatchTrigger.Value))
+				if (autotextRuleMatchParams.MatchTrigger.TriggerType == AutotextRuleTriggerType.Character)
 				{
 					abbrRemoveText += "{k [Back]}";
+				}
+				else if (autotextRuleMatchParams.MatchTrigger.TriggerType == AutotextRuleTriggerType.Key)
+				{
+					if (autotextRuleMatchParams.MatchTrigger.Value != "Cancel" && !string.IsNullOrEmpty(TextHelper.GetCharsFromKeys((int)Enum.Parse(typeof(Keys), autotextRuleMatchParams.MatchTrigger.Value))))
+					{
+						abbrRemoveText += "{k [Back]}";
+					}
+				}
+				else
+				{
+					throw new InvalidOperationException("Can't recognize trigger type");
 				}
 			}
 
@@ -534,7 +543,7 @@ namespace AutoText.Engine
 						return res;
 						break;
 					}
-					//output char
+				//output char
 				case "c":
 					{
 						string action;
@@ -615,7 +624,7 @@ namespace AutoText.Engine
 						return res;
 						break;
 					}
-					//output formatted date
+				//output formatted date
 				case "d":
 					{
 						string dateFormat;
@@ -675,7 +684,7 @@ namespace AutoText.Engine
 						break;
 
 					}
-					//output random string
+				//output random string
 				case "r":
 					{
 						if (!expressionParameters.ContainsKey("palette") && !expressionParameters.ContainsKey("chars"))
@@ -726,7 +735,7 @@ namespace AutoText.Engine
 
 						for (int i = 0; i < resChars.Length; i++)
 						{
-							resChars[i] = resPalette[(int) RandomNumberGeneration.RandomLong(resPalette.Length)];
+							resChars[i] = resPalette[(int)RandomNumberGeneration.RandomLong(resPalette.Length)];
 						}
 
 						string finalString = new string(resChars);
@@ -734,7 +743,7 @@ namespace AutoText.Engine
 						break;
 
 					}
-					//output random number
+				//output random number
 				case "n":
 					{
 						string range;
@@ -765,7 +774,7 @@ namespace AutoText.Engine
 						return AutotextInput.FromString(RandomNumberGeneration.RandomLong(min, max + 1).ToString());
 						break;
 					}
-					//output file contents
+				//output file contents
 				case "f":
 					{
 						string path;
@@ -802,7 +811,7 @@ namespace AutoText.Engine
 						return AutotextInput.FromString(File.ReadAllText(path, enc));
 						break;
 					}
-					//output environment variable
+				//output environment variable
 				case "e":
 					{
 						string name;
