@@ -1,3 +1,23 @@
 ﻿AutoText 1.4.3
 ----------------------------
 Fixed: date formatting in macros using '/' character
+
+
+AutoText 1.5.0
+----------------------------
+Added: ability to allow/disallow execution of phrase in specified programs list that can be set on per phrase or global level.
+Added: random number generation macros functionality.
+Added: random text generation macros functionality.
+Added: insert file contents macros functionality.
+Added: insert environment variable macros functionality.
+Added: key logger window to stay always on top functionality.
+Added: single character output macros functionality added to bring more actions for character. Down and Up actions is now supported for single character.
+Added: ability to minimize main and macros insertion forms using Esc key.
+Changed: key action macros form redesigned to introduce more functionality.
+Changed: macros syntax changed to bring more functionality. Old syntax is not supported now. New syntax is not compatible with old syntax.
+Changed: keyboard key names on user interface changed to more readable and understandable.
+Changed: main form and macros insertion forms do not intercept user input so now phrase can't be executed while these forms are in focus.
+Changed: macros text insertion from macros insertion forms is changed. Now insertion take into consideration if any text was previously selected in phrase edit text box.
+Changed: keyboard key sending mechanism changed.
+Fixed: duplication of new line symbol in phrase output is fixed.
+Deleted: key action form is removed as now redundant.

@@ -1178,10 +1178,6 @@ namespace AutoText
 			{
 				e.Cancel = true;
 			}
-			else
-			{
-				//Sender.StopSe nder();
-			}
 		}
 
 		private void closeToolStripMenuItem_Click(object sender, EventArgs e)
