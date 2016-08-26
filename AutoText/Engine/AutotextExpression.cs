@@ -38,12 +38,9 @@ namespace AutoText.Engine
 		private const string ClosingCurlyBraceEscapeSeq = "{}}";
 		private const string OpenSquareBraceEscapeSeq = "{[}";
 		private const string ClosingSquareBraceEscapeSeq = "{]}";
-		private readonly string ShortcutsRegexTemplate;
-		private const string ShortcutsEscapeRegexTemplate = @"{{{0}}}";
 		private static readonly Regex _escapedCurlyBracketsRegex = new Regex(@"{{}|{}}|{\[}|{\]}", RegexOptions.Compiled);
 
 		public string ExpressionText { get; private set; }
-		private string _parsedExpressionText;
 		public int RelativeStartIndex { get; private set; }
 		public int Length { get; private set; }
 		public List<AutotextExpression> NestedExpressions { get; private set; }
@@ -54,15 +51,15 @@ namespace AutoText.Engine
 
 		public AutotextExpression(AutotextRuleMatchParameters autotextRuleMatchParams)
 		{
+			if (autotextRuleMatchParams == null) throw new ArgumentNullException("autotextRuleMatchParams");
 			string abbrRemoveText = "";
 
-			if (autotextRuleMatchParams != null && autotextRuleMatchParams.AutotextRuleConfiguration.RemoveAbbr)
+			if (autotextRuleMatchParams.AutotextRuleConfiguration.RemoveAbbr)
 			{
 				for (int i = 0; i < autotextRuleMatchParams.AutotextRuleConfiguration.Abbreviation.AbbreviationText.Length; i++)
 				{
 					abbrRemoveText += "{k [Back]}";
 				}
-
 
 				if (autotextRuleMatchParams.MatchTrigger.TriggerType == AutotextRuleTriggerType.Character)
 				{
@@ -89,20 +86,18 @@ namespace AutoText.Engine
 			}
 
 			ExpressionText = string.Format("{{s text[{0}] count[1]}}", abbrRemoveText + phraseText);
-			ShortcutsRegexTemplate = ConfigHelper.GetCommonConfiguration().ShortcutRegexTemplate;
 			RelativeStartIndex = 0;
 			Length = ExpressionText.Length;
 			EscapedBracesIndeces = new List<int>(100);
 			NestedExpressions = new List<AutotextExpression>(100);
 			Parameters = new List<AutotextExpressionParameter>(20);
 
-			//ProcessShortcuts();
 			string exprTextEscBrackets = BuildEscapedBracesList(ExpressionText);
 			ParseExpression(exprTextEscBrackets);
 		}
 
 
-		private AutotextExpression(string expressionText, int startIndex, int length, List<int> escapedBracesIndeces, AutotextExpression parentExpression/*, Dictionary<string, string> userVars*/)
+		private AutotextExpression(string expressionText, int startIndex, int length, List<int> escapedBracesIndeces, AutotextExpression parentExpression)
 		{
 			ParentExpression = parentExpression;
 			ExpressionText = expressionText;
@@ -147,20 +142,21 @@ namespace AutoText.Engine
 					{
 						resStr.Append("{");
 					}
-
-					if (escapedBrace == ClosingCurlyBraceEscapeSeq)
+					else if (escapedBrace == ClosingCurlyBraceEscapeSeq)
 					{
 						resStr.Append("}");
 					}
-
-					if (escapedBrace == OpenSquareBraceEscapeSeq)
+					else if (escapedBrace == OpenSquareBraceEscapeSeq)
 					{
 						resStr.Append("[");
 					}
-
-					if (escapedBrace == ClosingSquareBraceEscapeSeq)
+					else if (escapedBrace == ClosingSquareBraceEscapeSeq)
 					{
 						resStr.Append("]");
+					}
+					else
+					{
+						throw new MacrosParseException("Can't recognize bracket to escape in given macros");
 					}
 
 					EscapedBracesIndeces.Add(resStr.Length - 1);
@@ -246,12 +242,12 @@ namespace AutoText.Engine
 			{
 				if (expressionParameterClosingBraceCounter > 0)
 				{
-					throw new InvalidOperationException("Parameter open brace not found");
+					throw new InvalidOperationException("Parameter open bracket not found in given '" + ExpressionName + "' macros");
 				}
 
 				if (expressionParameterOpenBraceCounter > 0)
 				{
-					throw new InvalidOperationException("Parameter closing brace not found");
+					throw new InvalidOperationException("Parameter closing bracket not found in given '" + ExpressionName + "' macros");
 				}
 			}
 
@@ -306,12 +302,12 @@ namespace AutoText.Engine
 			{
 				if (closingBraceCounter > 0)
 				{
-					throw new InvalidOperationException("Open brace not found");
+					throw new InvalidOperationException("Open bracket not found in given '" + ExpressionName + "' macros");
 				}
 
 				if (openBraceCounter > 0)
 				{
-					throw new InvalidOperationException("Closing brace not found");
+					throw new InvalidOperationException("Closing bracket not found in given '" + ExpressionName + "' macros");
 				}
 			}
 
@@ -359,9 +355,7 @@ namespace AutoText.Engine
 				parameters.Add(string.IsNullOrEmpty(param.Name) ? (i + 1).ToString() : param.Name, paramInputs);
 			}
 
-
 			List<AutotextInput> res = Evaluate(ExpressionName, parameters);
-
 			return res;
 		}
 
@@ -411,7 +405,7 @@ namespace AutoText.Engine
 						}
 						else
 						{
-							throw new ExpressionEvaluationException("Failed to find text parameter");
+							throw new MacrosEvaluationException("Failed to find text parameter in given 's' macros");
 						}
 
 						return res;
@@ -445,7 +439,7 @@ namespace AutoText.Engine
 						}
 						else
 						{
-							throw new ExpressionEvaluationException("Failed to find keycode parameter");
+							throw new MacrosEvaluationException("Failed to find keycode parameter in given 'k' macros");
 						}
 
 						KeycodesConfiguration keycodesConfiguration = ConfigHelper.GetKeycodesConfiguration();
@@ -453,7 +447,7 @@ namespace AutoText.Engine
 
 						if (keycodeToProcess == null)
 						{
-							throw new ExpressionEvaluationException("No keycode name is recognized in given expression");
+							throw new MacrosEvaluationException("No keycode name is recognized in given 'k' macros");
 						}
 
 						//Keys keycode = (Keys)Enum.Parse(typeof(Keys), keycodeToProcess.Name, true);
@@ -484,7 +478,7 @@ namespace AutoText.Engine
 								{
 									if (!keycodeToProcess.CanOn)
 									{
-										throw new ExpressionEvaluationException(string.Format("Specified key({0}) can't be set to On", keyToProcess));
+										throw new MacrosEvaluationException(string.Format("Specified key({0}) can't be set to On state in given 'k' macros", keyToProcess));
 									}
 
 									if (!Control.IsKeyLocked(keyToProcess))
@@ -502,7 +496,7 @@ namespace AutoText.Engine
 								{
 									if (!keycodeToProcess.CanOff)
 									{
-										throw new ExpressionEvaluationException(string.Format("Specified key({0}) can't be set to Off", keyToProcess));
+										throw new MacrosEvaluationException(string.Format("Specified key({0}) can't be set to Off state in given 'k' macros", keyToProcess));
 									}
 
 									if (Control.IsKeyLocked(keyToProcess))
@@ -521,7 +515,7 @@ namespace AutoText.Engine
 									//pressCount Will be 0 if parsing fails
 									if (!int.TryParse(action, out pressCount))
 									{
-										throw new ExpressionEvaluationException("No action is recognized in given expression");
+										throw new MacrosEvaluationException("No action is recognized in given 'k' macros");
 									}
 
 									break;
@@ -572,7 +566,7 @@ namespace AutoText.Engine
 						}
 						else
 						{
-							throw new ExpressionEvaluationException("Failed to find char parameter");
+							throw new MacrosEvaluationException("Failed to find 'char' parameter in given 'c' macros");
 						}
 
 						InputActionType actionType = InputActionType.Press;
@@ -602,7 +596,7 @@ namespace AutoText.Engine
 									//pressCount Will be 0 if parsing fails
 									if (!int.TryParse(action, out pressCount))
 									{
-										throw new ExpressionEvaluationException("No action is recognized in given expression");
+										throw new MacrosEvaluationException("No action is recognized in given 'c' macros");
 									}
 
 									break;
@@ -639,7 +633,7 @@ namespace AutoText.Engine
 						}
 						else
 						{
-							throw new ExpressionEvaluationException("Failed to find date format parameter");
+							throw new MacrosEvaluationException("Failed to find date format parameter in given 'd' macros");
 						}
 
 						dateFormat = dateFormat.Replace("\\", "\\\\").Replace("/", "\\/");
@@ -653,8 +647,8 @@ namespace AutoText.Engine
 						}
 						catch (FormatException ex)
 						{
-							ExpressionEvaluationException expressionEvaluationException =
-								new ExpressionEvaluationException("Error during expression parsing. Specified date or time format is not a vilid date or time format", ex);
+							MacrosEvaluationException expressionEvaluationException =
+								new MacrosEvaluationException("Specified date or time format is not a vilid date or time format in given 'd' macros", ex);
 							throw expressionEvaluationException;
 						}
 
@@ -677,7 +671,7 @@ namespace AutoText.Engine
 						}
 						else
 						{
-							throw new ExpressionEvaluationException("Failed to find pause duration parameter");
+							throw new MacrosEvaluationException("Failed to find pause duration parameter in given 'p' macros");
 						}
 
 						return new List<AutotextInput>() { new AutotextInput(InputType.KeyCode, InputActionType.Press, Keys.None) { Sleep = sleepTime } };
@@ -689,7 +683,7 @@ namespace AutoText.Engine
 					{
 						if (!expressionParameters.ContainsKey("palette") && !expressionParameters.ContainsKey("chars"))
 						{
-							throw new ExpressionEvaluationException("No palette or user character set found in parameters");
+							throw new MacrosEvaluationException("No palette or user character set found in given 'r' macros parameters");
 						}
 
 						StringBuilder resPalette = new StringBuilder();
@@ -758,7 +752,7 @@ namespace AutoText.Engine
 						}
 						else
 						{
-							throw new ExpressionEvaluationException("No range parameter found");
+							throw new MacrosEvaluationException("No range parameter found in given 'n' macros");
 						}
 
 						string[] split = range.Split('|');
@@ -768,7 +762,7 @@ namespace AutoText.Engine
 
 						if (min > max)
 						{
-							throw new ExpressionEvaluationException("Min value can't be greater than max value");
+							throw new MacrosEvaluationException("'n' macros: min value can't be greater than max value");
 						}
 
 						return AutotextInput.FromString(RandomNumberGeneration.RandomLong(min, max + 1).ToString());
@@ -789,7 +783,7 @@ namespace AutoText.Engine
 						}
 						else
 						{
-							throw new ExpressionEvaluationException("No path parameter found");
+							throw new MacrosEvaluationException("No path parameter found in given 'f' macros");
 						}
 
 
@@ -826,7 +820,7 @@ namespace AutoText.Engine
 						}
 						else
 						{
-							throw new ExpressionEvaluationException("No environment variable parameter found");
+							throw new MacrosEvaluationException("No environment variable parameter found in given 'e' macros");
 						}
 
 						return AutotextInput.FromString(Environment.GetEnvironmentVariable(name));
@@ -837,126 +831,8 @@ namespace AutoText.Engine
 						throw new ArgumentOutOfRangeException("expressionName");
 					}
 			}
-
-			throw new InvalidOperationException();
 		}
 
-		private void ProcessShortcuts()
-		{
-			List<string> shortcutsList = ConfigHelper.GetKeycodesConfiguration().Keycodes.Where(p => p.Shortcut != "none").Select(p => p.Shortcut).ToList();
-			List<string> shortcutsListEscaped = shortcutsList.Select(p => string.Format(ShortcutsEscapeRegexTemplate, p)).ToList();
-			string shortcuts = Regex.Escape(string.Concat(shortcutsList));
-			Regex shortcutsRegex = new Regex(ShortcutsRegexTemplate.Replace("#shortcutsPlaceholder#", shortcuts), RegexOptions.Multiline | RegexOptions.IgnoreCase | RegexOptions.Singleline);
-			MatchCollection matches = shortcutsRegex.Matches(ExpressionText);
-			Stack<string> splStack;
-			Stack<Match> splStringsStack = new Stack<Match>(matches.Cast<Match>().Select(p => p).Reverse());
-			StringBuilder sbRes = new StringBuilder(1000);
-			List<string> split = new List<string>();
-
-			int startIndex = 0;
-
-			//Determine shortcuts index for extraction
-			for (int i = 0; i < matches.Count; i++)
-			{
-				Match m = matches[i];
-
-				split.Add(ExpressionText.Substring(startIndex, m.Index - startIndex));
-				startIndex = m.Index + m.Length;
-			}
-
-			split.Add(ExpressionText.Substring(startIndex));
-
-			split.Reverse();
-			splStack = new Stack<string>(split);
-
-			string target = null;
-
-			//Expanding shortcuts to their corresponding macroses
-			while (splStack.Count > 0)
-			{
-				string expandedKeys = "";
-
-
-				sbRes.Append(splStack.Pop());
-
-				if (splStringsStack.Count > 0)
-				{
-					Match spMatch = splStringsStack.Pop();
-					target = spMatch.Groups["target"].Value;
-					string keycodes = "";
-
-					//Keycodes in key combination
-					foreach (KeycodeConfig keycode in ConfigHelper.GetKeycodesConfiguration().Keycodes)
-					{
-						foreach (KeycodeConfigName name in keycode.Names)
-						{
-							if (target.Contains("{" + name.Value + "}"))
-							{
-								string kkToAd = "{k:" + name.Value + " 1}";
-								expandedKeys += kkToAd;
-								target = target.Replace("{" + name.Value + "}", "");
-							}
-						}
-					}
-
-					//Simple keys
-					foreach (char c in target)
-					{
-						expandedKeys += string.Format("{{k:{0} 1}}", c);
-					}
-
-					string strToInput = ExpandShortcuts(string.Concat(spMatch.Groups["shortcuts"].Value.Distinct()), expandedKeys);
-					sbRes.Append(strToInput);
-				}
-			}
-
-			//Replace escaped shortcuts with their symbols
-			shortcutsListEscaped.ForEach(p => sbRes = sbRes.Replace(p, p.Trim('{', '}')));
-			//Replace escaped parentheses with their symbols
-			sbRes = sbRes.Replace("{(}", "(");
-			sbRes = sbRes.Replace("{)}", ")");
-
-			ExpressionText = sbRes.ToString();
-		}
-
-
-		private static string ExpandShortcuts(string shortcuts, string target)
-		{
-			StringBuilder res = new StringBuilder(100);
-			KeycodesConfiguration kkConfiguration = ConfigHelper.GetKeycodesConfiguration();
-
-			for (int i = 0; i < shortcuts.Length; i++)
-			{
-				string shortcut = shortcuts[i].ToString();
-				List<string> keycodeStr = kkConfiguration.Keycodes.Where(p => p.Shortcut == shortcut).Select(p => p.Names.First().Value).ToList();
-
-				foreach (string s in keycodeStr)
-				{
-					res.Append(string.Format("{{{0} +}}", s));
-				}
-
-			}
-
-			res.Append(target);
-
-			//Reverse, so Up event should go in reversed order
-			shortcuts = string.Concat(shortcuts.Reverse());
-
-			for (int i = 0; i < shortcuts.Length; i++)
-			{
-				string shortcut = shortcuts[i].ToString();
-				List<string> keycodeStr = kkConfiguration.Keycodes.Where(p => p.Shortcut == shortcut).Select(p => p.Names.First().Value).ToList();
-
-				foreach (string s in keycodeStr)
-				{
-					res.Append(string.Format("{{{0} -}}", s));
-				}
-			}
-
-			{ }
-
-			return res.ToString();
-		}
 
 		public override string ToString()
 		{

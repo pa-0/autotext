@@ -142,7 +142,6 @@ namespace AutoText.Engine
 		}
 
 
-
 		protected virtual void OnKeyCaptured(KeyCapturedEventArgs e)
 		{
 			var handler = KeyCaptured;
