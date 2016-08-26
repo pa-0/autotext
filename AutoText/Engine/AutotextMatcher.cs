@@ -44,6 +44,7 @@ namespace AutoText.Engine
 			}
 		}
 
+
 		private readonly StringBuilder _bufferString = new StringBuilder(100);
 		public string BufferContents
 		{
@@ -52,7 +53,6 @@ namespace AutoText.Engine
 				return _bufferString.ToString();
 			}
 		}
-
 
 
 		protected virtual void OnMatchFound(AutotextMatchEventArgs e)

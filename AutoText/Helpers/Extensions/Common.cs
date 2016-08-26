@@ -40,6 +40,8 @@ namespace AutoText.Helpers.Extensions
 
 		public static string EscapeSpecialExpressionChars(this string str)
 		{
+			if (str == null) throw new ArgumentNullException("str");
+
 			StringBuilder sb = new StringBuilder(str);
 
 			for (int i = 0; i < sb.Length; i++)

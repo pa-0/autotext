@@ -23,22 +23,22 @@ using System.Runtime.Serialization;
 namespace AutoText.Engine
 {
 	[Serializable]
-	public class ExpressionEvaluationException : Exception
+	public class MacrosEvaluationException : Exception
 	{
 
-		public ExpressionEvaluationException()
+		public MacrosEvaluationException()
 		{
 		}
 
-		public ExpressionEvaluationException(string message) : base(message)
+		public MacrosEvaluationException(string message) : base(message)
 		{
 		}
 
-		public ExpressionEvaluationException(string message, Exception inner) : base(message, inner)
+		public MacrosEvaluationException(string message, Exception inner) : base(message, inner)
 		{
 		}
 
-		protected ExpressionEvaluationException(
+		protected MacrosEvaluationException(
 			SerializationInfo info,
 			StreamingContext context) : base(info, context)
 		{

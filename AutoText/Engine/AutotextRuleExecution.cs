@@ -80,7 +80,7 @@ namespace AutoText.Engine
 								res.Append(autotextInput.CharToInput);
 								break;
 							default:
-								throw new InvalidOperationException("Action is not recognized");
+								throw new InvalidOperationException("Action is not recognized while input conversion process");
 						}
 					}
 				}
@@ -108,12 +108,12 @@ namespace AutoText.Engine
 							res.Append(string.Format(template, senderKeyName, ""));
 							break;
 						default:
-							throw new InvalidOperationException("Action is not recognized");
+							throw new InvalidOperationException("Action is not recognized while input conversion process");
 					}
 				}
 				else
 				{
-					throw new InvalidOperationException("Can't recognize input type");
+					throw new InvalidOperationException("Can't recognize input type while input conversion process");
 				}
 			}
 

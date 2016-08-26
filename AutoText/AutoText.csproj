@@ -88,7 +88,7 @@
     <Compile Include="Engine\AutotextMatchEventArgs.cs" />
     <Compile Include="Engine\AutotextRuleExecution.cs" />
     <Compile Include="Engine\AutotextRuleMatchParameters.cs" />
-    <Compile Include="Engine\ExpressionEvaluationException.cs" />
+    <Compile Include="Engine\MacrosEvaluationException.cs" />
     <Compile Include="Engine\KeyCapturedEventArgs.cs" />
     <Compile Include="Engine\KeyLogger.cs" />
     <Compile Include="Engine\MacrosParseException.cs" />

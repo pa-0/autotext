@@ -61,10 +61,10 @@ namespace AutoText.Helpers
 			}
 
 			Task.Factory.StartNew(DataPipeWaitForConnection);
-			Task.Factory.StartNew(ReceiveData);
+			Task.Factory.StartNew(StartReceiveData);
 		}
 
-		private static void ReceiveData()
+		private static void StartReceiveData()
 		{
 			if (!namedPipeCommandsServerStream.IsConnected)
 			{
