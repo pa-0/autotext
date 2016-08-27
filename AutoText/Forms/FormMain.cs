@@ -75,7 +75,11 @@ namespace AutoText
 			catch (Exception ex)
 			{
 				//TODO catch that floating bug
+
+				#if DEBUG
 				Debug.WriteLine(ex.Message);
+				throw;
+				#endif
 			}
 		}
 
@@ -360,7 +364,7 @@ namespace AutoText
 			buttonAddTrigger.TabIndex = 19;
 			buttonAddTrigger.Text = "+";
 			buttonAddTrigger.UseVisualStyleBackColor = true;
-			buttonAddTrigger.Click += new System.EventHandler(this.buttonAddTriggerButton_Click);
+			buttonAddTrigger.Click += buttonAddTriggerButton_Click;
 
 			buttonRemoveTrigger.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
 			buttonRemoveTrigger.Location = new System.Drawing.Point(272, 2);
@@ -420,7 +424,19 @@ namespace AutoText
 						if (control is Button && control.Name.StartsWith("buttonDelTriggerButton"))
 						{
 							control.Enabled = false;
-
+						}
+					}
+				}
+			}
+			else
+			{
+				foreach (Panel panel in availPanels)
+				{
+					foreach (Control control in panel.Controls)
+					{
+						if (control is Button && control.Name.StartsWith("buttonDelTriggerButton"))
+						{
+							control.Enabled = true;
 						}
 					}
 				}
@@ -479,6 +495,19 @@ namespace AutoText
 						}
 					}
 
+				}
+			}
+			else if (availPanels.Count > 0 && availPanels.Count < 7)
+			{
+				foreach (Panel panel in availPanels)
+				{
+					foreach (Control control in panel.Controls)
+					{
+						if (control is Button && control.Name.StartsWith("buttonDelTriggerButton"))
+						{
+							control.Enabled = true;
+						}
+					}
 				}
 			}
 		}
@@ -1006,8 +1035,11 @@ namespace AutoText
 						break;
 					}
 				}
-
-				groupBoxTriggers.Controls[0].Controls[5].Enabled = false;
+				
+				if (groupBoxTriggers.Controls.Cast<Panel>().Count() == 1)
+				{
+					groupBoxTriggers.Controls[0].Controls[5].Enabled = false;
+				}
 			}
 			else
 			{
