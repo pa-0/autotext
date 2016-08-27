@@ -26,6 +26,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
@@ -58,98 +59,6 @@ namespace AutoText
 			InitializeComponent();
 			Sender.StartSender();
 			Sender.DataSent += Sender_DataSent;
-
-			return;
-
-			string[] keysFileRows = File.ReadAllText(@"c:\Users\alitvinov\Desktop\Downloads\keys.txt").Split(new[] { "\r\n" }, StringSplitOptions.None).ToArray();
-			Dictionary<int, string> keysEntries = new Dictionary<int, string>();
-
-			foreach (string str in keysFileRows)
-			{
-				string[] split = str.Split(new[] { "~~" }, StringSplitOptions.None);
-				keysEntries.Add(Convert.ToInt32(split[0], 16), split[1].Trim());
-			}
-
-			XDocument doc = XDocument.Load(@"c:\Users\alitvinov\Desktop\Downloads\Development\AutoText\AutoText\Configuration\Keycodes.xml");
-
-			List<XElement> elList = doc.Document.Descendants("keycode").ToList();
-
-			foreach (XElement el in elList)
-			{
-				if (!keysEntries.ContainsKey(int.Parse(el.Attribute("virtualKeyCode").Value)))
-				{
-					continue;
-				}
-
-				string valOfAttr = keysEntries[int.Parse(el.Attribute("virtualKeyCode").Value)];
-
-
-				if (el.Element("names").Elements("name").Count(p => p.Attribute("rel").Value == "Sender") > 0)
-				{
-					XElement nameEl = new XElement("name");
-					nameEl.Add(new XAttribute("rel", "Display"));
-					nameEl.Add(new XAttribute("value", valOfAttr));
-					el.Element("names").Add(nameEl);
-				}
-			}
-
-			doc.Save(@"c:\Users\alitvinov\Desktop\Downloads\keys.xml");
-			{ }
-
-
-			return;
-			AutotextRulesRoot root = new AutotextRulesRoot()
-			{
-				AutotextRulesList = new List<AutotextRuleConfiguration>()
-				{
-					new AutotextRuleConfiguration()
-					{
-						Abbreviation = new AutotextRuleAbbreviation()
-						{
-							AbbreviationText = "asdasdasd",
-							CaseSensitive = false
-						},
-						Description = "asdasdasdads",
-						Phrase = "asdasdasdasd",
-						RemoveAbbr = true,
-						Macros = new AutotextRuleMacrosMode()
-						{
-							Mode = MacrosMode.Execute
-						},
-						Triggers = new List<AutotextRuleTrigger>()
-						{
-							{
-								new AutotextRuleTrigger()
-								{
-									CaseSensitive = false,
-									Value = "a",
-									TriggerType = AutotextRuleTriggerType.Character
-								}
-							}
-						},
-						SpecificPrograms = new AutotextRuleSpecificPrograms()
-						{
-							ProgramsListType = SpecificProgramsListtype.Blacklist,
-							Programs = new List<AutotextRuleSpecificProgram>()
-							{
-								{
-									new AutotextRuleSpecificProgram()
-									{
-										TitelMatchCondition = TitleCondition.Exact,
-										ProgramModuleName = "notepad.exe",
-										ProgramDescription = "Notepad editor",
-										TitleText = "Title text"
-
-									}
-								}
-							}
-						}
-					}
-				}
-			};
-
-			ConfigHelper.SaveAutotextRulesConfiguration(root.AutotextRulesList);
-			{ }
 		}
 
 		void Sender_DataSent(object sender, EventArgs e)
@@ -166,6 +75,7 @@ namespace AutoText
 			catch (Exception ex)
 			{
 				//TODO catch that floating bug
+				Debug.WriteLine(ex.Message);
 			}
 		}
 
@@ -319,7 +229,20 @@ namespace AutoText
 
 			_keylogger.PauseCapture();
 			Thread.Sleep(20);
-			AutotextRuleExecution.ProcessRule(new AutotextRuleMatchParameters(e.MatchedRule, e.Trigger));
+
+			try
+			{
+				AutotextRuleExecution.ProcessRule(new AutotextRuleMatchParameters(e.MatchedRule, e.Trigger));
+			}
+			catch (Exception ex)
+			{
+				notifyIcon.BalloonTipTitle = "Failed to execute phrase";
+				notifyIcon.BalloonTipText = ex.Message + "\r\nPlease check macros syntax";
+				notifyIcon.BalloonTipIcon = ToolTipIcon.Error;
+				notifyIcon.ShowBalloonTip(3000);
+				_keylogger.ResumeCapture();
+			}
+
 			_matcher.ClearBuffer();
 		}
 
@@ -485,7 +408,6 @@ namespace AutoText
 
 						}
 					}
-
 				}
 			}
 
@@ -501,15 +423,12 @@ namespace AutoText
 
 						}
 					}
-
 				}
 			}
-
 		}
 
 		private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
 		{
-
 			Panel panel = (Panel)((Control)sender).Parent;
 
 			string selRes =
@@ -557,20 +476,18 @@ namespace AutoText
 						if (control is Button && control.Name.StartsWith("buttonAddTriggerButton"))
 						{
 							control.Enabled = false;
-
 						}
 					}
 
 				}
 			}
-
 		}
 
 		private void buttonAddPhrase_Click(object sender, EventArgs e)
 		{
 			if (dataGridViewPhrases.RowCount > 0 && IsCurrentPhraseDirty())
 			{
-				DialogResult dl = MessageBox.Show(this, "Currently selected phrase has unsaved changes. Save changes?", "Confirmation",
+				DialogResult dl = MessageBox.Show(this, "Currently selected phrase has unsaved changes. Save changes?", "AutoText",
 					MessageBoxButtons.YesNoCancel,
 					MessageBoxIcon.Question);
 
@@ -622,13 +539,13 @@ namespace AutoText
 		{
 			if (string.IsNullOrEmpty(textBoxAutotext.Text))
 			{
-				MessageBox.Show(this, "Phrase autotext can't be empty", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+				MessageBox.Show(this, "Phrase autotext can't be empty", "AutoText", MessageBoxButtons.OK, MessageBoxIcon.Stop);
 				return false;
 			}
 
 			if (_rules.Where((p, i) => i != phraseIndex).Any(p => string.Equals(p.Abbreviation.AbbreviationText, textBoxAutotext.Text, StringComparison.CurrentCultureIgnoreCase)))
 			{
-				MessageBox.Show(this, "Phrase with specified autotext is already exists", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+				MessageBox.Show(this, "Phrase with specified autotext is already exists", "AutoText", MessageBoxButtons.OK, MessageBoxIcon.Stop);
 				return false;
 			}
 
@@ -636,7 +553,7 @@ namespace AutoText
 
 			if (ruleToSave.Triggers.Any(p => string.IsNullOrEmpty(p.Value)))
 			{
-				MessageBox.Show(this, "Character trigger field can't be empty", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+				MessageBox.Show(this, "Character trigger field can't be empty", "AutoText", MessageBoxButtons.OK, MessageBoxIcon.Stop);
 				return false;
 			}
 
@@ -686,7 +603,7 @@ namespace AutoText
 
 			if (selRowsIndeces.Count == 0)
 			{
-				MessageBox.Show(this, "Please select item first", "Attention", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+				MessageBox.Show(this, "Please select item first", "AutoText", MessageBoxButtons.OK, MessageBoxIcon.Stop);
 			}
 			else
 			{
@@ -699,7 +616,7 @@ namespace AutoText
 		{
 			if (_rules.Any())
 			{
-				if (MessageBox.Show(this, "Are you sure that you want to delete selected phrase?", "Please confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+				if (MessageBox.Show(this, "Are you sure that you want to delete selected phrase?", "AutoText", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
 				{
 					_rulesBindingList.RemoveAt(_curSelectedPhraseIndex);
 
@@ -768,23 +685,29 @@ namespace AutoText
 
 		private void FormMain_Resize(object sender, EventArgs e)
 		{
-			if (FormWindowState.Minimized == this.WindowState)
+			if (this.WindowState == FormWindowState.Minimized)
 			{
-				notifyIcon.Visible = true;
-				this.Hide();
+				//notifyIcon.Visible = true;
+				Hide();
 			}
-
-			else if (FormWindowState.Normal == this.WindowState)
+			else
 			{
-				notifyIcon.Visible = false;
+				//notifyIcon.Visible = false;
 			}
 		}
 
 		private void notifyIcon_MouseClick(object sender, MouseEventArgs e)
 		{
-			this.WindowState = FormWindowState.Minimized;
-			this.Show();
-			this.WindowState = FormWindowState.Normal;
+			if (WindowState == FormWindowState.Minimized)
+			{
+				Show();
+				WindowState = FormWindowState.Normal;
+			}
+			else
+			{
+				WindowState = FormWindowState.Minimized;
+				Hide();
+			}
 		}
 
 		private void copyToolStripMenuItem_Click(object sender, EventArgs e)
@@ -863,12 +786,6 @@ namespace AutoText
 			contextMenuStripPhraseContentEdit.Items["selectAllToolStripMenuItem"].Enabled = textBoxPhraseContent.TextLength > 0;
 		}
 
-		private void keyActionMacrosToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			AddKeyCode formKeyCodes = new AddKeyCode();
-			formKeyCodes.CenterTo(this);
-			formKeyCodes.Show(this);
-		}
 
 		private void keyComboMacrosToolStripMenuItem_Click(object sender, EventArgs e)
 		{
@@ -918,12 +835,6 @@ namespace AutoText
 			addDateMacrosForm.Show(this);
 		}
 
-		private void debugWindowToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			DebugTools debugToolsWindow = new DebugTools(_keylogger);
-			debugToolsWindow.CenterTo(this);
-			debugToolsWindow.Show();
-		}
 
 		private void toolStripMenuItem2_Click(object sender, EventArgs e)
 		{
@@ -1151,7 +1062,7 @@ namespace AutoText
 		{
 			if (dataGridViewPhrases.RowCount > 0 && IsCurrentPhraseDirty())
 			{
-				DialogResult dl = MessageBox.Show(this, "Currently selected phrase has unsaved changes. Save changes?", "Confirmation",
+				DialogResult dl = MessageBox.Show(this, "Currently selected phrase has unsaved changes. Save changes?", "AutoText",
 					MessageBoxButtons.YesNoCancel,
 					MessageBoxIcon.Question);
 

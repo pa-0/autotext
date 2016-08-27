@@ -30,23 +30,27 @@ namespace AutoText
 {
 	static class Program
 	{
+		static bool catchUnhandledErrors = false;
+//		static bool catchUnhandledErrors = true;
+
 		/// <summary>
 		/// The main entry point for the application.
 		/// </summary>
 		[STAThread]
 		static void Main()
 		{
-/*
-			// Add the event handler for handling UI thread exceptions to the event.
-			Application.ThreadException += Application_ThreadException;
+			if (catchUnhandledErrors)
+			{
+				// Add the event handler for handling UI thread exceptions to the event.
+				Application.ThreadException += Application_ThreadException;
 
-			// Set the unhandled exception mode to force all Windows Forms errors
-			// to go through our handler.
-			Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException);
+				// Set the unhandled exception mode to force all Windows Forms errors
+				// to go through our handler.
+				Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException);
 
-			// Add the event handler for handling non-UI thread exceptions to the event. 
-			AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
-*/
+				// Add the event handler for handling non-UI thread exceptions to the event. 
+				AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
+			}
 
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
@@ -67,19 +71,18 @@ namespace AutoText
 		{
 			if (e1 != null && e1.IsTerminating)
 			{
-				MessageBox.Show("Unhanled critical exceptions occur\r\n\r\n" + e1.ExceptionObject.ToString(), "AutoText", MessageBoxButtons.OK,MessageBoxIcon.Error);
-				Sender.StopSender();
+				MessageBox.Show("Unhanled critical error occurred\r\n\r\n" + e1.ExceptionObject.ToString(), "AutoText", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
 			else
 			{
 				if (e1 != null)
 				{
-					MessageBox.Show("Unhanled exceptions occur\r\n\r\n" + e1.ExceptionObject.ToString(), "AutoText", MessageBoxButtons.OK, MessageBoxIcon.Error);
+					MessageBox.Show("Unhanled error occurred\r\n\r\n" + e1.ExceptionObject.ToString(), "AutoText", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				}
 
 				if (e2 != null)
 				{
-					MessageBox.Show("Unhanled exceptions occur\r\n\r\n" + e2.Exception.ToString(), "AutoText", MessageBoxButtons.OK, MessageBoxIcon.Error);
+					MessageBox.Show("Unhanled error occurred\r\n\r\n" + e2.Exception.ToString(), "AutoText", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				}
 			}
 		}

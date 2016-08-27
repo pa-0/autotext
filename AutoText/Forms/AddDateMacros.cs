@@ -23,7 +23,7 @@ using System.Windows.Forms;
 using AutoText.Helpers;
 using AutoText.Helpers.Extensions;
 
-namespace AutoText
+namespace AutoText.Forms
 {
 	public partial class AddDateMacros : Form
 	{
@@ -37,8 +37,14 @@ namespace AutoText
 			labelExampleDateTime.Text = DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss.fff");
 		}
 
-		private void button1_Click(object sender, EventArgs e)
+		private void buttonInsertMacros_Click(object sender, EventArgs e)
 		{
+			if (string.IsNullOrEmpty(textBoxFormat.Text))
+			{
+				MessageBox.Show(this, "Please enter date/time format", "AutoText", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+				return;
+			}
+
 			string macros = string.Format("{{d [{0}]}}", textBoxFormat.Text.EscapeSpecialExpressionChars());
 			((FormMain)Owner).InserTextToPhraseEditTextBox(macros);
 		}

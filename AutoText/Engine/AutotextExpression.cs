@@ -311,7 +311,6 @@ namespace AutoText.Engine
 				}
 			}
 
-
 			#endregion
 		}
 
@@ -380,7 +379,17 @@ namespace AutoText.Engine
 							count = "1";
 						}
 
-						int repeatCount = Int32.Parse(count);
+						int repeatCount;
+
+						try
+						{
+							repeatCount = Int32.Parse(count);
+						}
+						catch (Exception ex)
+						{
+							throw new MacrosEvaluationException("Failed to parse 'count' param for given 's' macros("+
+							ex.Message +")");
+						}
 
 						List<AutotextInput> res;
 
@@ -450,7 +459,6 @@ namespace AutoText.Engine
 							throw new MacrosEvaluationException("No keycode name is recognized in given 'k' macros");
 						}
 
-						//Keys keycode = (Keys)Enum.Parse(typeof(Keys), keycodeToProcess.Name, true);
 						Keys keyToProcess = (Keys)keycodeToProcess.VirtualKeyCode;
 						InputActionType actionType = InputActionType.Press;
 						int pressCount = -1;
@@ -636,6 +644,12 @@ namespace AutoText.Engine
 							throw new MacrosEvaluationException("Failed to find date format parameter in given 'd' macros");
 						}
 
+						if (string.IsNullOrEmpty(dateFormat))
+						{
+							throw new MacrosEvaluationException("Date/time format can't be empty in given 'd' macros");
+						}
+
+
 						dateFormat = dateFormat.Replace("\\", "\\\\").Replace("/", "\\/");
 
 						DateTime now = DateTime.Now;
@@ -755,10 +769,20 @@ namespace AutoText.Engine
 							throw new MacrosEvaluationException("No range parameter found in given 'n' macros");
 						}
 
-						string[] split = range.Split('|');
+						long min;
+						long max;
 
-						long min = long.Parse(split[0]);
-						long max = long.Parse(split[1]);
+						try
+						{
+							string[] split = range.Split('|');
+							min = long.Parse(split[0]);
+							max = long.Parse(split[1]);
+						}
+						catch (Exception ex)
+						{
+							throw new MacrosEvaluationException("Failed to parse 'range' parameter in given 'n' macros(" +
+							ex.Message +")");
+						}
 
 						if (min > max)
 						{
@@ -786,23 +810,41 @@ namespace AutoText.Engine
 							throw new MacrosEvaluationException("No path parameter found in given 'f' macros");
 						}
 
-
-						Encoding enc;
+						string encName;
 
 						if (expressionParameters.ContainsKey("encoding"))
 						{
-							enc = Encoding.GetEncoding(expressionParameters["encoding"].ConcatToString());
+							encName = expressionParameters["encoding"].ConcatToString();
 						}
 						else if (expressionParameters.ContainsKey("2"))
 						{
-							enc = Encoding.GetEncoding(expressionParameters["2"].ConcatToString());
+							encName = expressionParameters["2"].ConcatToString();
 						}
 						else
 						{
-							enc = Encoding.Default;
+							encName = Encoding.Default.EncodingName;
 						}
 
-						return AutotextInput.FromString(File.ReadAllText(path, enc));
+						if (!Encoding.GetEncodings().Any(p => p.Name == encName))
+						{
+							throw new MacrosEvaluationException("Encoding name is not recognized in given 'f' macros");
+						}
+
+						if (!File.Exists(path))
+						{
+							throw new MacrosEvaluationException("Specified in 'f' macros file is not found");
+						}
+
+						try
+						{
+							string fileContents = File.ReadAllText(path, Encoding.GetEncoding(encName));
+							return AutotextInput.FromString(fileContents);
+						}
+						catch (Exception ex)
+						{
+							throw new MacrosEvaluationException("Failed to read file contents for given 'f' macros(" + ex.Message +")", ex);
+						}
+
 						break;
 					}
 				//output environment variable
@@ -828,7 +870,7 @@ namespace AutoText.Engine
 					}
 				default:
 					{
-						throw new ArgumentOutOfRangeException("expressionName");
+						throw new MacrosEvaluationException("Provided macros name(" + expressionName + ") is not a valid macros name");
 					}
 			}
 		}

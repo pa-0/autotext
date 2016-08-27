@@ -19,6 +19,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using AutoText.Helpers;
@@ -31,19 +32,9 @@ namespace AutoText.Engine
 	{
 		public static void ProcessRule(AutotextRuleMatchParameters rule)
 		{
-			try
-			{
-				AutotextExpression expression = new AutotextExpression(rule);
-				List<AutotextInput> input = expression.GetInput();
-				DoInput(input);
-			}
-			catch (Exception ex)
-			{
-				MessageBox.Show("Failed to execute phrase. If phrase contains macros please check macros syntax and fix contradictory phrase settings.",
-					"AutoText",
-					MessageBoxButtons.OK,
-					MessageBoxIcon.Error);
-			}
+			AutotextExpression expression = new AutotextExpression(rule);
+			List<AutotextInput> input = expression.GetInput();
+			DoInput(input);
 		}
 
 
