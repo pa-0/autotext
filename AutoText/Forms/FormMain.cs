@@ -548,7 +548,10 @@ namespace AutoText
 						return;
 						break;
 					case DialogResult.Yes:
-						SavePhrase(_curSelectedPhraseIndex);
+						if (!SavePhrase(_curSelectedPhraseIndex))
+						{
+							return;
+						}
 						break;
 					case DialogResult.No:
 						break;
@@ -699,6 +702,7 @@ namespace AutoText
 		private void buttonRemovePhrase_Click(object sender, EventArgs e)
 		{
 			RemoveSelectedPhrase();
+			dataGridViewPhrases.Focus();
 		}
 
 		private void FormMain_Activated(object sender, EventArgs e)
@@ -732,6 +736,12 @@ namespace AutoText
 			contextMenuStripPhraseContentEdit.Opening += contextMenuStripPhraseContentEdit_Opening;
 
 			LoadPhrasesToDataGridView();
+			dataGridViewPhrases.Focus();
+
+			if (dataGridViewPhrases.RowCount == 0)
+			{
+				SetPhraseEditingAreaEnabledState(false);
+			}
 		}
 
 		private void FormMain_Resize(object sender, EventArgs e)
@@ -1014,7 +1024,7 @@ namespace AutoText
 						e.Cancel = true;
 						break;
 					case DialogResult.Yes:
-						SavePhrase(_curSelectedPhraseIndex);
+						e.Cancel = !SavePhrase(_curSelectedPhraseIndex);
 						break;
 					case DialogResult.No:
 						break;
@@ -1041,13 +1051,7 @@ namespace AutoText
 				checkBoxSubstitute.Checked = config.RemoveAbbr;
 				checkBoxAutotextCaseSensetive.Checked = config.Abbreviation.CaseSensitive;
 
-				comboBoxProcessMacros.Enabled = true;
-				textBoxDescription.Enabled = true;
-				textBoxAutotext.Enabled = true;
-				checkBoxSubstitute.Enabled = true;
-				checkBoxAutotextCaseSensetive.Enabled = true;
-				textBoxPhraseContent.Enabled = true;
-
+				SetPhraseEditingAreaEnabledState(true);
 
 				foreach (AutotextRuleTrigger trigger in config.Triggers)
 				{
@@ -1086,21 +1090,31 @@ namespace AutoText
 			else
 			{
 				groupBoxTriggers.Controls.Clear();
+				SetPhraseEditingAreaEnabledState(false);
+			}
+		}
 
+		private void SetPhraseEditingAreaEnabledState(bool isEnabled)
+		{
+			if (!isEnabled)
+			{
 				textBoxDescription.Text = "";
 				textBoxPhraseContent.Text = "";
 				textBoxAutotext.Text = "";
 				checkBoxSubstitute.Checked = false;
 				checkBoxAutotextCaseSensetive.Checked = false;
-
-				comboBoxProcessMacros.Enabled = false;
-				textBoxDescription.Enabled = false;
-				textBoxAutotext.Enabled = false;
-				checkBoxSubstitute.Enabled = false;
-				checkBoxAutotextCaseSensetive.Enabled = false;
-				textBoxPhraseContent.Enabled = false;
 			}
+
+			buttonSavePhrase.Enabled =
+			comboBoxProcessMacros.Enabled = 
+			textBoxDescription.Enabled = 
+			textBoxAutotext.Enabled = 
+			checkBoxSubstitute.Enabled = 
+			checkBoxAutotextCaseSensetive.Enabled = 
+			textBoxPhraseContent.Enabled =
+			buttonAllowedDisallowedPrograms.Enabled = isEnabled;
 		}
+
 
 		private void dataGridViewPhrases_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
 		{

@@ -79,7 +79,7 @@
 			this.textBoxExceptionDetails.Name = "textBoxExceptionDetails";
 			this.textBoxExceptionDetails.ReadOnly = true;
 			this.textBoxExceptionDetails.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this.textBoxExceptionDetails.Size = new System.Drawing.Size(501, 207);
+			this.textBoxExceptionDetails.Size = new System.Drawing.Size(645, 207);
 			this.textBoxExceptionDetails.TabIndex = 4;
 			// 
 			// label2
@@ -105,7 +105,7 @@
 			// buttonAction
 			// 
 			this.buttonAction.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.buttonAction.Location = new System.Drawing.Point(438, 351);
+			this.buttonAction.Location = new System.Drawing.Point(582, 351);
 			this.buttonAction.Name = "buttonAction";
 			this.buttonAction.Size = new System.Drawing.Size(75, 23);
 			this.buttonAction.TabIndex = 7;
@@ -117,7 +117,7 @@
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(525, 386);
+			this.ClientSize = new System.Drawing.Size(669, 386);
 			this.Controls.Add(this.buttonAction);
 			this.Controls.Add(this.labelErrorCrytical);
 			this.Controls.Add(this.label2);

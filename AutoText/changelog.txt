@@ -24,4 +24,5 @@ AutoText 1.5.0
 	Changed: keyboard key sending mechanism changed.
 	Changed: character trigger UI is changed. Now several characters can be entered in characters text box. Application will check for match each specified character.
 	Fixed: duplication of new line symbol in phrase output is fixed.
+	Fixed: minor bug fixes.
 	Deleted: key action form is removed as now redundant.

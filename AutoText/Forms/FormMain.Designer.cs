@@ -112,7 +112,7 @@ namespace AutoText
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.textBoxDescription.Location = new System.Drawing.Point(325, 58);
 			this.textBoxDescription.Name = "textBoxDescription";
-			this.textBoxDescription.Size = new System.Drawing.Size(535, 20);
+			this.textBoxDescription.Size = new System.Drawing.Size(538, 20);
 			this.textBoxDescription.TabIndex = 8;
 			// 
 			// label4
