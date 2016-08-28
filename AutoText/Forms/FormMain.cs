@@ -746,7 +746,7 @@ namespace AutoText
 
 		private void FormMain_Resize(object sender, EventArgs e)
 		{
-			if (this.WindowState == FormWindowState.Minimized)
+			if (WindowState == FormWindowState.Minimized)
 			{
 				//notifyIcon.Visible = true;
 				Hide();
