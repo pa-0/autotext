@@ -393,7 +393,7 @@ namespace AutoText.Engine
 						catch (Exception ex)
 						{
 							throw new MacrosEvaluationException("Failed to parse 'count' param for given 's' macros("+
-							ex.Message +")");
+							ex.Message +")", ex);
 						}
 
 						List<AutotextInput> res;
@@ -740,9 +740,18 @@ namespace AutoText.Engine
 
 						string[] range = expressionParameters["count"].ConcatToString().Split('-');
 
-						int minLength = int.Parse(range[0]);
-						int maxLength = int.Parse(range[1]);
-						long actualRange = RandomNumberGeneration.RandomLong(minLength, maxLength + 1);
+						long actualRange;
+
+						try
+						{
+							int minLength = int.Parse(range[0]);
+							int maxLength = int.Parse(range[1]);
+							actualRange = RandomNumberGeneration.RandomLong(minLength, maxLength + 1);
+						}
+						catch (Exception ex)
+						{
+							throw new MacrosEvaluationException("Failed to parse 'count' parameter for given 'r' macros(" + ex.Message+ ")", ex);
+						}
 
 						char[] resChars = new char[actualRange];
 
@@ -786,7 +795,7 @@ namespace AutoText.Engine
 						catch (Exception ex)
 						{
 							throw new MacrosEvaluationException("Failed to parse 'range' parameter in given 'n' macros(" +
-							ex.Message +")");
+							ex.Message +")", ex);
 						}
 
 						if (min > max)
