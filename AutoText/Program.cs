@@ -19,6 +19,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -31,6 +32,15 @@ namespace AutoText
 {
 	static class Program
 	{
+		public static bool AlreadyStarted()
+		{
+			Process currentProcess = Process.GetCurrentProcess();
+			Process[] processes = Process.GetProcessesByName(currentProcess.ProcessName);
+			return processes.Any(p => p.Id != currentProcess.Id && 
+				Path.GetFileName(p.MainModule.FileVersionInfo.FileDescription) == Path.GetFileName(currentProcess.MainModule.FileVersionInfo.FileDescription) && 
+				p.MainModule.FileVersionInfo.FileDescription == currentProcess.MainModule.FileVersionInfo.FileDescription);
+		}
+
 //		static bool catchUnhandledErrors = false;
 		static bool catchUnhandledErrors = true;
 
@@ -40,6 +50,12 @@ namespace AutoText
 		[STAThread]
 		static void Main()
 		{
+			if (AlreadyStarted())
+			{
+				MessageBox.Show("AutoText is already started", "AutoText", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+				return;
+			}
+
 			if (catchUnhandledErrors)
 			{
 				// Add the event handler for handling UI thread exceptions to the event.
