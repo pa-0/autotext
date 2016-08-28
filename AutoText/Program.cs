@@ -24,14 +24,15 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
 using System.Threading;
+using AutoText.Forms;
 using AutoText.Helpers;
 
 namespace AutoText
 {
 	static class Program
 	{
-		static bool catchUnhandledErrors = false;
-//		static bool catchUnhandledErrors = true;
+//		static bool catchUnhandledErrors = false;
+		static bool catchUnhandledErrors = true;
 
 		/// <summary>
 		/// The main entry point for the application.
@@ -71,18 +72,20 @@ namespace AutoText
 		{
 			if (e1 != null && e1.IsTerminating)
 			{
-				MessageBox.Show("Unhanled critical error occurred\r\n\r\n" + e1.ExceptionObject.ToString(), "AutoText", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				ErrorMessageForm errorMessageForm = new ErrorMessageForm(null, (Exception)e1.ExceptionObject, e1.IsTerminating);
+				errorMessageForm.ShowDialog();
 			}
 			else
 			{
 				if (e1 != null)
 				{
-					MessageBox.Show("Unhanled error occurred\r\n\r\n" + e1.ExceptionObject.ToString(), "AutoText", MessageBoxButtons.OK, MessageBoxIcon.Error);
+					ErrorMessageForm errorMessageForm = new ErrorMessageForm(null, (Exception)e1.ExceptionObject, false);
+					errorMessageForm.ShowDialog();
 				}
-
-				if (e2 != null)
+				else if (e2 != null)
 				{
-					MessageBox.Show("Unhanled error occurred\r\n\r\n" + e2.Exception.ToString(), "AutoText", MessageBoxButtons.OK, MessageBoxIcon.Error);
+					ErrorMessageForm errorMessageForm = new ErrorMessageForm(null, e2.Exception, false);
+					errorMessageForm.ShowDialog();
 				}
 			}
 		}

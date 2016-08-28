@@ -29,6 +29,7 @@ using AutoText.Helpers;
 using AutoText.Helpers.Configuration;
 using AutoText.Helpers.Extensions;
 using AutoText.Model.Configuration;
+using MoreLinq;
 
 namespace AutoText.Engine
 {
@@ -61,7 +62,7 @@ namespace AutoText.Engine
 					abbrRemoveText += "{k [Back]}";
 				}
 
-				if (autotextRuleMatchParams.MatchTrigger.TriggerType == AutotextRuleTriggerType.Character)
+				if (autotextRuleMatchParams.MatchTrigger.TriggerType == AutotextRuleTriggerType.OneOfChars)
 				{
 					abbrRemoveText += "{k [Back]}";
 				}
@@ -71,6 +72,10 @@ namespace AutoText.Engine
 					{
 						abbrRemoveText += "{k [Back]}";
 					}
+				}
+				else if (autotextRuleMatchParams.MatchTrigger.TriggerType == AutotextRuleTriggerType.String)
+				{
+					autotextRuleMatchParams.MatchTrigger.Value.ForEach(p => abbrRemoveText += "{k [Back]}");
 				}
 				else
 				{

@@ -384,6 +384,14 @@ namespace AutoText.Forms
 			_programs.ListEnabled = checkBoxPerProgramRestrictions.Checked;
 			SaveConfig();
 		}
+
+		private void EditAllowedDisallowedPrograms_KeyDown(object sender, KeyEventArgs e)
+		{
+			if (e.KeyCode == Keys.Escape)
+			{
+				Close();
+			}
+		}
 	}
 
 	public enum ProgramsConfigSource

@@ -153,7 +153,7 @@ namespace AutoText
             this.deleteToolStripMenuItem,
             this.undoToolStripMenuItem});
 			this.contextMenuStripPhraseContentEdit.Name = "contextMenuStripPhraseContentEdit";
-			this.contextMenuStripPhraseContentEdit.Size = new System.Drawing.Size(153, 186);
+			this.contextMenuStripPhraseContentEdit.Size = new System.Drawing.Size(123, 164);
 			// 
 			// macrosToolStripMenuItem
 			// 
@@ -307,7 +307,7 @@ namespace AutoText
 			this.groupBoxTriggers.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
 			this.groupBoxTriggers.Location = new System.Drawing.Point(328, 309);
 			this.groupBoxTriggers.Name = "groupBoxTriggers";
-			this.groupBoxTriggers.Size = new System.Drawing.Size(310, 238);
+			this.groupBoxTriggers.Size = new System.Drawing.Size(532, 238);
 			this.groupBoxTriggers.TabIndex = 21;
 			this.groupBoxTriggers.TabStop = false;
 			this.groupBoxTriggers.Text = "Phrase triggers";
@@ -483,9 +483,9 @@ namespace AutoText
 			// buttonAllowedDisallowedPrograms
 			// 
 			this.buttonAllowedDisallowedPrograms.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			this.buttonAllowedDisallowedPrograms.Location = new System.Drawing.Point(644, 318);
+			this.buttonAllowedDisallowedPrograms.Location = new System.Drawing.Point(686, 29);
 			this.buttonAllowedDisallowedPrograms.Name = "buttonAllowedDisallowedPrograms";
-			this.buttonAllowedDisallowedPrograms.Size = new System.Drawing.Size(204, 23);
+			this.buttonAllowedDisallowedPrograms.Size = new System.Drawing.Size(177, 23);
 			this.buttonAllowedDisallowedPrograms.TabIndex = 30;
 			this.buttonAllowedDisallowedPrograms.Text = "Allowed/Disallowed Programs List";
 			this.buttonAllowedDisallowedPrograms.UseVisualStyleBackColor = true;

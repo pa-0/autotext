@@ -250,18 +250,18 @@ namespace AutoText
 			_matcher.ClearBuffer();
 		}
 
-		private void AddTriggerControls(string triggerChar, string triggerKey, bool? charIsKeySensitive)
+		private void AddTriggerControls(string triggerChar, string triggerKey, string triggerString, bool? triggerIsKeySensitive)
 		{
 			_numberOfTriggers++;
 
 			Panel triggerPanel = new Panel();
-			triggerPanel.Size = new Size(298, 27);
+			triggerPanel.Size = new Size(520, 27);
 			triggerPanel.Location = new Point(6, 19 + _shift);
-			//			triggerPanel.BorderStyle = BorderStyle.FixedSingle;
+//			triggerPanel.BorderStyle = BorderStyle.FixedSingle;
 			triggerPanel.Name = "triggertsPanel" + _numberOfTriggers;
 
 			ComboBox comboBoxTriggerType = new ComboBox();
-			TextBox textBoxTriggerChar = new TextBox();
+			TextBox textBoxTriggerText = new TextBox();
 			ComboBox comboBoxTriggerKey = new ComboBox();
 			CheckBox charTriggerIsCaseSensitive = new CheckBox();
 			Button buttonAddTrigger = new Button();
@@ -271,12 +271,12 @@ namespace AutoText
 			// 
 			// comboBoxTriggerType
 			// 
-			comboBoxTriggerType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			comboBoxTriggerType.DropDownStyle = ComboBoxStyle.DropDownList;
 			comboBoxTriggerType.FormattingEnabled = true;
-			comboBoxTriggerType.Items.AddRange(new object[] { "Key", "Character" });
-			comboBoxTriggerType.Location = new System.Drawing.Point(1, 2);
+			comboBoxTriggerType.Items.AddRange(new object[] { "Key", "One of chars", "String" });
+			comboBoxTriggerType.Location = new Point(1, 2);
 			comboBoxTriggerType.Name = "comboBoxTriggerType";
-			comboBoxTriggerType.Size = new System.Drawing.Size(80, 21);
+			comboBoxTriggerType.Size = new Size(100, 21);
 			comboBoxTriggerType.Font = new Font(comboBoxTriggerType.Font, FontStyle.Regular);
 			comboBoxTriggerType.TabIndex = 15;
 			if (triggerChar != null)
@@ -287,33 +287,46 @@ namespace AutoText
 			{
 				comboBoxTriggerType.SelectedIndex = 0;
 			}
+			else if (triggerString != null)
+			{
+				comboBoxTriggerType.SelectedIndex = 2;
+			}
 			else
 			{
 				comboBoxTriggerType.SelectedIndex = 0;
 			}
 
-			comboBoxTriggerType.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
+			comboBoxTriggerType.SelectedIndexChanged += comboBoxTriggerType_SelectedIndexChanged;
 			// 
-			// textBoxTriggerChar
+			// textBoxTriggerText
 			// 
-			textBoxTriggerChar.Location = new System.Drawing.Point(98, 2);
-			textBoxTriggerChar.MaxLength = 1;
-			textBoxTriggerChar.Name = "textBoxTriggerChar";
-			textBoxTriggerChar.Size = new System.Drawing.Size(29, 20);
-			textBoxTriggerChar.TabIndex = 16;
-			textBoxTriggerChar.Visible = triggerChar != null;
-			textBoxTriggerChar.Text = triggerChar == null ? "" : triggerChar;
-			textBoxTriggerChar.Font = new Font(textBoxTriggerChar.Font, FontStyle.Regular);
+			textBoxTriggerText.Location = new Point(triggerPanel.Width - 410, 2);
+			textBoxTriggerText.MaxLength = 1000;
+			textBoxTriggerText.Name = "textBoxTriggerText";
+			textBoxTriggerText.Size = new Size(250, 20);
+			textBoxTriggerText.TabIndex = 16;
+			textBoxTriggerText.Visible = triggerChar != null || triggerString != null;
+			textBoxTriggerText.Font = new Font(textBoxTriggerText.Font, FontStyle.Regular);
+
+			if (!string.IsNullOrEmpty(triggerChar))
+			{
+				textBoxTriggerText.Text = triggerChar;
+			}
+			else if(!string.IsNullOrEmpty(triggerString))
+			{
+				textBoxTriggerText.Text = triggerString;
+			}
+
 			// 
 			// comboBoxTriggerKey
 			// 
-			comboBoxTriggerKey.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			comboBoxTriggerKey.DropDownStyle = ComboBoxStyle.DropDownList;
 			comboBoxTriggerKey.FormattingEnabled = true;
-			comboBoxTriggerKey.Location = new System.Drawing.Point(98, 2);
+			comboBoxTriggerKey.Location = new Point(triggerPanel.Width - 410, 2);
 			comboBoxTriggerKey.Name = "comboBoxTriggerKey";
-			comboBoxTriggerKey.Size = new System.Drawing.Size(135, 21);
+			comboBoxTriggerKey.Size = new Size(135, 21);
 			comboBoxTriggerKey.TabIndex = 17;
-			comboBoxTriggerKey.Visible = triggerChar == null;
+			comboBoxTriggerKey.Visible = triggerChar == null && triggerString == null;
 			comboBoxTriggerKey.Font = new Font(comboBoxTriggerKey.Font, FontStyle.Regular);
 			ConfigHelper.GetDisplayKeysTriggerListVisible().ForEach(p => comboBoxTriggerKey.Items.Add(p));
 			comboBoxTriggerKey.SelectedIndex = 0;
@@ -345,38 +358,42 @@ namespace AutoText
 			// checkBoxTriggerCaseSensitive
 			// 
 			charTriggerIsCaseSensitive.AutoSize = true;
-			charTriggerIsCaseSensitive.Location = new System.Drawing.Point(132, 5);
+			charTriggerIsCaseSensitive.Location = new Point(triggerPanel.Width - 150, 5);
 			charTriggerIsCaseSensitive.Name = "checkBoxTriggerCaseSensitive";
-			charTriggerIsCaseSensitive.Size = new System.Drawing.Size(94, 17);
+			charTriggerIsCaseSensitive.Size = new Size(94, 17);
 			charTriggerIsCaseSensitive.TabIndex = 18;
 			charTriggerIsCaseSensitive.Text = "Case sensitive";
 			charTriggerIsCaseSensitive.UseVisualStyleBackColor = true;
-			charTriggerIsCaseSensitive.Visible = charIsKeySensitive != null;
-			charTriggerIsCaseSensitive.Checked = charIsKeySensitive == null ? false : (bool)charIsKeySensitive;
+			charTriggerIsCaseSensitive.Visible = triggerIsKeySensitive != null;
+			charTriggerIsCaseSensitive.Checked = triggerIsKeySensitive == null ? false : (bool)triggerIsKeySensitive;
 			charTriggerIsCaseSensitive.Font = new Font(charTriggerIsCaseSensitive.Font, FontStyle.Regular);
+
 			// 
 			// buttonAddTriggerButton
 			// 
-			buttonAddTrigger.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			buttonAddTrigger.Location = new System.Drawing.Point(242, 2);
+			buttonAddTrigger.Font = new Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			buttonAddTrigger.Location = new Point(triggerPanel.Width - 55, 2);
 			buttonAddTrigger.Name = "buttonAddTriggerButton";
-			buttonAddTrigger.Size = new System.Drawing.Size(24, 23);
+			buttonAddTrigger.Size = new Size(24, 23);
 			buttonAddTrigger.TabIndex = 19;
 			buttonAddTrigger.Text = "+";
 			buttonAddTrigger.UseVisualStyleBackColor = true;
 			buttonAddTrigger.Click += buttonAddTriggerButton_Click;
 
-			buttonRemoveTrigger.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			buttonRemoveTrigger.Location = new System.Drawing.Point(272, 2);
+			// 
+			// buttonDelTriggerButton
+			// 
+			buttonRemoveTrigger.Font = new Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			buttonRemoveTrigger.Location = new Point(triggerPanel.Width - 30, 2);
 			buttonRemoveTrigger.Name = "buttonDelTriggerButton";
-			buttonRemoveTrigger.Size = new System.Drawing.Size(24, 23);
+			buttonRemoveTrigger.Size = new Size(24, 23);
 			buttonRemoveTrigger.TabIndex = 19;
 			buttonRemoveTrigger.Text = "-";
 			buttonRemoveTrigger.UseVisualStyleBackColor = true;
 			buttonRemoveTrigger.Click += buttonRemoveTrigger_Click;
 
 			triggerPanel.Controls.Add(comboBoxTriggerType);
-			triggerPanel.Controls.Add(textBoxTriggerChar);
+			triggerPanel.Controls.Add(textBoxTriggerText);
 			triggerPanel.Controls.Add(comboBoxTriggerKey);
 			triggerPanel.Controls.Add(charTriggerIsCaseSensitive);
 			triggerPanel.Controls.Add(buttonAddTrigger);
@@ -443,7 +460,7 @@ namespace AutoText
 			}
 		}
 
-		private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+		private void comboBoxTriggerType_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			Panel panel = (Panel)((Control)sender).Parent;
 
@@ -452,17 +469,22 @@ namespace AutoText
 
 			if (selRes == "Key")
 			{
-				((TextBox)panel.Controls.Find("textBoxTriggerChar", false).First()).Hide();
+				((TextBox)panel.Controls.Find("textBoxTriggerText", false).First()).Hide();
 				((CheckBox)panel.Controls.Find("checkBoxTriggerCaseSensitive", false).First()).Hide();
 				((ComboBox)panel.Controls.Find("comboBoxTriggerKey", false).First()).Show();
 
 			}
-			else if (selRes == "Character")
+			else if (selRes == "One of chars")
 			{
-				((TextBox)panel.Controls.Find("textBoxTriggerChar", false).First()).Show();
+				((TextBox)panel.Controls.Find("textBoxTriggerText", false).First()).Show();
 				((CheckBox)panel.Controls.Find("checkBoxTriggerCaseSensitive", false).First()).Show();
 				((ComboBox)panel.Controls.Find("comboBoxTriggerKey", false).First()).Hide();
-
+			}
+			else if (selRes == "String")
+			{
+				((TextBox)panel.Controls.Find("textBoxTriggerText", false).First()).Show();
+				((CheckBox)panel.Controls.Find("checkBoxTriggerCaseSensitive", false).First()).Show();
+				((ComboBox)panel.Controls.Find("comboBoxTriggerKey", false).First()).Hide();
 			}
 			else
 			{
@@ -472,7 +494,7 @@ namespace AutoText
 
 		private void buttonAddTriggerButton_Click(object sender, EventArgs e)
 		{
-			AddTriggerControls(null, null, null);
+			AddTriggerControls(null, null, null, null);
 
 			_shift = 19;
 			List<Panel> availPanels = groupBoxTriggers.Controls.Cast<Panel>().ToList();
@@ -582,7 +604,7 @@ namespace AutoText
 
 			if (ruleToSave.Triggers.Any(p => string.IsNullOrEmpty(p.Value)))
 			{
-				MessageBox.Show(this, "Character trigger field can't be empty", "AutoText", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+				MessageBox.Show(this, "Trigger text field can't be empty", "AutoText", MessageBoxButtons.OK, MessageBoxIcon.Stop);
 				return false;
 			}
 
@@ -912,17 +934,17 @@ namespace AutoText
 			{
 
 				string triggerType = ((ComboBox)panel.Controls.Find("comboBoxTriggerType", false)[0]).SelectedItem.ToString();
-				string triggerChar = ((TextBox)panel.Controls.Find("textBoxTriggerChar", false)[0]).Text;
+				string triggerText = ((TextBox)panel.Controls.Find("textBoxTriggerText", false)[0]).Text;
 				string triggerKey = ((ComboBox)panel.Controls.Find("comboBoxTriggerKey", false)[0]).SelectedItem.ToString();
 				bool triggerCaseSen = ((CheckBox)panel.Controls.Find("checkBoxTriggerCaseSensitive", false)[0]).Checked;
 
-				if (triggerType == "Character")
+				if (triggerType == "One of chars")
 				{
 					currentPhrase.Triggers.Add(new AutotextRuleTrigger()
 					{
 						CaseSensitive = triggerCaseSen,
-						Value = triggerChar,
-						TriggerType = AutotextRuleTriggerType.Character
+						Value = triggerText,
+						TriggerType = AutotextRuleTriggerType.OneOfChars
 					});
 				}
 				else if (triggerType == "Key")
@@ -933,7 +955,19 @@ namespace AutoText
 						Value = ConfigHelper.GetNativeKeyByDisplayKey(triggerKey).First(),
 						TriggerType = AutotextRuleTriggerType.Key
 					});
-
+				}
+				else if (triggerType == "String")
+				{
+					currentPhrase.Triggers.Add(new AutotextRuleTrigger()
+					{
+						CaseSensitive = triggerCaseSen,
+						Value = triggerText,
+						TriggerType = AutotextRuleTriggerType.String
+					});
+				}
+				else
+				{
+					throw new InvalidOperationException("Trigger type is not recognized");
 				}
 			}
 
@@ -1019,11 +1053,19 @@ namespace AutoText
 				{
 					if (trigger.TriggerType == AutotextRuleTriggerType.Key)
 					{
-						AddTriggerControls(null, trigger.Value, trigger.CaseSensitive);
+						AddTriggerControls(null, trigger.Value, null, null);
+					}
+					else if (trigger.TriggerType == AutotextRuleTriggerType.OneOfChars)
+					{
+						AddTriggerControls(trigger.Value, null, null, trigger.CaseSensitive);
+					}
+					else if (trigger.TriggerType == AutotextRuleTriggerType.String)
+					{
+						AddTriggerControls(null, null, trigger.Value, trigger.CaseSensitive);
 					}
 					else
 					{
-						AddTriggerControls(trigger.Value, null, trigger.CaseSensitive);
+						throw new InvalidOperationException("Can't recognize trigger type");
 					}
 				}
 

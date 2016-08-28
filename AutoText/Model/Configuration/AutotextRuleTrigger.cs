@@ -35,8 +35,9 @@ namespace AutoText.Model.Configuration
 
 	public enum AutotextRuleTriggerType
 	{
-		Character,
-		Key
+		OneOfChars,
+		Key,
+		String
 	}
 
 }

@@ -13,11 +13,15 @@ AutoText 1.5.0
 	Added: key logger window to stay always on top functionality.
 	Added: single character output macros functionality added to bring more actions for character. Down and Up actions is now supported for single character.
 	Added: ability to minimize main and macros insertion forms using Esc key.
+	Added: now trigger as string is supported. String of several characters now can be used as trigger.
+	Added: now trigger as string is supported. String of several characters now can be used as trigger.
+	Added: unexpected error information form with error details
 	Changed: key action macros form redesigned to introduce more functionality.
 	Changed: macros syntax changed to bring more functionality. Old syntax is not supported now. New syntax is not compatible with old syntax.
 	Changed: keyboard key names on user interface changed to more readable and understandable.
 	Changed: main form and macros insertion forms do not intercept user input so now phrase can't be executed while these forms are in focus.
 	Changed: macros text insertion from macros insertion forms is changed. Now insertion take into consideration if any text was previously selected in phrase edit text box.
 	Changed: keyboard key sending mechanism changed.
+	Changed: character trigger UI is changed. Now several characters can be entered in characters text box. Application will check for match each specified character.
 	Fixed: duplication of new line symbol in phrase output is fixed.
 	Deleted: key action form is removed as now redundant.

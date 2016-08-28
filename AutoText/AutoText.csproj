@@ -24,7 +24,7 @@
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
     <ApplicationRevision>0</ApplicationRevision>
-    <ApplicationVersion>1.4.3.0</ApplicationVersion>
+    <ApplicationVersion>1.5.0.0</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
@@ -146,6 +146,12 @@
     <Compile Include="Forms\EditAllowedDisallowedPrograms.Designer.cs">
       <DependentUpon>EditAllowedDisallowedPrograms.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\ErrorMessageForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ErrorMessageForm.Designer.cs">
+      <DependentUpon>ErrorMessageForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\FormAbout.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -236,6 +242,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\EditAllowedDisallowedPrograms.resx">
       <DependentUpon>EditAllowedDisallowedPrograms.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ErrorMessageForm.resx">
+      <DependentUpon>ErrorMessageForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FormAbout.resx">
       <DependentUpon>FormAbout.cs</DependentUpon>

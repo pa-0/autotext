@@ -80,13 +80,16 @@ namespace AutoText.Engine
 			{
 				foreach (AutotextRuleTrigger trigger in config.Triggers)
 				{
-					if (trigger.TriggerType == AutotextRuleTriggerType.Character)
+					if (trigger.TriggerType == AutotextRuleTriggerType.OneOfChars)
 					{
-						if (string.Compare(trigger.Value, symbol.CapturedCharacter, !trigger.CaseSensitive) == 0)
+						foreach (char c in trigger.Value)
 						{
-							OnMatchFound(new AutotextMatchEventArgs(config, trigger));
-							_bufferString.Clear();
-							return;
+							if (string.Compare(c.ToString(), symbol.CapturedCharacter, !trigger.CaseSensitive) == 0)
+							{
+								OnMatchFound(new AutotextMatchEventArgs(config, trigger));
+								_bufferString.Clear();
+								return;
+							}
 						}
 					}
 					else if (trigger.TriggerType == AutotextRuleTriggerType.Key)
@@ -98,14 +101,32 @@ namespace AutoText.Engine
 							return;
 						}
 					}
-					else
-					{
-						throw new InvalidCastException("Can't recognize trigger type");
-					}
 				}
 			}
 
 			_bufferString.Append(symbol.CapturedCharacter);
+			string bufferContents = _bufferString.ToString();
+
+			List<AutotextRuleConfiguration> configForStringMatch =
+				_rules.Where(p => p.Triggers.Any(t => t.TriggerType == AutotextRuleTriggerType.String &&
+					bufferContents.EndsWith(t.Value, t.CaseSensitive ? StringComparison.Ordinal : StringComparison.OrdinalIgnoreCase))).ToList();
+
+			foreach (AutotextRuleConfiguration configuration in configForStringMatch)
+			{
+				List<AutotextRuleTrigger> matchedTriggers =
+					configuration.Triggers.Where(
+						t => t.TriggerType == AutotextRuleTriggerType.String && bufferContents.EndsWith(t.Value, t.CaseSensitive ? StringComparison.Ordinal : StringComparison.OrdinalIgnoreCase)).ToList();
+
+				foreach (AutotextRuleTrigger trigger in matchedTriggers)
+				{
+					if (bufferContents.Substring(0, bufferContents.Length - trigger.Value.Length).EndsWith(configuration.Abbreviation.AbbreviationText, configuration.Abbreviation.CaseSensitive ? StringComparison.Ordinal : StringComparison.OrdinalIgnoreCase))
+					{
+						OnMatchFound(new AutotextMatchEventArgs(configuration, trigger));
+						_bufferString.Clear();
+						return;
+					}
+				}
+			}
 		}
 
 
@@ -136,7 +157,6 @@ namespace AutoText.Engine
 							}
 						}
 					}
-
 				}
 			}
 

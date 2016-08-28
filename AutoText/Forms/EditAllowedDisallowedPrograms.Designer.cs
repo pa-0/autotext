@@ -252,12 +252,14 @@
 			this.Controls.Add(this.checkBoxPerProgramRestrictions);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+			this.KeyPreview = true;
 			this.MaximizeBox = false;
 			this.Name = "EditAllowedDisallowedPrograms";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
 			this.Text = "Allowed/Disallowed Programs";
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.EditAllowedDisallowedPrograms_FormClosing);
 			this.Load += new System.EventHandler(this.EditAllowedDisallowedPrograms_Load);
+			this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.EditAllowedDisallowedPrograms_KeyDown);
 			((System.ComponentModel.ISupportInitialize)(this.dataGridViewPrograms)).EndInit();
 			this.panelControls.ResumeLayout(false);
 			this.panelControls.PerformLayout();

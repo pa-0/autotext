@@ -21,6 +21,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Xml;
 using System.Xml.Serialization;
 using AutoText.Model.Configuration;
 
@@ -86,12 +87,14 @@ namespace AutoText.Helpers.Configuration
 
 		public static TRes DeserailizeXml<TRes>(Stream stream)
 		{
+			StreamReader sr = new StreamReader(stream);
+			XmlReader xr = XmlReader.Create(sr);
 			XmlSerializer deserializer = new XmlSerializer(typeof(TRes));
 			deserializer.UnknownAttribute += new XmlAttributeEventHandler(deserializer_UnknownAttribute);
 			deserializer.UnknownElement += new XmlElementEventHandler(deserializer_UnknownElement);
 			deserializer.UnknownNode += new XmlNodeEventHandler(deserializer_UnknownNode);
 			deserializer.UnreferencedObject += new UnreferencedObjectEventHandler(deserializer_UnreferencedObject);
-			return (TRes)deserializer.Deserialize(stream);
+			return (TRes)deserializer.Deserialize(xr);
 		}
 
 		static void deserializer_UnreferencedObject(object sender, UnreferencedObjectEventArgs e)
