@@ -16,6 +16,7 @@ AutoText 1.5.0
 	Added: now trigger as string is supported. String of several characters now can be used as trigger.
 	Added: now trigger as string is supported. String of several characters now can be used as trigger.
 	Added: unexpected error information form with error details
+	Added: check for already started application instance. Now application can be run only in one instance.
 	Changed: key action macros form redesigned to introduce more functionality.
 	Changed: macros syntax changed to bring more functionality. Old syntax is not supported now. New syntax is not compatible with old syntax.
 	Changed: keyboard key names on user interface changed to more readable and understandable.
