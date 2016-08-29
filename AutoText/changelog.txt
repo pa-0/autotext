@@ -14,7 +14,6 @@ AutoText 1.5.0
 	Added: single character output macros functionality added to bring more actions for character. Down and Up actions is now supported for single character.
 	Added: ability to minimize main and macros insertion forms using Esc key.
 	Added: now trigger as string is supported. String of several characters now can be used as trigger.
-	Added: now trigger as string is supported. String of several characters now can be used as trigger.
 	Added: unexpected error information form with error details
 	Added: check for already started application instance. Now application can be run only in one instance.
 	Changed: key action macros form redesigned to introduce more functionality.
