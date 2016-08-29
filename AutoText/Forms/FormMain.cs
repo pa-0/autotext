@@ -241,7 +241,7 @@ namespace AutoText
 			catch (Exception ex)
 			{
 				notifyIcon.BalloonTipTitle = "Failed to execute phrase";
-				notifyIcon.BalloonTipText = ex.Message + "\r\nPlease check macros syntax";
+				notifyIcon.BalloonTipText = ex.Message;
 				notifyIcon.BalloonTipIcon = ToolTipIcon.Error;
 				notifyIcon.ShowBalloonTip(3000);
 				_keylogger.ResumeCapture();
