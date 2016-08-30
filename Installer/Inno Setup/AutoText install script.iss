@@ -40,7 +40,7 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 
 [Files]
 Source: "..\..\AutoText\bin\Release\AutoText.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\..\AutoText\bin\Release\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs; Excludes: "*.pdb,AutoText.vshost.exe,AutoText.vshost.exe.config,WindowsInput.dll,KellermanSoftware.Compare-NET-Objects.xml,AutoText.vshost.exe.manifest"
+Source: "..\..\AutoText\bin\Release\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs; Excludes: "*.pdb,AutoText.vshost.exe,AutoText.vshost.exe.config,WindowsInput.dll,KellermanSoftware.Compare-NET-Objects.xml,AutoText.vshost.exe.manifest,MoreLinq.xml"
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
