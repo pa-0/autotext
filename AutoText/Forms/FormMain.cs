@@ -21,7 +21,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
@@ -29,17 +28,14 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
-using AutoText.Constants;
 using AutoText.Engine;
-using AutoText.Forms;
 using AutoText.Helpers;
 using AutoText.Helpers.Configuration;
 using AutoText.Helpers.Extensions;
 using AutoText.Model.Configuration;
 using KellermanSoftware.CompareNetObjects;
 
-
-namespace AutoText
+namespace AutoText.Forms
 {
 	public partial class FormMain : Form
 	{

@@ -20,9 +20,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 using System;
 using System.Windows.Forms;
-using AutoText.Engine;
 
-namespace AutoText
+namespace AutoText.Forms
 {
 	public partial class AddPauseMacros : Form
 	{

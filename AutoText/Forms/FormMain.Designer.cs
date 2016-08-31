@@ -1,10 +1,7 @@
-﻿using System;
-using System.ComponentModel;
-using System.Drawing;
-using System.Runtime.InteropServices;
+﻿using System.ComponentModel;
 using System.Windows.Forms;
 
-namespace AutoText
+namespace AutoText.Forms
 {
 	partial class FormMain
 	{

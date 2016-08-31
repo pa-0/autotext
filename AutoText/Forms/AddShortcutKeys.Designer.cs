@@ -1,4 +1,4 @@
-﻿namespace AutoText
+﻿namespace AutoText.Forms
 {
 	partial class AddShortcutKeys
 	{
