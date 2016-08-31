@@ -6,7 +6,7 @@
         <value>hw</value>
       </abbreviation>
       <removeAbbr>true</removeAbbr>
-      <phrase>Hello world</phrase>
+      <phrase>Hello, world</phrase>
       <macros mode="Execute" />
       <description>Hello world phrase</description>
       <specificPrograms listType="Blacklist" listEnabled="false">
