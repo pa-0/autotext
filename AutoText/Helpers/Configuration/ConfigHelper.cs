@@ -35,12 +35,12 @@ namespace AutoText.Helpers.Configuration
 
 		public static List<AutotextRuleConfiguration> GetAutotextRulesConfiguration()
 		{
-			if (!File.Exists(Constants.Common.AutotextRulesConfigFileFullPath))
+			if (!File.Exists(Constants.CommonConstants.AutotextRulesConfigFileFullPath))
 			{
 				SaveAutotextRulesConfiguration(new List<AutotextRuleConfiguration>());
 			}
 
-			_autotextConfig = DeserailizeXml<AutotextRulesRoot>(Constants.Common.AutotextRulesConfigFileFullPath).AutotextRulesList;
+			_autotextConfig = DeserailizeXml<AutotextRulesRoot>(Constants.CommonConstants.AutotextRulesConfigFileFullPath).AutotextRulesList;
 
 			foreach (AutotextRuleConfiguration config in _autotextConfig)
 			{
@@ -57,7 +57,7 @@ namespace AutoText.Helpers.Configuration
 			AutotextRulesRoot root = new AutotextRulesRoot { AutotextRulesList = configuration };
 			XmlSerializer serializer = new XmlSerializer(typeof(AutotextRulesRoot));
 
-			using (TextWriter writer = new StreamWriter(Constants.Common.AutotextRulesConfigFileFullPath))
+			using (TextWriter writer = new StreamWriter(Constants.CommonConstants.AutotextRulesConfigFileFullPath))
 			{
 				serializer.Serialize(writer, root);
 			}
@@ -124,19 +124,19 @@ namespace AutoText.Helpers.Configuration
 				return _keycodesConfig;
 			}
 
-			_keycodesConfig = DeserailizeXml<KeycodesConfiguration>(Constants.Common.KeycodesConfigFileFullPath);
+			_keycodesConfig = DeserailizeXml<KeycodesConfiguration>(Constants.CommonConstants.KeycodesConfigFileFullPath);
 			return _keycodesConfig;
 
 		}
 
 		public static bool IsKeycodesConfigurationOk()
 		{
-			return File.Exists(Constants.Common.KeycodesConfigFileFullPath);
+			return File.Exists(Constants.CommonConstants.KeycodesConfigFileFullPath);
 		}
 
 		public static bool IsCommonConfigurationOk()
 		{
-			return File.Exists(Constants.Common.CommonConfigurationFileFullPath);
+			return File.Exists(Constants.CommonConstants.CommonConfigurationFileFullPath);
 		}
 
 		public static CommonConfiguration GetCommonConfiguration()
@@ -146,7 +146,7 @@ namespace AutoText.Helpers.Configuration
 				return _commonConfiguration;
 			}
 
-			_commonConfiguration = DeserailizeXml<CommonConfiguration>(Constants.Common.CommonConfigurationFileFullPath);
+			_commonConfiguration = DeserailizeXml<CommonConfiguration>(Constants.CommonConstants.CommonConfigurationFileFullPath);
 			return _commonConfiguration;
 		}
 
@@ -156,7 +156,7 @@ namespace AutoText.Helpers.Configuration
 			{
 				XmlSerializer serializer = new XmlSerializer(typeof(CommonConfiguration));
 
-				using (TextWriter writer = new StreamWriter(Constants.Common.CommonConfigurationFileFullPath))
+				using (TextWriter writer = new StreamWriter(Constants.CommonConstants.CommonConfigurationFileFullPath))
 				{
 					serializer.Serialize(writer, _commonConfiguration);
 				}

@@ -34,8 +34,8 @@ namespace AutoText.Forms
 		public FormAbout()
 		{
 			InitializeComponent();
-			labelVersion.Text = string.Format(labelVersion.Text, Constants.Common.ApplicationVersion);
-			labelAuthor.Text = string.Format(Constants.Common.ApplicationAuthorCopy, DateTime.Now.Year);
+			labelVersion.Text = string.Format(labelVersion.Text, Constants.CommonConstants.ApplicationVersion);
+			labelAuthor.Text = string.Format(Constants.CommonConstants.ApplicationAuthorCopy, DateTime.Now.Year);
 		}
 
 		private void FormAbout_Load(object sender, EventArgs e)

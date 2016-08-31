@@ -26,11 +26,10 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
-using System.Xml.Linq;
+using AutoText.Constants;
 using AutoText.Engine;
 using AutoText.Forms;
 using AutoText.Helpers;
@@ -59,6 +58,19 @@ namespace AutoText
 			InitializeComponent();
 			Sender.StartSender();
 			Sender.DataSent += Sender_DataSent;
+
+
+
+			if (CommonConstants.ApplicationRootDir.StartsWith(Environment.GetEnvironmentVariable("ProgramFiles(x86)")) ||
+				CommonConstants.ApplicationRootDir.StartsWith(Environment.GetEnvironmentVariable("ProgramFiles")))
+			{
+				MessageBox.Show("In program files");
+			}
+
+
+			//string asd = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+			{ }
+
 		}
 
 		void Sender_DataSent(object sender, EventArgs e)
@@ -76,10 +88,10 @@ namespace AutoText
 			{
 				//TODO catch that floating bug
 
-				#if DEBUG
+#if DEBUG
 				Debug.WriteLine(ex.Message);
 				throw;
-				#endif
+#endif
 			}
 		}
 
@@ -257,7 +269,7 @@ namespace AutoText
 			Panel triggerPanel = new Panel();
 			triggerPanel.Size = new Size(520, 27);
 			triggerPanel.Location = new Point(6, 19 + _shift);
-//			triggerPanel.BorderStyle = BorderStyle.FixedSingle;
+			//			triggerPanel.BorderStyle = BorderStyle.FixedSingle;
 			triggerPanel.Name = "triggertsPanel" + _numberOfTriggers;
 
 			ComboBox comboBoxTriggerType = new ComboBox();
@@ -312,7 +324,7 @@ namespace AutoText
 			{
 				textBoxTriggerText.Text = triggerChar;
 			}
-			else if(!string.IsNullOrEmpty(triggerString))
+			else if (!string.IsNullOrEmpty(triggerString))
 			{
 				textBoxTriggerText.Text = triggerString;
 			}
@@ -560,27 +572,27 @@ namespace AutoText
 
 			IEnumerable<string> availPhraseAbbreviations = _rules.Select(p => p.Abbreviation.AbbreviationText);
 			IEnumerable<string> matchedToDefNameAbbr =
-				availPhraseAbbreviations.Where(p => Regex.IsMatch(p, Constants.Common.NewPhraseDefaultAutotextRegex));
+				availPhraseAbbreviations.Where(p => Regex.IsMatch(p, Constants.CommonConstants.NewPhraseDefaultAutotextRegex));
 
 			string nextNewPhraseAutotext;
 
 			if (!matchedToDefNameAbbr.Any())
 			{
-				nextNewPhraseAutotext = string.Format(Constants.Common.NewPhraseDefaultAutotext, "");
+				nextNewPhraseAutotext = string.Format(Constants.CommonConstants.NewPhraseDefaultAutotext, "");
 			}
 			//if we have autotext template with no numbers
-			else if (matchedToDefNameAbbr.Count() == 1 && matchedToDefNameAbbr.First() == string.Format(Constants.Common.NewPhraseDefaultAutotext, ""))
+			else if (matchedToDefNameAbbr.Count() == 1 && matchedToDefNameAbbr.First() == string.Format(Constants.CommonConstants.NewPhraseDefaultAutotext, ""))
 			{
-				nextNewPhraseAutotext = string.Format(Constants.Common.NewPhraseDefaultAutotext, "1");
+				nextNewPhraseAutotext = string.Format(Constants.CommonConstants.NewPhraseDefaultAutotext, "1");
 			}
 			else
 			{
 				int maxNum =
 					//Where we have some number
-					matchedToDefNameAbbr.Where(g => !string.IsNullOrEmpty(Regex.Match(g, Constants.Common.NewPhraseDefaultAutotextRegex).Groups[1].Value)).
+					matchedToDefNameAbbr.Where(g => !string.IsNullOrEmpty(Regex.Match(g, Constants.CommonConstants.NewPhraseDefaultAutotextRegex).Groups[1].Value)).
 					//Get that number max value
-					Select(p => int.Parse(Regex.Match(p, Constants.Common.NewPhraseDefaultAutotextRegex).Groups[1].Value)).Max();
-				nextNewPhraseAutotext = string.Format(Constants.Common.NewPhraseDefaultAutotext, maxNum + 1);
+					Select(p => int.Parse(Regex.Match(p, Constants.CommonConstants.NewPhraseDefaultAutotextRegex).Groups[1].Value)).Max();
+				nextNewPhraseAutotext = string.Format(Constants.CommonConstants.NewPhraseDefaultAutotext, maxNum + 1);
 			}
 
 			AddNewPhrase(nextNewPhraseAutotext);
@@ -1081,7 +1093,7 @@ namespace AutoText
 						break;
 					}
 				}
-				
+
 				if (groupBoxTriggers.Controls.Cast<Panel>().Count() == 1)
 				{
 					groupBoxTriggers.Controls[0].Controls[5].Enabled = false;
@@ -1106,11 +1118,11 @@ namespace AutoText
 			}
 
 			buttonSavePhrase.Enabled =
-			comboBoxProcessMacros.Enabled = 
-			textBoxDescription.Enabled = 
-			textBoxAutotext.Enabled = 
-			checkBoxSubstitute.Enabled = 
-			checkBoxAutotextCaseSensetive.Enabled = 
+			comboBoxProcessMacros.Enabled =
+			textBoxDescription.Enabled =
+			textBoxAutotext.Enabled =
+			checkBoxSubstitute.Enabled =
+			checkBoxAutotextCaseSensetive.Enabled =
 			textBoxPhraseContent.Enabled =
 			buttonAllowedDisallowedPrograms.Enabled = isEnabled;
 		}

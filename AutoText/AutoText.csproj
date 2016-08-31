@@ -80,7 +80,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Constants\Common.cs" />
+    <Compile Include="Constants\CommonConstants.cs" />
     <Compile Include="Engine\AutotextExpression.cs" />
     <Compile Include="Engine\AutotextExpressionParameter.cs" />
     <Compile Include="Engine\AutotextInput.cs" />

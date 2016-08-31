@@ -26,12 +26,14 @@ using System.Windows.Forms;
 
 namespace AutoText.Constants
 {
-	public static class Common
+	public static class CommonConstants
 	{
-		public const string ApplicationVersion = "1.5.0";
+        public const string ApplicationName = "AutoText";
+        public const string ApplicationVersion = "1.5.0";
 		public const string ApplicationAuthorCopy = "Copyright © {0} Alexander Litvinov";
 		public static readonly string ApplicationRootDir = Application.StartupPath;
-		public const string NewPhraseDefaultDescription = "<description>";
+		public static readonly string ApplicationUserSettingsDir = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+        public const string NewPhraseDefaultDescription = "<description>";
 		public const string NewPhraseDefaultAutotext = "<autotext{0}>";
 		public const string NewPhraseDefaultAutotextRegex = @"^<autotext(\d+)?>$";
 		public const string AutotextRulesConfigFileName = "AutotextRules.xml";
@@ -39,7 +41,7 @@ namespace AutoText.Constants
 		public const string CommonConfigurationFileName = "CommonConfiguration.xml";
 		public const string ConfigFolderName = "Configuration";
 		public static readonly string ConfigFolderFullPath = Path.Combine(ApplicationRootDir, ConfigFolderName);
-		public static readonly string AutotextRulesConfigFileFullPath = Path.Combine(ConfigFolderFullPath, AutotextRulesConfigFileName);
+		public static readonly string AutotextRulesConfigFileFullPath = Path.Combine(ApplicationUserSettingsDir, ApplicationName, AutotextRulesConfigFileName);
 		public static readonly string KeycodesConfigFileFullPath = Path.Combine(ConfigFolderFullPath, KeycodesConfigFileName);
 		public static readonly string CommonConfigurationFileFullPath = Path.Combine(ConfigFolderFullPath, CommonConfigurationFileName);
 		public const string LowercaseLetters = "abcdefghijklmnopqrstuvwxyz";

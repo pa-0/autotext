@@ -713,23 +713,23 @@ namespace AutoText.Engine
 
 							if (palette.Contains("l"))
 							{
-								resPalette.Append(Constants.Common.LowercaseLetters);
+								resPalette.Append(Constants.CommonConstants.LowercaseLetters);
 							}
 
 							if (palette.Contains("L"))
 							{
-								resPalette.Append(Constants.Common.UppercaseLetters);
+								resPalette.Append(Constants.CommonConstants.UppercaseLetters);
 							}
 
 							if (palette.Contains("d"))
 							{
-								resPalette.Append(Constants.Common.Digits);
-								resPalette.Append(Constants.Common.Digits);
+								resPalette.Append(Constants.CommonConstants.Digits);
+								resPalette.Append(Constants.CommonConstants.Digits);
 							}
 
 							if (palette.Contains("s"))
 							{
-								resPalette.Append(Constants.Common.SpecialChars);
+								resPalette.Append(Constants.CommonConstants.SpecialChars);
 							}
 						}
 
