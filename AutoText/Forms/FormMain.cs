@@ -58,19 +58,6 @@ namespace AutoText
 			InitializeComponent();
 			Sender.StartSender();
 			Sender.DataSent += Sender_DataSent;
-
-
-
-			if (CommonConstants.ApplicationRootDir.StartsWith(Environment.GetEnvironmentVariable("ProgramFiles(x86)")) ||
-				CommonConstants.ApplicationRootDir.StartsWith(Environment.GetEnvironmentVariable("ProgramFiles")))
-			{
-				MessageBox.Show("In program files");
-			}
-
-
-			//string asd = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-			{ }
-
 		}
 
 		void Sender_DataSent(object sender, EventArgs e)

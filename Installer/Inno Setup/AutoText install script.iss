@@ -40,8 +40,11 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 
 [Files]
 Source: "..\..\AutoText\bin\Release\AutoText.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\..\AutoText\bin\Release\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs; Excludes: "*.pdb,AutoText.vshost.exe,AutoText.vshost.exe.config,WindowsInput.dll,KellermanSoftware.Compare-NET-Objects.xml,AutoText.vshost.exe.manifest,MoreLinq.xml"
+Source: "..\..\AutoText\bin\Release\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs; Excludes: "*.pdb,AutoText.vshost.exe,AutoText.vshost.exe.config,WindowsInput.dll,KellermanSoftware.Compare-NET-Objects.xml,AutoText.vshost.exe.manifest,MoreLinq.xml,AutoText.exe.config,AutotextRules.xml"
+Source: "..\..\AutoText\install.App.config"; DestDir: "{app}"; DestName: "AutoText.exe.config"
+Source: "..\..\AutoText\bin\Release\Configuration\AutotextRules.xml"; DestDir: "{userappdata}\{#MyAppName}\"; DestName: "AutotextRules.xml"
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
+
 
 [Icons]
 Name: "{group}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"

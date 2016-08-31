@@ -19,10 +19,12 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 
 using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Xml;
 using System.Xml.Serialization;
+using AutoText.Constants;
 using AutoText.Model.Configuration;
 
 namespace AutoText.Helpers.Configuration
@@ -35,12 +37,12 @@ namespace AutoText.Helpers.Configuration
 
 		public static List<AutotextRuleConfiguration> GetAutotextRulesConfiguration()
 		{
-			if (!File.Exists(Constants.CommonConstants.AutotextRulesConfigFileFullPath))
+			if (!File.Exists(Constants.ConfigConstants.AutotextRulesConfigFileFullPath))
 			{
 				SaveAutotextRulesConfiguration(new List<AutotextRuleConfiguration>());
 			}
 
-			_autotextConfig = DeserailizeXml<AutotextRulesRoot>(Constants.CommonConstants.AutotextRulesConfigFileFullPath).AutotextRulesList;
+			_autotextConfig = DeserailizeXml<AutotextRulesRoot>(Constants.ConfigConstants.AutotextRulesConfigFileFullPath).AutotextRulesList;
 
 			foreach (AutotextRuleConfiguration config in _autotextConfig)
 			{
@@ -57,7 +59,7 @@ namespace AutoText.Helpers.Configuration
 			AutotextRulesRoot root = new AutotextRulesRoot { AutotextRulesList = configuration };
 			XmlSerializer serializer = new XmlSerializer(typeof(AutotextRulesRoot));
 
-			using (TextWriter writer = new StreamWriter(Constants.CommonConstants.AutotextRulesConfigFileFullPath))
+			using (TextWriter writer = new StreamWriter(Constants.ConfigConstants.AutotextRulesConfigFileFullPath))
 			{
 				serializer.Serialize(writer, root);
 			}
@@ -124,19 +126,19 @@ namespace AutoText.Helpers.Configuration
 				return _keycodesConfig;
 			}
 
-			_keycodesConfig = DeserailizeXml<KeycodesConfiguration>(Constants.CommonConstants.KeycodesConfigFileFullPath);
+			_keycodesConfig = DeserailizeXml<KeycodesConfiguration>(Constants.ConfigConstants.KeycodesConfigFileFullPath);
 			return _keycodesConfig;
 
 		}
 
 		public static bool IsKeycodesConfigurationOk()
 		{
-			return File.Exists(Constants.CommonConstants.KeycodesConfigFileFullPath);
+			return File.Exists(Constants.ConfigConstants.KeycodesConfigFileFullPath);
 		}
 
 		public static bool IsCommonConfigurationOk()
 		{
-			return File.Exists(Constants.CommonConstants.CommonConfigurationFileFullPath);
+			return File.Exists(Constants.ConfigConstants.CommonConfigurationFileFullPath);
 		}
 
 		public static CommonConfiguration GetCommonConfiguration()
@@ -146,7 +148,7 @@ namespace AutoText.Helpers.Configuration
 				return _commonConfiguration;
 			}
 
-			_commonConfiguration = DeserailizeXml<CommonConfiguration>(Constants.CommonConstants.CommonConfigurationFileFullPath);
+			_commonConfiguration = DeserailizeXml<CommonConfiguration>(Constants.ConfigConstants.CommonConfigurationFileFullPath);
 			return _commonConfiguration;
 		}
 
@@ -156,7 +158,7 @@ namespace AutoText.Helpers.Configuration
 			{
 				XmlSerializer serializer = new XmlSerializer(typeof(CommonConfiguration));
 
-				using (TextWriter writer = new StreamWriter(Constants.CommonConstants.CommonConfigurationFileFullPath))
+				using (TextWriter writer = new StreamWriter(Constants.ConfigConstants.CommonConfigurationFileFullPath))
 				{
 					serializer.Serialize(writer, _commonConfiguration);
 				}
@@ -192,5 +194,7 @@ namespace AutoText.Helpers.Configuration
 			return GetKeycodesConfiguration().Keycodes.Single(p => p.Names.Any(g => g.KeyRelation == KeyRelation.Native && g.Value == nativeKey)).
 					   Names.Single(g => g.KeyRelation == KeyRelation.Sender).Value;
 		}
+
+		public static readonly bool IsInstalled = bool.Parse(ConfigurationManager.AppSettings[ConfigConstants.IsInstalled]);
 	}
 }
