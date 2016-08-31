@@ -29,7 +29,7 @@ namespace AutoText.Constants
 	public static class CommonConstants
 	{
 		public const string ApplicationName = "AutoText";
-        public const string ApplicationVersion = "1.5.0";
+        public const string ApplicationVersion = "1.5.1";
 		public const string ApplicationAuthorCopy = "Copyright © {0} Alexander Litvinov";
         public const string NewPhraseDefaultDescription = "<description>";
 		public const string NewPhraseDefaultAutotext = "<autotext{0}>";
