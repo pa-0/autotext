@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "AutoText"
-#define MyAppVersion "1.5.0"
+#define MyAppVersion "1.5.1"
 #define MyAppExeName "AutoText.exe"
 
 [Setup]
@@ -18,18 +18,18 @@ DefaultGroupName={#MyAppName}
 AllowNoIcons=yes
 LicenseFile=license.txt
 OutputDir=output
-OutputBaseFilename=AutoText Setup
+OutputBaseFilename={#MyAppName} Setup
 Compression=lzma
 SolidCompression=yes
 DisableWelcomePage=no
-UninstallDisplayName=AutoText
+UninstallDisplayName={#MyAppName}
 UninstallDisplaySize=2
-UninstallDisplayIcon={app}\AutoText.exe
-VersionInfoVersion=1.5.0
-VersionInfoDescription=AutoText - Text expander application
+UninstallDisplayIcon={app}\{#MyAppName}.exe
+VersionInfoVersion={#MyAppVersion}
+VersionInfoDescription={#MyAppName} - Text expander application
 VersionInfoCopyright=Copyright © 2016 Alexander Litvinov
-VersionInfoProductName=AutoText
-VersionInfoProductVersion=1.5.0
+VersionInfoProductName={#MyAppName}
+VersionInfoProductVersion={#MyAppVersion}
 MinVersion=0,5.01
 
 [Languages]
@@ -39,10 +39,10 @@ Name: "english"; MessagesFile: "compiler:Default.isl"
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
 [Files]
-Source: "..\..\AutoText\bin\Release\AutoText.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\..\AutoText\bin\Release\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs; Excludes: "*.pdb,AutoText.vshost.exe,AutoText.vshost.exe.config,WindowsInput.dll,KellermanSoftware.Compare-NET-Objects.xml,AutoText.vshost.exe.manifest,MoreLinq.xml,AutoText.exe.config,AutotextRules.xml"
-Source: "..\..\AutoText\install.App.config"; DestDir: "{app}"; DestName: "AutoText.exe.config"
-Source: "..\..\AutoText\bin\Release\Configuration\AutotextRules.xml"; DestDir: "{userappdata}\{#MyAppName}\"; DestName: "AutotextRules.xml"
+Source: "..\..\{#MyAppName}\bin\Release\{#MyAppName}.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\..\{#MyAppName}\bin\Release\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs; Excludes: "*.pdb,{#MyAppName}.vshost.exe,{#MyAppName}.vshost.exe.config,WindowsInput.dll,KellermanSoftware.Compare-NET-Objects.xml,{#MyAppName}.vshost.exe.manifest,MoreLinq.xml,{#MyAppName}.exe.config,AutotextRules.xml"
+Source: "..\..\{#MyAppName}\install.App.config"; DestDir: "{app}"; DestName: "{#MyAppName}.exe.config"
+Source: "..\..\{#MyAppName}\bin\Release\Configuration\AutotextRules.xml"; DestDir: "{userappdata}\{#MyAppName}\"; DestName: "AutotextRules.xml"
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 
