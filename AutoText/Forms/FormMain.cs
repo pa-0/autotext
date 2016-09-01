@@ -19,6 +19,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -27,12 +28,14 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using AutoText.Engine;
 using AutoText.Helpers;
 using AutoText.Helpers.Configuration;
 using AutoText.Helpers.Extensions;
 using AutoText.Model.Configuration;
+using AutoText.Utility;
 using KellermanSoftware.CompareNetObjects;
 
 namespace AutoText.Forms
@@ -55,14 +58,17 @@ namespace AutoText.Forms
 			Sender.StartSender();
 			Sender.DataSent += Sender_DataSent;
 
-			Mutex m = new Mutex(true, "AutoText");
-			m.WaitOne();
-			MessageBox.Show("Owned");
+			FileSystemWatcher watcher = new FileSystemWatcher();
+			watcher.Path = @"d:\Downloads\";
+			watcher.Filter = "AutoText.log";
+			watcher.NotifyFilter = NotifyFilters.LastWrite | NotifyFilters.Size;
+			watcher.Changed += watcher_Changed;	
+			watcher.EnableRaisingEvents = true;
+		}
 
-			Thread.Sleep(10000);
-			m.ReleaseMutex();
-
-			Application.Exit();
+		void watcher_Changed(object sender, FileSystemEventArgs e)
+		{
+			MessageBox.Show("asdasd");
 		}
 
 		void Sender_DataSent(object sender, EventArgs e)
