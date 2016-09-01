@@ -54,6 +54,15 @@ namespace AutoText.Forms
 			InitializeComponent();
 			Sender.StartSender();
 			Sender.DataSent += Sender_DataSent;
+
+			Mutex m = new Mutex(true, "AutoText");
+			m.WaitOne();
+			MessageBox.Show("Owned");
+
+			Thread.Sleep(10000);
+			m.ReleaseMutex();
+
+			Application.Exit();
 		}
 
 		void Sender_DataSent(object sender, EventArgs e)
