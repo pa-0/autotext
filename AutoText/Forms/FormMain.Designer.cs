@@ -78,6 +78,7 @@ namespace AutoText.Forms
 			this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.buttonAllowedDisallowedPrograms = new System.Windows.Forms.Button();
+			this.logViewWindowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.contextMenuStripPhraseContentEdit.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.dataGridViewPhrases)).BeginInit();
 			this.menuStripMain.SuspendLayout();
@@ -162,7 +163,7 @@ namespace AutoText.Forms
             this.insertFileContentsMacrosToolStripMenuItem,
             this.insertEnvironmentVariableValueMacrosToolStripMenuItem});
 			this.macrosToolStripMenuItem.Name = "macrosToolStripMenuItem";
-			this.macrosToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.macrosToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
 			this.macrosToolStripMenuItem.Text = "Macros";
 			// 
 			// keyComboMacrosToolStripMenuItem
@@ -443,7 +444,8 @@ namespace AutoText.Forms
 			// 
 			this.toolsToolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.keyLogWindowToolStripMenuItem,
-            this.globalAllowedDisallowedProgramsListToolStripMenuItem});
+            this.globalAllowedDisallowedProgramsListToolStripMenuItem,
+            this.logViewWindowToolStripMenuItem});
 			this.toolsToolStripMenuItem1.Name = "toolsToolStripMenuItem1";
 			this.toolsToolStripMenuItem1.Size = new System.Drawing.Size(48, 20);
 			this.toolsToolStripMenuItem1.Text = "Tools";
@@ -487,6 +489,13 @@ namespace AutoText.Forms
 			this.buttonAllowedDisallowedPrograms.Text = "Allowed/Disallowed Programs List";
 			this.buttonAllowedDisallowedPrograms.UseVisualStyleBackColor = true;
 			this.buttonAllowedDisallowedPrograms.Click += new System.EventHandler(this.buttonAllowedDisallowedPrograms_Click);
+			// 
+			// logViewWindowToolStripMenuItem
+			// 
+			this.logViewWindowToolStripMenuItem.Name = "logViewWindowToolStripMenuItem";
+			this.logViewWindowToolStripMenuItem.Size = new System.Drawing.Size(291, 22);
+			this.logViewWindowToolStripMenuItem.Text = "Log View Window";
+			this.logViewWindowToolStripMenuItem.Click += new System.EventHandler(this.logViewWindowToolStripMenuItem_Click);
 			// 
 			// FormMain
 			// 
@@ -580,6 +589,7 @@ namespace AutoText.Forms
 		private ToolStripMenuItem insertEnvironmentVariableValueMacrosToolStripMenuItem;
 		private Button buttonAllowedDisallowedPrograms;
 		private ToolStripMenuItem globalAllowedDisallowedProgramsListToolStripMenuItem;
+		private ToolStripMenuItem logViewWindowToolStripMenuItem;
 	}
 }
 

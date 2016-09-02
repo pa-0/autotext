@@ -18,10 +18,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using AutoText.Helpers.Configuration;
 
@@ -47,6 +44,7 @@ namespace AutoText.Constants
 		public static readonly string ApplicationRootDir = Application.StartupPath;
 		public static readonly string ApplicationUserSettingsDir = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
 		public const string AutotextRulesConfigFileName = "AutotextRules.xml";
+		public const string LogFileName = "AutoText.log";
 		public const string KeycodesConfigFileName = "Keycodes.xml";
 		public const string CommonConfigurationFileName = "CommonConfiguration.xml";
 		public const string ConfigFolderName = "Configuration";
@@ -54,5 +52,6 @@ namespace AutoText.Constants
 		public static readonly string AutotextRulesConfigFileFullPath;
 		public static readonly string KeycodesConfigFileFullPath = Path.Combine(ConfigFolderFullPath, KeycodesConfigFileName);
 		public static readonly string CommonConfigurationFileFullPath = Path.Combine(ConfigFolderFullPath, CommonConfigurationFileName);
+		public static readonly string UserTempDirPath = Environment.GetEnvironmentVariable("TEMP");
 	}
 }
