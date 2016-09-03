@@ -33,6 +33,7 @@ using AutoText.Helpers;
 using AutoText.Helpers.Configuration;
 using AutoText.Helpers.Extensions;
 using AutoText.Model.Configuration;
+using AutoText.Utility;
 using KellermanSoftware.CompareNetObjects;
 
 namespace AutoText.Forms
@@ -52,6 +53,7 @@ namespace AutoText.Forms
 		public FormMain()
 		{
 			InitializeComponent();
+			Logger.ClearLogFile();
 			Sender.StartSender();
 			Sender.DataSent += Sender_DataSent;
 		}
@@ -648,6 +650,8 @@ namespace AutoText.Forms
 
 		private void buttonSavePhrase_Click(object sender, EventArgs e)
 		{
+
+
 			List<int> selRowsIndeces = GetDataGridViewSelectedRowIndeces();
 
 			if (selRowsIndeces.Count == 0)

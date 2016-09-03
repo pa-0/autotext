@@ -1,5 +1,9 @@
 ﻿using System;
+using System.IO;
+using System.Text;
 using System.Windows.Forms;
+using AutoText.Constants;
+using AutoText.Helpers;
 
 namespace AutoText.Forms
 {
@@ -9,17 +13,51 @@ namespace AutoText.Forms
 		{
 			InitializeComponent();
 
-			//FileSystemWatcher watcher = new FileSystemWatcher();
-			//watcher.Path = @"d:\Downloads\";
-			//watcher.Filter = "AutoText.log";
-			//watcher.NotifyFilter = NotifyFilters.LastWrite | NotifyFilters.Size;
-			//watcher.Changed += watcher_Changed;
-			//watcher.EnableRaisingEvents = true;
+			TopMost = true;
+
+			if (!File.Exists(ConfigConstants.LogFileFullPath))
+			{
+				Directory.CreateDirectory(ConfigConstants.ApplicationTempDirPath);
+				File.Create(ConfigConstants.LogFileFullPath);
+			}
+
+			textBoxLog.Text = File.ReadAllText(ConfigConstants.LogFileFullPath, Encoding.UTF8);
+
+			FileSystemWatcher logFileWatcher = new FileSystemWatcher();
+			logFileWatcher.Path = ConfigConstants.ApplicationTempDirPath;
+			logFileWatcher.Filter = ConfigConstants.LogFileName;
+			logFileWatcher.NotifyFilter = NotifyFilters.LastWrite | NotifyFilters.Size;
+			logFileWatcher.Changed += logFileWatcher_Changed;
+			logFileWatcher.EnableRaisingEvents = true;
+		}
+
+		void logFileWatcher_Changed(object sender, FileSystemEventArgs e)
+		{
+			try
+			{
+				if (IsHandleCreated)
+				{
+					Invoke(new Action(() =>
+					{
+						textBoxLog.Text = File.ReadAllText(ConfigConstants.LogFileFullPath, Encoding.UTF8);
+
+						if (checkBoxScrollToBottom.Checked)
+						{
+							textBoxLog.SelectionStart = textBoxLog.TextLength;
+							textBoxLog.ScrollToCaret();
+						}
+					}));
+				}
+			}
+			//Ignore if file is busy
+			catch (IOException ex){}
+			//Ignore if handle is not created(randomly happens on window close)
+			catch (InvalidOperationException ex){}
 		}
 
 		private void LogViewer_Load(object sender, EventArgs e)
 		{
-			TopMost = true;
+
 		}
 
 		private void checkBoxStayOnTop_CheckedChanged(object sender, EventArgs e)
@@ -39,6 +77,25 @@ namespace AutoText.Forms
 			{
 				textBoxLog.ScrollBars = ScrollBars.Both;
 			}
+		}
+
+		private void LogViewer_Shown(object sender, EventArgs e)
+		{
+			if (checkBoxScrollToBottom.Checked)
+			{
+				textBoxLog.SelectionStart = textBoxLog.TextLength;
+				textBoxLog.ScrollToCaret();
+			}
+		}
+
+		private void checkBoxScrollToBottom_CheckedChanged(object sender, EventArgs e)
+		{
+
+		}
+
+		private void buttonClearLog_Click(object sender, EventArgs e)
+		{
+			File.WriteAllText(ConfigConstants.LogFileFullPath, string.Empty);
 		}
 	}
 }

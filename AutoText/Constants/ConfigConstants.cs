@@ -53,5 +53,7 @@ namespace AutoText.Constants
 		public static readonly string KeycodesConfigFileFullPath = Path.Combine(ConfigFolderFullPath, KeycodesConfigFileName);
 		public static readonly string CommonConfigurationFileFullPath = Path.Combine(ConfigFolderFullPath, CommonConfigurationFileName);
 		public static readonly string UserTempDirPath = Environment.GetEnvironmentVariable("TEMP");
+		public static readonly string ApplicationTempDirPath = Path.Combine(UserTempDirPath, CommonConstants.ApplicationName);
+		public static readonly string LogFileFullPath = Path.Combine(ApplicationTempDirPath, LogFileName);
 	}
 }

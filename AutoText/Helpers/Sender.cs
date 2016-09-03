@@ -24,6 +24,7 @@ using System.Diagnostics;
 using System.IO.Pipes;
 using System.Text;
 using System.Threading.Tasks;
+using AutoText.Utility;
 
 namespace AutoText.Helpers
 {
@@ -39,6 +40,8 @@ namespace AutoText.Helpers
 		{
 			if (process == null)
 			{
+				Logger.LogInfo("Starting Sender...");
+
 				ProcessStartInfo startInfo = new ProcessStartInfo
 				{
 					UseShellExecute = false,
@@ -54,47 +57,68 @@ namespace AutoText.Helpers
 				};
 
 				process.Start();
+				Logger.LogInfo("Sender started");
 			}
 			else
 			{
 				throw new InvalidOperationException("Sender module is already started");
 			}
 
+			Logger.LogInfo("Launching Task for new data pipe connection wait(StartSender method)");
 			Task.Factory.StartNew(DataPipeWaitForConnection);
+			Logger.LogInfo("Launching Task for new input data pipe connection wait");
 			Task.Factory.StartNew(StartReceiveData);
 		}
 
 		private static void StartReceiveData()
 		{
+			Logger.LogInfo("Starting receive data from sender through input pipe...");
+
 			if (!namedPipeCommandsServerStream.IsConnected)
 			{
+				Logger.LogInfo("Input pipe is not connected. Waiting for connection...");
 				namedPipeCommandsServerStream.WaitForConnection();
+				Logger.LogInfo("Input pipe successfully connected");
 			}
+
+			Logger.LogInfo("Entering loop to read incoming pipe data...");
 
 			while (true)
 			{
 				byte[] buf = new byte[2000];
+				Logger.LogInfo("Reading data from input pipe...");
 				int bytesRead = namedPipeCommandsServerStream.Read(buf, 0, buf.Length);
 				string msg = Encoding.Unicode.GetString(buf, 0, bytesRead);
+				Logger.LogInfo("Data read. Val: " + msg);
+				Logger.LogInfo("Closing input data pipe");
 				namedPipeCommandsServerStream.Close();
+				Logger.LogInfo("Input data pipe closed");
 
 				switch (msg)
 				{
 					case "Done":
+						Logger.LogInfo("Triggering on data sent event");
 						OnDataSent();
 						break;
 				}
 
+				Logger.LogInfo("Creating new input pipe");
 				namedPipeCommandsServerStream = new NamedPipeServerStream("autotextCommands");
+				Logger.LogInfo("Waiting for connection on input pipe...");
 				namedPipeCommandsServerStream.WaitForConnection();
+				Logger.LogInfo("Input pipe connected");
 			}
 		}
 
 
 		private static void DataPipeWaitForConnection()
 		{
-			namedPipeDataServerStream = new NamedPipeServerStream("autotextData");
+			Logger.LogInfo("DataPipeWaitForConnection(): Creating new data pipe..");
+			namedPipeDataServerStream = new NamedPipeServerStream("autotextData", PipeDirection.Out, 250);
+			Logger.LogInfo("DataPipeWaitForConnection(): New data pipe created");
+			Logger.LogInfo("DataPipeWaitForConnection(): Waiting for connection on data pipe...");
 			namedPipeDataServerStream.WaitForConnection();
+			Logger.LogInfo("DataPipeWaitForConnection(): Data pipe connected");
 		}
 
 		public static void Send(string stringToSend)
@@ -120,10 +144,15 @@ namespace AutoText.Helpers
 			//			namedPipeDataServerStream.Write(resDataLength.ToArray(), 0, resDataLength.Count);
 			//			namedPipeDataServerStream.Flush();
 
+			Logger.LogInfo("Writing data to data pipe");
 			namedPipeDataServerStream.Write(res.ToArray(), 0, res.Count);
+			Logger.LogInfo("Data to data pipe written");
 			namedPipeDataServerStream.Flush();
+			Logger.LogInfo("Closing data pipe");
 			namedPipeDataServerStream.Close();
+			Logger.LogInfo("Data pipe closed");
 
+			Logger.LogInfo("Launching Task for new data pipe connection wait(Send method)");
 			Task.Factory.StartNew(DataPipeWaitForConnection);
 		}
 
