@@ -9,7 +9,7 @@ Application description:
 	the abbreviation. Keyboard keys press/hold/toggle is supported by using macroses.
 	AutoText works in any Windows program.
 
-Copyright © 2016 Alexander Litvinov
+Copyright © 2022 Alexander Litvinov
 
 Main features:
 	Type text using short abbreviations.

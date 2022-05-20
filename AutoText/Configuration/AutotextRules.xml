@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <autotextRules xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <rules>
-    <rule>
-      <abbreviation caseSensitive="false">
-        <value>hw</value>
-      </abbreviation>
-      <removeAbbr>true</removeAbbr>
-      <phrase>Hello, world</phrase>
-      <macros mode="Execute" />
-      <description>Hello world phrase</description>
-      <specificPrograms listType="Blacklist" listEnabled="false">
-        <programs />
-      </specificPrograms>
-      <triggers>
-        <item caseSensitive="false" triggerType="Key">
-          <value>Tab</value>
-        </item>
-      </triggers>
-    </rule>
-  </rules>
+    <rules>
+        <rule>
+            <abbreviation caseSensitive="false">
+                <value>test</value>
+            </abbreviation>
+            <removeAbbr>true</removeAbbr>
+            <phrase>This is an example phrase. It will be typed in any program if you type "test" and then hit "Tab" key</phrase>
+            <macros mode="Execute" />
+            <description>Example phrase description</description>
+            <specificPrograms listType="Blacklist" listEnabled="false">
+                <programs />
+            </specificPrograms>
+            <triggers>
+                <item caseSensitive="false" triggerType="Key">
+                    <value>Tab</value>
+                </item>
+            </triggers>
+        </rule>
+    </rules>
 </autotextRules>

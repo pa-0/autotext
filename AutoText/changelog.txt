@@ -31,3 +31,10 @@ AutoText 1.5.0
 AutoText 1.5.1
 ----------------------------
 	Changed: AutoText rules file location in installable application version is changed to user application data folder in order to prevent 'Access denied' error on phrase save.
+
+        
+AutoText 1.5.2
+----------------------------
+	Added: ability to import and export of phrases configuration through menu "File"
+	Added: ability to make donations
+	Fixed: https://sourceforge.net/p/autotext/tickets/8/

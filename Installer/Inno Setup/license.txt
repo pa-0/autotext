@@ -1,4 +1,4 @@
-﻿AutoText: Copyright © 2016 Alexander Litvinov <renzy.max@gmail.com>.
+﻿AutoText: Copyright © 2022 Alexander Litvinov <renzy.max@gmail.com>.
 
 The software is distributed under the terms of the GNU General Public License
 version 2.

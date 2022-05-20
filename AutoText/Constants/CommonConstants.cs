@@ -1,6 +1,6 @@
 ﻿/*This file is part of AutoText.
 
-Copyright © 2016 Alexander Litvinov
+Copyright © 2022 Alexander Litvinov
 
 AutoText is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -29,7 +29,7 @@ namespace AutoText.Constants
 	public static class CommonConstants
 	{
 		public const string ApplicationName = "AutoText";
-        public const string ApplicationVersion = "1.5.1";
+        public const string ApplicationVersion = "1.5.2";
 		public const string ApplicationAuthorCopy = "Copyright © {0} Alexander Litvinov";
         public const string NewPhraseDefaultDescription = "<description>";
 		public const string NewPhraseDefaultAutotext = "<autotext{0}>";
@@ -38,5 +38,6 @@ namespace AutoText.Constants
 		public const string UppercaseLetters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 		public const string Digits = "1234567890";
 		public const string SpecialChars = "!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~";
+		public const string DonatePayPalUrl = "https://www.paypal.com/donate/?hosted_button_id=5JL6CC6XDBX82";
 	}
 }

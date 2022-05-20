@@ -1,6 +1,6 @@
 ﻿/*This file is part of AutoText.
 
-Copyright © 2016 Alexander Litvinov
+Copyright © 2022 Alexander Litvinov
 
 AutoText is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -120,7 +120,7 @@ namespace AutoText.Helpers
 			namedPipeDataServerStream.WaitForConnection();
 			Logger.LogInfo("DataPipeWaitForConnection(): Data pipe connected");
 		}
-
+		
 		public static void Send(string stringToSend)
 		{
 			if (process == null || process.HasExited)

@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "AutoText"
-#define MyAppVersion "1.5.1"
+#define MyAppVersion "1.5.2"
 #define MyAppExeName "AutoText.exe"
 
 [Setup]
@@ -27,10 +27,10 @@ UninstallDisplaySize=2
 UninstallDisplayIcon={app}\{#MyAppName}.exe
 VersionInfoVersion={#MyAppVersion}
 VersionInfoDescription={#MyAppName} - Text expander application
-VersionInfoCopyright=Copyright © 2016 Alexander Litvinov
+VersionInfoCopyright=Copyright © 2022 Alexander Litvinov
 VersionInfoProductName={#MyAppName}
 VersionInfoProductVersion={#MyAppVersion}
-MinVersion=0,5.01
+MinVersion=0,6.00
 
 [Languages]
 Name: "english"; MessagesFile: "compiler:Default.isl"

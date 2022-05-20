@@ -1,6 +1,6 @@
 ﻿/*This file is part of AutoText.
 
-Copyright © 2016 Alexander Litvinov
+Copyright © 2022 Alexander Litvinov
 
 AutoText is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -37,12 +37,12 @@ namespace AutoText.Helpers.Configuration
 
 		public static List<AutotextRuleConfiguration> GetAutotextRulesConfiguration()
 		{
-			if (!File.Exists(Constants.ConfigConstants.AutotextRulesConfigFileFullPath))
+			if (!File.Exists(ConfigConstants.AutotextRulesConfigFileFullPath))
 			{
 				SaveAutotextRulesConfiguration(new List<AutotextRuleConfiguration>());
 			}
 
-			_autotextConfig = DeserailizeXml<AutotextRulesRoot>(Constants.ConfigConstants.AutotextRulesConfigFileFullPath).AutotextRulesList;
+			_autotextConfig = DeserailizeXml<AutotextRulesRoot>(ConfigConstants.AutotextRulesConfigFileFullPath).AutotextRulesList;
 
 			foreach (AutotextRuleConfiguration config in _autotextConfig)
 			{

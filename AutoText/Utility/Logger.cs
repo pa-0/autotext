@@ -1,6 +1,6 @@
 ﻿/*This file is part of AutoText.
 
-Copyright © 2016 Alexander Litvinov
+Copyright © 2022 Alexander Litvinov
 
 AutoText is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -41,6 +41,8 @@ namespace AutoText.Utility
 
 		static Logger()
 		{
+			return;
+
 			if (!Directory.Exists(ConfigConstants.ApplicationTempDirPath))
 			{
 				Directory.CreateDirectory(ConfigConstants.ApplicationTempDirPath);
@@ -103,6 +105,7 @@ namespace AutoText.Utility
 
 		private static void Log(string message)
 		{
+			return;
 			lock (_syncObject)
 			{
 				string date = DateTime.Now.ToString("dd.MM.yy HH:mm:ss.fff");

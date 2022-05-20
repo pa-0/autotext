@@ -48,11 +48,9 @@ namespace AutoText.Forms
 						}
 					}));
 				}
-			}
-			//Ignore if file is busy
-			catch (IOException ex){}
-			//Ignore if handle is not created(randomly happens on window close)
-			catch (InvalidOperationException ex){}
+			}			
+			catch (IOException ex){ }//Ignore if file is busy
+			catch (InvalidOperationException ex){ }//Ignore if handle is not created(randomly happens on window close)
 		}
 
 		private void LogViewer_Load(object sender, EventArgs e)

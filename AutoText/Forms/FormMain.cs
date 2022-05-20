@@ -1,6 +1,6 @@
 ﻿/*This file is part of AutoText.
 
-Copyright © 2016 Alexander Litvinov
+Copyright © 2022 Alexander Litvinov
 
 AutoText is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -28,6 +28,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
+using AutoText.Constants;
 using AutoText.Engine;
 using AutoText.Helpers;
 using AutoText.Helpers.Configuration;
@@ -53,31 +54,21 @@ namespace AutoText.Forms
 		public FormMain()
 		{
 			InitializeComponent();
-			Logger.ClearLogFile();
+
+			//Logger.ClearLogFile();
+			logViewWindowToolStripMenuItem.Visible = false;
+
 			Sender.StartSender();
 			Sender.DataSent += Sender_DataSent;
+		}
+
+		private void FormMain_Load(object sender, EventArgs e)
+		{
 		}
 
 		void Sender_DataSent(object sender, EventArgs e)
 		{
 			_keylogger.ResumeCapture();
-		}
-
-		private void LoadPhrasesToDataGridView()
-		{
-			try
-			{
-				dataGridViewPhrases.DataSource = _rulesBindingList;
-			}
-			catch (Exception ex)
-			{
-				//TODO catch that floating bug
-
-#if DEBUG
-				Debug.WriteLine(ex.Message);
-				throw;
-#endif
-			}
 		}
 
 		void _testKeylogger_KeyCaptured(object sender, KeyCapturedEventArgs e)
@@ -594,11 +585,12 @@ namespace AutoText.Forms
 				return false;
 			}
 
+			/* Validation removed. Cause: https://sourceforge.net/p/autotext/tickets/8/
 			if (_rules.Where((p, i) => i != phraseIndex).Any(p => string.Equals(p.Abbreviation.AbbreviationText, textBoxAutotext.Text, StringComparison.CurrentCultureIgnoreCase)))
 			{
 				MessageBox.Show(this, "Phrase with specified autotext is already exists", "AutoText", MessageBoxButtons.OK, MessageBoxIcon.Stop);
 				return false;
-			}
+			}*/
 
 			AutotextRuleConfiguration ruleToSave = GetCurrentPhrase();
 
@@ -650,8 +642,6 @@ namespace AutoText.Forms
 
 		private void buttonSavePhrase_Click(object sender, EventArgs e)
 		{
-
-
 			List<int> selRowsIndeces = GetDataGridViewSelectedRowIndeces();
 
 			if (selRowsIndeces.Count == 0)
@@ -724,17 +714,35 @@ namespace AutoText.Forms
 				return;
 			}
 
+			LoadPhrasesConfiguration();
+
+			_keylogger.KeyCaptured += _testKeylogger_KeyCaptured;
+			_keylogger.StartCapture();
+			comboBoxProcessMacros.SelectedIndex = 0;
+			contextMenuStripPhraseContentEdit.Opening += contextMenuStripPhraseContentEdit_Opening;
+		}
+
+		private void LoadPhrasesConfiguration()
+        {
 			dataGridViewPhrases.AutoGenerateColumns = false;
 			_rules = ConfigHelper.GetAutotextRulesConfiguration();
 			_rulesBindingList = new BindingList<AutotextRuleConfiguration>(_rules);
 			_matcher = new AutotextMatcher(_rules);
 			_matcher.MatchFound += _matcher_MatchFound;
-			_keylogger.KeyCaptured += _testKeylogger_KeyCaptured;
-			_keylogger.StartCapture();
-			comboBoxProcessMacros.SelectedIndex = 0;
-			contextMenuStripPhraseContentEdit.Opening += contextMenuStripPhraseContentEdit_Opening;
 
-			LoadPhrasesToDataGridView();
+			try
+			{
+				dataGridViewPhrases.DataSource = _rulesBindingList;
+			}
+			catch (Exception ex)
+			{
+				//TODO catch that floating bug
+				#if DEBUG
+				Debug.WriteLine(ex.Message);
+				throw;
+				#endif
+			}
+
 			dataGridViewPhrases.Focus();
 
 			if (dataGridViewPhrases.RowCount == 0)
@@ -1092,7 +1100,7 @@ namespace AutoText.Forms
 				SetPhraseEditingAreaEnabledState(false);
 			}
 		}
-
+		
 		private void SetPhraseEditingAreaEnabledState(bool isEnabled)
 		{
 			if (!isEnabled)
@@ -1189,9 +1197,6 @@ namespace AutoText.Forms
 			formAbout.ShowDialog(this);
 		}
 
-		private void FormMain_Load(object sender, EventArgs e)
-		{
-		}
 
 		private void keyLogWindowToolStripMenuItem_Click(object sender, EventArgs e)
 		{
@@ -1265,5 +1270,85 @@ namespace AutoText.Forms
 			logViewer.Show();
 		}
 
-	}
+        private void DonateButton_Click(object sender, EventArgs e)
+        {
+			Process.Start(new ProcessStartInfo
+			{
+				FileName = CommonConstants.DonatePayPalUrl,
+				UseShellExecute = true
+			});
+		}
+
+        private void importPhrasesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+			OpenFileDialog ofd = new OpenFileDialog()
+			{
+				CheckFileExists = true,
+				Filter = "Xml files(*.xml) | *.xml",
+				InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
+				Multiselect = false,
+				Title = "Import AutoText phrases",
+				ValidateNames = true,
+			};
+
+            if (ofd.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+					ConfigHelper.DeserailizeXml<AutotextRulesRoot>(ofd.FileName);
+
+                    try
+                    {
+						File.Copy(ofd.FileName, ConfigConstants.AutotextRulesConfigFileFullPath, true);
+						LoadPhrasesConfiguration();
+						MessageBox.Show(this, "AutoText phrases successfully imported", "AutoText", MessageBoxButtons.OK, MessageBoxIcon.Information);
+					}
+					catch (Exception exFc)
+                    {
+						Logger.LogError(exFc.ToString());
+						MessageBox.Show(this, "Failed to import AutoText phrases\r\nCan't overwrite original phrases file", "AutoText", MessageBoxButtons.OK, MessageBoxIcon.Error);
+					}
+				}
+				catch (Exception ex)
+                {
+					Logger.LogError(ex.ToString());
+					MessageBox.Show(this, "Failed to import AutoText phrases\r\nPhrases file may be corrupted or wrong format", "AutoText", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				}
+			}
+        }
+
+        private void exportPhrasesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+			if (CheckSaveOnClose())
+			{
+				SaveFileDialog fileDialog = new SaveFileDialog()
+				{ 
+					OverwritePrompt = true,
+					ValidateNames = true,
+					RestoreDirectory = false,
+					DefaultExt = "xml",
+					AddExtension = true,
+					CheckPathExists = true,
+					Filter = "Xml files(*.xml) | *.xml",
+					Title = "Export AutoText phrases",
+					InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)
+				};
+
+
+                if (fileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    try
+                    {
+						File.Copy(ConfigConstants.AutotextRulesConfigFileFullPath, fileDialog.FileName, true);
+						MessageBox.Show(this, "AutoText phrases successfully exported", "AutoText", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    catch (Exception ex)
+                    {
+						Logger.LogError(ex.ToString());
+						MessageBox.Show(this, "Failed to export AutoText phrases", "AutoText", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+			}
+		}
+    }
 }
